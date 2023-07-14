@@ -1,4 +1,4 @@
-import LoginPage from "./components/LoginPage";
+import Login from "./components/Login";
 import Register from "./components/Register";
 import Upload from "./components/Upload";
 import Regulator from "./components/Regulator";
@@ -13,7 +13,7 @@ function App() {
     <Router>
       <Switch>
         <Route exact path="/" component={Landing} />
-        <Route path="/login" component={LoginPage} />
+        <Route path="/login" component={Login} />
         <Route path="/register" component={Register} />
         <Route path="/upload" component={Upload} />
         <Route path="/regulator" component={Regulator} />
