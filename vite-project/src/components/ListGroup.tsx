@@ -8,7 +8,11 @@ interface Props {
 
 const handleClick = (event: React.MouseEvent) => console.log(event);
 
-function ListGroup({ items, heading, onSelectItem }: Props) {
+function ListGroup({
+  items = ["Bogota", "Medellin"],
+  heading = "Cities",
+  onSelectItem = () => console.log("hi"),
+}: Props) {
   const [selectedIndex, setSelectedIndex] = useState(-1);
   return (
     <>
