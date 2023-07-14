@@ -138,24 +138,26 @@ const RegisterForm: React.FC = () => {
             )}
             {currentTab == 2 && (
               <div className="tab">
-                {users.map((user) => (
-                  <div id={`content${user.code}`} className="tab-content">
-                    {user.inputs.map((userInput) => (
-                      <div>
-                        <label htmlFor={userInput.id} id="lablemargin">
-                          {userInput.name}
-                        </label>
-                        <input
-                          type={userInput.type}
-                          id={`${user.code}-${userInput.id}`}
-                          name={userInput.id}
-                          placeholder={`Enter your ${userInput.name}`}
-                          required
-                        />
-                      </div>
-                    ))}
-                  </div>
-                ))}
+                {users
+                  .filter((user) => selectedUser === user.userType)
+                  .map((user) => (
+                    <div id={`content${user.code}`} className="tab-content">
+                      {user.inputs.map((userInput) => (
+                        <div>
+                          <label htmlFor={userInput.id} id="lablemargin">
+                            {userInput.name}
+                          </label>
+                          <input
+                            type={userInput.type}
+                            id={`${user.code}-${userInput.id}`}
+                            name={userInput.id}
+                            placeholder={`Enter your ${userInput.name}`}
+                            required
+                          />
+                        </div>
+                      ))}
+                    </div>
+                  ))}
               </div>
             )}
             <div
