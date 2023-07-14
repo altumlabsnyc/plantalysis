@@ -1,23 +1,7 @@
 import { createClient, SupabaseClient } from "@supabase/supabase-js";
 import { SUPABASE_KEY, SUPABASE_URL } from "./Constants";
 import { v4 as uuidv4 } from "uuid";
-
-enum UserType {
-  Base = "Base",
-  Producer = "Producer",
-  Regulator = "Regulator",
-  University = "University",
-  Lab = "lab_user",
-}
-
-interface userData {
-  id: string;
-  first_name: String;
-  last_name: string;
-  email: string;
-  mfa_phone: string;
-  user_type: UserType;
-}
+import { UserType, userData } from "./UserTypes";
 
 const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 
