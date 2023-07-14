@@ -4,7 +4,6 @@
 .radio-group input[type="radio"]:checked+label {
   border: 2px solid blue !important;
 }
-
 body {
   font-family: 'Roboto', sans-serif;
   margin: 0;
@@ -12,14 +11,6 @@ body {
   background: #F9F6FF;
   overflow: hidden;
 }
-
-
-/*header css codes*/
-/*header css codes*/
-/*header css codes*/
-/*header css codes*/
-/*header css codes*/
-/*header css codes*/
 header {
   display: flex;
   justify-content: space-between;

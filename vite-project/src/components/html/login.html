@@ -13,9 +13,6 @@
 <body>
   <div class="spacer" style="padding: 40px;"></div>
   <form id="loginForm" action="/login/" method="POST">
-    <!-- Message Handler -->
-    <!-- CSRF Security Django Token  -->
-    <input type="hidden" name="csrfmiddlewaretoken" value="YOUR_CSRF_TOKEN_HERE">
     <!-- Token End -->
     <h2>Welcome back.</h2>
     <div class="lablebottom">
@@ -56,7 +53,7 @@
   </form>
 
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <script>
+  <!-- <script>
     function sendServer() {
       var fragment = window.location.hash;
       var cleanedFragment = fragment.substring(1);
@@ -75,7 +72,7 @@
       })
     }
     sendServer(); 
-  </script>
+  </script> -->
 </body>
 
 </html>
