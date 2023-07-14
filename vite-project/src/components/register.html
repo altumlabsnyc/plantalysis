@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width">
+  <title>Altum Labs | Register</title>
+  <link rel="stylesheet" href="/css/login.css">
+  <link rel="stylesheet" href="/css/steps.css">
+  <link rel="stylesheet" href="/css/messages.css">
+  <link rel="icon" href="assets/img/logo.png" type="image/png">
+</head>
+
+<body>
+  <!-- Signup Form -->
+  <div class="signup-container" style="display: flex;">
+    <div id="signupFormContainer" style="display: block;" class="signform-container">
+      <!-- board -->
+      <div class="board">
+        <div class="board-back">
+          <div class="board-details">
+            <h3>Welcome to Altum.</h3>
+            <h1>Create a new <br>account.</h1>
+            <p>Using artificial intelligence and robotics, we test non-FDA-regulated products for wellness brands and
+              enable them to quickly, affordably, and easily relay product information to consumers and regulators.</p>
+          </div>
+        </div>
+      </div>
+      <!-- Your signup form fields code here -->
+      <div class="centersignform">
+        <form id="signupForm" action="/register/" method="POST">
+          <!-- Message Handler -->
+          <div class="container-fluid p-0" style="padding-top: 20px;">
+            <div class="alert" role="alert">
+              <!-- Messages should be rendered dynamically using JavaScript -->
+            </div>
+          </div>
+          <!-- Message End -->
+          <div class="tab">
+            <div class="radio-buttons">
+              <div class="radio-group">
+                <label for="gender" id="lablemargin">Who are you?</label>
+                <div class="radiobflex">
+                  <div class="rdbwidth">
+                    <label id="radio-buttons">
+                      <img src="/static/assets/svg/{{ user.code }}.svg" alt="{{ user.code }}.svg"
+                        style="height: 90%; width: 10%;">
+                      <input type="radio" name="signup-gender" value="{{ user.code }}" id="{{ user.code }}"
+                        style="visibility: hidden;">I'm a {{ user.name }}.
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="tab">
+            <h2>Get started</h2>
+            <p class="alamlink">Already a member? <a href="/login" id="showLoginFormLink">Log in</a></p>
+            <div>
+              <label for="{{ userInput.id }}" id="lablemargin" class="required-all">{{ userInput.name }}</label>
+              <input type="{{ userInput.type }}" id="{{ userInput.id }}" name="{{ userInput.id }}"
+                placeholder="Enter your {{ userInput.name }}" required>
+            </div>
+          </div>
+          <div class="tab">
+            <div id="content{{ user.code }}" class="tab-content">
+              <div>
+                <label for="{{ userInput.id }}" id="lablemargin">{{ userInput.name }}</label>
+                <input type="{{ userInput.type }}" id="{{ user.code }}-{{ userInput.id }}" name="{{ userInput.id }}"
+                  placeholder="Enter your {{ userInput.name }}" required>
+              </div>
+            </div>
+          </div>
+          <!-- Circles which indicate the steps of the form: -->
+          <div style="text-align:center;margin-top:40px;padding-bottom: 40px;">
+            <span class="step"></span>
+            <span class="step"></span>
+            <span class="step"></span>
+          </div>
+        </form>
+        <div style="overflow:auto;text-align:center;">
+          <button type="button" id="prevBtn" onclick="nextPrev(-1)">Previous</button>
+          <button type="button" id="nextBtn" onclick="nextPrev(1)">Next</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="/static/js/register.js"></script>
+</body>
+
+</html>

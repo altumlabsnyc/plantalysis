@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width">
+  <title>Altum Labs | Regulator Portal</title>
+  <link rel='stylesheet' href='https://use.fontawesome.com/releases/v5.6.3/css/all.css'>
+  <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css'>
+  <link rel='stylesheet' href='https://storage.googleapis.com/code.getmdl.io/1.0.0/material.amber-pink.min.css'>
+  <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.6.0/css/mdb.css'>
+  <link rel='stylesheet' href='https://cdn.datatables.net/1.10.18/css/dataTables.bootstrap4.min.css'>
+  <link rel="stylesheet" href="/static/css/regulator.css">
+  <link rel="icon" href="assets/img/logo.png" type="image/png">
+</head>
+
+<body>
+  <div class="container-fluid">
+    <header class="footer-07">
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-md-12 text-center">
+            <h2 class="footer-heading">
+              <a href="#" class="logo">
+                Regulator Portal
+              </a>
+            </h2>
+          </div>
+        </div>
+      </div>
+    </header>
+  </div>
+  <div class="table-responsive results show" id="header-table">
+    <!-- search/filter of results -->
+    <form action="" class="search-box">
+      <input type="text" class="text search-input" placeholder="Search results..." id="myInput">
+    </form>
+    <!-- tabela -->
+    <table id="tabela1" class="table" width="100%" tabindex="0" aria-label="results">
+      <thead>
+        <tr>
+          <th tabindex="0" aria-label="número do protocolo">Date of Testing</th>
+          <th tabindex="0" aria-label="RG">Date of Approval</th>
+          <th tabindex="0" aria-label="órgão">Sample ID</th>
+          <th data-type="html" tabindex="0" aria-label="situação">Batch ID</th>
+          <th tabindex="0" aria-label="SKU">SKU</th>
+          <th tabindex="0" aria-label="pf">P/F</th>
+          <th tabindex="0" aria-label="name">Lab Name</th>
+          <th tabindex="0" aria-label="location">Lab Location</th>
+          <th tabindex="0" aria-label="llnum">Lab License #</th>
+          <th tabindex="0" aria-label="brandname">Brand Name</th>
+          <th tabindex="0" aria-label="brandlocation">Brand Location</th>
+          <th tabindex="0" aria-label="brandnum">Brand #</th>
+          <th tabindex="0" aria-label="sfn">Sampling Firm Name</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="align-middle" style="display: table-cell;" tabindex="0">Maria</td>
+          <td class="align-middle" style="display: table-cell;" tabindex="0">1122334455</td>
+          <td class="align-middle" class="align-middle" style="display: table-cell;" tabindex="0">Brazil</td>
+          <td class="align-middle situation" style="display: table-cell;" tabindex="0">
+            <span class="badge badge-primary">inactive</span>
+          </td>
+          <td class="align-middle" style="display: table-cell;" tabindex="0">09/08/2018</td>
+          <td class="align-middle" style="display: table-cell;" tabindex="0">09/08/2018</td>
+          <td class="align-middle" style="display: table-cell;" tabindex="0">09/08/2018</td>
+          <td class="align-middle" style="display: table-cell;" tabindex="0">09/08/2018</td>
+          <td class="align-middle" style="display: table-cell;" tabindex="0">09/08/2018</td>
+          <td class="align-middle" style="display: table-cell;" tabindex="0">09/08/2018</td>
+          <td class="align-middle" style="display: table-cell;" tabindex="0">09/08/2018</td>
+          <td class="align-middle" style="display: table-cell;" tabindex="0">09/08/2018</td>
+          <td class="align-middle" style="display: table-cell;" tabindex="0">09/08/2018</td>
+        </tr>
+        <tr>
+          <td class="align-middle" style="display: table-cell;" tabindex="0">John</td>
+          <td class="align-middle" style="display: table-cell;" tabindex="0">5544332211</td>
+          <td class="align-middle" class="align-middle" style="display: table-cell;" tabindex="0">EUA</td>
+          <td class="align-middle situation" style="display: table-cell;" tabindex="0">
+            <span class="badge badge-success">active</span>
+          </td>
+          <td class="align-middle" style="display: table-cell;" tabindex="0">29/11/2018</td>
+          <td class="align-middle" style="display: table-cell;" tabindex="0">09/08/2018</td>
+          <td class="align-middle" style="display: table-cell;" tabindex="0">09/08/2018</td>
+          <td class="align-middle" style="display: table-cell;" tabindex="0">09/08/2018</td>
+          <td class="align-middle" style="display: table-cell;" tabindex="0">09/08/2018</td>
+          <td class="align-middle" style="display: table-cell;" tabindex="0">09/08/2018</td>
+          <td class="align-middle" style="display: table-cell;" tabindex="0">09/08/2018</td>
+          <td class="align-middle" style="display: table-cell;" tabindex="0">09/08/2018</td>
+          <td class="align-middle" style="display: table-cell;" tabindex="0">09/08/2018</td>
+        </tr>
+        <tr>
+          <td class="align-middle" style="display: table-cell;" tabindex="0">Louis</td>
+          <td class="align-middle" style="display: table-cell;" tabindex="0">3344551122</td>
+          <td class="align-middle" class="align-middle" style="display: table-cell;" tabindex="0">Japan</td>
+          <td class="align-middle situation" style="display: table-cell;" tabindex="0">
+            <span class="badge badge-danger">suspended</span>
+          </td>
+          <td class="align-middle" style="display: table-cell;" tabindex="0">11/12/2018</td>
+          <td class="align-middle" style="display: table-cell;" tabindex="0">09/08/2018</td>
+          <td class="align-middle" style="display: table-cell;" tabindex="0">09/08/2018</td>
+          <td class="align-middle" style="display: table-cell;" tabindex="0">09/08/2018</td>
+          <td class="align-middle" style="display: table-cell;" tabindex="0">09/08/2018</td>
+          <td class="align-middle" style="display: table-cell;" tabindex="0">09/08/2018</td>
+          <td class="align-middle" style="display: table-cell;" tabindex="0">09/08/2018</td>
+          <td class="align-middle" style="display: table-cell;" tabindex="0">09/08/2018</td>
+          <td class="align-middle" style="display: table-cell;" tabindex="0">09/08/2018</td>
+        </tr>
+        <tr>
+          <td class="align-middle" style="display: table-cell;" tabindex="0">Tom</td>
+          <td class="align-middle" style="display: table-cell;" tabindex="0">5566112244</td>
+          <td class="align-middle" class="align-middle" style="display: table-cell;" tabindex="0">Canada</td>
+          <td class="align-middle situation" style="display: table-cell;" tabindex="0">
+            <span class="badge badge-success">active</span>
+          </td>
+          <td class="align-middle" style="display: table-cell;" tabindex="0">30/08/2018</td>
+          <td class="align-middle" style="display: table-cell;" tabindex="0">09/08/2018</td>
+          <td class="align-middle" style="display: table-cell;" tabindex="0">09/08/2018</td>
+          <td class="align-middle" style="display: table-cell;" tabindex="0">09/08/2018</td>
+          <td class="align-middle" style="display: table-cell;" tabindex="0">09/08/2018</td>
+          <td class="align-middle" style="display: table-cell;" tabindex="0">09/08/2018</td>
+          <td class="align-middle" style="display: table-cell;" tabindex="0">09/08/2018</td>
+          <td class="align-middle" style="display: table-cell;" tabindex="0">09/08/2018</td>
+          <td class="align-middle" style="display: table-cell;" tabindex="0">09/08/2018</td>
+        </tr>
+        <tr>
+          <td class="align-middle" style="display: table-cell;" tabindex="0">Michelle</td>
+          <td class="align-middle" style="display: table-cell;" tabindex="0">2211554433</td>
+          <td class="align-middle" class="align-middle" style="display: table-cell;" tabindex="0">Colombia</td>
+          <td class="align-middle situation" style="display: table-cell;" tabindex="0">
+            <span class="badge badge-primary">inactive</span>
+          </td>
+          <td class="align-middle" style="display: table-cell;" tabindex="0">05/02/2018</td>
+          <td class="align-middle" style="display: table-cell;" tabindex="0">09/08/2018</td>
+          <td class="align-middle" style="display: table-cell;" tabindex="0">09/08/2018</td>
+          <td class="align-middle" style="display: table-cell;" tabindex="0">09/08/2018</td>
+          <td class="align-middle" style="display: table-cell;" tabindex="0">09/08/2018</td>
+          <td class="align-middle" style="display: table-cell;" tabindex="0">09/08/2018</td>
+          <td class="align-middle" style="display: table-cell;" tabindex="0">09/08/2018</td>
+          <td class="align-middle" style="display: table-cell;" tabindex="0">09/08/2018</td>
+          <td class="align-middle" style="display: table-cell;" tabindex="0">09/08/2018</td>
+        </tr>
+        <tr>
+          <td class="align-middle" style="display: table-cell;" tabindex="0">Sofie</td>
+          <td class="align-middle" style="display: table-cell;" tabindex="0">2211334455</td>
+          <td class="align-middle" class="align-middle" style="display: table-cell;" tabindex="0">France</td>
+          <td class="align-middle situation" style="display: table-cell;" tabindex="0">
+            <span class="badge badge-warning">pendent</span>
+          </td>
+          <td class="align-middle" style="display: table-cell;" tabindex="0">16/10/2018</td>
+          <td class="align-middle" style="display: table-cell;" tabindex="0">09/08/2018</td>
+          <td class="align-middle" style="display: table-cell;" tabindex="0">09/08/2018</td>
+          <td class="align-middle" style="display: table-cell;" tabindex="0">09/08/2018</td>
+          <td class="align-middle" style="display: table-cell;" tabindex="0">09/08/2018</td>
+          <td class="align-middle" style="display: table-cell;" tabindex="0">09/08/2018</td>
+          <td class="align-middle" style="display: table-cell;" tabindex="0">09/08/2018</td>
+          <td class="align-middle" style="display: table-cell;" tabindex="0">09/08/2018</td>
+          <td class="align-middle" style="display: table-cell;" tabindex="0">09/08/2018</td>
+        </tr>
+      </tbody>
+    </table>
+    <!-- end table -->
+  </div>
+  </div>
+  <!--end div table-->
+  <!-- modal section -->
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">More request details:</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">...</div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- partial -->
+  <script src='https://code.jquery.com/jquery-3.3.1.js'></script>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js'></script>
+  <script src='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js'></script>
+  <script src='https://cdn.datatables.net/1.10.18/js/jquery.dataTables.min.js'></script>
+  <script src='https://cdn.datatables.net/1.10.18/js/dataTables.bootstrap4.min.js'></script>
+  <script src='https://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js'></script>
+  <script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  <script>
+
+    //datatable
+    $(document).ready(function () {
+      $('#tabela1').DataTable({
+        "searching": false // false to disable search (or any other option)
+      });
+      $('.dataTables_length').addClass('bs-select');
+    });
+
+    //search form table toggle
+    $('.table-responsive').on('click', '.search-toggle', function (e) {
+      var selector = $(this).data('selector');
+
+      $(selector).toggleClass('show').find('.search-input').focus();
+      $(this).toggleClass('active');
+
+      e.preventDefault();
+    });
+
+    //filter input for table 
+    $("#myInput").on("keyup", function () {
+      var value = $(this).val().toLowerCase();
+      $("#tabela1 tr").filter(function () {
+        $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+      });
+    });
+  </script>
+  <script>
+    $("#myInput").autocomplete({
+      source: ["c++", "java", "php", "coldfusion", "javascript", "asp", "ruby"]
+    });
+  </script>
+</body>
+
+</html>

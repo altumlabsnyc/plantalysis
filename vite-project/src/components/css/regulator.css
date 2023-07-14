@@ -1,0 +1,257 @@
+div.results {
+  border: 1px solid #ddd;
+  padding: 10px;
+}
+
+#tabela1_wrapper {
+  margin-top: 2rem;
+}
+
+#tabela1_wrapper td {
+  font-size: 0.8rem;
+  font-weight: 400;
+}
+
+#tabela1_wrapper tbody>tr:hover {
+  background-color: #eee;
+}
+
+div.table-responsive>div.dataTables_wrapper>div.row {
+  display: block;
+}
+
+/*search*/
+.search-button {
+  float: right;
+  transform: translate(0, -50%);
+  position: absolute;
+  top: 55px;
+  right: 12px;
+  width: 45px;
+  height: 45px;
+  background-color: #ddd;
+  z-index: 3;
+}
+
+.search-toggle {
+  position: relative;
+  display: block;
+  height: 45px;
+  width: 45px;
+}
+
+.search-toggle::before, .search-toggle::after {
+  content: '';
+  position: absolute;
+  display: block;
+  transition: all 0.1s;
+}
+
+.search-toggle::before {
+  border: 2px solid #666;
+  border-radius: 50%;
+  width: 30%;
+  height: 30%;
+  left: 13px;
+  top: 13px;
+}
+
+.search-toggle::after {
+  height: 2px;
+  width: 12px;
+  background: #666;
+  top: 27px;
+  left: 21px;
+  transform: rotate(45deg);
+}
+
+.search-toggle.active::before {
+  width: 0;
+  height: 20px;
+  border-width: 1px;
+  border-radius: 0;
+  transform: rotate(45deg);
+  top: 13px;
+  left: 22px;
+}
+
+.search-toggle.active::after {
+  width: 20px;
+  left: 13px;
+  top: 22px;
+}
+
+.search-input:focus {
+  outline: none;
+}
+
+
+#header-table .search-box {
+  width: 300px;
+  height: 0;
+  transform: translateY(100%);
+  transition: all 0.3s;
+  border-radius: 2px;
+  border-bottom: none;
+  position: relative;
+  top: -23px;
+  z-index: 1;
+  float: right;
+}
+
+#header-table .search-box .search-input {
+  width: 100%;
+  padding: 0 1em;
+  border: 0;
+  background-color: transparent;
+  opacity: 0;
+  color: #666;
+  position: absolute;
+}
+
+#header-table .search-box .search-input::-webkit-input-placeholder {
+  color: #ccc;
+}
+
+#header-table.show .search-box {
+  height: 45px;
+  line-height: 45px;
+  border: 1px solid #ddd;
+  margin-bottom: 20px;
+}
+
+#header-table.show .search-box .search-input {
+  opacity: 1;
+}
+
+/* show entries */
+select.custom-select.custom-select-sm.form-control.form-control-sm {
+    width: 100px;
+    border: none;
+    border-bottom: 2px solid #ddd;
+}
+
+/*btns*/
+.moreOptions {
+    text-align: center;
+}
+
+.moreOptions a {
+    color: #999;
+}
+.moreOptions a.fa {
+  font-size: 1.2rem;
+  padding: 0 10px;
+}
+.moreOptions a:hover {
+ text-decoration: none;
+}
+/*table collapsed*/
+.level1 {
+    margin-bottom: 0;
+}
+/*badge*/
+.badge {
+  font-size: small;
+  font-weight: 300;
+}
+
+/*tooltip*/
+/* Tooltip CSS */
+/* START TOOLTIP STYLES */
+[tooltip] {
+  position: relative; /* opinion 1 */
+}
+
+/* Applies to all tooltips */
+[tooltip]::before,
+[tooltip]::after {
+  text-transform: none; /* opinion 2 */
+  font-size: 1.2em; /* opinion 3 */
+  line-height: 1;
+  user-select: none;
+  pointer-events: none;
+  position: absolute;
+  display: block;
+  opacity: 0;
+}
+[tooltip]::before {
+  content: '';
+  border: 5px solid transparent; /* opinion 4 */
+  z-index: 999999; /* absurdity 1 */
+}
+[tooltip]::after {
+  content: attr(tooltip); /* magic! */
+  text-align: center;
+  
+  /* 
+    Let the content set the size of the tooltips 
+    but this will also keep them from being obnoxious
+    */
+  min-width: 3em;
+  max-width: 21em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding: 1ch 1.5ch;
+  border-radius: .3ch;
+  box-shadow: 0 1em 2em -.5em rgba(0, 0, 0, 0.35);
+  background: #333;
+  color: #fff;
+  z-index: 999999; /* absurdity 2 */
+}
+
+/* Make the tooltips respond to hover */
+[tooltip]:hover::before,
+[tooltip]:hover::after {
+  display: block;
+}
+
+/* don't show empty tooltips */
+[tooltip='']::before,
+[tooltip='']::after {
+  display: none !important;
+}
+
+/* FLOW: UP */
+[tooltip]:not([flow])::before,
+[tooltip][flow^="up"]::before {
+  bottom: 100%;
+  border-bottom-width: 0;
+  border-top-color: #333;
+}
+[tooltip]:not([flow])::after,
+[tooltip][flow^="up"]::after {
+  bottom: calc(100% + 5px);
+}
+[tooltip]:not([flow])::before,
+[tooltip]:not([flow])::after,
+[tooltip][flow^="up"]::before,
+[tooltip][flow^="up"]::after {
+  left: 50%;
+  transform: translate(-50%, -.5em);
+}
+
+
+/* KEYFRAMES */
+@keyframes tooltips-vert {
+  to {
+    opacity: .9;
+    transform: translate(-50%, 0);
+  }
+}
+
+@keyframes tooltips-horz {
+  to {
+    opacity: .9;
+    transform: translate(0, -50%);
+  }
+}
+
+/* FX All The Things */ 
+[tooltip]:not([flow]):hover::before,
+[tooltip]:not([flow]):hover::after,
+[tooltip][flow^="up"]:hover::before,
+[tooltip][flow^="up"]:hover::after {
+  animation: tooltips-vert 300ms ease-out forwards;
+}
