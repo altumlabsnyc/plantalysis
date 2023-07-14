@@ -2,8 +2,9 @@ import { createClient, SupabaseClient } from "@supabase/supabase-js";
 import { SUPABASE_KEY, SUPABASE_URL } from "./Constants";
 import { v4 as uuidv4 } from "uuid";
 import { UserType, userData } from "./UserTypes";
+import { Database } from "../types/supabase";
 
-const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+const supabase = createClient<Database>(SUPABASE_URL, SUPABASE_KEY);
 
 const handleSignIn = (email: string, password: string) => async () => {
   try {
@@ -17,6 +18,7 @@ const handleSignIn = (email: string, password: string) => async () => {
     } else {
       console.log("User signed in:", data.user);
       const user = await supabase.auth.getUser();
+      console.log(user.data.user?.id);
       // const userType = data.user.user_metadata.get("type");
       let userType: UserType = await getUserType();
 
@@ -52,7 +54,6 @@ const handleSignUp = (userData: userData, password: string) => async () => {
     await supabase.auth.signUp({
       email: userData.email,
       password: password,
-      options: { data: userData },
     });
 
     //sign in
@@ -85,8 +86,13 @@ const user: userData = {
   last_name: "Monsalve",
   email: "catamon@m.edu",
   mfa_phone: "+18578694603",
-  user_type: UserType.Lab,
+  user_type: "regulator",
 };
+
+const { data, error } = await supabase.from("user").insert([user]);
+console.log(error);
+const userAuth = await supabase.auth.getUser();
+console.log(userAuth.data.user?.id);
 
 async function getUserType(): Promise<UserType> {
   return UserType.Base;

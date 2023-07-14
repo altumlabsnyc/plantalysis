@@ -6,24 +6,42 @@ import {
   generalInputs,
   userSpecificInputs,
   UserType,
+  Input,
 } from "./UserTypes";
 
 const RegisterForm: React.FC = () => {
   const [currentTab, setCurrentTab] = useState(0);
   const [selectedUser, setSelectedUser] = useState<UserType | undefined>();
+  const [userInputs, setUserInputs] = useState<Map<Input, string>>(new Map());
+
+  const updateUserInputs = (inputType: Input, value: string) => {
+    userInputs.set(inputType, value);
+    console.log(userInputs);
+  };
 
   const showTab = (n: number) => {
     // Your showTab logic here
   };
 
   const nextPrev = (n: number) => {
-    if (n == 1) {
-      setCurrentTab(currentTab + 1);
-    } else {
-      setCurrentTab(currentTab - 1);
+    if (currentTab == 2 || (currentTab == 1 && selectedUser == UserType.Base)) {
+      console.log(userInputs);
     }
-    switch (currentTab) {
-      case 0:
+    switch (n) {
+      case -1:
+        if (currentTab !== 0) {
+          setCurrentTab(currentTab - 1);
+        }
+        break;
+      case 1:
+        if (currentTab !== 2 && selectedUser !== UserType.Base) {
+          setCurrentTab(currentTab + 1);
+        } else if (currentTab !== 1 && selectedUser == UserType.Base) {
+          setCurrentTab(currentTab + 1);
+        }
+        break;
+      default:
+        Error("wrongInput to nextPrev:" + n.toString());
     }
   };
 
@@ -41,6 +59,10 @@ const RegisterForm: React.FC = () => {
 
   const showTabContent = (selectedOption: string) => {
     // Your showTabContent logic here
+  };
+
+  const handleSubmit = () => {
+    console.log("submitted");
   };
 
   return (
@@ -68,7 +90,12 @@ const RegisterForm: React.FC = () => {
           </div>
         </div>
         <div className="centersignform">
-          <form id="signupForm" action="/register/" method="POST">
+          <form
+            id="signupForm"
+            onSubmit={handleSubmit}
+            action="/register/"
+            method="POST"
+          >
             <div className="container-fluid p-0" style={{ paddingTop: "20px" }}>
               <div className="alert" role="alert">
                 {/* Messages should be rendered dynamically using JavaScript */}
@@ -129,7 +156,11 @@ const RegisterForm: React.FC = () => {
                       type={userInput.type}
                       id={userInput.id}
                       name={userInput.id}
-                      placeholder={`Enter your ${userInput.name}`}
+                      value={userInputs.get(userInput)}
+                      onChange={(e) =>
+                        updateUserInputs(userInput, e.target.value)
+                      }
+                      placeholder={`Enter your ${userInput.name.toLowerCase()}`}
                       required
                     />
                   </div>
@@ -151,7 +182,11 @@ const RegisterForm: React.FC = () => {
                             type={userInput.type}
                             id={`${user.code}-${userInput.id}`}
                             name={userInput.id}
-                            placeholder={`Enter your ${userInput.name}`}
+                            placeholder={`Enter your ${userInput.name.toLowerCase()}`}
+                            value={userInputs.get(userInput)}
+                            onChange={(e) =>
+                              updateUserInputs(userInput, e.target.value)
+                            }
                             required
                           />
                         </div>

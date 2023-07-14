@@ -1,9 +1,11 @@
+import { Database } from "../types/supabase";
+
 export enum UserType {
   Base = "Base",
   Producer = "Producer",
   Regulator = "Regulator",
   University = "University",
-  Lab = "lab_user",
+  Lab = "Lab",
 }
 
 export interface userTypeFields {
@@ -19,15 +21,16 @@ export interface Input {
   type: string;
 }
 
-export interface userData {
-  id: string;
-  first_name: String;
-  last_name: string;
-  email: string;
-  mfa_phone: string;
-  user_type: UserType;
-}
+// export interface userData {
+//   id: string;
+//   first_name: String;
+//   last_name: string;
+//   email: string;
+//   mfa_phone: string;
+//   user_type: UserType;
+// }
 
+export type userData = Database["public"]["Tables"]["user"]["Row"];
 //Hardcoded types
 export const userSpecificInputs: { [key: string]: Input[] } = {
   gov: [
