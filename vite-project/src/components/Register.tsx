@@ -5,11 +5,12 @@ import {
   users,
   generalInputs,
   userSpecificInputs,
+  UserType,
 } from "./UserTypes";
 
 const RegisterForm: React.FC = () => {
   const [currentTab, setCurrentTab] = useState(0);
-  const [selectedUser, setSelectedUser] = useState<string | undefined>();
+  const [selectedUser, setSelectedUser] = useState<UserType | undefined>();
 
   const showTab = (n: number) => {
     // Your showTab logic here
@@ -34,10 +35,8 @@ const RegisterForm: React.FC = () => {
     // Your fixStepIndicator logic here
   };
 
-  const handleRadioButtonChange = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    // Your handleRadioButtonChange logic here
+  const handleRadioButtonChange = (userType: UserType) => {
+    setSelectedUser(userType);
   };
 
   const showTabContent = (selectedOption: string) => {
@@ -97,6 +96,7 @@ const RegisterForm: React.FC = () => {
                               value={user.code}
                               id={user.code}
                               style={{ visibility: "hidden" }}
+                              onChange={() => setSelectedUser(user.userType)}
                             />
                             I'm a {user.name}.
                           </label>

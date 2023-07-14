@@ -10,6 +10,7 @@ export interface userTypeFields {
   code: string;
   name: string;
   inputs: Array<Input>;
+  userType: UserType;
 }
 
 export interface Input {
@@ -60,11 +61,32 @@ export const users: Array<userTypeFields> = [
     name: "university/researcher",
     code: "edu",
     inputs: userSpecificInputs.edu,
+    userType: UserType.University,
   },
-  { name: "lab", code: "lab", inputs: userSpecificInputs.lab },
-  { name: "producer", code: "leaf", inputs: userSpecificInputs.leaf },
-  { name: "regulator", code: "gov", inputs: userSpecificInputs.gov },
-  { name: "individual consumer", code: "person", inputs: [] },
+  {
+    name: "lab",
+    code: "lab",
+    inputs: userSpecificInputs.lab,
+    userType: UserType.Lab,
+  },
+  {
+    name: "producer",
+    code: "leaf",
+    inputs: userSpecificInputs.leaf,
+    userType: UserType.Producer,
+  },
+  {
+    name: "regulator",
+    code: "gov",
+    inputs: userSpecificInputs.gov,
+    userType: UserType.Regulator,
+  },
+  {
+    name: "individual consumer",
+    code: "person",
+    inputs: userSpecificInputs.person,
+    userType: UserType.Base,
+  },
 ];
 
 export const generalInputs: Array<Input> = [
