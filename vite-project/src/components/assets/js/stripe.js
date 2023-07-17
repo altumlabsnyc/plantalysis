@@ -1,7 +1,7 @@
 // publishable API key.
 const stripe = Stripe("pk_test_51NUws3Bz9p5tgQRykfVP3gdOnKjcl43fKx06NvFjs8LHSMztCI1kAXrJsK1hQqld1GzubifC0XrSabJNdg1DYlQ100Nqdtv91I");
 
-// consumer item(s)
+// consumer item(s) ex.
 const items = [{ id: "xl-tshirt" }];
 
 let elements;
