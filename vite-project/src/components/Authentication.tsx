@@ -19,7 +19,6 @@ export async function handleSignIn(
     if (error) {
       console.error(error);
     } else {
-      console.log("User signed in:", data.user);
       // const userType = data.user.user_metadata.get("type");
 
       const userType = await getUserType();
@@ -57,32 +56,30 @@ export async function handleSignUp(
   try {
     const actualEmail: string = userData.email ? userData.email : "";
     //sign up
-    await supabase.auth.signUp({
+    const response = await supabase.auth.signUp({
       email: actualEmail,
       password: password,
     });
 
-    insertUser(userData);
+    // sign in
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email: actualEmail,
+      password: password,
+    });
 
-    //sign in
-    // const { data, error } = await supabase.auth.signInWithPassword({
-    //   email: actualEmail,
-    //   password: password,
-    // });
+    const user = await supabase.auth.getUser();
 
-    // const user = await supabase.auth.getUser();
-    // console.log(user);
+    if (error) {
+      console.error(error);
+    } else {
+      const id: string = user.data.user?.id ? user.data.user.id : "";
+      userData.id = id;
+      insertUser(userData);
 
-    // if (error) {
-    //   console.error(error);
-    // } else {
-    //   console.log("User signed in:", data.user);
-
-    //   data.user.user_metadata = userData;
-    window.location.href = "/login";
-  } catch (error) {
-    console.error("Sign up failed:", error);
-  }
+      data.user.user_metadata = userData;
+      window.location.href = "/login";
+    }
+  } catch (error) {}
 }
 
 async function getUserType(): Promise<UserType | undefined | null> {
@@ -95,4 +92,6 @@ async function getUserType(): Promise<UserType | undefined | null> {
 
 async function insertUser(userData: userData): Promise<void> {
   const { data, error } = await supabase.from("user").insert([userData]);
+  if (error) {
+  }
 }

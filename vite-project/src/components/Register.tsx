@@ -20,7 +20,6 @@ const RegisterForm: React.FC = () => {
 
   const updateUserInputs = (inputType: Input, value: string) => {
     userInputs.set(inputType, value);
-    console.log(userInputs);
   };
 
   const [userDataValues, setUserDataValues] = useState<userData>();
@@ -68,7 +67,6 @@ const RegisterForm: React.FC = () => {
   };
 
   const handleSubmit = () => {
-    console.log("Submit?");
     let firstName: string | null = "";
     let lastName: string | null = "";
     let email: string | null = "";
@@ -103,7 +101,6 @@ const RegisterForm: React.FC = () => {
       mfa_phone: phone,
     };
     handleSignUp(data, password);
-    console.log("pasa");
   };
 
   return (
