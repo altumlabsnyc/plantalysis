@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "./assets/css/login.css";
-import handleSignIn from "./Authentication";
+import { handleSignIn } from "./Authentication";
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState("");
@@ -8,7 +8,7 @@ const Login: React.FC = () => {
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    handleSignIn(email, password)();
+    handleSignIn(email, password);
   };
 
   return (
