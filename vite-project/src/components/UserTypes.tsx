@@ -1,17 +1,19 @@
 import { Database } from "../types/supabase";
 
-export enum UserType {
-  Base = "Base",
-  Producer = "Producer",
-  Regulator = "Regulator",
-  University = "University",
-  Lab = "Lab",
-}
+// export enum UserType {
+//   Base = "Base",
+//   Producer = "Producer",
+//   Regulator = "Regulator",
+//   University = "University",
+//   Lab = "Lab",
+// }
+
+export type UserType = Database["public"]["Enums"]["user_type_enum"];
 
 export interface userTypeFields {
   code: string;
   name: string;
-  inputs: Array<Input>;
+  inputs: Array<Input> | undefined;
   userType: UserType;
 }
 
@@ -21,74 +23,84 @@ export interface Input {
   type: string;
 }
 
-// export interface userData {
-//   id: string;
-//   first_name: String;
-//   last_name: string;
-//   email: string;
-//   mfa_phone: string;
-//   user_type: UserType;
+// export type userSpecificData = Map<UserType, Database>;
+// {
+//   ("");
 // }
+// Database['public']['Tables']['lab_user'];
 
 export type userData = Database["public"]["Tables"]["user"]["Row"];
+
 //Hardcoded types
-export const userSpecificInputs: { [key: string]: Input[] } = {
-  gov: [
-    { name: "Regulator Name", id: "regName", type: "text" },
-    { name: "Mailing Address", id: "regAddress", type: "text" },
+export const userSpecificInputs: Map<UserType, Array<Input>> = new Map([
+  [
+    "regulator",
+    [
+      { name: "Regulator Name", id: "regName", type: "text" },
+      { name: "Mailing Address", id: "regAddress", type: "text" },
+    ],
   ],
-  lab: [
-    { name: "Lab Name", id: "labName", type: "text" },
-    { name: "Lab Address", id: "labAddress", type: "text" },
-    { name: "Lab License Number", id: "labLicense", type: "text" },
-    { name: "Lab Owner Name", id: "labOwner", type: "text" },
+  [
+    "lab",
+    [
+      { name: "Lab Name", id: "labName", type: "text" },
+      { name: "Lab Address", id: "labAddress", type: "text" },
+      { name: "Lab License Number", id: "labLicense", type: "text" },
+      { name: "Lab Owner Name", id: "labOwner", type: "text" },
+    ],
   ],
-  leaf: [
-    { name: "Legal Name", id: "legalName", type: "text" },
-    { name: "DBA or Common Name", id: "dbaName", type: "text" },
-    { name: "Facility Address", id: "prodAddress", type: "text" },
-    { name: "Billing Address", id: "billAdress", type: "text" },
-    { name: "License Number", id: "prodLicense", type: "text" },
+  [
+    "producer",
+    [
+      { name: "Legal Name", id: "legalName", type: "text" },
+      { name: "DBA or Common Name", id: "dbaName", type: "text" },
+      { name: "Facility Address", id: "prodAddress", type: "text" },
+      { name: "Billing Address", id: "billAdress", type: "text" },
+      { name: "License Number", id: "prodLicense", type: "text" },
+    ],
   ],
-  edu: [
-    { name: "University Name", id: "uniName", type: "text" },
-    { name: "University Department", id: "dept", type: "text" },
-    { name: "Primary Investigator", id: "pi", type: "text" },
-    { name: "Lab Address", id: "uniAddress", type: "text" },
+  [
+    "university",
+    [
+      { name: "University Name", id: "uniName", type: "text" },
+      { name: "University Department", id: "dept", type: "text" },
+      { name: "Primary Investigator", id: "pi", type: "text" },
+      { name: "Lab Address", id: "uniAddress", type: "text" },
+    ],
   ],
-  person: [],
-};
+  ["consumer", []],
+]);
 
 export const users: Array<userTypeFields> = [
   {
     name: "university/researcher",
     code: "edu",
-    inputs: userSpecificInputs.edu,
-    userType: UserType.University,
+    inputs: userSpecificInputs.get("university"),
+    userType: "university",
   },
   {
     name: "lab",
     code: "lab",
-    inputs: userSpecificInputs.lab,
-    userType: UserType.Lab,
+    inputs: userSpecificInputs.get("lab"),
+    userType: "lab",
   },
   {
     name: "producer",
     code: "leaf",
-    inputs: userSpecificInputs.leaf,
-    userType: UserType.Producer,
+    inputs: userSpecificInputs.get("producer"),
+    userType: "producer",
   },
   {
     name: "regulator",
     code: "gov",
-    inputs: userSpecificInputs.gov,
-    userType: UserType.Regulator,
+    inputs: userSpecificInputs.get("regulator"),
+    userType: "regulator",
   },
   {
     name: "individual consumer",
     code: "person",
-    inputs: userSpecificInputs.person,
-    userType: UserType.Base,
+    inputs: userSpecificInputs.get("consumer"),
+    userType: "consumer",
   },
 ];
 
