@@ -8,6 +8,10 @@ import {
   UserType,
   Input,
   userData,
+  govUser,
+  eduUser,
+  labUser,
+  prodUser,
 } from "./UserTypes";
 import { handleSignUp } from "./Authentication";
 import styles from "./assets/css/login.css";
@@ -100,8 +104,196 @@ const RegisterForm: React.FC = () => {
       user_type: selectedUser ? selectedUser : null,
       mfa_phone: phone,
     };
-    handleSignUp(data, password);
+    switch (data.user_type) {
+      case "consumer":
+        handleSignUp(data, password);
+        break;
+      case "producer":
+        handleSignUp(
+          data,
+          password,
+          undefined,
+          undefined,
+          helperProdInfo(),
+          undefined
+        );
+        break;
+      case "university":
+        handleSignUp(
+          data,
+          password,
+          undefined,
+          undefined,
+          undefined,
+          helperEduInfo()
+        );
+        break;
+      case "lab":
+        handleSignUp(
+          data,
+          password,
+          helperLabInfo(),
+          undefined,
+          undefined,
+          undefined
+        );
+        break;
+      case "regulator":
+        handleSignUp(
+          data,
+          password,
+          undefined,
+          helperGovInfo(),
+          undefined,
+          undefined
+        );
+        break;
+    }
   };
+
+  function helperEduInfo(): eduUser {
+    const id = "";
+    let lab_address: string | null = "";
+    let primary_investigator: string | null = "",
+      university_department: string | null = "",
+      university_name: string | null = "";
+    for (const [input, val] of userInputs) {
+      switch (input.id) {
+        case "university_lab_address":
+          lab_address = val ? val : null;
+          break;
+        case "primary_investigator":
+          primary_investigator = val ? val : null;
+          break;
+        case "university_department":
+          primary_investigator = val ? val : null;
+          break;
+        case "university_name":
+          university_name = val ? val : null;
+          break;
+      }
+    }
+    let uniData: eduUser = {
+      lab_address: lab_address,
+      university_department: university_department,
+      university_name: university_name,
+      id: id,
+      primary_investigator: primary_investigator,
+    };
+    return uniData;
+  }
+
+  function helperProdInfo(): prodUser {
+    const id = "";
+    let billing_address: string | null = "";
+    let common_name: string | null = "";
+    let contact_phone: string | null = "";
+    let legal_name: string | null = "";
+    let license_number: string | null = "";
+    let license_type: "AUCC" | "AUCP" | "AUHC" | null = null;
+    let primary_facility_address: string | null = "";
+    for (const [input, val] of userInputs) {
+      switch (input.id) {
+        case "billing_address":
+          billing_address = val ? val : null;
+          break;
+        case "common_name":
+          common_name = val ? val : null;
+          break;
+        case "producer_contact_phone":
+          contact_phone = val ? val : null;
+          break;
+        case "legal_name":
+          legal_name = val ? val : null;
+          break;
+        case "producer_license_number":
+          license_number = val ? val : null;
+          break;
+        case "license_type":
+          license_type =
+            val && (val == "AUCC" || val == "AUCP" || val == "AUHC")
+              ? val
+              : null;
+          break;
+        case "primary_facility_address":
+          primary_facility_address = val ? val : null;
+      }
+    }
+    let prodData: prodUser = {
+      primary_facility_address: primary_facility_address,
+      billing_address: billing_address,
+      legal_name: legal_name,
+      common_name: common_name,
+      license_number: license_number,
+      id: id,
+      license_type: license_type,
+      contact_phone: contact_phone,
+    };
+    return prodData;
+  }
+
+  function helperLabInfo(): labUser {
+    const id = "";
+    let lab_address: string | null = "";
+    let contact_phone: string | null = "";
+    let license_number: number | null = null;
+    let lab_name: string | null = "";
+    let owner_name: string | null = "";
+    for (const [input, val] of userInputs) {
+      switch (input.id) {
+        case "lab_address":
+          lab_address = val ? val : null;
+          break;
+        case "lab_contact_phone":
+          contact_phone = val ? val : null;
+          break;
+        case "lab_license_number":
+          license_number = val ? parseInt(val) : null;
+          break;
+        case "lab_name":
+          lab_name = val ? val : null;
+          break;
+        case "owner_name":
+          owner_name = val ? val : null;
+      }
+    }
+    let labData: labUser = {
+      lab_address: lab_address,
+      contact_phone: contact_phone,
+      lab_name: lab_name,
+      id: id,
+      owner_name: owner_name,
+      license_number: license_number,
+    };
+    return labData;
+  }
+
+  function helperGovInfo(): govUser {
+    const id = "";
+    let mailing_address: string | null = "";
+    let regulator_name: string | null = "",
+      contact_phone: string | null = "";
+    for (const [input, val] of userInputs) {
+      switch (input.id) {
+        case "mailing_address":
+          mailing_address = val ? val : null;
+          break;
+        case "regulator_name":
+          regulator_name = val ? val : null;
+          break;
+        case "regulator_contact_phone":
+          contact_phone = val ? val : null;
+          break;
+      }
+    }
+    let govData: govUser = {
+      mailing_address: mailing_address,
+      regulator_name: regulator_name,
+      contact_phone: contact_phone,
+      id: id,
+    };
+    return govData;
+  }
 
   return (
     <div className="signup-container" style={{ display: "flex" }}>

@@ -1,7 +1,14 @@
 import { createClient, SupabaseClient } from "@supabase/supabase-js";
 import { SUPABASE_KEY, SUPABASE_URL } from "./Constants";
 // import { v4 as uuidv4 } from "uuid";
-import { UserType, userData } from "./UserTypes";
+import {
+  UserType,
+  userData,
+  govUser,
+  labUser,
+  eduUser,
+  prodUser,
+} from "./UserTypes";
 import { Database } from "../types/supabase";
 
 const supabase = createClient<Database>(SUPABASE_URL, SUPABASE_KEY);
@@ -51,7 +58,11 @@ export async function handleSignIn(
 
 export async function handleSignUp(
   userData: userData,
-  password: string
+  password: string,
+  labData: labUser | undefined = undefined,
+  govData: govUser | undefined = undefined,
+  prodData: prodUser | undefined = undefined,
+  eduData: eduUser | undefined = undefined
 ): Promise<void> {
   try {
     const actualEmail: string = userData.email ? userData.email : "";
@@ -73,13 +84,36 @@ export async function handleSignUp(
       console.error(error);
     } else {
       const id: string = user.data.user?.id ? user.data.user.id : "";
+      if (id == "") {
+        Error("User ID cannot be undefined");
+      }
       userData.id = id;
       insertUser(userData);
 
-      data.user.user_metadata = userData;
-      window.location.href = "/login";
+      if (labData) {
+        labData.id = id;
+        await supabase.from("lab_user").insert([labData]);
+      } else if (govData) {
+        govData.id = id;
+        await supabase.from("regulator_user").insert([govData]);
+      } else if (prodData) {
+        prodData.id = id;
+        await supabase.from("producer_user").insert([prodData]);
+      } else if (eduData) {
+        eduData.id = id;
+        const response = await supabase
+          .from("university_user")
+          .insert([eduData]);
+        if (response.error) {
+          console.log("unierror", error);
+        }
+      }
+      console.log("paso?");
+      // window.location.href = "/login";
     }
-  } catch (error) {}
+  } catch (error) {
+    console.log("error inserting user", error);
+  }
 }
 
 async function getUserType(): Promise<UserType | undefined | null> {
