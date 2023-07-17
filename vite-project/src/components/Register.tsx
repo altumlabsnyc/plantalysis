@@ -7,25 +7,31 @@ import {
   userSpecificInputs,
   UserType,
   Input,
+  userData,
 } from "./UserTypes";
+import { handleSignUp } from "./Authentication";
+import styles from "./assets/css/login.css";
 
 const RegisterForm: React.FC = () => {
   const [currentTab, setCurrentTab] = useState(0);
   const [selectedUser, setSelectedUser] = useState<UserType | undefined>();
   const [userInputs, setUserInputs] = useState<Map<Input, string>>(new Map());
+  const [baseUserData, setBaseUserData] = useState<userData>();
 
   const updateUserInputs = (inputType: Input, value: string) => {
     userInputs.set(inputType, value);
     console.log(userInputs);
   };
 
+  const [userDataValues, setUserDataValues] = useState<userData>();
+
   const showTab = (n: number) => {
     // Your showTab logic here
   };
 
   const nextPrev = (n: number) => {
-    if (currentTab == 2 || (currentTab == 1 && selectedUser == UserType.Base)) {
-      console.log(userInputs);
+    if (currentTab == 2 || (currentTab == 1 && selectedUser == "consumer")) {
+      handleSubmit();
     }
     switch (n) {
       case -1:
@@ -34,9 +40,9 @@ const RegisterForm: React.FC = () => {
         }
         break;
       case 1:
-        if (currentTab !== 2 && selectedUser !== UserType.Base) {
+        if (currentTab !== 2 && selectedUser !== "consumer") {
           setCurrentTab(currentTab + 1);
-        } else if (currentTab !== 1 && selectedUser == UserType.Base) {
+        } else if (currentTab !== 1 && selectedUser == "consumer") {
           setCurrentTab(currentTab + 1);
         }
         break;
@@ -62,7 +68,42 @@ const RegisterForm: React.FC = () => {
   };
 
   const handleSubmit = () => {
-    console.log("submitted");
+    console.log("Submit?");
+    let firstName: string | null = "";
+    let lastName: string | null = "";
+    let email: string | null = "";
+    let phone: string | null = "";
+    let password: string | null = "";
+    for (const [input, val] of userInputs) {
+      switch (input.id) {
+        case "firstName":
+          firstName = val ? val : null;
+          break;
+        case "lastName":
+          lastName = val ? val : null;
+        case "email":
+          email = val ? val : null;
+          break;
+        case "phone":
+          phone = val ? val : null;
+          break;
+        case "password":
+          password = val ? val : "";
+          break;
+        default:
+          Error("Wrong input name for base user");
+      }
+    }
+    const data: userData = {
+      first_name: firstName,
+      last_name: lastName,
+      email: email,
+      id: "",
+      user_type: selectedUser ? selectedUser : null,
+      mfa_phone: phone,
+    };
+    handleSignUp(data, password);
+    console.log("pasa");
   };
 
   return (
@@ -113,7 +154,7 @@ const RegisterForm: React.FC = () => {
                         <div className="rdbwidth">
                           <label id="radio-buttons">
                             <img
-                              src={`./assets/svg/${user.code}.svg`}
+                              src={`./src/components/assets/svg/${user.code}.svg`}
                               alt={`${user.code}.svg`}
                               style={{ height: "90%", width: "10%" }}
                             />
@@ -173,7 +214,7 @@ const RegisterForm: React.FC = () => {
                   .filter((user) => selectedUser === user.userType)
                   .map((user) => (
                     <div id={`content${user.code}`} className="tab-content">
-                      {user.inputs.map((userInput) => (
+                      {user.inputs?.map((userInput) => (
                         <div>
                           <label htmlFor={userInput.id} id="lablemargin">
                             {userInput.name}

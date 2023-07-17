@@ -1,12 +1,15 @@
 import { createClient, SupabaseClient } from "@supabase/supabase-js";
 import { SUPABASE_KEY, SUPABASE_URL } from "./Constants";
-import { v4 as uuidv4 } from "uuid";
+// import { v4 as uuidv4 } from "uuid";
 import { UserType, userData } from "./UserTypes";
 import { Database } from "../types/supabase";
 
 const supabase = createClient<Database>(SUPABASE_URL, SUPABASE_KEY);
 
-const handleSignIn = (email: string, password: string) => async () => {
+export async function handleSignIn(
+  email: string,
+  password: string
+): Promise<void> {
   try {
     const { data, error } = await supabase.auth.signInWithPassword({
       email: email,
@@ -17,25 +20,24 @@ const handleSignIn = (email: string, password: string) => async () => {
       console.error(error);
     } else {
       console.log("User signed in:", data.user);
-      const user = await supabase.auth.getUser();
-      console.log(user.data.user?.id);
       // const userType = data.user.user_metadata.get("type");
-      let userType: UserType = await getUserType();
+
+      const userType = await getUserType();
 
       switch (userType) {
-        case UserType.Base:
+        case "consumer":
           window.location.href = "/library";
           break;
-        case UserType.Regulator:
+        case "regulator":
           window.location.href = "/regulator";
           break;
-        case UserType.Lab:
+        case "lab":
           window.location.href = "/upload";
           break;
-        case UserType.University:
+        case "university":
           window.location.href = "/landing"; //update
           break;
-        case UserType.Producer:
+        case "producer":
           window.location.href = "/landing"; //update
           break;
         default:
@@ -46,58 +48,51 @@ const handleSignIn = (email: string, password: string) => async () => {
   } catch (error) {
     console.error("Sign in failed:", error);
   }
-};
+}
 
-const handleSignUp = (userData: userData, password: string) => async () => {
+export async function handleSignUp(
+  userData: userData,
+  password: string
+): Promise<void> {
   try {
+    const actualEmail: string = userData.email ? userData.email : "";
     //sign up
     await supabase.auth.signUp({
-      email: userData.email,
+      email: actualEmail,
       password: password,
     });
+
+    insertUser(userData);
 
     //sign in
-    const { data, error } = await supabase.auth.signInWithPassword({
-      email: userData.email,
-      password: password,
-    });
+    // const { data, error } = await supabase.auth.signInWithPassword({
+    //   email: actualEmail,
+    //   password: password,
+    // });
 
-    const user = await supabase.auth.getUser();
-    console.log(user);
+    // const user = await supabase.auth.getUser();
+    // console.log(user);
 
-    if (error) {
-      console.error(error);
-    } else {
-      console.log("User signed in:", data.user);
+    // if (error) {
+    //   console.error(error);
+    // } else {
+    //   console.log("User signed in:", data.user);
 
-      data.user.user_metadata = userData;
-      window.location.href = "/login";
-
-      const userType: UserType = UserType.Base; //TODO: update when figure metadata
-    }
+    //   data.user.user_metadata = userData;
+    window.location.href = "/login";
   } catch (error) {
     console.error("Sign up failed:", error);
   }
-};
-
-const user: userData = {
-  id: "dcca48da-9a45-4a36-b73e-1a296a1d8de9",
-  first_name: "Catalina",
-  last_name: "Monsalve",
-  email: "catamon@m.edu",
-  mfa_phone: "+18578694603",
-  user_type: "regulator",
-};
-
-const { data, error } = await supabase.from("user").insert([user]);
-console.log(error);
-const userAuth = await supabase.auth.getUser();
-console.log(userAuth.data.user?.id);
-
-async function getUserType(): Promise<UserType> {
-  return UserType.Base;
 }
 
-handleSignUp(user, "temp1234");
+async function getUserType(): Promise<UserType | undefined | null> {
+  const { data, error } = await supabase.from("user").select("user_type");
+  if (data == null) {
+    Error("No user type found");
+    return data;
+  }
+}
 
-export default handleSignIn;
+async function insertUser(userData: userData): Promise<void> {
+  const { data, error } = await supabase.from("user").insert([userData]);
+}
