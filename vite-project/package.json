@@ -9,6 +9,10 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@emotion/react": "^11.11.1",
+    "@emotion/styled": "^11.11.0",
+    "@mui/icons-material": "^5.14.0",
+    "@mui/material": "^5.14.0",
     "@supabase/supabase-js": "^2.26.0",
     "@types/d3": "^7.4.0",
     "assert": "^2.0.0",
@@ -21,6 +25,7 @@
     "isotope-layout": "^3.0.6",
     "jquery": "^3.7.0",
     "masonry-layout": "^4.2.2",
+    "mui": "^0.0.1",
     "outlayer": "^2.1.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
