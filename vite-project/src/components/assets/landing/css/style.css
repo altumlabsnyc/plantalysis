@@ -16,6 +16,7 @@ a:hover {
   text-decoration: none;
 }
 
+
 h1,
 h2,
 h3,
@@ -144,6 +145,7 @@ h6 {
   white-space: nowrap;
   transition: 0.3s;
   font-size: 14px;
+  text-decoration:none;
   display: inline-block;
 }
 
@@ -199,6 +201,7 @@ h6 {
   white-space: nowrap;
   transition: 0.3s;
   position: relative;
+  text-decoration:none
 }
 
 .navbar a i,
@@ -1038,6 +1041,7 @@ section {
 }
 
 .pricing .box {
+  text-decoration:none;
   padding: 40px 20px;
   text-align: center;
   border-radius: 8px;
@@ -1097,15 +1101,18 @@ section {
 
 .pricing .box ul .na {
   color: #ccc;
+  text-decoration:none;
   text-decoration: line-through;
 }
 
 .pricing .box .btn-wrap {
   padding: 15px;
+  text-decoration:none;
   text-align: center;
 }
 
 .pricing .box .btn-buy {
+  text-decoration:none;
   display: inline-block;
   padding: 10px 40px 12px 40px;
   border-radius: 50px;
@@ -1119,6 +1126,7 @@ section {
 }
 
 .pricing .box .btn-buy:hover {
+  text-decoration:none;
   background: #335E50;
   color: #fff;
 }
@@ -1141,6 +1149,7 @@ section {
 
 .pricing .box .btn-fill {
   display: inline-block;
+  text-decoration:none;
   padding: 10px 40px 12px 40px;
   border-radius: 50px;
   border: 2px solid #335E50;

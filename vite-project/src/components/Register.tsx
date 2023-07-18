@@ -14,7 +14,6 @@ import {
   prodUser,
 } from "./UserTypes";
 import { handleSignUp } from "./Authentication";
-import styles from "./assets/css/login.css";
 
 const RegisterForm: React.FC = () => {
   const [currentTab, setCurrentTab] = useState(0);
