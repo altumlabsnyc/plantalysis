@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import "./assets/css/login.css";
 import { handleSignIn } from "./Authentication";
 
 const Login: React.FC = () => {
