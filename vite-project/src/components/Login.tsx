@@ -1,85 +1,172 @@
-import React, { useState } from "react";
+import * as React from "react";
+import Button from "@mui/material/Button";
+import CssBaseline from "@mui/material/CssBaseline";
+import TextField from "@mui/material/TextField";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Checkbox from "@mui/material/Checkbox";
+import Link from "@mui/material/Link";
+import Paper from "@mui/material/Paper";
+import Box from "@mui/material/Box";
+import Grid from "@mui/material/Grid";
+import Typography from "@mui/material/Typography";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+// import background from "./assets/login/img/frame.png";
+import background from "./assets/login/img/frame.png";
 import { handleSignIn } from "./Authentication";
 
-const Login: React.FC = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+function Copyright(props: any) {
+  return (
+    <Typography
+      variant="body2"
+      color="text.secondary"
+      align="center"
+      {...props}
+    >
+      {"Copyright © "}
+      <Link color="inherit" href="https://altumlabs.co/">
+        PLANTALYSIS
+      </Link>{" "}
+      by Altum Labs.
+    </Typography>
+  );
+}
 
+const defaultTheme = createTheme();
+export default function SignInSide() {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    handleSignIn(email, password);
+    console.log("si entra");
+    const data = new FormData(event.currentTarget);
+    const formEmail = data.get("email")?.toString();
+    const formPassword = data.get("password")?.toString();
+    let actualEmail: string = "";
+    if (formEmail) {
+      actualEmail = formEmail;
+    }
+    let actualPassword: string = "";
+    if (formPassword) {
+      actualPassword = formPassword;
+    }
+    if (actualEmail == "") {
+      Error("Please insert a valid email");
+    }
+    if (actualPassword == "") {
+      Error("Please insert a valid password");
+    }
+    handleSignIn(actualEmail, actualPassword);
   };
 
   return (
-    <div>
-      <div className="spacer" style={{ padding: "40px" }}></div>
-      <form id="loginForm" onSubmit={handleSubmit} method="POST">
-        <h2>Welcome back.</h2>
-        <div className="lablebottom">
-          <label htmlFor="loginEmail" id="lablemargin">
-            Email
-          </label>
-          <input
-            type="email"
-            id="loginEmail"
-            name="loginEmail"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-        </div>
-        <div className="fieldanimation">
-          <label htmlFor="loginPassword" id="lablemargin">
-            Password
-          </label>
-          <input
-            type="password"
-            id="loginPassword"
-            name="loginPassword"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-        </div>
-        <div className="rememerandforgot">
-          <div>
-            <input type="checkbox" id="rememberMe" />
-            <label htmlFor="rememberMe">Remember me</label>
-          </div>
-          <div className="fpcolor">
-            <p>Forgot password?</p>
-          </div>
-        </div>
-        <div className="loginsub-animation">
-          <button type="submit">Log in</button>
-        </div>
-        <div className="or-separator">
-          <div className="or-line"></div>
-          <p className="or-text">or</p>
-          <div className="or-line"></div>
-        </div>
-        <div>
-          <button id="loginWithGoogle">
-            <img
-              src="assets/svg/google-logo.svg"
-              alt="Google Logo"
-              className="google-logo"
-            />
-            <span className="button-text">
-              <a href="/googleOAuth">Log in with Google</a>
-            </span>
-          </button>
-        </div>
-        <div className="dhave-animation">
-          <p className="dhaccount" style={{ paddingRight: "15px" }}>
-            Don't have an account?{" "}
-            <a href="/register" id="showSignupFormLink">
-              Sign up for free
-            </a>
-          </p>
-        </div>
-      </form>
-    </div>
+    <ThemeProvider theme={defaultTheme}>
+      <Grid container component="main" sx={{ height: "100vh" }}>
+        <CssBaseline />
+        <Grid
+          item
+          xs={false}
+          sm={4}
+          md={7}
+          sx={{
+            backgroundImage: `url(${background})`,
+            backgroundRepeat: "no-repeat",
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+            position: "relative", // Add relative position to the Grid item
+          }}
+        >
+          <Typography
+            component="h1"
+            variant="h3"
+            sx={{
+              position: "absolute",
+              top: "20%",
+              left: "20%",
+              transform: "translate(-50%, -50%)",
+              color: "white",
+              fontWeight: "bold",
+            }}
+          >
+            Log In
+          </Typography>
+        </Grid>
+        <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
+          <Box
+            sx={{
+              my: 8,
+              mx: 4,
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+          >
+            <Typography component="h1" variant="h5">
+              Welcome Back
+            </Typography>
+            Login to access your library.
+            <Box
+              component="form"
+              id="loginForm"
+              noValidate
+              onSubmit={handleSubmit}
+              method="POST"
+              sx={{ mt: 1 }}
+            >
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                id="email"
+                label="Email Address"
+                name="email"
+                autoComplete="email"
+                autoFocus
+              />
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                name="password"
+                label="Password"
+                type="password"
+                id="password"
+                autoComplete="current-password"
+              />
+              <FormControlLabel
+                control={<Checkbox value="remember" color="primary" />}
+                label="Remember me"
+              />
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                sx={{
+                  mt: 3,
+                  mb: 2,
+                  backgroundColor: "#CFAA41",
+                  color: "white",
+                  "&:hover": {
+                    backgroundColor: "#CFAA41", // Maintain the same background color on hover
+                  },
+                }}
+              >
+                Sign In
+              </Button>
+              <Grid container>
+                <Grid item xs>
+                  <Link href="#" variant="body2">
+                    Forgot password?
+                  </Link>
+                </Grid>
+                <Grid item>
+                  <Link href="#" variant="body2">
+                    {"Don't have an account? Sign Up"}
+                  </Link>
+                </Grid>
+              </Grid>
+              <Copyright sx={{ mt: 5 }} />
+            </Box>
+          </Box>
+        </Grid>
+      </Grid>
+    </ThemeProvider>
   );
-};
-export default Login;
+}

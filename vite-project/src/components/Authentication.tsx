@@ -17,6 +17,7 @@ export async function handleSignIn(
   email: string,
   password: string
 ): Promise<void> {
+  console.log("entra", email, password);
   try {
     const { data, error } = await supabase.auth.signInWithPassword({
       email: email,
@@ -26,8 +27,6 @@ export async function handleSignIn(
     if (error) {
       console.error(error);
     } else {
-      // const userType = data.user.user_metadata.get("type");
-
       const userType = await getUserType();
 
       switch (userType) {
@@ -41,7 +40,7 @@ export async function handleSignIn(
           window.location.href = "/upload";
           break;
         case "university":
-          window.location.href = "/landing"; //update
+          window.location.href = "/"; //update
           break;
         case "producer":
           window.location.href = "/landing"; //update
@@ -111,12 +110,24 @@ export async function handleSignUp(
   }
 }
 
-async function getUserType(): Promise<UserType | undefined | null> {
-  const { data, error } = await supabase.from("user").select("user_type");
-  if (data == null) {
-    Error("No user type found");
-    return data;
+async function getUserType(): Promise<UserType | null> {
+  console.log("starts getting type");
+  const user = await supabase.auth.getUser();
+  const id: string = user.data.user?.id ? user.data.user.id : "";
+  if (id == "") {
+    throw new Error("User ID cannot be undefined");
   }
+  const response = await supabase.from("user").select("user_type").eq("id", id);
+  console.log("hace request", response.data);
+
+  const data = response.data;
+  if (data && data.length > 0) {
+    const userType = data[0].user_type;
+    if (userType != null) {
+      return userType;
+    }
+  }
+  throw new Error("No user type found");
 }
 
 async function insertUser(userData: userData): Promise<void> {
