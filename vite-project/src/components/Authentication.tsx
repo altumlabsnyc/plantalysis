@@ -88,7 +88,7 @@ export async function handleSignUp(
         Error("User ID cannot be undefined");
       }
       userData.id = id;
-      insertUser(userData);
+      await insertUser(userData);
 
       if (labData) {
         labData.id = id;
@@ -104,12 +104,7 @@ export async function handleSignUp(
         const response = await supabase
           .from("university_user")
           .insert([eduData]);
-        if (response.error) {
-          console.log("unierror", error);
-        }
       }
-      console.log("paso?");
-      // window.location.href = "/login";
     }
   } catch (error) {
     console.log("error inserting user", error);
