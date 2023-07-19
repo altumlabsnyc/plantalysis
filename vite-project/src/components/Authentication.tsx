@@ -17,7 +17,6 @@ export async function handleSignIn(
   email: string,
   password: string
 ): Promise<void> {
-  console.log("entra", email, password);
   try {
     const { data, error } = await supabase.auth.signInWithPassword({
       email: email,
@@ -112,14 +111,12 @@ export async function handleSignUp(
 }
 
 async function getUserType(): Promise<UserType | null> {
-  console.log("starts getting type");
   const user = await supabase.auth.getUser();
   const id: string = user.data.user?.id ? user.data.user.id : "";
   if (id == "") {
     throw new Error("User ID cannot be undefined");
   }
   const response = await supabase.from("user").select("user_type").eq("id", id);
-  console.log("hace request", response.data);
 
   const data = response.data;
   if (data && data.length > 0) {

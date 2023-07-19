@@ -54,21 +54,12 @@ function Copyright(props: any) {
 const defaultTheme = createTheme();
 export default function SignInSide() {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    console.log("general user data", currentTab, generalUserData);
     event.preventDefault();
     const data = new FormData(event.currentTarget);
 
     // populate general Inputs:
     if (currentTab == 1) {
-      console.log("entra aca aja");
       handleGeneralInputsSubmit(data);
-      console.log("y sale con values", generalUserData);
-      if (selectedUser == "consumer") {
-        console.log("pasa?");
-        if (generalUserData) {
-          handleSignUp(generalUserData, password);
-        }
-      }
     }
 
     //populate additional inputs and submit all
@@ -96,14 +87,21 @@ export default function SignInSide() {
     if (pass != undefined) {
       setPassword(pass);
     }
-    setGeneralUserData({
+    const newGeneralUserData = {
       first_name: firstName,
       last_name: lastName,
       email: email,
       mfa_phone: phone,
       user_type: selectedUser ? selectedUser : null,
       id: "",
-    });
+    };
+
+    setGeneralUserData(newGeneralUserData);
+
+    // do signup straight ahead if this is the base user case
+    if (selectedUser == "consumer" && pass !== undefined) {
+      handleSignUp(newGeneralUserData, pass);
+    }
   }
 
   function handleAdditionalInputsSubmit(data: FormData) {
@@ -243,6 +241,7 @@ export default function SignInSide() {
     setSelectedUser(event.target.value as UserType);
   };
 
+  //useState variable declaration
   const [selectedUser, setSelectedUser] = React.useState<UserType>();
   const [currentTab, setCurrentTab] = React.useState(0);
   const [generalUserData, setGeneralUserData] = React.useState<userData>();
