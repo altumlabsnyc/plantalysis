@@ -104,6 +104,7 @@ export async function handleSignUp(
           .from("university_user")
           .insert([eduData]);
       }
+      window.location.href = "/login";
     }
   } catch (error) {
     console.log("error inserting user", error);

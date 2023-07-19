@@ -1,5 +1,24 @@
-import React, { useState, CSSProperties } from "react";
-// import "./UserTypes";
+import * as React from "react";
+import {
+  Radio,
+  RadioGroup,
+  FormControlLabel,
+  FormControl,
+  CssBaseline,
+  Button,
+  TextField,
+  Checkbox,
+  Link,
+  Paper,
+  Box,
+  Grid,
+  Typography,
+  createTheme,
+  ThemeProvider,
+} from "@mui/material";
+
+import background from "./assets/login/img/frame.png";
+
 import {
   userTypeFields,
   users,
@@ -14,165 +33,135 @@ import {
   prodUser,
 } from "./UserTypes";
 import { handleSignUp } from "./Authentication";
-import SignInSide from "./NEW /Register";
 
-const RegisterForm: React.FC = () => {
-  const [currentTab, setCurrentTab] = useState(0);
-  const [selectedUser, setSelectedUser] = useState<UserType | undefined>();
-  const [userInputs, setUserInputs] = useState<Map<Input, string>>(new Map());
-  const [baseUserData, setBaseUserData] = useState<userData>();
+function Copyright(props: any) {
+  return (
+    <Typography
+      variant="body2"
+      color="text.secondary"
+      align="center"
+      {...props}
+    >
+      {"Copyright © "}
+      <Link color="inherit" href="https://altumlabs.co/">
+        PLANTALYSIS
+      </Link>{" "}
+      by Altum Labs.
+    </Typography>
+  );
+}
 
-  const updateUserInputs = (inputType: Input, value: string) => {
-    userInputs.set(inputType, value);
-  };
+const defaultTheme = createTheme();
+export default function SignInSide() {
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    console.log("general user data", currentTab, generalUserData);
+    event.preventDefault();
+    const data = new FormData(event.currentTarget);
 
-  const [userDataValues, setUserDataValues] = useState<userData>();
-
-  const showTab = (n: number) => {
-    // Your showTab logic here
-  };
-
-  const nextPrev = (n: number) => {
-    if (currentTab == 2 || (currentTab == 1 && selectedUser == "consumer")) {
-      handleSubmit();
-    }
-    switch (n) {
-      case -1:
-        if (currentTab !== 0) {
-          setCurrentTab(currentTab - 1);
+    // populate general Inputs:
+    if (currentTab == 1) {
+      console.log("entra aca aja");
+      handleGeneralInputsSubmit(data);
+      console.log("y sale con values", generalUserData);
+      if (selectedUser == "consumer") {
+        console.log("pasa?");
+        if (generalUserData) {
+          handleSignUp(generalUserData, password);
         }
-        break;
-      case 1:
-        if (currentTab !== 2 && selectedUser !== "consumer") {
-          setCurrentTab(currentTab + 1);
-        } else if (currentTab !== 1 && selectedUser == "consumer") {
-          setCurrentTab(currentTab + 1);
-        }
-        break;
-      default:
-        Error("wrongInput to nextPrev:" + n.toString());
-    }
-  };
-
-  const validateForm = () => {
-    // Your form validation logic here
-  };
-
-  const fixStepIndicator = (n: number) => {
-    // Your fixStepIndicator logic here
-  };
-
-  const handleRadioButtonChange = (userType: UserType) => {
-    setSelectedUser(userType);
-  };
-
-  const showTabContent = (selectedOption: string) => {
-    // Your showTabContent logic here
-  };
-
-  const handleSubmit = () => {
-    let firstName: string | null = "";
-    let lastName: string | null = "";
-    let email: string | null = "";
-    let phone: string | null = "";
-    let password: string | null = "";
-    for (const [input, val] of userInputs) {
-      switch (input.id) {
-        case "firstName":
-          firstName = val ? val : null;
-          break;
-        case "lastName":
-          lastName = val ? val : null;
-        case "email":
-          email = val ? val : null;
-          break;
-        case "phone":
-          phone = val ? val : null;
-          break;
-        case "password":
-          password = val ? val : "";
-          break;
-        default:
-          Error("Wrong input name for base user");
       }
     }
-    const data: userData = {
+
+    //populate additional inputs and submit all
+    if (currentTab == 2) {
+      handleAdditionalInputsSubmit(data);
+    }
+
+    //pass to next tab if not done
+    if (
+      selectedUser !== undefined &&
+      (currentTab == 0 || (currentTab == 1 && selectedUser != "consumer"))
+    ) {
+      setCurrentTab(currentTab + 1);
+    }
+  };
+
+  //Filling out user data
+
+  function handleGeneralInputsSubmit(data: FormData) {
+    const firstName = data.get("firstName")?.toString() || null;
+    const lastName = data.get("lastName")?.toString() || null;
+    const email = data.get("email")?.toString() || null;
+    const phone = data.get("phone")?.toString() || null;
+    const pass = data.get("password")?.toString();
+    if (pass != undefined) {
+      setPassword(pass);
+    }
+    setGeneralUserData({
       first_name: firstName,
       last_name: lastName,
       email: email,
-      id: "",
-      user_type: selectedUser ? selectedUser : null,
       mfa_phone: phone,
-    };
-    switch (data.user_type) {
-      case "consumer":
-        handleSignUp(data, password);
-        break;
-      case "producer":
-        handleSignUp(
-          data,
-          password,
-          undefined,
-          undefined,
-          helperProdInfo(),
-          undefined
-        );
-        break;
-      case "university":
-        handleSignUp(
-          data,
-          password,
-          undefined,
-          undefined,
-          undefined,
-          helperEduInfo()
-        );
-        break;
-      case "lab":
-        handleSignUp(
-          data,
-          password,
-          helperLabInfo(),
-          undefined,
-          undefined,
-          undefined
-        );
-        break;
-      case "regulator":
-        handleSignUp(
-          data,
-          password,
-          undefined,
-          helperGovInfo(),
-          undefined,
-          undefined
-        );
-        break;
-    }
-  };
+      user_type: selectedUser ? selectedUser : null,
+      id: "",
+    });
+  }
 
-  function helperEduInfo(): eduUser {
-    const id = "";
-    let lab_address: string | null = "";
-    let primary_investigator: string | null = "",
-      university_department: string | null = "",
-      university_name: string | null = "";
-    for (const [input, val] of userInputs) {
-      switch (input.id) {
-        case "university_lab_address":
-          lab_address = val ? val : null;
+  function handleAdditionalInputsSubmit(data: FormData) {
+    if (generalUserData) {
+      switch (selectedUser) {
+        case "producer":
+          handleSignUp(
+            generalUserData,
+            password,
+            undefined,
+            undefined,
+            helperProdInfo(data),
+            undefined
+          );
           break;
-        case "primary_investigator":
-          primary_investigator = val ? val : null;
+        case "university":
+          handleSignUp(
+            generalUserData,
+            password,
+            undefined,
+            undefined,
+            undefined,
+            helperEduInfo(data)
+          );
           break;
-        case "university_department":
-          primary_investigator = val ? val : null;
+        case "lab":
+          handleSignUp(
+            generalUserData,
+            password,
+            helperLabInfo(data),
+            undefined,
+            undefined,
+            undefined
+          );
           break;
-        case "university_name":
-          university_name = val ? val : null;
+        case "regulator":
+          handleSignUp(
+            generalUserData,
+            password,
+            undefined,
+            helperGovInfo(data),
+            undefined,
+            undefined
+          );
           break;
       }
     }
+  }
+
+  function helperEduInfo(data: FormData): eduUser {
+    const id = "";
+    const lab_address = data.get("university_lab_address")?.toString() || null;
+    const primary_investigator =
+      data.get("primary_investigator")?.toString() || null;
+    const university_department =
+      data.get("university_department")?.toString() || null;
+    const university_name = data.get("university_name")?.toString() || null;
+
     let uniData: eduUser = {
       lab_address: lab_address,
       university_department: university_department,
@@ -183,42 +172,23 @@ const RegisterForm: React.FC = () => {
     return uniData;
   }
 
-  function helperProdInfo(): prodUser {
+  function helperProdInfo(data: FormData): prodUser {
     const id = "";
-    let billing_address: string | null = "";
-    let common_name: string | null = "";
-    let contact_phone: string | null = "";
-    let legal_name: string | null = "";
-    let license_number: string | null = "";
-    let license_type: "AUCC" | "AUCP" | "AUHC" | null = null;
-    let primary_facility_address: string | null = "";
-    for (const [input, val] of userInputs) {
-      switch (input.id) {
-        case "billing_address":
-          billing_address = val ? val : null;
-          break;
-        case "common_name":
-          common_name = val ? val : null;
-          break;
-        case "producer_contact_phone":
-          contact_phone = val ? val : null;
-          break;
-        case "legal_name":
-          legal_name = val ? val : null;
-          break;
-        case "producer_license_number":
-          license_number = val ? val : null;
-          break;
-        case "license_type":
-          license_type =
-            val && (val == "AUCC" || val == "AUCP" || val == "AUHC")
-              ? val
-              : null;
-          break;
-        case "primary_facility_address":
-          primary_facility_address = val ? val : null;
-      }
-    }
+    const primary_facility_address =
+      data.get("primary_facility_address")?.toString() || null;
+    const billing_address = data.get("billing_address")?.toString() || null;
+    const legal_name = data.get("legal_name")?.toString() || null;
+    const common_name = data.get("common_name")?.toString() || null;
+    const license_number =
+      data.get("producer_license_number")?.toString() || null;
+    const license_type = data.get("license_type")?.toString() || null;
+    // TODO: fix checkbox for license type instead of expecting that input
+    const actualLisenceType =
+      license_type == "AUCC" || license_type == "AUCP" || license_type == "AUHC"
+        ? license_type
+        : null;
+    const contact_phone =
+      data.get("producer_contact_phone")?.toString() || null;
     let prodData: prodUser = {
       primary_facility_address: primary_facility_address,
       billing_address: billing_address,
@@ -226,66 +196,40 @@ const RegisterForm: React.FC = () => {
       common_name: common_name,
       license_number: license_number,
       id: id,
-      license_type: license_type,
+      license_type: actualLisenceType,
       contact_phone: contact_phone,
     };
     return prodData;
   }
 
-  function helperLabInfo(): labUser {
+  function helperLabInfo(data: FormData): labUser {
     const id = "";
-    let lab_address: string | null = "";
-    let contact_phone: string | null = "";
-    let license_number: number | null = null;
-    let lab_name: string | null = "";
-    let owner_name: string | null = "";
-    for (const [input, val] of userInputs) {
-      switch (input.id) {
-        case "lab_address":
-          lab_address = val ? val : null;
-          break;
-        case "lab_contact_phone":
-          contact_phone = val ? val : null;
-          break;
-        case "lab_license_number":
-          license_number = val ? parseInt(val) : null;
-          break;
-        case "lab_name":
-          lab_name = val ? val : null;
-          break;
-        case "owner_name":
-          owner_name = val ? val : null;
-      }
-    }
+    const lab_address = data.get("lab_address")?.toString() || null;
+    const contact_phone = data.get("lab_contact_phone")?.toString() || null;
+    const license_number = data.get("lab_license_number")?.toString() || null;
+    const actualLicenseNumber = license_number
+      ? parseInt(license_number)
+      : null;
+    let lab_name = data.get("lab_name")?.toString() || null;
+    let owner_name = data.get("owner_name")?.toString() || null;
     let labData: labUser = {
       lab_address: lab_address,
       contact_phone: contact_phone,
       lab_name: lab_name,
       id: id,
       owner_name: owner_name,
-      license_number: license_number,
+      license_number: actualLicenseNumber,
     };
     return labData;
   }
 
-  function helperGovInfo(): govUser {
+  function helperGovInfo(data: FormData): govUser {
     const id = "";
-    let mailing_address: string | null = "";
-    let regulator_name: string | null = "",
-      contact_phone: string | null = "";
-    for (const [input, val] of userInputs) {
-      switch (input.id) {
-        case "mailing_address":
-          mailing_address = val ? val : null;
-          break;
-        case "regulator_name":
-          regulator_name = val ? val : null;
-          break;
-        case "regulator_contact_phone":
-          contact_phone = val ? val : null;
-          break;
-      }
-    }
+    const mailing_address = data.get("mailing_address")?.toString() || null;
+    const regulator_name = data.get("regulator_name")?.toString() || null;
+    const contact_phone =
+      data.get("regulator_contact_phone")?.toString() || null;
+
     let govData: govUser = {
       mailing_address: mailing_address,
       regulator_name: regulator_name,
@@ -295,58 +239,130 @@ const RegisterForm: React.FC = () => {
     return govData;
   }
 
-  // return SignInSide();
+  const handleSelectingUser = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSelectedUser(event.target.value as UserType);
+  };
+
+  const [selectedUser, setSelectedUser] = React.useState<UserType>();
+  const [currentTab, setCurrentTab] = React.useState(0);
+  const [generalUserData, setGeneralUserData] = React.useState<userData>();
+  const [password, setPassword] = React.useState<string>("");
+
   return (
-    <div className="signup-container" style={{ display: "flex" }}>
-      <div
-        id="signupFormContainer"
-        style={{ display: "block" }}
-        className="signform-container"
-      >
-        <div className="board">
-          <div className="board-back">
-            <div className="board-details">
-              <h3>Welcome to Altum.</h3>
-              <h1>
-                Create a new <br />
-                account.
-              </h1>
-              <p>
-                Using artificial intelligence and robotics, we test
-                non-FDA-regulated products for wellness brands and enable them
-                to quickly, affordably, and easily relay product information to
-                consumers and regulators.
-              </p>
-            </div>
-          </div>
-        </div>
-        <div className="centersignform">
-          <form
-            id="signupForm"
-            onSubmit={handleSubmit}
-            action="/register/"
-            method="POST"
+    <ThemeProvider theme={defaultTheme}>
+      <Grid container component="main" sx={{ height: "100vh" }}>
+        <CssBaseline />
+        <Grid
+          item
+          xs={false}
+          sm={4}
+          md={7}
+          sx={{
+            backgroundImage: `url(${background})`,
+            backgroundRepeat: "no-repeat",
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+            position: "relative", // Add relative position to the Grid item
+          }}
+        >
+          <Typography
+            component="h1"
+            variant="h3"
+            sx={{
+              position: "absolute",
+              top: "20%",
+              left: "20%",
+              transform: "translate(-50%, -50%)",
+              color: "white",
+              fontWeight: "bold",
+            }}
           >
-            <div className="container-fluid p-0" style={{ paddingTop: "20px" }}>
-              <div className="alert" role="alert">
-                {/* Messages should be rendered dynamically using JavaScript */}
-              </div>
-            </div>
-            {currentTab === 0 && (
-              <div className="tab">
-                <div className="radio-buttons">
-                  <div className="radio-group">
-                    <label htmlFor="gender" id="lablemargin">
-                      Who are you?
-                    </label>
-                    {users.map((user) => (
-                      <div className="radiobflex">
-                        <div className="rdbwidth">
-                          <label id="radio-buttons">
+            Join Us
+          </Typography>
+        </Grid>
+        <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
+          <Box
+            sx={{
+              my: 8,
+              mx: 4,
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+          >
+            {currentTab == 0 && (
+              <Typography component="h1" variant="h4">
+                Who are you?
+              </Typography>
+            )}
+            {currentTab == 1 ||
+              (currentTab == 2 && (
+                <div>
+                  <Typography component="h1" variant="h5">
+                    Create an account
+                  </Typography>
+                  <Typography component="h1" variant="body2">
+                    Already have an account?{" "}
+                    <a href="/login" id="showLoginFormLink">
+                      Log in
+                    </a>
+                  </Typography>
+                </div>
+              ))}
+            <Box
+              component="form"
+              noValidate
+              onSubmit={handleSubmit}
+              sx={{ mt: 1 }}
+            >
+              {currentTab == 0 && (
+                <RadioGroup
+                  value={selectedUser}
+                  onChange={handleSelectingUser}
+                  sx={{
+                    alignItems: "left",
+                  }}
+                >
+                  {users.map((user) => (
+                    <Box
+                      display="flex"
+                      alignItems="left"
+                      sx={{
+                        my: 1,
+                        mx: 4,
+                        display: "flex",
+                        flexDirection: "row",
+                        alignItems: "left",
+                        border: "1px solid #000",
+                      }}
+                    >
+                      <FormControlLabel
+                        key={user.name}
+                        value={user.userType}
+                        control={<Radio />}
+                        labelPlacement="end"
+                        sx={{
+                          my: 2,
+                          mx: 2,
+                          display: "flex",
+                          flexDirection: "row",
+                          alignItems: "center",
+                        }}
+                        label={
+                          <Box
+                            sx={{
+                              mx: 2,
+                              my: 2,
+                              // border: "1px solid #000",
+                              flexDirection: "row",
+                              display: "flex",
+                              alignItems: "center",
+                            }}
+                          >
                             <img
                               src={`./src/components/assets/svg/${user.code}.svg`}
-                              alt={`${user.code}.svg`}
-                              style={{ height: "90%", width: "10%" }}
+                              alt={user.code}
+                              style={{ height: "8%", width: "8%" }}
                             />
                             <input
                               type="radio"
@@ -356,105 +372,85 @@ const RegisterForm: React.FC = () => {
                               style={{ visibility: "hidden" }}
                               onChange={() => setSelectedUser(user.userType)}
                             />
-                            I'm a {user.name}.
-                          </label>
-                        </div>
+
+                            <span style={{ marginLeft: 4 }}>
+                              {
+                                <Typography component="p" variant="h5">
+                                  {user.name}
+                                </Typography>
+                              }
+                            </span>
+                          </Box>
+                        }
+                      />
+                    </Box>
+                  ))}
+                </RadioGroup>
+              )}
+
+              {currentTab == 1 && (
+                <div>
+                  <Typography variant="h5">{selectedUser}</Typography>
+                  {generalInputs.map((input) => (
+                    <TextField
+                      margin="normal"
+                      required
+                      fullWidth
+                      id={input.id}
+                      label={input.name}
+                      name={input.id}
+                      autoComplete={`Enter your ${input.name.toLowerCase()}`}
+                      autoFocus
+                    />
+                  ))}
+                </div>
+              )}
+              {currentTab == 2 && (
+                <div>
+                  <Typography variant="h5">{selectedUser}</Typography>
+                  {users
+                    .filter((user) => selectedUser === user.userType)
+                    .map((user) => (
+                      <div>
+                        {user.inputs?.map((input) => (
+                          <TextField
+                            margin="normal"
+                            required
+                            fullWidth
+                            id={input.id}
+                            label={input.name}
+                            name={input.id}
+                            autoComplete={`Enter your ${input.name.toLowerCase()}`}
+                            autoFocus
+                          />
+                        ))}
                       </div>
                     ))}
-                  </div>
                 </div>
-              </div>
-            )}
-            {currentTab === 1 && (
-              <div className="tab">
-                <h2>Get started</h2>
-                <p className="alamlink">
-                  Already a member?{" "}
-                  <a href="/login" id="showLoginFormLink">
-                    Log in
-                  </a>
-                </p>
-                {generalInputs.map((userInput) => (
-                  <div>
-                    <label
-                      htmlFor={userInput.id}
-                      id="lablemargin"
-                      className="required-all"
-                    >
-                      {userInput.name}
-                    </label>
-                    <input
-                      type={userInput.type}
-                      id={userInput.id}
-                      name={userInput.id}
-                      value={userInputs.get(userInput)}
-                      onChange={(e) =>
-                        updateUserInputs(userInput, e.target.value)
-                      }
-                      placeholder={`Enter your ${userInput.name.toLowerCase()}`}
-                      required
-                    />
-                  </div>
-                ))}
-              </div>
-            )}
-            {currentTab == 2 && (
-              <div className="tab">
-                {users
-                  .filter((user) => selectedUser === user.userType)
-                  .map((user) => (
-                    <div id={`content${user.code}`} className="tab-content">
-                      {user.inputs?.map((userInput) => (
-                        <div>
-                          <label htmlFor={userInput.id} id="lablemargin">
-                            {userInput.name}
-                          </label>
-                          <input
-                            type={userInput.type}
-                            id={`${user.code}-${userInput.id}`}
-                            name={userInput.id}
-                            placeholder={`Enter your ${userInput.name.toLowerCase()}`}
-                            value={userInputs.get(userInput)}
-                            onChange={(e) =>
-                              updateUserInputs(userInput, e.target.value)
-                            }
-                            required
-                          />
-                        </div>
-                      ))}
-                    </div>
-                  ))}
-              </div>
-            )}
-            <div
-              style={{
-                textAlign: "center",
-                marginTop: "40px",
-                paddingBottom: "40px",
-              }}
-            >
-              <span className="step"></span>
-              <span className="step"></span>
-              <span className="step"></span>
-            </div>
-          </form>
-          <div style={{ overflow: "auto", textAlign: "center" }}>
-            <button
-              type="button"
-              id="prevBtn"
-              // style={currentTab === 0 ? "block" : "none"}
-              onClick={() => nextPrev(-1)}
-            >
-              Previous
-            </button>
-            <button type="button" id="nextBtn" onClick={() => nextPrev(1)}>
-              Next
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-};
+              )}
 
-export default RegisterForm;
+              <Button
+                type="submit"
+                variant="contained"
+                sx={{
+                  mt: 3,
+                  alignItems: "right",
+                  mb: 2,
+                  backgroundColor: "#CFAA41",
+                  color: "white",
+                  "&:hover": {
+                    backgroundColor: "#CFAA41", // Maintain the same background color on hover
+                  },
+                }}
+              >
+                Continue
+              </Button>
+
+              <Copyright sx={{ mt: 5 }} />
+            </Box>
+          </Box>
+        </Grid>
+      </Grid>
+    </ThemeProvider>
+  );
+}
