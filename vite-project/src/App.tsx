@@ -11,6 +11,7 @@ import PlaceOrder from "./components/producer/PlaceNewOrder";
 import { useState, useEffect } from "react";
 import { supabase } from "./components/Authentication";
 import { Session } from "@supabase/supabase-js";
+import ProtectedRoute from "./ProtectedRoute";
 
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
@@ -33,7 +34,12 @@ function App() {
         <Route path="/login" component={Login} />
         <Route path="/register" component={Register} />
         <Route path="/upload" component={Upload} />
-        <Route path="/regulator" component={Regulator} />
+        <ProtectedRoute
+          path="/regulator"
+          component={Regulator}
+          session={session}
+          redirectPath="/login"
+        />
         <Route path="/faq" component={Faq} />
         <Route path="/library" component={Library} />
         <Route path="/stripe" component={Stripe} />
