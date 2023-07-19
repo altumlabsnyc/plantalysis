@@ -5,7 +5,7 @@ import Regulator from "./components/Regulator";
 import Landing from "./components/Landing";
 import Faq from "./components/Faq";
 import Library from "./components/Library";
-import Stripe from "./components/producer/Stripe";
+import Stripe from "./components/Stripe";
 import PlaceOrder from "./components/producer/PlaceNewOrder";
 
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
