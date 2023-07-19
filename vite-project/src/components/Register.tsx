@@ -396,6 +396,7 @@ export default function SignInSide() {
                       required
                       fullWidth
                       id={input.id}
+                      type={input.type}
                       label={input.name}
                       name={input.id}
                       autoComplete={`Enter your ${input.name.toLowerCase()}`}
