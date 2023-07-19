@@ -1,13 +1,5 @@
 import { Database } from "../types/supabase";
 
-// export enum UserType {
-//   Base = "Base",
-//   Producer = "Producer",
-//   Regulator = "Regulator",
-//   University = "University",
-//   Lab = "Lab",
-// }
-
 export type UserType = Database["public"]["Enums"]["user_type_enum"];
 
 export interface userTypeFields {
@@ -30,6 +22,7 @@ export interface Input {
 // Database['public']['Tables']['lab_user'];
 
 export type userData = Database["public"]["Tables"]["user"]["Row"];
+export type LabOrder = Database["public"]["Tables"]["lab_order"]["Row"];
 
 //all user types
 export type govUser = Database["public"]["Tables"]["regulator_user"]["Row"];
@@ -132,4 +125,14 @@ export const generalInputs: Array<Input> = [
   { name: "Email", id: "email", type: "email" },
   { name: "Password", id: "password", type: "password" },
   { name: "Phone Number", id: "phone", type: "tel" },
+];
+
+export const labOrderInputs: Array<Input> = [
+  { name: "Pickup location of the order", id: "location", type: "text" },
+  { name: "Pickup date", id: "pickup_date", type: "date" },
+  {
+    name: "Please write a description of the strain",
+    id: "strain_info",
+    type: "text",
+  },
 ];
