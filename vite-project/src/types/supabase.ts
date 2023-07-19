@@ -13,18 +13,21 @@ export interface Database {
         Row: {
           finished_at: string
           id: string
+          regulator_approved: boolean
           run_id: string
           started_at: string | null
         }
         Insert: {
           finished_at?: string
           id?: string
+          regulator_approved?: boolean
           run_id: string
           started_at?: string | null
         }
         Update: {
           finished_at?: string
           id?: string
+          regulator_approved?: boolean
           run_id?: string
           started_at?: string | null
         }
@@ -40,19 +43,19 @@ export interface Database {
       batch: {
         Row: {
           brand_id: string
-          facility_id: string
+          facility_id: string | null
           id: string
           weight: number | null
         }
         Insert: {
           brand_id: string
-          facility_id: string
+          facility_id?: string | null
           id?: string
           weight?: number | null
         }
         Update: {
           brand_id?: string
-          facility_id?: string
+          facility_id?: string | null
           id?: string
           weight?: number | null
         }
@@ -73,33 +76,30 @@ export interface Database {
       }
       brand: {
         Row: {
-          facility_id: string | null
           id: string
+          image_path: string | null
           name: string
-          producer_id: string
+          producer_user_id: string
+          serving_size: number | null
         }
         Insert: {
-          facility_id?: string | null
           id?: string
+          image_path?: string | null
           name: string
-          producer_id: string
+          producer_user_id: string
+          serving_size?: number | null
         }
         Update: {
-          facility_id?: string | null
           id?: string
+          image_path?: string | null
           name?: string
-          producer_id?: string
+          producer_user_id?: string
+          serving_size?: number | null
         }
         Relationships: [
           {
-            foreignKeyName: "brand_facility_id_fkey"
-            columns: ["facility_id"]
-            referencedRelation: "facility"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "brand_producer_id_fkey"
-            columns: ["producer_id"]
+            foreignKeyName: "brand_producer_user_id_fkey"
+            columns: ["producer_user_id"]
             referencedRelation: "producer_user"
             referencedColumns: ["id"]
           }
@@ -222,6 +222,37 @@ export interface Database {
         }
         Relationships: []
       }
+      lab_order: {
+        Row: {
+          analysis_id: string | null
+          id: string
+          location: string | null
+          pickup_date: string | null
+          strain_info: string | null
+        }
+        Insert: {
+          analysis_id?: string | null
+          id?: string
+          location?: string | null
+          pickup_date?: string | null
+          strain_info?: string | null
+        }
+        Update: {
+          analysis_id?: string | null
+          id?: string
+          location?: string | null
+          pickup_date?: string | null
+          strain_info?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "lab_order_analysis_id_fkey"
+            columns: ["analysis_id"]
+            referencedRelation: "analysis"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
       lab_user: {
         Row: {
           contact_phone: string | null
@@ -258,18 +289,21 @@ export interface Database {
       }
       lot: {
         Row: {
-          batch_id: string
+          batch_id: string | null
           id: string
+          lab_order_id: string
           lot_weight: number
         }
         Insert: {
-          batch_id: string
+          batch_id?: string | null
           id?: string
+          lab_order_id: string
           lot_weight: number
         }
         Update: {
-          batch_id?: string
+          batch_id?: string | null
           id?: string
+          lab_order_id?: string
           lot_weight?: number
         }
         Relationships: [
@@ -278,32 +312,84 @@ export interface Database {
             columns: ["batch_id"]
             referencedRelation: "batch"
             referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "lot_lab_order_id_fkey"
+            columns: ["lab_order_id"]
+            referencedRelation: "lab_order"
+            referencedColumns: ["id"]
           }
         ]
       }
       molecule: {
         Row: {
-          external_id: string | null
+          boiling_point: number | null
+          chromatography_type:
+            | Database["public"]["Enums"]["molecule_chromatography_type"]
+            | null
+          common_name: string | null
           id: string
+          index: number | null
+          "m/z": number | null
+          melting_point: number | null
+          molecular_weight: number | null
+          molecule_wiki_id: string | null
           name: string | null
+          retention_time: number | null
           smiles: string | null
-          spectrum: string | null
+          spec_energy: number | null
+          spectrum: Database["public"]["Enums"]["molecule_spectrum"] | null
+          standard_intensity: number | null
+          type: Database["public"]["Enums"]["molecule_type"] | null
         }
         Insert: {
-          external_id?: string | null
+          boiling_point?: number | null
+          chromatography_type?:
+            | Database["public"]["Enums"]["molecule_chromatography_type"]
+            | null
+          common_name?: string | null
           id?: string
+          index?: number | null
+          "m/z"?: number | null
+          melting_point?: number | null
+          molecular_weight?: number | null
+          molecule_wiki_id?: string | null
           name?: string | null
+          retention_time?: number | null
           smiles?: string | null
-          spectrum?: string | null
+          spec_energy?: number | null
+          spectrum?: Database["public"]["Enums"]["molecule_spectrum"] | null
+          standard_intensity?: number | null
+          type?: Database["public"]["Enums"]["molecule_type"] | null
         }
         Update: {
-          external_id?: string | null
+          boiling_point?: number | null
+          chromatography_type?:
+            | Database["public"]["Enums"]["molecule_chromatography_type"]
+            | null
+          common_name?: string | null
           id?: string
+          index?: number | null
+          "m/z"?: number | null
+          melting_point?: number | null
+          molecular_weight?: number | null
+          molecule_wiki_id?: string | null
           name?: string | null
+          retention_time?: number | null
           smiles?: string | null
-          spectrum?: string | null
+          spec_energy?: number | null
+          spectrum?: Database["public"]["Enums"]["molecule_spectrum"] | null
+          standard_intensity?: number | null
+          type?: Database["public"]["Enums"]["molecule_type"] | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "molecule_molecule_wiki_id_fkey"
+            columns: ["molecule_wiki_id"]
+            referencedRelation: "molecule_wiki"
+            referencedColumns: ["id"]
+          }
+        ]
       }
       molecule_on_effect: {
         Row: {
@@ -369,6 +455,24 @@ export interface Database {
             referencedColumns: ["id"]
           }
         ]
+      }
+      molecule_wiki: {
+        Row: {
+          id: string
+          legal_limit: number | null
+          state: string | null
+        }
+        Insert: {
+          id?: string
+          legal_limit?: number | null
+          state?: string | null
+        }
+        Update: {
+          id?: string
+          legal_limit?: number | null
+          state?: string | null
+        }
+        Relationships: []
       }
       plant: {
         Row: {
@@ -805,6 +909,32 @@ export interface Database {
     }
     Enums: {
       license_type_enum: "AUCC" | "AUCP" | "AUHC"
+      molecule_chromatography_type:
+        | "LC-MS/MS"
+        | "UPLC"
+        | "HPLC"
+        | "LC-MS,1"
+        | "LC-MS,2"
+      molecule_spectrum:
+        | "GC-MS"
+        | "LC-MS/MS"
+        | "Cayman MS"
+        | "GC-MS,1"
+        | "GC-MS,2"
+        | "GC-MS,3"
+        | "MS-MS,1"
+        | "MS-MS,2"
+        | "LC-MS,1"
+        | "LC-MS,2"
+      molecule_type:
+        | "Cannabinoids"
+        | "Terpenes"
+        | "Flavinoids"
+        | "Phenols"
+        | "Pesticides"
+        | "Solvents"
+        | "Metals"
+        | "Others"
       user_type_enum:
         | "consumer"
         | "regulator"

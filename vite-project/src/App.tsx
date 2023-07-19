@@ -5,6 +5,7 @@ import Regulator from "./components/Regulator";
 import Landing from "./components/Landing";
 import Faq from "./components/Faq";
 import Library from "./components/Library";
+import PlaceOrder from "./components/producer/PlaceNewOrder";
 
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
@@ -19,6 +20,7 @@ function App() {
         <Route path="/regulator" component={Regulator} />
         <Route path="/faq" component={Faq} />
         <Route path="/library" component={Library} />
+        <Route path="/new-order" component={PlaceOrder} />
       </Switch>
     </Router>
   );
