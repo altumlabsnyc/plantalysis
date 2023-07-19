@@ -1,5 +1,5 @@
 import Login from "./components/Login";
-import Register from "./components/Register";
+import Register from "./components/NEW /Register";
 import Upload from "./components/Upload";
 import Regulator from "./components/Regulator";
 import Landing from "./components/Landing";

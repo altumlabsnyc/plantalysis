@@ -95,31 +95,31 @@ export const userSpecificInputs: Map<UserType, Array<Input>> = new Map([
 
 export const users: Array<userTypeFields> = [
   {
-    name: "university/researcher",
+    name: "University/Research",
     code: "edu",
     inputs: userSpecificInputs.get("university"),
     userType: "university",
   },
   {
-    name: "lab",
+    name: "Lab owner",
     code: "lab",
     inputs: userSpecificInputs.get("lab"),
     userType: "lab",
   },
   {
-    name: "producer",
+    name: "Producer",
     code: "leaf",
     inputs: userSpecificInputs.get("producer"),
     userType: "producer",
   },
   {
-    name: "regulator",
+    name: "Regulator",
     code: "gov",
     inputs: userSpecificInputs.get("regulator"),
     userType: "regulator",
   },
   {
-    name: "individual consumer",
+    name: "Base User",
     code: "person",
     inputs: userSpecificInputs.get("consumer"),
     userType: "consumer",

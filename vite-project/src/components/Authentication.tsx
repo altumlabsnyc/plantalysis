@@ -43,7 +43,7 @@ export async function handleSignIn(
           window.location.href = "/"; //update
           break;
         case "producer":
-          window.location.href = "/landing"; //update
+          window.location.href = "/"; //update
           break;
         default:
           window.location.href = "/login";

@@ -1,5 +1,5 @@
 import React, { useState, CSSProperties } from "react";
-import "./UserTypes";
+// import "./UserTypes";
 import {
   userTypeFields,
   users,
@@ -14,6 +14,7 @@ import {
   prodUser,
 } from "./UserTypes";
 import { handleSignUp } from "./Authentication";
+import SignInSide from "./NEW /Register";
 
 const RegisterForm: React.FC = () => {
   const [currentTab, setCurrentTab] = useState(0);
@@ -294,6 +295,7 @@ const RegisterForm: React.FC = () => {
     return govData;
   }
 
+  // return SignInSide();
   return (
     <div className="signup-container" style={{ display: "flex" }}>
       <div
