@@ -1,4 +1,7 @@
 import namor from '@ggascoigne/namor'
+import { createClient, SupabaseClient } from "@supabase/supabase-js";
+import { SUPABASE_KEY, SUPABASE_URL } from "./../../../Constants";
+import { supabase } from '../../../Authentication';
 
 export type Person = {
   firstName: string
@@ -7,6 +10,23 @@ export type Person = {
   visits: number
   progress: number
   status: string
+}
+
+export type ApprovePendingRow = {
+  // for now lab_order and analysis 1 to 1 mapping
+  producerCommonName: string
+  labOrderId: string
+  // brand: string
+  // TODO convert to molecule common name
+  predictionMoleculeId: string
+  cocentration: number
+}
+
+export type MoleculePrediction = {
+  moleculeId: string
+  moleculeName: string
+  moleculeCommonName: string
+  concentration: number
 }
 
 const range = (len: number) => {
@@ -29,6 +49,31 @@ const newPerson = (): Person => {
   }
 }
 
+const MOLECULE_LIST: Array<MoleculePrediction> = [
+  {
+    moleculeId: '0',
+    moleculeName: 'Tetrahydrocannabinol',
+    moleculeCommonName: 'THC',
+    concentration: 90
+  },
+  {
+    moleculeId: '1',
+    moleculeName: 'Cannabidivarin',
+    moleculeCommonName: 'CBDV',
+    concentration: 90
+  },
+  {
+    moleculeId: '2',
+    moleculeName: 'Cannabidiol',
+    moleculeCommonName: 'CBD',
+    concentration: 90
+  }
+]
+
+const newMoleculePrediction = (): MoleculePrediction => {
+  return MOLECULE_LIST[Math.floor(Math.random() * MOLECULE_LIST.length)]
+}
+
 export type PersonData = Person & {
   subRows?: PersonData[]
 }
@@ -43,4 +88,17 @@ export function makeData(...lens: number[]): PersonData[] {
   }
 
   return makeDataLevel()
+}
+
+export function makeMoleculePredictionData(len: number): MoleculePrediction[] {
+  return range(len).map(() => newMoleculePrediction())
+}
+
+export async function fetchRows() {
+  const { data, error } = await supabase
+                            .from('lab_order')
+                            .select(`
+                              id,
+
+                            `)
 }

@@ -1,10 +1,11 @@
 import { Button, CssBaseline, InputLabel, MenuItem, TextField } from '@material-ui/core'
 import React, { useCallback } from 'react'
 import { CellProps, FilterProps, FilterValue, IdType, Row, TableInstance } from 'react-table'
+import {Popover, Typography} from '@material-ui/core'
 
 import { Page } from './regulator/Page'
 import { Table } from './regulator/Table'
-import { PersonData, makeData } from './regulator/utils'
+import { PersonData, makeData, MoleculePrediction, makeMoleculePredictionData } from './regulator/utils'
 
 // This is a custom aggregator that
 // takes in an array of values and
@@ -180,6 +181,25 @@ function NumberRangeColumnFilter({
   )
 }
 
+const moleculePredictionColumns = [
+  {
+    Header: 'Molecule ID',
+    accessor: 'moleculeId'
+  },
+  {
+    Header: 'Molecule Name',
+    accessor: 'moleculeName'
+  },
+  {
+    Header: 'Molecule Common Name',
+    accessor: 'moleculeCommonName'
+  },
+  {
+    Header: 'Concentration',
+    accessor: 'concentration'
+  }
+]
+
 const columns = [
   {
     Header: 'Name',
@@ -247,6 +267,23 @@ const columns = [
 
 const Regulator: React.FC = () => {
   const [data] = React.useState<PersonData[]>(() => makeData(100))
+  const [moleculePredictionData] = React.useState<MoleculePrediction[]>(() => makeMoleculePredictionData(3))
+  
+  const [anchorEl, setAnchorEl] = React.useState<HTMLElement | null>(null);
+
+  const handlePopoverOpen = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handlePopoverClose = () => {
+    setAnchorEl(null);
+  };
+
+  const open = Boolean(anchorEl)
+  console.log(open)
 
   const dummy = useCallback(
     (instance: TableInstance<PersonData>) => () => {
@@ -260,6 +297,39 @@ const Regulator: React.FC = () => {
 
   return (
     <Page>
+      <Popover
+        id="mouse-over-popover"
+        sx={{
+          pointerEvents: 'none',
+        }}
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'center',
+        }}
+        transformOrigin={{
+          vertical: 'top',
+          horizontal: 'center',
+        }}
+        open={open}
+        anchorEl={anchorEl}
+        onClose={handlePopoverClose}
+        disableRestoreFocus
+      >
+        <>
+          <Table<MoleculePrediction>
+            name={'testTable'}
+            columns={moleculePredictionColumns}
+            data={moleculePredictionData}
+            onAdd={dummy}
+            onEdit={dummy}
+            onDelete={dummy}
+            hideToolBar={true}
+            disableSelection={true}
+            disablePagination={true}
+            disableGroupBy={true}
+          />
+        </>
+      </Popover>
       <CssBaseline />
       <Table<PersonData>
         name={'testTable'}
@@ -268,6 +338,16 @@ const Regulator: React.FC = () => {
         onAdd={dummy}
         onEdit={dummy}
         onDelete={dummy}
+        // rowProps={row => ({
+        //   onClick: () => console.log('aaaa'),
+        // })}
+        onClick={(_, e) => {
+          if(e && e.currentTarget && e.currentTarget.parentElement) {
+            e.currentTarget = e.currentTarget.parentElement
+          }
+          handleClick(e)
+        }}
+        enableDebug={true}
       />
     </Page>
   )
