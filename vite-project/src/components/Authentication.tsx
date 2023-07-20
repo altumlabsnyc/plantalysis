@@ -11,7 +11,15 @@ import {
 } from "./UserTypes";
 import { Database } from "../types/supabase";
 
-const supabase = createClient<Database>(SUPABASE_URL, SUPABASE_KEY);
+import {
+  createContext,
+  useState,
+  useEffect,
+  ReactNode,
+  useContext,
+} from "react";
+
+export const supabase = createClient<Database>(SUPABASE_URL, SUPABASE_KEY);
 
 export async function handleSignIn(
   email: string,
@@ -42,7 +50,7 @@ export async function handleSignIn(
           window.location.href = "/"; //update
           break;
         case "producer":
-          window.location.href = "/"; //update
+          window.location.href = "/new-order"; //update
           break;
         default:
           window.location.href = "/login";
@@ -132,4 +140,22 @@ async function insertUser(userData: userData): Promise<void> {
   const { data, error } = await supabase.from("user").insert([userData]);
   if (error) {
   }
+}
+
+export async function getUserInfo(): Promise<userData> {
+  const user = await supabase.auth.getUser();
+  const id: string = user.data.user?.id ? user.data.user.id : "";
+  if (id == "") {
+    throw new Error("User ID cannot be undefined");
+  }
+  const response = await supabase.from("user").select("*").eq("id", id);
+
+  const data = response.data;
+  if (data && data.length > 0) {
+    const userInfo = data[0];
+    if (userInfo != null) {
+      return userInfo;
+    }
+  }
+  throw new Error("No user type found");
 }

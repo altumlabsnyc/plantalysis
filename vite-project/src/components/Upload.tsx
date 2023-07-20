@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { DropzoneArea } from 'material-ui-dropzone';
 import './assets/css/upload/bootstrap.min.css';
 import './assets/css/upload/upload.css';
 import './assets/css/upload/fileinput.min.css';
@@ -26,15 +27,19 @@ const Upload: React.FC = () => {
               <div className="file-upload-contain">
                 <div className="file-input theme-explorer-fas file-input-ajax-new">
                   <div className="file-preview">
-                    <div className="file-drop-zone clickable" tabIndex={-1}>
-                      <div className="file-drop-zone-title">
                         <div className="upload-area">
-                          <p>Browse or drag .MZXML</p>
+                          
                           <div>
-                            <button>Browse File(s)</button>
+                            <DropzoneArea
+                              acceptedFiles={['.mzML']}
+                              maxFileSize={3*1000*1000*1000}
+                              filesLimit={10}
+                              showFileNamesInPreview
+                              useChipsForPreview
+                              dropzoneText={'Drag and drop .mzML files here or Click to browse'}
+                              onChange={(files) => console.log('Files:', files)}
+                            />
                           </div>
-                        </div>
-                      </div>
                     </div>
                   </div>
                 </div>

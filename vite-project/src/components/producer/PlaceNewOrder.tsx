@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Radio,
   RadioGroup,
@@ -19,8 +19,11 @@ import {
 
 import background from "../assets/login/img/frame.png";
 
-import { labOrderInputs, LabOrder } from "../UserTypes";
-import { handleSignUp } from "../Authentication";
+import { Session } from "@supabase/supabase-js";
+import { supabase } from "../Authentication";
+
+import { labOrderInputs, LabOrder, userData, labUser } from "../UserTypes";
+import { handleSignUp, getUserInfo } from "../Authentication";
 
 function Copyright(props: any) {
   return (
@@ -39,8 +42,12 @@ function Copyright(props: any) {
   );
 }
 
+interface SessionProps {
+  session: Session | null;
+}
+
 const defaultTheme = createTheme();
-export default function SignInSide() {
+export default function PlaceNewOrder({ session }: SessionProps) {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -67,6 +74,34 @@ export default function SignInSide() {
     return labOrder;
   }
 
+  const [loading, setLoading] = useState(true);
+  const [generalUserData, setGeneralUserData] = useState<userData | null>(null);
+
+  useEffect(() => {
+    async function getProfile() {
+      setLoading(true);
+      if (session) {
+        const { user } = session;
+
+        let { data, error } = await supabase
+          .from("user")
+          .select("*")
+          .eq("id", user.id)
+          .single();
+
+        if (error) {
+          console.warn(error);
+        } else if (data) {
+          setGeneralUserData(data);
+        }
+
+        setLoading(false);
+      }
+    }
+
+    getProfile();
+  }, [session]);
+
   return (
     <ThemeProvider theme={defaultTheme}>
       <CssBaseline />
@@ -81,7 +116,7 @@ export default function SignInSide() {
         }}
       >
         <Typography component="h1" variant="h5">
-          Place a new order
+          Place a new order {generalUserData?.first_name}
         </Typography>
 
         <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
