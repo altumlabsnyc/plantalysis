@@ -294,3 +294,5 @@ export async function fetchAnalyzedOrders(): Promise<Array<ForApproval>> {
   console.log(forApproval);
   return forApproval;
 }
+
+export async function claimNewOrders(orderIds: Array<string>): Promise<void> {}
