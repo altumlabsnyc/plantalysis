@@ -130,6 +130,7 @@ export const generalInputs: Array<Input> = [
 export const labOrderInputs: Array<Input> = [
   { name: "Pickup location of the order", id: "location", type: "text" },
   { name: "Pickup date", id: "pickup_date", type: "date" },
+  { name: "Brand name", id: "brand_name", type: "text" },
   {
     name: "Please write a description of the strain",
     id: "strain_info",
