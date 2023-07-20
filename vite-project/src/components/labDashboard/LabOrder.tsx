@@ -136,6 +136,7 @@ export default function ClaimOrders({ session }: SessionProps) {
                   <div className="d-flex align-items-center justify-content-between small">
                     <div className="text-muted">
                       Copyright &copy; PLANTALYSIS by Altum Labs 2023
+                      {labOrders.map((order) => order.location)}
                     </div>
                   </div>
                 </div>
