@@ -14,6 +14,7 @@ import { Session } from "@supabase/supabase-js";
 import ProtectedRoute from "./ProtectedRoute";
 
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import RegulatorDashboard from "./components/RegulatorDashboard";
 
 function App() {
   const [session, setSession] = useState<Session | null>(null);
@@ -46,6 +47,7 @@ function App() {
         <Route path="/new-order">
           <PlaceOrder session={session} />
         </Route>
+        <Route path="/dashboard/regulator/" component = {RegulatorDashboard}/>
       </Switch>
     </Router>
   );
