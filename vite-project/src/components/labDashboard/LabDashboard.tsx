@@ -11,10 +11,10 @@ import '../assets/dashboard/css/styles.css'
 import 'https://use.fontawesome.com/releases/v6.3.0/js/all.js';
 
 
-const ProducerDashboard: React.FC = () => {
+const LabDashboard: React.FC = () => {
   return (
     <div>
-      <title>Producer Dashboard | PLANTALYSIS by ALtum Labs</title>
+      <title>Lab Dashboard | PLANTALYSIS by ALtum Labs</title>
       <body className="sb-nav-fixed">
         <nav className="sb-topnav navbar navbar-expand navbar-dark bg-dark">
           {/* Navbar Brand */}
@@ -60,19 +60,19 @@ const ProducerDashboard: React.FC = () => {
               <div className="sb-sidenav-menu">
                 <div className="nav">
                   <div className="sb-sidenav-menu-heading">Core</div>
-                  <a className="nav-link" href="/dashboard/producer/upload">
+                  <a className="nav-link" href="/dashboard/labs/upload">
                     <div className="sb-nav-link-icon">
                       <i className="fas fa-tachometer-alt"></i>
                     </div>
                      Upload Sample Data
                   </a>
-                  <a className="nav-link" href="/dashboard/producer/orders">
+                  <a className="nav-link" href="/dashboard/labs/orders">
                     <div className="sb-nav-link-icon">
                       <i className ="fas fa-book-open"></i>
                     </div>
                      Current Orders
                   </a>
-                  <a className="nav-link" href="/dashboard/producers/claim">
+                  <a className="nav-link" href="/dashboard/labs/claim">
                     <div className="sb-nav-link-icon">
                     <i className ="fas fa-columns"></i>
                     </div>
@@ -82,7 +82,7 @@ const ProducerDashboard: React.FC = () => {
               </div>
               <div className="sb-sidenav-footer">
                 <div className="small">Logged in as:</div>
-                Producer Name User
+                Lab Name User
               </div>
             </nav>
           </div>
@@ -110,4 +110,4 @@ const ProducerDashboard: React.FC = () => {
   );
 };
 
-export default ProducerDashboard;
+export default LabDashboard;
