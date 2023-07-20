@@ -193,7 +193,7 @@ const filterTypes = {
 export function Table<T extends Record<string, unknown>>(
   props: PropsWithChildren<TableProperties<T>>
 ): ReactElement {
-  const { name, columns, onAdd, onDelete, onEdit, onClick } = props;
+  const { name, columns, onAdd, onDelete, onEdit, onClick, onClaim } = props;
   const classes = useStyles();
 
   const [initialState, setInitialState] = useLocalStorage(
@@ -250,7 +250,7 @@ export function Table<T extends Record<string, unknown>>(
   const { role: tableRole, ...tableProps } = getTableProps();
   return (
     <>
-      <TableToolbar instance={instance} {...{ onAdd, onDelete, onEdit }} />
+      <TableToolbar instance={instance} {...{ onAdd, onDelete, onEdit, onClaim }} />
       <FilterChipBar<T> instance={instance} />
       <TableTable {...tableProps}>
         <TableHead>

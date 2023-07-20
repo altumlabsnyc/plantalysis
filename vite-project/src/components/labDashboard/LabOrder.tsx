@@ -13,6 +13,7 @@ import Regulator from "./Regulator.js";
 import { LabOrder } from "../UserTypes.js";
 import { supabase, fetchUnclaimedOrders } from "../Authentication.js";
 import { Session } from "@supabase/supabase-js";
+import LabOrderTable from "./LabOrderTable.js";
 
 interface SessionProps {
   session: Session | null;
@@ -26,6 +27,8 @@ export default function ClaimOrders({ session }: SessionProps) {
       setLoading(true);
       if (session) {
         setLabOrders(await fetchUnclaimedOrders());
+        // console.log('aaaaaaaaaa')
+        // console.log(temp)
         setLoading(false);
       }
     }
@@ -128,7 +131,7 @@ export default function ClaimOrders({ session }: SessionProps) {
                 <ol className="breadcrumb mb-4">
                   <li className="breadcrumb-item active">Dashboard</li>
                 </ol> */}
-                  {<Regulator />}
+                  {<LabOrderTable labOrders={labOrders} />}
                 </div>
               </main>
               <footer className="py-4 bg-light mt-auto">
