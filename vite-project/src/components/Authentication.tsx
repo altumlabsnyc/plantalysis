@@ -307,3 +307,15 @@ export async function claimNewOrders(orderIds: Array<string>): Promise<void> {
     }
   }
 }
+
+export async function approveOrders(analysisIds: Array<string>): Promise<void> {
+  const userId = (await supabase.auth.getUser()).data.user?.id;
+  if (userId) {
+    for (const analysisId of analysisIds) {
+      await supabase
+        .from("analysis")
+        .update({ regulator_approved: true })
+        .eq("id", analysisId);
+    }
+  }
+}
