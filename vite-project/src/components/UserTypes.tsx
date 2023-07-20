@@ -35,6 +35,7 @@ export type ForApproval = {
   molecules: Array<MoleculePredict> | null;
   pass: boolean;
   sku: string | null;
+  analysis_id: string;
 };
 
 //all user types

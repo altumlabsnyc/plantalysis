@@ -285,6 +285,7 @@ export async function fetchAnalyzedOrders(): Promise<Array<ForApproval>> {
             pass: true,
             molecules: correspondingMolecules.data,
             sku: "sku-temp",
+            analysis_id: analysisId,
           };
           forApproval.push(newApproved);
         }
@@ -295,4 +296,14 @@ export async function fetchAnalyzedOrders(): Promise<Array<ForApproval>> {
   return forApproval;
 }
 
-export async function claimNewOrders(orderIds: Array<string>): Promise<void> {}
+export async function claimNewOrders(orderIds: Array<string>): Promise<void> {
+  const userId = (await supabase.auth.getUser()).data.user?.id;
+  if (userId) {
+    for (const orderId of orderIds) {
+      await supabase
+        .from("lab_order")
+        .update({ lab_user_id: userId })
+        .eq("id", orderId);
+    }
+  }
+}
