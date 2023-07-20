@@ -9,6 +9,8 @@ import {
   eduUser,
   prodUser,
   LabOrder,
+  Brand,
+  Batch,
 } from "./UserTypes";
 import { Database } from "../types/supabase";
 
@@ -19,6 +21,8 @@ import {
   ReactNode,
   useContext,
 } from "react";
+
+import { v4 as uuidv4 } from "uuid";
 
 export const supabase = createClient<Database>(SUPABASE_URL, SUPABASE_KEY);
 
@@ -164,4 +168,57 @@ export async function getUserInfo(): Promise<userData> {
 export async function handlePlaceLabOrder(
   labOrder: LabOrder,
   brandName: string | null
-): Promise<void> {}
+): Promise<void> {
+  const userId = (await supabase.auth.getUser()).data.user?.id;
+  if (userId) {
+    labOrder.lab_user_id = userId;
+    const orderId = uuidv4();
+    labOrder.id = orderId;
+
+    if (brandName == null) {
+      throw new Error("Please provide a brand name");
+    }
+
+    const brandId = await getBrandId(brandName, userId);
+    const batchId = await createNewBatch(brandId);
+    labOrder.batch_id = batchId;
+    await supabase.from("lab_order").insert(labOrder);
+  }
+
+  async function getBrandId(
+    brandName: string,
+    prodId: string
+  ): Promise<string> {
+    const { data, error } = await supabase
+      .from("brand")
+      .select("id")
+      .eq("name", brandName)
+      .single();
+    if (data) {
+      return data.id;
+    } else {
+      const newBrandId = uuidv4();
+      const newBrand: Brand = {
+        id: newBrandId,
+        name: brandName,
+        producer_user_id: prodId,
+        image_path: null,
+        serving_size: null,
+      };
+      await supabase.from("brand").insert(newBrand);
+      return newBrandId;
+    }
+  }
+}
+
+async function createNewBatch(brandId: string): Promise<string> {
+  const batchId = uuidv4();
+  const newBatch: Batch = {
+    brand_id: brandId,
+    facility_id: null, //TODO what should this be?
+    weight: null,
+    id: batchId,
+  };
+  await supabase.from("batch").insert(newBatch);
+  return batchId;
+}

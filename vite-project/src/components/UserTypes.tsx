@@ -23,6 +23,8 @@ export interface Input {
 
 export type userData = Database["public"]["Tables"]["user"]["Row"];
 export type LabOrder = Database["public"]["Tables"]["lab_order"]["Row"];
+export type Brand = Database["public"]["Tables"]["brand"]["Row"];
+export type Batch = Database["public"]["Tables"]["batch"]["Row"];
 
 //all user types
 export type govUser = Database["public"]["Tables"]["regulator_user"]["Row"];
