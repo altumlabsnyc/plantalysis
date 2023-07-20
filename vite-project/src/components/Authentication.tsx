@@ -188,7 +188,6 @@ export async function handlePlaceLabOrder(
     labOrder.batch_id = batchId;
     console.log(labOrder);
     const { data, error } = await supabase.from("lab_order").insert(labOrder);
-    console.log({ data: data, error: error });
   }
 
   async function getBrandId(
@@ -239,13 +238,22 @@ export async function fetchUnclaimedOrders(): Promise<Array<LabOrder>> {
   return [];
 }
 
+export async function fetchClaimedOrders(): Promise<Array<LabOrder>> {
+  const labUserId = (await supabase.auth.getUser()).data.user?.id;
+  const allOrders = (
+    await supabase.from("lab_order").select("*").eq("lab_user_id", labUserId)
+  ).data;
+  if (allOrders) {
+    return allOrders;
+  }
+  return [];
+}
+
 export async function fetchAnalyzedOrders(): Promise<Array<ForApproval>> {
-  console.log("entra?");
   const forApproval: Array<ForApproval> = [];
   const allAnalyzed = await (
     await supabase.from("analysis").select("*").eq("regulator_approved", false)
   ).data;
-  console.log("number of not approved:", allAnalyzed?.length);
   if (allAnalyzed) {
     for (const analysis of allAnalyzed) {
       const analysisId = analysis.id;
@@ -277,7 +285,6 @@ export async function fetchAnalyzedOrders(): Promise<Array<ForApproval>> {
           .select("brand_id")
           .eq("id", correspondingOrder.data?.batch_id)
           .single();
-        console.log("brandid", brandId);
         const brandNameData = await supabase
           .from("brand")
           .select("name")
