@@ -9,17 +9,16 @@ import '../assets/dashboard/js/datatables-simple-demo.js';
 // css
 import '../assets/dashboard/css/styles.css'
 import 'https://use.fontawesome.com/releases/v6.3.0/js/all.js';
-import Regulator from './Regulator.js';
 
 
-const ProducerLabOrder: React.FC = () => {
+const LabDashboard: React.FC = () => {
   return (
     <div>
-        <title>Regulator Dashboard | PLANTALYSIS by ALtum Labs</title>
+      <title>Lab Dashboard | PLANTALYSIS by ALtum Labs</title>
       <body className="sb-nav-fixed">
         <nav className="sb-topnav navbar navbar-expand navbar-dark bg-dark">
           {/* Navbar Brand */}
-          <a className="navbar-brand ps-3" href="index.html">
+          <a className="navbar-brand ps-3" href="/">
             PLANTALYSIS
           </a>
           {/* Navbar Search */}
@@ -59,21 +58,21 @@ const ProducerLabOrder: React.FC = () => {
           <div id="layoutSidenav_nav">
             <nav className="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
               <div className="sb-sidenav-menu">
-              <div className="nav">
+                <div className="nav">
                   <div className="sb-sidenav-menu-heading">Core</div>
-                  <a className="nav-link" href="/dashboard/producer/upload">
+                  <a className="nav-link" href="/dashboard/labs/upload">
                     <div className="sb-nav-link-icon">
                       <i className="fas fa-tachometer-alt"></i>
                     </div>
                      Upload Sample Data
                   </a>
-                  <a className="nav-link" href="/dashboard/producer/orders">
+                  <a className="nav-link" href="/dashboard/labs/orders">
                     <div className="sb-nav-link-icon">
                       <i className ="fas fa-book-open"></i>
                     </div>
                      Current Orders
                   </a>
-                  <a className="nav-link active" href="/dashboard/producer/claim">
+                  <a className="nav-link" href="/dashboard/labs/claim">
                     <div className="sb-nav-link-icon">
                     <i className ="fas fa-columns"></i>
                     </div>
@@ -83,18 +82,18 @@ const ProducerLabOrder: React.FC = () => {
               </div>
               <div className="sb-sidenav-footer">
                 <div className="small">Logged in as:</div>
-                Producer Name User
+                Lab Name User
               </div>
             </nav>
           </div>
           <div id="layoutSidenav_content">
             <main>
               <div className="container-fluid px-4">
-                {/* <h1 className="mt-4">Data Approval</h1>
+                <h1 className="mt-4">Data Approval</h1>
                 <ol className="breadcrumb mb-4">
                   <li className="breadcrumb-item active">Dashboard</li>
-                </ol> */}
-                {<Regulator />}
+                </ol>
+                {/* table here */}
               </div>
             </main>
             <footer className="py-4 bg-light mt-auto">
@@ -111,4 +110,4 @@ const ProducerLabOrder: React.FC = () => {
   );
 };
 
-export default ProducerLabOrder;
+export default LabDashboard;

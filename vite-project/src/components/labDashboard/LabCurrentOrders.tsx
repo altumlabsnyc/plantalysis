@@ -12,7 +12,7 @@ import 'https://use.fontawesome.com/releases/v6.3.0/js/all.js';
 import Regulator from './Regulator.js';
 
 
-const ProducerCurrentOrders: React.FC = () => {
+const LabCurrentOrders: React.FC = () => {
   return (
     <div>
         <title>Regulator Dashboard | PLANTALYSIS by ALtum Labs</title>
@@ -61,19 +61,19 @@ const ProducerCurrentOrders: React.FC = () => {
               <div className="sb-sidenav-menu">
               <div className="nav">
                   <div className="sb-sidenav-menu-heading">Core</div>
-                  <a className="nav-link" href="/dashboard/producer/upload">
+                  <a className="nav-link" href="/dashboard/labs/upload">
                     <div className="sb-nav-link-icon">
                       <i className="fas fa-tachometer-alt"></i>
                     </div>
                      Upload Sample Data
                   </a>
-                  <a className="nav-link active" href="/dashboard/producer/orders">
+                  <a className="nav-link active" href="/dashboard/labs/orders">
                     <div className="sb-nav-link-icon">
                       <i className ="fas fa-book-open"></i>
                     </div>
                      Current Orders
                   </a>
-                  <a className="nav-link" href="/dashboard/producer/claim">
+                  <a className="nav-link" href="/dashboard/labs/claim">
                     <div className="sb-nav-link-icon">
                     <i className ="fas fa-columns"></i>
                     </div>
@@ -83,7 +83,7 @@ const ProducerCurrentOrders: React.FC = () => {
               </div>
               <div className="sb-sidenav-footer">
                 <div className="small">Logged in as:</div>
-                Producer Name User
+                Lab Name User
               </div>
             </nav>
           </div>
@@ -111,4 +111,4 @@ const ProducerCurrentOrders: React.FC = () => {
   );
 };
 
-export default ProducerCurrentOrders;
+export default LabCurrentOrders;
