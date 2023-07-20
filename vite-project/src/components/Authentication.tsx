@@ -261,27 +261,33 @@ export async function fetchAnalyzedOrders(): Promise<Array<ForApproval>> {
         .eq("analysis_id", analysisId);
 
       if (correspondingMolecules && correspondingOrder) {
-        const labName = (
-          await supabase
-            .from("lab_user")
-            .select("legal_name")
-            .eq("id", correspondingOrder.data?.lab_user_id)
-            .single()
-        ).data;
-        const brandId = (
-          await supabase
-            .from("batch")
-            .select("brand_id")
-            .eq("id", correspondingOrder.data?.batch_id)
-            .single()
-        ).data;
-        const brandName = (
-          await supabase.from("brand").select("name").eq("id", brandId).single()
-        ).data?.name;
+        // const labName = (
+        //   await supabase
+        //     .from("lab_user")
+        //     .select("legal_name")
+        //     .eq("id", correspondingOrder.data?.lab_user_id)
+        //     .single()
+        // ).data; // uncomment once RLS is set
+        const labName = correspondingOrder.data
+          ? correspondingOrder.data.lab_user_id
+          : "temp lab name";
+
+        const { data: brandId } = await supabase
+          .from("batch")
+          .select("brand_id")
+          .eq("id", correspondingOrder.data?.batch_id)
+          .single();
+        console.log("brandid", brandId);
+        const brandNameData = await supabase
+          .from("brand")
+          .select("name")
+          .eq("id", brandId?.brand_id)
+          .single();
+        const brandName = brandNameData.data;
         if (brandName) {
           const newApproved: ForApproval = {
             lab_name: labName,
-            brand_name: brandName,
+            brand_name: brandName.name,
             pass: true,
             molecules: correspondingMolecules.data,
             sku: "sku-temp",
@@ -292,7 +298,7 @@ export async function fetchAnalyzedOrders(): Promise<Array<ForApproval>> {
       }
     }
   }
-  console.log(forApproval);
+  console.log("forapproval", forApproval);
   return forApproval;
 }
 
