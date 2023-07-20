@@ -1,21 +1,42 @@
-import React from 'react';
-import 'simple-datatables'; 
-import 'simple-datatables/dist/style.css';
-import 'https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js';
-import 'https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js';
+import React, { useState, useEffect } from "react";
+import "simple-datatables";
+import "simple-datatables/dist/style.css";
+import "https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js";
+import "https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js";
 // js
-import '../assets/dashboard/js/scripts.js';
-import '../assets/dashboard/js/datatables-simple-demo.js';
+import "../assets/dashboard/js/scripts.js";
+import "../assets/dashboard/js/datatables-simple-demo.js";
 // css
-import '../assets/dashboard/css/styles.css'
-import 'https://use.fontawesome.com/releases/v6.3.0/js/all.js';
-import Regulator from './Regulator.js';
+import "../assets/dashboard/css/styles.css";
+import "https://use.fontawesome.com/releases/v6.3.0/js/all.js";
+import Regulator from "./Regulator.js";
+import { Session } from "@supabase/supabase-js";
 
+import { fetchAnalyzedOrders } from "../Authentication.js";
+import { LabOrder, Analysis, ForApproval } from "../UserTypes.js";
 
-const RegulatorDashboard: React.FC = () => {
+interface SessionProps {
+  session: Session | null;
+}
+
+export default function RegulatorDashboard({ session }: SessionProps) {
+  const [labOrders, setLabOrders] = useState<ForApproval>([]);
+  const [loading, setLoading] = useState(true);
+  useEffect(() => {
+    async function fetchOrders() {
+      setLoading(true);
+      if (session) {
+        setLabOrders(await fetchAnalyzedOrders());
+        setLoading(false);
+      }
+    }
+
+    fetchOrders();
+  }, [session]);
+
   return (
     <div>
-        <title>Regulator Dashboard | PLANTALYSIS by ALtum Labs</title>
+      <title>Regulator Dashboard | PLANTALYSIS by ALtum Labs</title>
       <body className="sb-nav-fixed">
         <nav className="sb-topnav navbar navbar-expand navbar-dark bg-dark">
           {/* Navbar Brand */}
@@ -34,10 +55,20 @@ const RegulatorDashboard: React.FC = () => {
           {/* Navbar */}
           <ul className="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
             <li className="nav-item dropdown">
-              <a className="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <a
+                className="nav-link dropdown-toggle"
+                id="navbarDropdown"
+                href="#"
+                role="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
                 <i className="fas fa-user fa-fw"></i>
               </a>
-              <ul className="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+              <ul
+                className="dropdown-menu dropdown-menu-end"
+                aria-labelledby="navbarDropdown"
+              >
                 <li>
                   <a className="dropdown-item" href="#!">
                     Settings
@@ -57,7 +88,10 @@ const RegulatorDashboard: React.FC = () => {
         </nav>
         <div id="layoutSidenav">
           <div id="layoutSidenav_nav">
-            <nav className="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+            <nav
+              className="sb-sidenav accordion sb-sidenav-dark"
+              id="sidenavAccordion"
+            >
               <div className="sb-sidenav-menu">
                 <div className="nav">
                   <div className="sb-sidenav-menu-heading">Core</div>
@@ -88,7 +122,11 @@ const RegulatorDashboard: React.FC = () => {
             <footer className="py-4 bg-light mt-auto">
               <div className="container-fluid px-4">
                 <div className="d-flex align-items-center justify-content-between small">
-                  <div className="text-muted">Copyright &copy; PLANTALYSIS by Altum Labs 2023</div>
+                  <div className="text-muted">
+                    Copyright &copy; PLANTALYSIS by Altum Labs 2023
+                    {labOrders.map((order) => order.labOrder?.location)}
+                    {labOrders.length}
+                  </div>
                 </div>
               </div>
             </footer>
@@ -97,6 +135,4 @@ const RegulatorDashboard: React.FC = () => {
       </body>
     </div>
   );
-};
-
-export default RegulatorDashboard;
+}
