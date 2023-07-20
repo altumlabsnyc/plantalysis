@@ -2,9 +2,9 @@ import { Button, CssBaseline, InputLabel, MenuItem, TextField } from '@material-
 import React, { useCallback } from 'react'
 import { CellProps, FilterProps, FilterValue, IdType, Row, TableInstance } from 'react-table'
 
-import { Page } from './regulator/Page'
-import { Table } from './regulator/Table'
-import { PersonData, makeData } from './regulator/utils'
+import { Page } from '../regulator/Page'
+import { Table } from '../regulator/Table'
+import { PersonData, makeData } from '../regulator/utils'
 
 // This is a custom aggregator that
 // takes in an array of values and

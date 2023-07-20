@@ -1,7 +1,7 @@
 import Login from "./components/Login";
 import Register from "./components/Register";
-import Upload from "./components/Upload";
-import Regulator from "./components/Regulator";
+import Upload from "./components/regulatorDashboard/Upload";
+import Regulator from "./components/regulatorDashboard/Regulator";
 import Landing from "./components/Landing";
 import Faq from "./components/Faq";
 import Library from "./components/Library";
@@ -14,7 +14,8 @@ import { Session } from "@supabase/supabase-js";
 import ProtectedRoute from "./ProtectedRoute";
 
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import RegulatorDashboard from "./components/RegulatorDashboard";
+import RegulatorDashboard from "./components/regulatorDashboard/RegulatorDashboard";
+import ProducerDashboard from "./components/producerDashboard/ProducerDashboard";
 
 function App() {
   const [session, setSession] = useState<Session | null>(null);
@@ -34,7 +35,7 @@ function App() {
         <Route exact path="/" component={Landing} />
         <Route path="/login" component={Login} />
         <Route path="/register" component={Register} />
-        <Route path="/upload" component={Upload} />
+        <Route path="/dashboard/producer/upload" component={Upload} />
         <ProtectedRoute
           path="/regulator"
           component={Regulator}
@@ -48,6 +49,7 @@ function App() {
           <PlaceOrder session={session} />
         </Route>
         <Route path="/dashboard/regulator/" component = {RegulatorDashboard}/>
+        <Route path="/dashboard/producer/" component = {ProducerDashboard}/>
       </Switch>
     </Router>
   );
