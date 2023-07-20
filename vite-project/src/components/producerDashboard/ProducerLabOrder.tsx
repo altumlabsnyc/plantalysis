@@ -9,16 +9,17 @@ import '../assets/dashboard/js/datatables-simple-demo.js';
 // css
 import '../assets/dashboard/css/styles.css'
 import 'https://use.fontawesome.com/releases/v6.3.0/js/all.js';
+import Regulator from './Regulator.js';
 
 
-const ProducerDashboard: React.FC = () => {
+const ProducerLabOrder: React.FC = () => {
   return (
     <div>
-      <title>Producer Dashboard | PLANTALYSIS by ALtum Labs</title>
+        <title>Regulator Dashboard | PLANTALYSIS by ALtum Labs</title>
       <body className="sb-nav-fixed">
         <nav className="sb-topnav navbar navbar-expand navbar-dark bg-dark">
           {/* Navbar Brand */}
-          <a className="navbar-brand ps-3" href="/">
+          <a className="navbar-brand ps-3" href="index.html">
             PLANTALYSIS
           </a>
           {/* Navbar Search */}
@@ -58,7 +59,7 @@ const ProducerDashboard: React.FC = () => {
           <div id="layoutSidenav_nav">
             <nav className="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
               <div className="sb-sidenav-menu">
-                <div className="nav">
+              <div className="nav">
                   <div className="sb-sidenav-menu-heading">Core</div>
                   <a className="nav-link" href="/dashboard/producer/upload">
                     <div className="sb-nav-link-icon">
@@ -72,7 +73,7 @@ const ProducerDashboard: React.FC = () => {
                     </div>
                      Current Orders
                   </a>
-                  <a className="nav-link" href="/dashboard/producer/claim">
+                  <a className="nav-link active" href="/dashboard/producer/claim">
                     <div className="sb-nav-link-icon">
                     <i className ="fas fa-columns"></i>
                     </div>
@@ -89,11 +90,11 @@ const ProducerDashboard: React.FC = () => {
           <div id="layoutSidenav_content">
             <main>
               <div className="container-fluid px-4">
-                <h1 className="mt-4">Data Approval</h1>
+                {/* <h1 className="mt-4">Data Approval</h1>
                 <ol className="breadcrumb mb-4">
                   <li className="breadcrumb-item active">Dashboard</li>
-                </ol>
-                {/* table here */}
+                </ol> */}
+                {<Regulator />}
               </div>
             </main>
             <footer className="py-4 bg-light mt-auto">
@@ -110,4 +111,4 @@ const ProducerDashboard: React.FC = () => {
   );
 };
 
-export default ProducerDashboard;
+export default ProducerLabOrder;
