@@ -162,6 +162,6 @@ export async function getUserInfo(): Promise<userData> {
 }
 
 export async function handlePlaceLabOrder(
-  brandName: string,
-  labOrder: LabOrder
+  labOrder: LabOrder,
+  brandName: string | null
 ): Promise<void> {}

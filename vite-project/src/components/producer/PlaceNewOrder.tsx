@@ -23,7 +23,7 @@ import { Session } from "@supabase/supabase-js";
 import { supabase } from "../Authentication";
 
 import { labOrderInputs, LabOrder, userData, labUser } from "../UserTypes";
-import { handleSignUp, getUserInfo } from "../Authentication";
+import { handlePlaceLabOrder, getUserInfo } from "../Authentication";
 
 function Copyright(props: any) {
   return (
@@ -51,16 +51,22 @@ export default function PlaceNewOrder({ session }: SessionProps) {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    const labOrderData = handleLabOrderSubmit(data);
-    console.log(labOrderData);
+    const { labOrder: labOrder, brandName: brandName } =
+      handleLabOrderSubmit(data);
+    console.log(labOrder, brandName);
+    handlePlaceLabOrder(labOrder, brandName);
   };
 
   //Filling out user data
 
-  function handleLabOrderSubmit(data: FormData): LabOrder {
+  function handleLabOrderSubmit(data: FormData): {
+    labOrder: LabOrder;
+    brandName: string | null;
+  } {
     const location = data.get("location")?.toString() || null;
     const pickup_date = data.get("pickup_date")?.toString() || null;
     const strain_info = data.get("strain_info")?.toString() || null;
+    const brand_name = data.get("brand_name")?.toString() || null;
 
     const labOrder: LabOrder = {
       analysis_id: null,
@@ -69,7 +75,7 @@ export default function PlaceNewOrder({ session }: SessionProps) {
       pickup_date: pickup_date,
       strain_info: strain_info,
     };
-    return labOrder;
+    return { labOrder: labOrder, brandName: brand_name };
   }
 
   const [loading, setLoading] = useState(true);
