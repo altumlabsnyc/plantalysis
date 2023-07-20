@@ -53,8 +53,6 @@ export default function PlaceNewOrder({ session }: SessionProps) {
     const data = new FormData(event.currentTarget);
     const labOrderData = handleLabOrderSubmit(data);
     console.log(labOrderData);
-
-    // }
   };
 
   //Filling out user data

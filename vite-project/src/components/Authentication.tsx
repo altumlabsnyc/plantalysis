@@ -8,6 +8,7 @@ import {
   labUser,
   eduUser,
   prodUser,
+  LabOrder,
 } from "./UserTypes";
 import { Database } from "../types/supabase";
 
@@ -159,3 +160,8 @@ export async function getUserInfo(): Promise<userData> {
   }
   throw new Error("No user type found");
 }
+
+export async function handlePlaceLabOrder(
+  brandName: string,
+  labOrder: LabOrder
+): Promise<void> {}
