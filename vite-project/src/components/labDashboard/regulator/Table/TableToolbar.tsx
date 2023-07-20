@@ -1,9 +1,11 @@
 import { Button, IconButton, Theme, Toolbar, Tooltip, createStyles, makeStyles } from '@material-ui/core'
+
 import AddIcon from '@material-ui/icons/Add'
 import CreateIcon from '@material-ui/icons/CreateOutlined'
 import DeleteIcon from '@material-ui/icons/DeleteOutline'
 import FilterListIcon from '@material-ui/icons/FilterList'
 import ViewColumnsIcon from '@material-ui/icons/ViewColumn'
+import CheckOutlinedIcon from '@mui/icons-material/CheckOutlined';
 import classnames from 'classnames'
 import React, { MouseEvent, MouseEventHandler, PropsWithChildren, ReactElement, useCallback, useState } from 'react'
 import { TableInstance } from 'react-table'
@@ -132,6 +134,7 @@ type TableToolbarProps<T extends Record<string, unknown>> = {
   onAdd?: TableMouseEventHandler
   onDelete?: TableMouseEventHandler
   onEdit?: TableMouseEventHandler
+  onClaim?: TableMouseEventHandler
 }
 
 export function TableToolbar<T extends Record<string, unknown>>({
@@ -139,6 +142,7 @@ export function TableToolbar<T extends Record<string, unknown>>({
   onAdd,
   onDelete,
   onEdit,
+  onClaim,
 }: PropsWithChildren<TableToolbarProps<T>>): ReactElement | null {
   const { columns } = instance
   const classes = useStyles()
@@ -203,6 +207,18 @@ export function TableToolbar<T extends Record<string, unknown>>({
             icon={<DeleteIcon />}
             onClick={onDelete}
             label='Delete'
+            enabled={({ state }: TableInstance<T>) =>
+              state.selectedRowIds && Object.keys(state.selectedRowIds).length > 0
+            }
+            variant='left'
+          />
+        )}
+        {onClaim && (
+          <InstanceSmallIconActionButton<T>
+            instance={instance}
+            icon={<CheckOutlinedIcon />}
+            onClick={onClaim}
+            label='Claim'
             enabled={({ state }: TableInstance<T>) =>
               state.selectedRowIds && Object.keys(state.selectedRowIds).length > 0
             }
