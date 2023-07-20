@@ -69,11 +69,19 @@ export default function PlaceNewOrder({ session }: SessionProps) {
     const brand_name = data.get("brand_name")?.toString() || null;
 
     const labOrder: LabOrder = {
-      analysis_id: null,
       id: "",
       location: location,
       pickup_date: pickup_date,
       strain_info: strain_info,
+      batch_id: null,
+      bio_id: null,
+      gcfid_id: null,
+      gcms_id: null,
+      hplc_id: null,
+      icpms_id: null,
+      lab_notes: null,
+      lab_user_id: null,
+      lcms_id: null,
     };
     return { labOrder: labOrder, brandName: brand_name };
   }
