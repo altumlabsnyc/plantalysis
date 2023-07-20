@@ -9,6 +9,7 @@ import './assets/dashboard/js/datatables-simple-demo.js';
 // css
 import './assets/dashboard/css/styles.css'
 import 'https://use.fontawesome.com/releases/v6.3.0/js/all.js';
+import Regulator from './Regulator.js';
 
 
 const RegulatorDashboard: React.FC = () => {
@@ -77,11 +78,11 @@ const RegulatorDashboard: React.FC = () => {
           <div id="layoutSidenav_content">
             <main>
               <div className="container-fluid px-4">
-                <h1 className="mt-4">Data Approval</h1>
+                {/* <h1 className="mt-4">Data Approval</h1>
                 <ol className="breadcrumb mb-4">
                   <li className="breadcrumb-item active">Dashboard</li>
-                </ol>
-                {/* table here */}
+                </ol> */}
+                {<Regulator />}
               </div>
             </main>
             <footer className="py-4 bg-light mt-auto">
