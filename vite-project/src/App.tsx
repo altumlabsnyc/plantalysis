@@ -37,8 +37,10 @@ function App() {
         <Route path="/login" component={Login} />
         <Route path="/register" component={Register} />
         <Route path="/dashboard/labs/upload" component={Upload} />
-        <Route path="/dashboard/labs/orders" component = {LabCurrentOrders}/>
-        <Route path="/dashboard/labs/claim" component = {LabOrder}/>
+        <Route path="/dashboard/labs/orders" component={LabCurrentOrders} />
+        <Route path="/dashboard/labs/claim">
+          <LabOrder session={session} />
+        </Route>
         <ProtectedRoute
           path="/regulator"
           component={Regulator}
@@ -51,24 +53,11 @@ function App() {
         <Route path="/new-order">
           <PlaceOrder session={session} />
         </Route>
-        <Route path="/dashboard/regulator/" component = {RegulatorDashboard}/>
-        <Route path="/dashboard/labs/" component = {LabDashboard}/>
+        <Route path="/dashboard/regulator/" component={RegulatorDashboard} />
+        <Route path="/dashboard/labs/" component={LabDashboard} />
       </Switch>
     </Router>
   );
 }
 
 export default App;
-
-//   return (
-//     <div className="container" style={{ padding: "50px 0 100px 0" }}>
-//       {!session ? (
-//         <Auth />
-//       ) : (
-//         <Account key={session.user.id} session={session} />
-//       )}
-//     </div>
-//   );
-// }
-
-// export default App;

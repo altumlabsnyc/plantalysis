@@ -171,7 +171,7 @@ export async function handlePlaceLabOrder(
 ): Promise<void> {
   const userId = (await supabase.auth.getUser()).data.user?.id;
   if (userId) {
-    labOrder.lab_user_id = userId;
+    // labOrder.lab_user_id = userId;
     const orderId = uuidv4();
     labOrder.id = orderId;
 
@@ -182,7 +182,9 @@ export async function handlePlaceLabOrder(
     const brandId = await getBrandId(brandName, userId);
     const batchId = await createNewBatch(brandId);
     labOrder.batch_id = batchId;
-    await supabase.from("lab_order").insert(labOrder);
+    console.log(labOrder);
+    const { data, error } = await supabase.from("lab_order").insert(labOrder);
+    console.log({ data: data, error: error });
   }
 
   async function getBrandId(
@@ -205,7 +207,6 @@ export async function handlePlaceLabOrder(
         image_path: null,
         serving_size: null,
       };
-      await supabase.from("brand").insert(newBrand);
       return newBrandId;
     }
   }
@@ -221,4 +222,15 @@ async function createNewBatch(brandId: string): Promise<string> {
   };
   await supabase.from("batch").insert(newBatch);
   return batchId;
+}
+
+export async function fetchUnclaimedOrders(): Promise<Array<LabOrder>> {
+  const allOrders = (await supabase.from("lab_order").select("*")).data;
+  if (allOrders) {
+    const unclaimedOrders = allOrders.filter(
+      (order) => order.lab_user_id == null
+    );
+    return unclaimedOrders;
+  }
+  return [];
 }

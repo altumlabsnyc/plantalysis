@@ -22,7 +22,7 @@ export interface Database {
           lab_order_id: string | null
           moisture_content: number | null
           ochratoxin_a: number | null
-          regulator_approved: boolean
+          regulator_approved: boolean | null
           salmonella: boolean
           started_at: string | null
           water_activity: number | null
@@ -40,7 +40,7 @@ export interface Database {
           lab_order_id?: string | null
           moisture_content?: number | null
           ochratoxin_a?: number | null
-          regulator_approved?: boolean
+          regulator_approved?: boolean | null
           salmonella?: boolean
           started_at?: string | null
           water_activity?: number | null
@@ -58,7 +58,7 @@ export interface Database {
           lab_order_id?: string | null
           moisture_content?: number | null
           ochratoxin_a?: number | null
-          regulator_approved?: boolean
+          regulator_approved?: boolean | null
           salmonella?: boolean
           started_at?: string | null
           water_activity?: number | null
