@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react';
 import { DropzoneArea } from 'material-ui-dropzone';
-import './assets/css/upload/bootstrap.min.css';
-import './assets/css/upload/upload.css';
-import './assets/css/upload/fileinput.min.css';
-import './assets/css/upload/all.css';
-import './assets/css/upload/jquery-ui.css';
+import '../assets/css/upload/bootstrap.min.css';
+import '../assets/css/upload/upload.css';
+import '../assets/css/upload/fileinput.min.css';
+import '../assets/css/upload/all.css';
+import '../assets/css/upload/jquery-ui.css';
 
 const Upload: React.FC = () => {
   return (
