@@ -20,7 +20,7 @@ interface SessionProps {
 }
 
 export default function RegulatorDashboard({ session }: SessionProps) {
-  const [labOrders, setLabOrders] = useState<ForApproval>([]);
+  const [labOrders, setLabOrders] = useState<Array<ForApproval>>([]);
   const [loading, setLoading] = useState(true);
   useEffect(() => {
     async function fetchOrders() {
@@ -124,7 +124,7 @@ export default function RegulatorDashboard({ session }: SessionProps) {
                 <div className="d-flex align-items-center justify-content-between small">
                   <div className="text-muted">
                     Copyright &copy; PLANTALYSIS by Altum Labs 2023
-                    {labOrders.map((order) => order.labOrder?.location)}
+                    {labOrders.map((order) => order.sku)}
                     {labOrders.length}
                   </div>
                 </div>

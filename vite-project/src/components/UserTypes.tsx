@@ -29,11 +29,13 @@ export type Analysis = Database["public"]["Tables"]["analysis"]["Row"];
 export type MoleculePredict =
   Database["public"]["Tables"]["molecule_prediction"]["Row"];
 
-export type ForApproval = Array<{
-  analysis: Analysis | null;
-  labOrder: LabOrder | null;
+export type ForApproval = {
+  lab_name: string | null;
+  brand_name: string | null;
   molecules: Array<MoleculePredict> | null;
-}>;
+  pass: boolean;
+  sku: string | null;
+};
 
 //all user types
 export type govUser = Database["public"]["Tables"]["regulator_user"]["Row"];

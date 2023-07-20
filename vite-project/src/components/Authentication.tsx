@@ -239,9 +239,9 @@ export async function fetchUnclaimedOrders(): Promise<Array<LabOrder>> {
   return [];
 }
 
-export async function fetchAnalyzedOrders(): Promise<ForApproval> {
+export async function fetchAnalyzedOrders(): Promise<Array<ForApproval>> {
   console.log("entra?");
-  const forApproval: ForApproval = [];
+  const forApproval: Array<ForApproval> = [];
   const allAnalyzed = await (
     await supabase.from("analysis").select("*").eq("regulator_approved", false)
   ).data;
@@ -261,11 +261,33 @@ export async function fetchAnalyzedOrders(): Promise<ForApproval> {
         .eq("analysis_id", analysisId);
 
       if (correspondingMolecules && correspondingOrder) {
-        forApproval.push({
-          analysis: analysis,
-          labOrder: correspondingOrder.data,
-          molecules: correspondingMolecules.data,
-        });
+        const labName = (
+          await supabase
+            .from("lab_user")
+            .select("legal_name")
+            .eq("id", correspondingOrder.data?.lab_user_id)
+            .single()
+        ).data;
+        const brandId = (
+          await supabase
+            .from("batch")
+            .select("brand_id")
+            .eq("id", correspondingOrder.data?.batch_id)
+            .single()
+        ).data;
+        const brandName = (
+          await supabase.from("brand").select("name").eq("id", brandId).single()
+        ).data?.name;
+        if (brandName) {
+          const newApproved: ForApproval = {
+            lab_name: labName,
+            brand_name: brandName,
+            pass: true,
+            molecules: correspondingMolecules.data,
+            sku: "sku-temp",
+          };
+          forApproval.push(newApproved);
+        }
       }
     }
   }
