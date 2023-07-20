@@ -25,6 +25,15 @@ export type userData = Database["public"]["Tables"]["user"]["Row"];
 export type LabOrder = Database["public"]["Tables"]["lab_order"]["Row"];
 export type Brand = Database["public"]["Tables"]["brand"]["Row"];
 export type Batch = Database["public"]["Tables"]["batch"]["Row"];
+export type Analysis = Database["public"]["Tables"]["analysis"]["Row"];
+export type MoleculePredict =
+  Database["public"]["Tables"]["molecule_prediction"]["Row"];
+
+export type ForApproval = Array<{
+  analysis: Analysis | null;
+  labOrder: LabOrder | null;
+  molecules: Array<MoleculePredict> | null;
+}>;
 
 //all user types
 export type govUser = Database["public"]["Tables"]["regulator_user"]["Row"];

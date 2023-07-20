@@ -53,7 +53,9 @@ function App() {
         <Route path="/new-order">
           <PlaceOrder session={session} />
         </Route>
-        <Route path="/dashboard/regulator/" component={RegulatorDashboard} />
+        <Route path="/dashboard/regulator">
+          <RegulatorDashboard session={session} />
+        </Route>
         <Route path="/dashboard/labs/" component={LabDashboard} />
       </Switch>
     </Router>

@@ -11,6 +11,10 @@ import {
   LabOrder,
   Brand,
   Batch,
+  Analysis,
+  ForApproval,
+  labOrderInputs,
+  MoleculePredict,
 } from "./UserTypes";
 import { Database } from "../types/supabase";
 
@@ -233,4 +237,38 @@ export async function fetchUnclaimedOrders(): Promise<Array<LabOrder>> {
     return unclaimedOrders;
   }
   return [];
+}
+
+export async function fetchAnalyzedOrders(): Promise<ForApproval> {
+  console.log("entra?");
+  const forApproval: ForApproval = [];
+  const allAnalyzed = await (
+    await supabase.from("analysis").select("*").eq("regulator_approved", false)
+  ).data;
+  console.log("number of not approved:", allAnalyzed?.length);
+  if (allAnalyzed) {
+    for (const analysis of allAnalyzed) {
+      const analysisId = analysis.id;
+      const labOrderId = analysis.lab_order_id;
+      const correspondingOrder = await supabase
+        .from("lab_order")
+        .select("*")
+        .eq("id", labOrderId)
+        .single();
+      const correspondingMolecules = await supabase
+        .from("molecule_prediction")
+        .select("*")
+        .eq("analysis_id", analysisId);
+
+      if (correspondingMolecules && correspondingOrder) {
+        forApproval.push({
+          analysis: analysis,
+          labOrder: correspondingOrder.data,
+          molecules: correspondingMolecules.data,
+        });
+      }
+    }
+  }
+  console.log(forApproval);
+  return forApproval;
 }
