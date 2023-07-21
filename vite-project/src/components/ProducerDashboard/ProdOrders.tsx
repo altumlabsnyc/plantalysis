@@ -9,7 +9,6 @@ import "../assets/dashboard/js/datatables-simple-demo.js";
 // css
 import "../assets/dashboard/css/styles.css";
 import "https://use.fontawesome.com/releases/v6.3.0/js/all.js";
-import Regulator from "../labDashboard/Regulator.js";
 import { LabOrder, LabOrderTableRow } from "../UserTypes.js";
 import { supabase, fetchClaimedOrders } from "../Authentication.js";
 import { Session } from "@supabase/supabase-js";
@@ -102,29 +101,23 @@ export default function ProducerOrders({ session }: SessionProps) {
                 <div className="sb-sidenav-menu">
                   <div className="nav">
                     <div className="sb-sidenav-menu-heading">Core</div>
-                    <a className="nav-link" href="/dashboard/labs/upload">
+                    <a className="nav-link" href="/new-order">
                       <div className="sb-nav-link-icon">
                         <i className="fas fa-tachometer-alt"></i>
                       </div>
-                      Upload Sample Data
+                      Place New Order
                     </a>
-                    <a className="nav-link" href="/dashboard/labs/orders">
+                    <a className="nav-link" href="/dashboard/producer/orders">
                       <div className="sb-nav-link-icon">
                         <i className="fas fa-book-open"></i>
                       </div>
                       Current Orders
                     </a>
-                    <a className="nav-link active" href="/dashboard/labs/claim">
-                      <div className="sb-nav-link-icon">
-                        <i className="fas fa-columns"></i>
-                      </div>
-                      Claim Lab Orders
-                    </a>
                   </div>
                 </div>
                 <div className="sb-sidenav-footer">
                   <div className="small">Logged in as:</div>
-                  Lab Name User
+                  Producer Name User
                 </div>
               </nav>
             </div>
