@@ -26,11 +26,13 @@ export default function ClaimOrders({ session }: SessionProps) {
     async function fetchOrders() {
       setLoading(true);
       if (session) {
-        setLabOrders((await fetchUnclaimedOrders()).map(
-          (t: LabOrder): LabOrderTableRow => {
-            return {...t, status: 'Not Claimed'}
-          }
-        ));
+        setLabOrders(
+          (await fetchUnclaimedOrders()).map(
+            (t: LabOrder): LabOrderTableRow => {
+              return { ...t, status: "Not Claimed" };
+            }
+          )
+        );
         // console.log('aaaaaaaaaa')
         // console.log(temp)
         setLoading(false);
@@ -135,7 +137,7 @@ export default function ClaimOrders({ session }: SessionProps) {
                 <ol className="breadcrumb mb-4">
                   <li className="breadcrumb-item active">Dashboard</li>
                 </ol> */}
-                  {<LabOrderTable labOrders={labOrders} />}
+                  {<LabOrderTable labOrders={labOrders} showClaimed={true} />}
                 </div>
               </main>
               <footer className="py-4 bg-light mt-auto">

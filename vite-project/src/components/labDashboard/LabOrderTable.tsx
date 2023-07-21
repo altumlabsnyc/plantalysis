@@ -16,7 +16,7 @@ import {
   TableInstance,
 } from "react-table";
 import { claimNewOrders } from "../Authentication";
-import { LabOrder } from "../UserTypes";
+import { LabOrder, LabOrderTableRow } from "../UserTypes";
 
 import { Page } from "./regulator/Page";
 import { Table } from "./regulator/Table";
@@ -41,8 +41,13 @@ const columns = [
   },
 ]; //.flatMap((c:any)=>c.columns) // remove comment to drop header groups
 
-const LabOrderTable: React.FC = (props) => {
-  const { labOrders } = props;
+interface TableProps {
+  labOrders: LabOrderTableRow[];
+  showClaimed: boolean;
+}
+
+export default function LabOrderTable({ labOrders, showClaimed }: TableProps) {
+  // const { labOrders } = props;
 
   const [data, setData] = React.useState(labOrders);
   React.useEffect(() => {
@@ -125,13 +130,23 @@ const LabOrderTable: React.FC = (props) => {
   return (
     <Page>
       <CssBaseline />
-      <Table<PersonData>
-        name={"testTable"}
-        columns={columns}
-        data={data}
-        onSelectionChange={onSelectionChange}
-        onClaim={onClaim}
-      />
+      {showClaimed && (
+        <Table<PersonData>
+          name={"testTable"}
+          columns={columns}
+          data={data}
+          onSelectionChange={onSelectionChange}
+          onClaim={onClaim}
+        />
+      )}
+      {!showClaimed && (
+        <Table<PersonData>
+          name={"testTable"}
+          columns={columns}
+          data={data}
+          // onSelectionChange={onSelectionChange}
+        />
+      )}
       <Snackbar
         open={isSnackBarOpen}
         autoHideDuration={2000}
@@ -142,6 +157,6 @@ const LabOrderTable: React.FC = (props) => {
       </Snackbar>
     </Page>
   );
-};
+}
 
-export default LabOrderTable;
+// export default LabOrderTable;

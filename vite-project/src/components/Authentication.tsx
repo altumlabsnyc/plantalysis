@@ -50,10 +50,10 @@ export async function handleSignIn(
           window.location.href = "/library";
           break;
         case "regulator":
-          window.location.href = "/regulator";
+          window.location.href = "/dashboard/regulator";
           break;
         case "lab":
-          window.location.href = "/upload";
+          window.location.href = "/dashboard/labs";
           break;
         case "university":
           window.location.href = "/"; //update

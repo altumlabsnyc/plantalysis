@@ -37,7 +37,9 @@ function App() {
         <Route path="/login" component={Login} />
         <Route path="/register" component={Register} />
         <Route path="/dashboard/labs/upload" component={Upload} />
-        <Route path="/dashboard/labs/orders" component={LabCurrentOrders} />
+        <Route path="/dashboard/labs/orders">
+          <LabCurrentOrders session={session} />
+        </Route>
         <Route path="/dashboard/labs/claim">
           <LabOrder session={session} />
         </Route>
