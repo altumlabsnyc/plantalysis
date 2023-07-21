@@ -31,21 +31,8 @@ export type MoleculePredict =
 
 
 
-export type LabOrderTableRow = {
-  status: string
-  batch_id: string | null
-  bio_id: string | null
-  gcfid_id: string | null
-  gcms_id: string | null
-  hplc_id: string | null
-  icpms_id: string | null
-  id: string
-  lab_notes: string | null
-  lab_user_id: string | null
-  lcms_id: string | null
-  location: string | null
-  pickup_date: string | null
-  strain_info: string | null
+export type LabOrderTableRow = LabOrder & {
+  status: string;
 }
 
 export type ForApproval = {
@@ -56,6 +43,10 @@ export type ForApproval = {
   sku: string | null;
   analysis_id: string;
 };
+
+export type AnalysisTableRow = ForApproval & {
+  status: string;
+}
 
 //all user types
 export type govUser = Database["public"]["Tables"]["regulator_user"]["Row"];
