@@ -5,7 +5,7 @@ import {
   MenuItem,
   TextField,
 } from "@material-ui/core";
-import { Alert, Snackbar } from "@mui/material";
+import { Alert, AlertColor, Snackbar } from "@mui/material";
 import React, { useCallback, useState } from "react";
 import {
   CellProps,
@@ -60,7 +60,8 @@ export default function LabOrderTable({ labOrders, showClaimed }: TableProps) {
 
   const [isSnackBarOpen, setIsSnackBarOpen] = React.useState(false);
   const [snackBarMessage, setSnackBarMessage] = React.useState("");
-  const [snackBarSeverity, setSnackBarSeverity] = React.useState("info");
+  const [snackBarSeverity, setSnackBarSeverity] =
+    React.useState<AlertColor>("info");
   const [isSendingClaimRequest, setIsSendingClaimRequest] =
     React.useState(false);
 
@@ -93,7 +94,7 @@ export default function LabOrderTable({ labOrders, showClaimed }: TableProps) {
     if (isSendingClaimRequest) return;
     const order_ids = selectedRows
       .map((e) => e.original)
-      .filter((e) => e.status == "Not Claimed")
+      .filter((e) => e.status == NOT_CLAIMED)
       .map((e) => e.id);
 
     onStartClaimRequest();
@@ -102,8 +103,8 @@ export default function LabOrderTable({ labOrders, showClaimed }: TableProps) {
       onClaimSuccess();
       // set order's to claimed
       const new_data = data.map((e) => {
-        if (e.status == "Not Claimed") {
-          e.status = order_ids.includes(e.id) ? "Claimed" : "Not Claimed";
+        if (e.status == NOT_CLAIMED) {
+          e.status = order_ids.includes(e.id) ? CLAIMED : NOT_CLAIMED;
         }
         return e;
       });
@@ -114,18 +115,6 @@ export default function LabOrderTable({ labOrders, showClaimed }: TableProps) {
     setSelectedRows(a.selectedFlatRows);
     // console.log(a.selectedFlatRows)
   };
-
-  const dummy = useCallback(
-    (instance: TableInstance<PersonData>) => () => {
-      console.log(
-        "Selected",
-        instance.selectedFlatRows
-          .map((v) => `'${v.original.firstName} ${v.original.lastName}'`)
-          .join(", ")
-      );
-    },
-    []
-  );
 
   return (
     <Page>

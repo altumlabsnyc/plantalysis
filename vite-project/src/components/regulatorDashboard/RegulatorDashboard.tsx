@@ -13,25 +13,32 @@ import Regulator from "./Regulator.js";
 import { Session } from "@supabase/supabase-js";
 
 import { fetchAnalyzedOrders } from "../Authentication.js";
-import { LabOrder, Analysis, ForApproval } from "../UserTypes.js";
+import { LabOrder, Analysis, ForApproval, AnalysisTableRow, NOT_APPROVED } from "../UserTypes.js";
+import AnalysisTable from "./AnalysisTable.js";
 
 interface SessionProps {
   session: Session | null;
 }
 
 export default function RegulatorDashboard({ session }: SessionProps) {
-  const [labOrders, setLabOrders] = useState<Array<ForApproval>>([]);
+  const [analysis, setAnalysis] = useState<Array<AnalysisTableRow>>([]);
   const [loading, setLoading] = useState(true);
   useEffect(() => {
-    async function fetchOrders() {
+    async function fetchAnalysis() {
       setLoading(true);
       if (session) {
-        setLabOrders(await fetchAnalyzedOrders());
+        setAnalysis(
+          (await fetchAnalyzedOrders()).map(
+            (t: ForApproval): AnalysisTableRow => {
+              return {...t, status: NOT_APPROVED}
+            }
+          )
+        );
         setLoading(false);
       }
     }
 
-    fetchOrders();
+    fetchAnalysis();
   }, [session]);
 
   return (
@@ -116,7 +123,7 @@ export default function RegulatorDashboard({ session }: SessionProps) {
                 <ol className="breadcrumb mb-4">
                   <li className="breadcrumb-item active">Dashboard</li>
                 </ol> */}
-                {<Regulator />}
+                {<AnalysisTable analysis={analysis} />}
               </div>
             </main>
             <footer className="py-4 bg-light mt-auto">
@@ -124,8 +131,6 @@ export default function RegulatorDashboard({ session }: SessionProps) {
                 <div className="d-flex align-items-center justify-content-between small">
                   <div className="text-muted">
                     Copyright &copy; PLANTALYSIS by Altum Labs 2023
-                    {labOrders.map((order) => order.sku)}
-                    {labOrders.length}
                   </div>
                 </div>
               </div>

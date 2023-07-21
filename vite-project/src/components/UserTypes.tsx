@@ -161,3 +161,8 @@ export const labOrderInputs: Array<Input> = [
     type: "text",
   },
 ];
+
+export const NOT_CLAIMED = 'Not Claimed'
+export const CLAIMED = 'Claimed'
+export const NOT_APPROVED = 'Not Approved'
+export const APPROVED = 'Approved'
