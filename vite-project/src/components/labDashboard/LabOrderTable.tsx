@@ -3,7 +3,7 @@ import { Alert, Snackbar } from '@mui/material'
 import React, { useCallback, useState } from 'react'
 import { CellProps, FilterProps, FilterValue, IdType, Row, TableInstance } from 'react-table'
 import { claimNewOrders } from '../Authentication'
-import { LabOrder } from '../UserTypes'
+import { LabOrder, LabOrderTableRow } from '../UserTypes'
 
 import { Page } from './regulator/Page'
 import { Table } from './regulator/Table'
@@ -28,7 +28,7 @@ const columns = [
     }
 ] //.flatMap((c:any)=>c.columns) // remove comment to drop header groups
 
-const LabOrderTable: React.FC = (props) => {
+const LabOrderTable: React.FC<{labOrders: LabOrderTableRow[]}> = (props) => {
   const {labOrders} = props
 
   const [data, setData] = React.useState(labOrders)

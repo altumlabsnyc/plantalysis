@@ -10,7 +10,7 @@ import "../assets/dashboard/js/datatables-simple-demo.js";
 import "../assets/dashboard/css/styles.css";
 import "https://use.fontawesome.com/releases/v6.3.0/js/all.js";
 import Regulator from "./Regulator.js";
-import { LabOrder } from "../UserTypes.js";
+import { LabOrder, LabOrderTableRow } from "../UserTypes.js";
 import { supabase, fetchUnclaimedOrders } from "../Authentication.js";
 import { Session } from "@supabase/supabase-js";
 import LabOrderTable from "./LabOrderTable.js";
@@ -20,16 +20,15 @@ interface SessionProps {
 }
 
 export default function ClaimOrders({ session }: SessionProps) {
-  const [labOrders, setLabOrders] = useState<Array<LabOrder>>([]);
+  const [labOrders, setLabOrders] = useState<Array<LabOrderTableRow>>([]);
   const [loading, setLoading] = useState(true);
   useEffect(() => {
     async function fetchOrders() {
       setLoading(true);
       if (session) {
         setLabOrders((await fetchUnclaimedOrders()).map(
-          e => {
-            e.status = 'Not Claimed'
-            return e
+          (t: LabOrder): LabOrderTableRow => {
+            return {...t, status: 'Not Claimed'}
           }
         ));
         // console.log('aaaaaaaaaa')
