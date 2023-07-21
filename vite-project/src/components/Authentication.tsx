@@ -59,7 +59,7 @@ export async function handleSignIn(
           window.location.href = "/"; //update
           break;
         case "producer":
-          window.location.href = "/new-order"; //update
+          window.location.href = "/dashboard/producer"; //update
           break;
         default:
           window.location.href = "/login";
