@@ -297,7 +297,7 @@ export async function fetchAnalyzedOrders(): Promise<Array<ForApproval>> {
             brand_name: brandName.name,
             pass: true,
             molecules: correspondingMolecules.data,
-            sku: "sku-temp",
+            sku: "qr.plantalysis.com/" + labOrderId,
             analysis_id: analysisId,
           };
           forApproval.push(newApproved);
@@ -337,7 +337,7 @@ export async function fetchProducerOrders(): Promise<Array<LabOrder>> {
   console.log("entra");
   const allLabOrders: Array<LabOrder> = [];
   const userId = (await supabase.auth.getUser()).data.user?.id;
-  console.log(userId);
+
   const brandIds = (
     await supabase.from("brand").select("id").eq("producer_user_id", userId)
   ).data;
@@ -345,9 +345,17 @@ export async function fetchProducerOrders(): Promise<Array<LabOrder>> {
   if (brandIds) {
     const allBatchIds: Array<string> = [];
     await brandIds.map(async (brandId) => {
-      const batchIdsOfBrand = (
-        await supabase.from("batch").select("id").eq("brand_id", brandId)
-      ).data;
+      // const batchIdsOfBrand = (
+      //   await supabase.from("batch").select("id").eq("brand_id", brandId)
+      // ).data;
+      const response = await supabase
+        .from("batch")
+        .select("id")
+        .eq("brand_id", brandId);
+      const batchIdsOfBrand = response.data;
+      console.log("Y ACA QUE", { data: response.data, error: response.error });
+
+      console.log("llega?", { batch: batchIdsOfBrand, brandId: brandId });
       if (batchIdsOfBrand) {
         batchIdsOfBrand.map((id) => {
           allBatchIds.push(id.id);
