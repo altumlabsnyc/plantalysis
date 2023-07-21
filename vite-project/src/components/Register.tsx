@@ -332,55 +332,48 @@ export default function SignInSide() {
                         display: "flex",
                         flexDirection: "row",
                         alignItems: "left",
-                        border: "1px solid #000",
                       }}
                     >
                       <FormControlLabel
-                        key={user.name}
-                        value={user.userType}
-                        control={<Radio />}
-                        labelPlacement="end"
-                        sx={{
-                          my: 2,
-                          mx: 2,
-                          display: "flex",
-                          flexDirection: "row",
-                          alignItems: "center",
-                        }}
-                        label={
-                          <Box
-                            sx={{
-                              mx: 2,
-                              my: 2,
-                              // border: "1px solid #000",
-                              flexDirection: "row",
-                              display: "flex",
-                              alignItems: "center",
-                            }}
-                          >
-                            <img
-                              src={`./src/components/assets/svg/${user.code}.svg`}
-                              alt={user.code}
-                              style={{ height: "8%", width: "8%" }}
-                            />
-                            <input
-                              type="radio"
-                              name="signup-gender"
-                              value={user.code}
-                              id={user.code}
-                              style={{ visibility: "hidden" }}
-                              onChange={() => setSelectedUser(user.userType)}
-                            />
-
-                            <span style={{ marginLeft: 4 }}>
-                              {
-                                <Typography component="p" variant="h5">
-                                  {user.name}
-                                </Typography>
-                              }
-                            </span>
-                          </Box>
-                        }
+                          key={user.name}
+                          value={user.userType}
+                          control={<Radio style={{ display: 'none' }} />} // hide the radio button
+                          labelPlacement="end"
+                          sx={{
+                            my: 0.5,
+                            mx: 2,
+                            display: "flex",
+                            borderRadius: "10px",
+                            flexDirection: "row",
+                            alignItems: "center",
+                            boxShadow: "0 3px 5px 2px rgba(0, 0, 0, .3)", // Add a shadow
+                            backgroundColor: selectedUser === user.userType ? "lightgrey" : "transparent", // Change background color if selected
+                          }}
+                          label={
+                            <Box
+                              sx={{
+                                mx: 2,
+                                my: 2,
+                                flexDirection: "row",
+                                borderRadius: "20px",
+                                display: "flex",
+                                alignItems: "center",
+                              }}
+                            >
+                              <img
+                                src={`./src/components/assets/svg/${user.code}.svg`}
+                                alt={user.code}
+                                style={{ height: "8%", width: "8%" }}
+                              />
+                              <span style={{ marginLeft: 4 }}>
+                                {
+                                  <Typography component="p" variant="h5">
+                                    {user.name}
+                                  </Typography>
+                                }
+                              </span>
+                            </Box>
+                          }
                       />
                     </Box>
                   ))}
@@ -428,24 +421,29 @@ export default function SignInSide() {
                     ))}
                 </div>
               )}
-
-              <Button
-                type="submit"
-                variant="contained"
-                sx={{
-                  mt: 3,
-                  alignItems: "right",
-                  mb: 2,
-                  backgroundColor: "#CFAA41",
-                  color: "white",
-                  "&:hover": {
-                    backgroundColor: "#CFAA41", // Maintain the same background color on hover
-                  },
-                }}
-              >
-                Continue
-              </Button>
-
+            <Button
+              type="submit"
+              variant="contained"
+              sx={{
+                mt: 3,
+                mb: 2,
+                mx: 'auto', // Add this line
+                display: 'block', // And this line
+                backgroundColor: "#CFAA41",
+                color: "white",
+                "&:hover": {
+                  backgroundColor: "#A98632",
+                },
+                boxShadow: "0 3px 5px 2px rgba(0, 0, 0, .3)",
+                textTransform: "none",
+                fontSize: "1rem",
+                padding: "0.5rem 2rem",
+                borderRadius: "20px",
+                transition: "all 0.3s cubic-bezier(.25,.8,.25,1)",
+              }}
+            >
+              Continue
+            </Button>
               <Copyright sx={{ mt: 5 }} />
             </Box>
           </Box>
