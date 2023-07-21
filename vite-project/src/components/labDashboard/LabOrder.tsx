@@ -26,7 +26,12 @@ export default function ClaimOrders({ session }: SessionProps) {
     async function fetchOrders() {
       setLoading(true);
       if (session) {
-        setLabOrders(await fetchUnclaimedOrders());
+        setLabOrders((await fetchUnclaimedOrders()).map(
+          e => {
+            e.status = 'Not Claimed'
+            return e
+          }
+        ));
         // console.log('aaaaaaaaaa')
         // console.log(temp)
         setLoading(false);
@@ -139,7 +144,7 @@ export default function ClaimOrders({ session }: SessionProps) {
                   <div className="d-flex align-items-center justify-content-between small">
                     <div className="text-muted">
                       Copyright &copy; PLANTALYSIS by Altum Labs 2023
-                      {labOrders.map((order) => order.location)}
+                      {/* {labOrders.map((order) => order.location)} */}
                     </div>
                   </div>
                 </div>

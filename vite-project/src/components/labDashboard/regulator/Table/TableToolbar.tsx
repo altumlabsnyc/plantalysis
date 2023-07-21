@@ -143,6 +143,7 @@ export function TableToolbar<T extends Record<string, unknown>>({
   onDelete,
   onEdit,
   onClaim,
+  onSelectionChange
 }: PropsWithChildren<TableToolbarProps<T>>): ReactElement | null {
   const { columns } = instance
   const classes = useStyles()
@@ -213,18 +214,35 @@ export function TableToolbar<T extends Record<string, unknown>>({
             variant='left'
           />
         )}
-        {onClaim && (
-          <InstanceSmallIconActionButton<T>
-            instance={instance}
-            icon={<CheckOutlinedIcon />}
+        
+            {onClaim && <Button
             onClick={onClaim}
-            label='Claim'
-            enabled={({ state }: TableInstance<T>) =>
-              state.selectedRowIds && Object.keys(state.selectedRowIds).length > 0
-            }
-            variant='left'
-          />
-        )}
+            type="submit"
+            
+            variant="contained"
+            sx={{
+                mt: 3,
+                mb: 2,
+                backgroundColor: "#CFAA41",
+                color: "white",
+                "&:hover": {
+                backgroundColor: "#CFAA41", // Maintain the same background color on hover
+                },
+            }}
+            >
+            Claim
+            </Button>}
+        {
+          onSelectionChange && (
+            <InstanceSmallIconActionButton<T>
+              instance={instance}
+              onClick={onSelectionChange}
+              label={''}
+              enabled={() => true}
+              variant='left'
+            />
+          )
+        }
       </div>
       <div className={classes.rightButtons}>
         <ColumnHidePage<T> instance={instance} onClose={handleClose} show={columnsOpen} anchorEl={anchorEl} />

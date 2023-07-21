@@ -62,6 +62,7 @@ export interface TableProperties<T extends Record<string, unknown>>
   onDelete?: (instance: TableInstance<T>) => MouseEventHandler;
   onEdit?: (instance: TableInstance<T>) => MouseEventHandler;
   onClick?: (row: Row<T>) => void;
+  onSelectionChange?: (instance: TableInstance<T>) => void;
 }
 
 const DefaultHeader: React.FC<HeaderProps<any>> = ({ column }) => (
@@ -193,7 +194,7 @@ const filterTypes = {
 export function Table<T extends Record<string, unknown>>(
   props: PropsWithChildren<TableProperties<T>>
 ): ReactElement {
-  const { name, columns, onAdd, onDelete, onEdit, onClick, onClaim } = props;
+  const { name, columns, onAdd, onDelete, onEdit, onClick, onClaim, onSelectionChange } = props;
   const classes = useStyles();
 
   const [initialState, setInitialState] = useLocalStorage(
@@ -250,7 +251,7 @@ export function Table<T extends Record<string, unknown>>(
   const { role: tableRole, ...tableProps } = getTableProps();
   return (
     <>
-      <TableToolbar instance={instance} {...{ onAdd, onDelete, onEdit, onClaim }} />
+      <TableToolbar instance={instance} {...{ onAdd, onDelete, onEdit, onClaim, onSelectionChange }} />
       <FilterChipBar<T> instance={instance} />
       <TableTable {...tableProps}>
         <TableHead>
