@@ -48,10 +48,6 @@ const columns = [
     Header: "Lab",
     accessor: "lab_name",
   },
-  {
-    Header: "Status",
-    accessor: "status",
-  },
 
   {
     Header: "QR link",
@@ -155,6 +151,7 @@ const AnalysisTable: React.FC<{ analysis: AnalysisTableRow[] }> = ({
         return e;
       });
       setData(new_data);
+      window.location.reload()
     });
   };
   const onSelectionChange = function (a) {

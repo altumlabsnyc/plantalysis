@@ -35,11 +35,7 @@ const columns = [
   {
     Header: "Info",
     accessor: "strain_info",
-  },
-  {
-    Header: "Status",
-    accessor: "status",
-  },
+  }
 ]; //.flatMap((c:any)=>c.columns) // remove comment to drop header groups
 
 interface TableProps {
