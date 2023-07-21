@@ -50,10 +50,10 @@ export async function handleSignIn(
           window.location.href = "/library";
           break;
         case "regulator":
-          window.location.href = "/regulator";
+          window.location.href = "/dashboard/regulator";
           break;
         case "lab":
-          window.location.href = "/upload";
+          window.location.href = "/dashboard/labs";
           break;
         case "university":
           window.location.href = "/"; //update
@@ -312,9 +312,6 @@ export async function fetchAnalyzedOrders(): Promise<Array<ForApproval>> {
 export async function claimNewOrders(orderIds: Array<string>): Promise<void> {
   const userId = (await supabase.auth.getUser()).data.user?.id;
 
-  const userData = await supabase.from("user").select("*").eq("id", userId);
-  console.log("userData", userData);
-
   if (userId) {
     for (const orderId of orderIds) {
       const { data, error } = await supabase
@@ -328,13 +325,10 @@ export async function claimNewOrders(orderIds: Array<string>): Promise<void> {
 }
 
 export async function approveOrders(analysisIds: Array<string>): Promise<void> {
-  const userId = (await supabase.auth.getUser()).data.user?.id;
-  if (userId) {
-    for (const analysisId of analysisIds) {
-      await supabase
-        .from("analysis")
-        .update({ regulator_approved: true })
-        .eq("id", analysisId);
-    }
+  for (const analysisId of analysisIds) {
+    await supabase
+      .from("analysis")
+      .update({ regulator_approved: true })
+      .eq("id", analysisId);
   }
 }

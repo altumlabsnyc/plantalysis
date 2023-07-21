@@ -17,7 +17,7 @@ import {
   TableInstance,
 } from "react-table";
 import { claimNewOrders } from "../Authentication";
-import { CLAIMED, LabOrder, LabOrderTableRow, NOT_CLAIMED } from "../UserTypes";
+import { LabOrder, LabOrderTableRow } from "../UserTypes";
 
 import { Page } from "./regulator/Page";
 import { Table } from "./regulator/Table";
@@ -42,11 +42,13 @@ const columns = [
   },
 ]; //.flatMap((c:any)=>c.columns) // remove comment to drop header groups
 
-interface LabOrderProps {
+interface TableProps {
   labOrders: LabOrderTableRow[];
+  showClaimed: boolean;
 }
 
-export function LabOrderTable({ labOrders }: LabOrderProps) {
+export default function LabOrderTable({ labOrders, showClaimed }: TableProps) {
+  // const { labOrders } = props;
 
   const [data, setData] = React.useState(labOrders);
   React.useEffect(() => {
@@ -59,7 +61,8 @@ export function LabOrderTable({ labOrders }: LabOrderProps) {
 
   const [isSnackBarOpen, setIsSnackBarOpen] = React.useState(false);
   const [snackBarMessage, setSnackBarMessage] = React.useState("");
-  const [snackBarSeverity, setSnackBarSeverity] = React.useState<AlertColor>("info");
+  const [snackBarSeverity, setSnackBarSeverity] =
+    React.useState<AlertColor>("info");
   const [isSendingClaimRequest, setIsSendingClaimRequest] =
     React.useState(false);
 
@@ -117,13 +120,23 @@ export function LabOrderTable({ labOrders }: LabOrderProps) {
   return (
     <Page>
       <CssBaseline />
-      <Table<PersonData>
-        name={"testTable"}
-        columns={columns}
-        data={data}
-        onSelectionChange={onSelectionChange}
-        onClaim={onClaim}
-      />
+      {showClaimed && (
+        <Table<PersonData>
+          name={"testTable"}
+          columns={columns}
+          data={data}
+          onSelectionChange={onSelectionChange}
+          onClaim={onClaim}
+        />
+      )}
+      {!showClaimed && (
+        <Table<PersonData>
+          name={"testTable"}
+          columns={columns}
+          data={data}
+          // onSelectionChange={onSelectionChange}
+        />
+      )}
       <Snackbar
         open={isSnackBarOpen}
         autoHideDuration={2000}
@@ -134,6 +147,6 @@ export function LabOrderTable({ labOrders }: LabOrderProps) {
       </Snackbar>
     </Page>
   );
-};
+}
 
-export default LabOrderTable;
+// export default LabOrderTable;
