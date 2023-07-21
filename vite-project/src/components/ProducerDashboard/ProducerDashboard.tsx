@@ -10,7 +10,8 @@ import "../assets/dashboard/js/datatables-simple-demo.js";
 import "../assets/dashboard/css/styles.css";
 import "https://use.fontawesome.com/releases/v6.3.0/js/all.js";
 
-const ProducerDashboard: React.FC = () => {
+const ProducerDashboard: React.FC = (props) => {
+  const {children} = props
   return (
     <div>
       <title>Producer Dashboard | PLANTALYSIS by ALtum Labs</title>
@@ -72,7 +73,7 @@ const ProducerDashboard: React.FC = () => {
               <div className="sb-sidenav-menu">
                 <div className="nav">
                   <div className="sb-sidenav-menu-heading">Core</div>
-                  <a className="nav-link" href="/new-order">
+                  <a className="nav-link" href="/dashboard/producer/new-order">
                     <div className="sb-nav-link-icon">
                       <i className="fas fa-tachometer-alt"></i>
                     </div>
@@ -95,11 +96,7 @@ const ProducerDashboard: React.FC = () => {
           <div id="layoutSidenav_content">
             <main>
               <div className="container-fluid px-4">
-                <h1 className="mt-4">Data Approval</h1>
-                <ol className="breadcrumb mb-4">
-                  <li className="breadcrumb-item active">Dashboard</li>
-                </ol>
-                {/* table here */}
+                {children}
               </div>
             </main>
             <footer className="py-4 bg-light mt-auto">

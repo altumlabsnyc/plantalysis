@@ -14,35 +14,16 @@ import { supabase, fetchProducerOrders } from "../Authentication.js";
 import { Session } from "@supabase/supabase-js";
 import LabOrderTable from "../labDashboard/LabOrderTable.js";
 import ProducerDashboard from "./ProducerDashboard.js";
+import PlaceNewOrder from "../producer/PlaceNewOrder.js";
 
 interface SessionProps {
   session: Session | null;
 }
 
-export default function ProducerOrders({ session }: SessionProps) {
-  const [labOrders, setLabOrders] = useState<Array<LabOrderTableRow>>([]);
-  const [loading, setLoading] = useState(true);
-  useEffect(() => {
-    async function fetchOrders() {
-      setLoading(true);
-      if (session) {
-        setLabOrders(
-          (await fetchProducerOrders()).map((t: LabOrder): LabOrderTableRow => {
-            return { ...t, status: "Claimed" };
-          })
-        );
-        // console.log('aaaaaaaaaa')
-        // console.log(temp)
-        setLoading(false);
-      }
-    }
-
-    fetchOrders();
-  }, [session]);
-
+export default function ProdPlaceOrder({ session }: SessionProps) {
   return (
     <ProducerDashboard>
-      {<LabOrderTable labOrders={labOrders} showClaimed={false} />}
+      {<PlaceNewOrder session={session} />}
     </ProducerDashboard>
   );
 }
