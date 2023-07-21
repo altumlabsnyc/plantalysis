@@ -358,7 +358,7 @@ export async function fetchProducerOrders(): Promise<Array<LabOrder>> {
       const labOrders: LabOrder[] | null = (
         await supabase.from("lab_order").select("*").eq("batch_id", batchId)
       ).data;
-      if (labOrders) {
+      if (labOrders && labOrders[0]) {
         allLabOrders.push(labOrders[0]);
       }
     }
