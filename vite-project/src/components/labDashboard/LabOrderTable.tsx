@@ -1,9 +1,22 @@
-import { Button, CssBaseline, InputLabel, MenuItem, TextField } from '@material-ui/core'
-import { Alert, AlertColor, Snackbar } from '@mui/material'
-import React, { useCallback, useState } from 'react'
-import { CellProps, FilterProps, FilterValue, IdType, Row, TableInstance } from 'react-table'
-import { claimNewOrders } from '../Authentication'
-import { CLAIMED, LabOrder, LabOrderTableRow, NOT_CLAIMED } from '../UserTypes'
+import {
+  Button,
+  CssBaseline,
+  InputLabel,
+  MenuItem,
+  TextField,
+} from "@material-ui/core";
+import { Alert, AlertColor, Snackbar } from "@mui/material";
+import React, { useCallback, useState } from "react";
+import {
+  CellProps,
+  FilterProps,
+  FilterValue,
+  IdType,
+  Row,
+  TableInstance,
+} from "react-table";
+import { claimNewOrders } from "../Authentication";
+import { CLAIMED, LabOrder, LabOrderTableRow, NOT_CLAIMED } from "../UserTypes";
 
 import { Page } from "./regulator/Page";
 import { Table } from "./regulator/Table";
@@ -32,7 +45,7 @@ interface LabOrderProps {
   labOrders: LabOrderTableRow[];
 }
 
-export default function LabOrderTable({ labOrders }: LabOrderProps) {
+export function LabOrderTable({ labOrders }: LabOrderProps) {
 
   const [data, setData] = React.useState(labOrders);
   React.useEffect(() => {
@@ -82,6 +95,7 @@ export default function LabOrderTable({ labOrders }: LabOrderProps) {
       .map((e) => e.id);
 
     onStartClaimRequest();
+
     claimNewOrders(order_ids).then(() => {
       onClaimSuccess();
       // set order's to claimed
@@ -119,4 +133,6 @@ export default function LabOrderTable({ labOrders }: LabOrderProps) {
       </Snackbar>
     </Page>
   );
-}
+};
+
+export default LabOrderTable;
