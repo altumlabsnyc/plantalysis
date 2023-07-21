@@ -19,6 +19,7 @@ import { useState, useEffect } from "react";
 import { supabase } from "./components/Authentication";
 import { Session } from "@supabase/supabase-js";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import ProdPlaceOrder from "./components/ProducerDashboard/ProdPlaceOrder";
 
 function App() {
   const [session, setSession] = useState<Session | null>(null);
@@ -44,6 +45,9 @@ function App() {
         </Route>
         <Route path="/dashboard/producer/orders">
           <ProducerOrders session={session} />
+        </Route>
+        <Route path="/dashboard/producer/new-order">
+          <ProdPlaceOrder session={session} />
         </Route>
         <Route path="/dashboard/labs/claim">
           <LabOrder session={session} />

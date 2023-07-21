@@ -73,7 +73,7 @@ const ProducerDashboard: React.FC = (props) => {
               <div className="sb-sidenav-menu">
                 <div className="nav">
                   <div className="sb-sidenav-menu-heading">Core</div>
-                  <a className="nav-link" href="/new-order">
+                  <a className="nav-link" href="/dashboard/producer/new-order">
                     <div className="sb-nav-link-icon">
                       <i className="fas fa-tachometer-alt"></i>
                     </div>
