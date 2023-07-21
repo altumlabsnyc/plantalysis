@@ -3,6 +3,7 @@ import KeyboardArrowRight from "@material-ui/icons/KeyboardArrowRight";
 import KeyboardArrowUp from "@material-ui/icons/KeyboardArrowUp";
 import cx from "classnames";
 import React, {
+  BaseSyntheticEvent,
   CSSProperties,
   MouseEventHandler,
   PropsWithChildren,
@@ -61,10 +62,12 @@ export interface TableProperties<T extends Record<string, unknown>>
   onAdd?: (instance: TableInstance<T>) => MouseEventHandler;
   onDelete?: (instance: TableInstance<T>) => MouseEventHandler;
   onEdit?: (instance: TableInstance<T>) => MouseEventHandler;
-  onClick?: (row: Row<T>) => void;
+  onClick?: (e: BaseSyntheticEvent, row: Row<T>) => void;
   onClaim?: (instance: TableInstance<T>) => MouseEventHandler;
   onApprove?: (instance: TableInstance<T>) => MouseEventHandler;
   onSelectionChange?: (instance: TableInstance<T>) => void;
+  hideToolbar?: boolean;
+  enableDebug?: boolean;
 }
 
 const DefaultHeader: React.FC<HeaderProps<any>> = ({ column }) => (
@@ -196,7 +199,19 @@ const filterTypes = {
 export function Table<T extends Record<string, unknown>>(
   props: PropsWithChildren<TableProperties<T>>
 ): ReactElement {
-  const { name, columns, onAdd, onDelete, onEdit, onClick, onClaim, onApprove, onSelectionChange } = props;
+  const {
+    name,
+    columns,
+    onAdd,
+    onDelete,
+    onEdit,
+    onClick,
+    onClaim,
+    onApprove,
+    onSelectionChange,
+    hideToolbar,
+    enableDebug
+  } = props;
   const classes = useStyles();
 
   const [initialState, setInitialState] = useLocalStorage(
@@ -242,19 +257,24 @@ export function Table<T extends Record<string, unknown>>(
     setInitialState(val);
   }, [setInitialState, debouncedState]);
 
-  const cellClickHandler = (cell: Cell<T>) => () => {
+  const cellClickHandler = (cell: Cell<T>) => (e: BaseSyntheticEvent) => {
     onClick &&
       !cell.column.isGrouped &&
       !cell.row.isGrouped &&
       cell.column.id !== "_selector" &&
-      onClick(cell.row);
+      onClick(e, cell.row);
   };
 
   const { role: tableRole, ...tableProps } = getTableProps();
   return (
     <>
-      <TableToolbar instance={instance} {...{ onAdd, onDelete, onEdit, onClaim, onApprove, onSelectionChange }} />
-      <FilterChipBar<T> instance={instance} />
+      {
+        !hideToolbar &&
+          <>
+          <TableToolbar instance={instance} {...{ onAdd, onDelete, onEdit, onClaim, onApprove, onSelectionChange }} />
+          <FilterChipBar<T> instance={instance} />
+          </>
+      }
       <TableTable {...tableProps}>
         <TableHead>
           {headerGroups.map((headerGroup) => {
@@ -382,7 +402,7 @@ export function Table<T extends Record<string, unknown>>(
         </TableBody>
       </TableTable>
       <TablePagination<T> instance={instance} />
-      <TableDebug enabled instance={instance} />
+      <TableDebug enabled={enableDebug} instance={instance} />
     </>
   );
 }

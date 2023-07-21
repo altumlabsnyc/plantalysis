@@ -3,6 +3,7 @@ import {
   CssBaseline,
   InputLabel,
   MenuItem,
+  Popover,
   TextField,
 } from "@material-ui/core";
 import { Alert, AlertColor, Snackbar } from "@mui/material";
@@ -16,7 +17,7 @@ import {
   TableInstance,
 } from "react-table";
 import { claimNewOrders } from "../Authentication";
-import { LabOrder, LabOrderTableRow } from "../UserTypes";
+import { CLAIMED, LabOrder, LabOrderTableRow, NOT_CLAIMED } from "../UserTypes";
 
 import { Page } from "./regulator/Page";
 import { Table } from "./regulator/Table";

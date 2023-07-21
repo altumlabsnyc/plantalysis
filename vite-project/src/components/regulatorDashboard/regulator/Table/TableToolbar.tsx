@@ -136,6 +136,7 @@ type TableToolbarProps<T extends Record<string, unknown>> = {
   onEdit?: TableMouseEventHandler
   onClaim?: TableMouseEventHandler
   onApprove?: TableMouseEventHandler
+  onSelectionChange?: () => void
 }
 
 export function TableToolbar<T extends Record<string, unknown>>({
