@@ -3,11 +3,9 @@ import {
   Radio,
   RadioGroup,
   FormControlLabel,
-  FormControl,
   CssBaseline,
   Button,
   TextField,
-  Checkbox,
   Link,
   Paper,
   Box,
@@ -20,12 +18,9 @@ import {
 import background from "./assets/login/img/frame.png";
 
 import {
-  userTypeFields,
   users,
   generalInputs,
-  userSpecificInputs,
   UserType,
-  Input,
   userData,
   govUser,
   eduUser,

@@ -95,7 +95,7 @@ export default function SignInSide() {
               mx: 4,
               display: "flex",
               flexDirection: "column",
-              alignItems: "center",
+              alignItems: "left",
             }}
           >
             <Typography component="h1" variant="h5">
