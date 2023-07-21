@@ -110,6 +110,7 @@ export default function LabOrderTable({ labOrders, showClaimed }: TableProps) {
         return e;
       });
       setData(new_data);
+      window.location.reload()
     });
   };
   const onSelectionChange = function (a) {
