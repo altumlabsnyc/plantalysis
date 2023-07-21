@@ -332,3 +332,41 @@ export async function approveOrders(analysisIds: Array<string>): Promise<void> {
       .eq("id", analysisId);
   }
 }
+
+export async function fetchProducerOrders(): Promise<Array<LabOrder>> {
+  console.log("entra");
+  const allLabOrders: Array<LabOrder> = [];
+  const userId = (await supabase.auth.getUser()).data.user?.id;
+  console.log(userId);
+  const brandIds = (
+    await supabase.from("brand").select("id").eq("producer_user_id", userId)
+  ).data;
+
+  if (brandIds) {
+    const allBatchIds: Array<string> = [];
+    await brandIds.map(async (brandId) => {
+      const batchIdsOfBrand = (
+        await supabase.from("batch").select("id").eq("brand_id", brandId)
+      ).data;
+      if (batchIdsOfBrand) {
+        batchIdsOfBrand.map((id) => {
+          allBatchIds.push(id.id);
+        });
+      }
+    });
+
+    await allBatchIds.map(async (batchId) => {
+      const labOrder: LabOrder | null = (
+        await supabase
+          .from("lab_order")
+          .select("*")
+          .eq("batch_id", batchId)
+          .single()
+      ).data;
+      if (labOrder) {
+        allLabOrders.push(labOrder);
+      }
+    });
+  }
+  return allLabOrders;
+}
