@@ -3,4 +3,4 @@ vite-project/src/components/Constants.tsx
 .DS_Store
 
 server/node_modules
-
+server/.env
