@@ -51,7 +51,7 @@ const columns = [
 ]; //.flatMap((c:any)=>c.columns) // remove comment to drop header groups
 
 interface LabOrderProps {
-  labOrders: labOrder;
+  labOrders: LabOrder;
 }
 
 export default function LabOrderTable({ labOrders }: LabOrderProps) {
