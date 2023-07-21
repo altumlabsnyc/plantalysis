@@ -1,5 +1,6 @@
 import {
   Button,
+  ClickAwayListener,
   CssBaseline,
   InputLabel,
   MenuItem,
@@ -24,6 +25,7 @@ import {
   MoleculePrediction,
   makeMoleculePredictionData,
 } from "./regulator/utils";
+import { MoleculePredict } from "../UserTypes";
 
 // This is a custom aggregator that
 // takes in an array of values and
@@ -227,14 +229,6 @@ const moleculePredictionColumns = [
     accessor: "moleculeId",
   },
   {
-    Header: "Molecule Name",
-    accessor: "moleculeName",
-  },
-  {
-    Header: "Molecule Common Name",
-    accessor: "moleculeCommonName",
-  },
-  {
     Header: "Concentration",
     accessor: "concentration",
   },
@@ -321,80 +315,66 @@ const Regulator: React.FC = () => {
   const handlePopoverOpen = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>, row) => {
     setAnchorEl(event.currentTarget);
   };
 
   const handlePopoverClose = () => {
-    setAnchorEl(null);
+    console.log('onclose')
+    // setAnchorEl(null);
   };
 
   const open = Boolean(anchorEl);
-  // console.log(open)
+  console.log(open)
 
-  const dummy = useCallback(
-    (instance: TableInstance<PersonData>) => () => {
-      console.log(
-        "Selected",
-        instance.selectedFlatRows
-          .map((v) => `'${v.original.firstName} ${v.original.lastName}'`)
-          .join(", ")
-      );
-    },
-    []
-  );
 
   return (
     <Page>
-      <Popover
-        id="mouse-over-popover"
-        sx={{
-          pointerEvents: "none",
-        }}
-        anchorOrigin={{
-          vertical: "bottom",
-          horizontal: "center",
-        }}
-        transformOrigin={{
-          vertical: "top",
-          horizontal: "center",
-        }}
-        open={open}
-        anchorEl={anchorEl}
-        onClose={handlePopoverClose}
-        disableRestoreFocus
-      >
-        <>
+      <ClickAwayListener onClickAway={handlePopoverClose}>
+        <div>
+        <Popover
+          id="mouse-over-popover"
+          sx={{
+            pointerEvents: "none",
+          }}
+          anchorOrigin={{
+            vertical: "bottom",
+            horizontal: "center",
+          }}
+          transformOrigin={{
+            vertical: "top",
+            horizontal: "center",
+          }}
+          open={open}
+          anchorEl={anchorEl}
+          onClose={handlePopoverClose}
+          disableRestoreFocus
+        >
           <Table<MoleculePrediction>
             name={"testTable"}
             columns={moleculePredictionColumns}
             data={moleculePredictionData}
-            onAdd={dummy}
-            onEdit={dummy}
-            onDelete={dummy}
             hideToolBar={true}
             disableSelection={true}
             disablePagination={true}
             disableGroupBy={true}
           />
-        </>
-      </Popover>
+        </Popover>
+        </div>
+      </ClickAwayListener>
       <CssBaseline />
       <Table<PersonData>
         name={"testTable"}
         columns={columns}
         data={data}
-        onAdd={dummy}
-        onEdit={dummy}
-        onDelete={dummy}
         // rowProps={row => ({
         //   onClick: () => console.log('aaaa'),
         // })}
-        onClick={(_, e) => {
+        onClick={(e, row) => {
           if (e && e.currentTarget && e.currentTarget.parentElement) {
             e.currentTarget = e.currentTarget.parentElement;
           }
-          handleClick(e);
+          handleClick(e, row);
         }}
         enableDebug={true}
       />

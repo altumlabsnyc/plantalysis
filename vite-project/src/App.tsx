@@ -48,6 +48,7 @@ function App() {
           redirectPath="/login"
         />
         <Route path="/faq" component={Faq} />
+        <Route path="/reg" component={Regulator} />
         <Route path="/library" component={Library} />
         <Route path="/stripe" component={Stripe} />
         <Route path="/new-order">
