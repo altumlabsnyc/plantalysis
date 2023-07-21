@@ -16,6 +16,7 @@
     "@material-ui/icons": "^4.11.3",
     "@mui/icons-material": "^5.14.0",
     "@mui/material": "^5.14.0",
+    "@stripe/stripe-js": "^1.54.1",
     "@supabase/supabase-js": "^2.26.0",
     "@types/d3": "^7.4.0",
     "@types/jquery": "^3.5.16",

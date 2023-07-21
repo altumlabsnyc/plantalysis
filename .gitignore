@@ -4,3 +4,5 @@ vite-project/src/components/Constants.tsx
 
 server/node_modules
 server/.env
+
+vite-project/.env
