@@ -29,6 +29,25 @@ export type Analysis = Database["public"]["Tables"]["analysis"]["Row"];
 export type MoleculePredict =
   Database["public"]["Tables"]["molecule_prediction"]["Row"];
 
+
+
+export type LabOrderTableRow = {
+  status: string
+  batch_id: string | null
+  bio_id: string | null
+  gcfid_id: string | null
+  gcms_id: string | null
+  hplc_id: string | null
+  icpms_id: string | null
+  id: string
+  lab_notes: string | null
+  lab_user_id: string | null
+  lcms_id: string | null
+  location: string | null
+  pickup_date: string | null
+  strain_info: string | null
+}
+
 export type ForApproval = {
   lab_name: string | null;
   brand_name: string | null;

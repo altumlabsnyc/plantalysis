@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import {
   Button,
   CssBaseline,
@@ -17,6 +18,14 @@ import {
 } from "react-table";
 import { claimNewOrders } from "../Authentication";
 import { LabOrder } from "../UserTypes";
+=======
+import { Button, CssBaseline, InputLabel, MenuItem, TextField } from '@material-ui/core'
+import { Alert, Snackbar } from '@mui/material'
+import React, { useCallback, useState } from 'react'
+import { CellProps, FilterProps, FilterValue, IdType, Row, TableInstance } from 'react-table'
+import { claimNewOrders } from '../Authentication'
+import { LabOrder, LabOrderTableRow } from '../UserTypes'
+>>>>>>> 25440e9935210bdd90494380d2308febf90d8375
 
 import { Page } from "./regulator/Page";
 import { Table } from "./regulator/Table";
