@@ -186,7 +186,6 @@ export async function handlePlaceLabOrder(
     const brandId = await getBrandId(brandName, userId);
     const batchId = await createNewBatch(brandId);
     labOrder.batch_id = batchId;
-    console.log(labOrder);
     const { data, error } = await supabase.from("lab_order").insert(labOrder);
   }
 
@@ -305,7 +304,6 @@ export async function fetchAnalyzedOrders(): Promise<Array<ForApproval>> {
       }
     }
   }
-  console.log("forapproval", forApproval);
   return forApproval;
 }
 
@@ -355,7 +353,6 @@ export async function fetchProducerOrders(): Promise<Array<LabOrder>> {
         }
       }
     }
-    console.log("allBatchIds", allBatchIds);
 
     for (const batchId of allBatchIds) {
       const labOrders: LabOrder[] | null = (
