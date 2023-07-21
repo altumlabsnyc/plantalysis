@@ -1,31 +1,9 @@
-<<<<<<< HEAD
-import {
-  Button,
-  CssBaseline,
-  InputLabel,
-  MenuItem,
-  TextField,
-} from "@material-ui/core";
-import { Alert, Snackbar } from "@mui/material";
-import React, { useCallback, useState } from "react";
-import {
-  CellProps,
-  FilterProps,
-  FilterValue,
-  IdType,
-  Row,
-  TableInstance,
-} from "react-table";
-import { claimNewOrders } from "../Authentication";
-import { LabOrder } from "../UserTypes";
-=======
 import { Button, CssBaseline, InputLabel, MenuItem, TextField } from '@material-ui/core'
-import { Alert, Snackbar } from '@mui/material'
+import { Alert, AlertColor, Snackbar } from '@mui/material'
 import React, { useCallback, useState } from 'react'
 import { CellProps, FilterProps, FilterValue, IdType, Row, TableInstance } from 'react-table'
 import { claimNewOrders } from '../Authentication'
-import { LabOrder, LabOrderTableRow } from '../UserTypes'
->>>>>>> 25440e9935210bdd90494380d2308febf90d8375
+import { CLAIMED, LabOrder, LabOrderTableRow, NOT_CLAIMED } from '../UserTypes'
 
 import { Page } from "./regulator/Page";
 import { Table } from "./regulator/Table";
@@ -51,11 +29,10 @@ const columns = [
 ]; //.flatMap((c:any)=>c.columns) // remove comment to drop header groups
 
 interface LabOrderProps {
-  labOrders: labOrder;
+  labOrders: LabOrderTableRow[];
 }
 
 export default function LabOrderTable({ labOrders }: LabOrderProps) {
-  // const labOrders = props;
 
   const [data, setData] = React.useState(labOrders);
   React.useEffect(() => {
@@ -68,7 +45,7 @@ export default function LabOrderTable({ labOrders }: LabOrderProps) {
 
   const [isSnackBarOpen, setIsSnackBarOpen] = React.useState(false);
   const [snackBarMessage, setSnackBarMessage] = React.useState("");
-  const [snackBarSeverity, setSnackBarSeverity] = React.useState("info");
+  const [snackBarSeverity, setSnackBarSeverity] = React.useState<AlertColor>("info");
   const [isSendingClaimRequest, setIsSendingClaimRequest] =
     React.useState(false);
 
@@ -101,7 +78,7 @@ export default function LabOrderTable({ labOrders }: LabOrderProps) {
     if (isSendingClaimRequest) return;
     const order_ids = selectedRows
       .map((e) => e.original)
-      .filter((e) => e.status == "Not Claimed")
+      .filter((e) => e.status == NOT_CLAIMED)
       .map((e) => e.id);
 
     onStartClaimRequest();
@@ -109,8 +86,8 @@ export default function LabOrderTable({ labOrders }: LabOrderProps) {
       onClaimSuccess();
       // set order's to claimed
       const new_data = data.map((e) => {
-        if (e.status == "Not Claimed") {
-          e.status = order_ids.includes(e.id) ? "Claimed" : "Not Claimed";
+        if (e.status == NOT_CLAIMED) {
+          e.status = order_ids.includes(e.id) ? CLAIMED : NOT_CLAIMED;
         }
         return e;
       });
@@ -121,18 +98,6 @@ export default function LabOrderTable({ labOrders }: LabOrderProps) {
     setSelectedRows(a.selectedFlatRows);
     // console.log(a.selectedFlatRows)
   };
-
-  const dummy = useCallback(
-    (instance: TableInstance<PersonData>) => () => {
-      console.log(
-        "Selected",
-        instance.selectedFlatRows
-          .map((v) => `'${v.original.firstName} ${v.original.lastName}'`)
-          .join(", ")
-      );
-    },
-    []
-  );
 
   return (
     <Page>

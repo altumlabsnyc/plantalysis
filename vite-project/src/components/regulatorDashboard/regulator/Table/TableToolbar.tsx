@@ -5,6 +5,7 @@ import CreateIcon from '@material-ui/icons/CreateOutlined'
 import DeleteIcon from '@material-ui/icons/DeleteOutline'
 import FilterListIcon from '@material-ui/icons/FilterList'
 import ViewColumnsIcon from '@material-ui/icons/ViewColumn'
+import CheckOutlinedIcon from '@mui/icons-material/CheckOutlined';
 import classnames from 'classnames'
 import React, { MouseEvent, MouseEventHandler, PropsWithChildren, ReactElement, useCallback, useState } from 'react'
 import { TableInstance } from 'react-table'
@@ -134,6 +135,7 @@ type TableToolbarProps<T extends Record<string, unknown>> = {
   onDelete?: TableMouseEventHandler
   onEdit?: TableMouseEventHandler
   onClaim?: TableMouseEventHandler
+  onApprove?: TableMouseEventHandler
 }
 
 export function TableToolbar<T extends Record<string, unknown>>({
@@ -142,6 +144,8 @@ export function TableToolbar<T extends Record<string, unknown>>({
   onDelete,
   onEdit,
   onClaim,
+  onApprove,
+  onSelectionChange
 }: PropsWithChildren<TableToolbarProps<T>>): ReactElement | null {
   const { columns } = instance
   const classes = useStyles()
@@ -212,22 +216,52 @@ export function TableToolbar<T extends Record<string, unknown>>({
             variant='left'
           />
         )}
-        {onClaim && (
-          <InstanceSmallIconActionButton<T>
-            instance={instance}
-            icon={
-              <Button>
-                Claim
+
+        {
+          [
+            {
+              fn: onClaim,
+              text: 'Claim'
+            },
+            {
+              fn: onApprove,
+              text: 'Approve'
+            }
+          ].map(({fn, text}) => (
+            
+
+             fn && <Button
+              onClick={fn}
+              type="submit"
+              
+              variant="contained"
+              sx={{
+                  mt: 3,
+                  mb: 2,
+                  backgroundColor: "#CFAA41",
+                  color: "white",
+                  "&:hover": {
+                  backgroundColor: "#CFAA41", // Maintain the same background color on hover
+                  },
+              }}
+              >
+              {text}
               </Button>
-            }
-            onClick={onClaim}
-            label='Claim'
-            enabled={({ state }: TableInstance<T>) =>
-              state.selectedRowIds && Object.keys(state.selectedRowIds).length > 0
-            }
-            variant='left'
-          />
-        )}
+          ))
+        }
+        
+
+        {
+          onSelectionChange && (
+            <InstanceSmallIconActionButton<T>
+              instance={instance}
+              onClick={onSelectionChange}
+              label={''}
+              enabled={() => true}
+              variant='left'
+            />
+          )
+        }
       </div>
       <div className={classes.rightButtons}>
         <ColumnHidePage<T> instance={instance} onClose={handleClose} show={columnsOpen} anchorEl={anchorEl} />

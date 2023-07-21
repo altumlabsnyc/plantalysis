@@ -58,16 +58,13 @@ import { TooltipCellRenderer } from "./TooltipCell";
 export interface TableProperties<T extends Record<string, unknown>>
   extends TableOptions<T> {
   name: string;
-  columns: [];
   onAdd?: (instance: TableInstance<T>) => MouseEventHandler;
   onDelete?: (instance: TableInstance<T>) => MouseEventHandler;
   onEdit?: (instance: TableInstance<T>) => MouseEventHandler;
   onClick?: (row: Row<T>) => void;
-  hideToolBar?: boolean;
-  disableSelection?: boolean;
-  disablePagination?: boolean;
-  enableDebug?: boolean;
-  disableGroupBy?: boolean;
+  onClaim?: (instance: TableInstance<T>) => MouseEventHandler;
+  onApprove?: (instance: TableInstance<T>) => MouseEventHandler;
+  onSelectionChange?: (instance: TableInstance<T>) => void;
 }
 
 const DefaultHeader: React.FC<HeaderProps<any>> = ({ column }) => (
@@ -199,19 +196,7 @@ const filterTypes = {
 export function Table<T extends Record<string, unknown>>(
   props: PropsWithChildren<TableProperties<T>>
 ): ReactElement {
-  const {
-    name,
-    columns,
-    onAdd,
-    onDelete,
-    onEdit,
-    onClick,
-    hideToolBar,
-    disableSelection,
-    disablePagination,
-    enableDebug,
-    disableGroupBy
-  } = props;
+  const { name, columns, onAdd, onDelete, onEdit, onClick, onClaim, onApprove, onSelectionChange } = props;
   const classes = useStyles();
 
   const [initialState, setInitialState] = useLocalStorage(
@@ -257,24 +242,19 @@ export function Table<T extends Record<string, unknown>>(
     setInitialState(val);
   }, [setInitialState, debouncedState]);
 
-  const cellClickHandler = (cell: Cell<T>) => (e) => {
+  const cellClickHandler = (cell: Cell<T>) => () => {
     onClick &&
       !cell.column.isGrouped &&
       !cell.row.isGrouped &&
       cell.column.id !== "_selector" &&
-      onClick(cell.row, e);
+      onClick(cell.row);
   };
 
   const { role: tableRole, ...tableProps } = getTableProps();
   return (
     <>
-      {
-        !hideToolBar && 
-          <>
-            <TableToolbar instance={instance} {...{ onAdd, onDelete, onEdit }} />
-            <FilterChipBar<T> instance={instance} />
-          </>
-      }
+      <TableToolbar instance={instance} {...{ onAdd, onDelete, onEdit, onClaim, onApprove, onSelectionChange }} />
+      <FilterChipBar<T> instance={instance} />
       <TableTable {...tableProps}>
         <TableHead>
           {headerGroups.map((headerGroup) => {
@@ -306,7 +286,7 @@ export function Table<T extends Record<string, unknown>>(
 
                   return (
                     <TableHeadCell key={headerKey} {...getHeaderProps}>
-                      {!disableGroupBy && column.canGroupBy && (
+                      {column.canGroupBy && (
                         <Tooltip title={groupTitle}>
                           <TableSortLabel
                             active
@@ -401,8 +381,8 @@ export function Table<T extends Record<string, unknown>>(
           })}
         </TableBody>
       </TableTable>
-      {!disablePagination && <TablePagination<T> instance={instance} />}
-      <TableDebug enabled={enableDebug} instance={instance} />
+      <TablePagination<T> instance={instance} />
+      <TableDebug enabled instance={instance} />
     </>
   );
 }

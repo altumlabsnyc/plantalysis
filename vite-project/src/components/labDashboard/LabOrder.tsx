@@ -10,7 +10,7 @@ import "../assets/dashboard/js/datatables-simple-demo.js";
 import "../assets/dashboard/css/styles.css";
 import "https://use.fontawesome.com/releases/v6.3.0/js/all.js";
 import Regulator from "./Regulator.js";
-import { LabOrder, LabOrderTableRow } from "../UserTypes.js";
+import { LabOrder, LabOrderTableRow, NOT_CLAIMED } from "../UserTypes.js";
 import { supabase, fetchUnclaimedOrders } from "../Authentication.js";
 import { Session } from "@supabase/supabase-js";
 import LabOrderTable from "./LabOrderTable.js";
@@ -28,11 +28,9 @@ export default function ClaimOrders({ session }: SessionProps) {
       if (session) {
         setLabOrders((await fetchUnclaimedOrders()).map(
           (t: LabOrder): LabOrderTableRow => {
-            return {...t, status: 'Not Claimed'}
+            return {...t, status: NOT_CLAIMED}
           }
         ));
-        // console.log('aaaaaaaaaa')
-        // console.log(temp)
         setLoading(false);
       }
     }
