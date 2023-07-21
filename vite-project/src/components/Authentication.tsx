@@ -334,47 +334,37 @@ export async function approveOrders(analysisIds: Array<string>): Promise<void> {
 }
 
 export async function fetchProducerOrders(): Promise<Array<LabOrder>> {
-  console.log("entra");
   const allLabOrders: Array<LabOrder> = [];
   const userId = (await supabase.auth.getUser()).data.user?.id;
 
   const brandIds = (
     await supabase.from("brand").select("id").eq("producer_user_id", userId)
   ).data;
-
+  let allBatchIds: Array<string> = [];
   if (brandIds) {
-    const allBatchIds: Array<string> = [];
-    await brandIds.map(async (brandId) => {
+    for (const brandId of brandIds) {
       // const batchIdsOfBrand = (
       //   await supabase.from("batch").select("id").eq("brand_id", brandId)
       // ).data;
-      const response = await supabase
-        .from("batch")
-        .select("id")
-        .eq("brand_id", brandId);
-      const batchIdsOfBrand = response.data;
-      console.log("Y ACA QUE", { data: response.data, error: response.error });
-
-      console.log("llega?", { batch: batchIdsOfBrand, brandId: brandId });
-      if (batchIdsOfBrand) {
-        batchIdsOfBrand.map((id) => {
-          allBatchIds.push(id.id);
-        });
+      const response = await supabase.from("batch").select("*");
+      if (response.data) {
+        for (const batch of response.data) {
+          if (batch.brand_id == brandId.id) {
+            allBatchIds.push(batch.id);
+          }
+        }
       }
-    });
+    }
+    console.log("allBatchIds", allBatchIds);
 
-    await allBatchIds.map(async (batchId) => {
-      const labOrder: LabOrder | null = (
-        await supabase
-          .from("lab_order")
-          .select("*")
-          .eq("batch_id", batchId)
-          .single()
+    for (const batchId of allBatchIds) {
+      const labOrders: LabOrder[] | null = (
+        await supabase.from("lab_order").select("*").eq("batch_id", batchId)
       ).data;
-      if (labOrder) {
-        allLabOrders.push(labOrder);
+      if (labOrders) {
+        allLabOrders.push(labOrders[0]);
       }
-    });
+    }
   }
   return allLabOrders;
 }
