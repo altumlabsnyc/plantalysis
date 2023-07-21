@@ -311,12 +311,18 @@ export async function fetchAnalyzedOrders(): Promise<Array<ForApproval>> {
 
 export async function claimNewOrders(orderIds: Array<string>): Promise<void> {
   const userId = (await supabase.auth.getUser()).data.user?.id;
+
+  const userData = await supabase.from("user").select("*").eq("id", userId);
+  console.log("userData", userData);
+
   if (userId) {
     for (const orderId of orderIds) {
-      await supabase
+      const { data, error } = await supabase
         .from("lab_order")
         .update({ lab_user_id: userId })
-        .eq("id", orderId);
+        .eq("id", orderId)
+        .select();
+      console.log({ data: data, error: error });
     }
   }
 }
