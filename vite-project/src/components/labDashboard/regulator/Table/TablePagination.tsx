@@ -6,12 +6,10 @@ import {
 } from "@mui/icons-material"
 import {
   IconButton,
-  Theme,
   TablePagination as _MuiTablePagination,
-  createStyles,
-  makeStyles,
   useTheme,
 } from "@mui/material"
+import { createStyles, makeStyles } from "@mui/styles"
 import React, { PropsWithChildren, ReactElement, useCallback } from "react"
 import { TableInstance } from "react-table"
 
@@ -32,7 +30,7 @@ const MuiTablePagination: T = React.memo(
   interestingPropsEqual
 ) as T
 
-const useStyles = makeStyles((theme: Theme) =>
+const useStyles = makeStyles((theme: any) =>
   createStyles({
     root: {
       flexShrink: 0,

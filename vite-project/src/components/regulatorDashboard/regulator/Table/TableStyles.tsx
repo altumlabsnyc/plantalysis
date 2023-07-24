@@ -6,10 +6,9 @@ import {
   TableRowTypeMap,
   TableTypeMap,
   Theme,
-  createStyles,
-  makeStyles,
   styled,
 } from "@mui/material"
+import { createStyles, makeStyles } from "@mui/styles"
 import cx from "classnames"
 import React, { CSSProperties } from "react"
 import { Table } from "./Table"
