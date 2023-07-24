@@ -36,15 +36,13 @@ interface SessionProps {
 
 export default function ProducerDashboardRouter({ session }: SessionProps) {
   return (
-    <>
-      <ProducerDashboard>
-        <Route path="/dashboard/producer/new-order">
-          <PlaceNewOrder session={session} />
-        </Route>
-        <Route path="/dashboard/producer/orders">
-          <ProducerOrders session={session} />
-        </Route>
-      </ProducerDashboard>
-    </>
+    <ProducerDashboard>
+      <Route path="/dashboard/producer/new-order">
+        <PlaceNewOrder session={session} />
+      </Route>
+      <Route path="/dashboard/producer/orders">
+        <ProducerOrders session={session} />
+      </Route>
+    </ProducerDashboard>
   )
 }
