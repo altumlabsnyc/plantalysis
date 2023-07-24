@@ -1,4 +1,4 @@
-import React from "react";
+import React, { HTMLFactory } from "react";
 import "simple-datatables";
 import "simple-datatables/dist/style.css";
 import "https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js";
@@ -10,8 +10,19 @@ import "./assets/dashboard/js/datatables-simple-demo.js";
 import "./assets/dashboard/css/styles.css";
 import "https://use.fontawesome.com/releases/v6.3.0/js/all.js";
 
-const Dashboard: React.FC = (props) => {
-    const { children, role } = props
+export type DashboardPanel = {
+    link: string,
+    icon: React.ReactNode,
+    text: string
+}
+
+interface DashboardProps {
+    children: React.ReactNode;
+    role: string;
+    panels: DashboardPanel[];
+}
+
+export default function Dashboard({children, role, panels}: DashboardProps) {
     return (
         <div>
             <title>
@@ -32,7 +43,6 @@ const Dashboard: React.FC = (props) => {
               </button>
             </div> */}
                     </form>
-                    {/* Navbar */}
                     <ul className="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
                         <li className="nav-item dropdown">
                             <a
@@ -75,18 +85,16 @@ const Dashboard: React.FC = (props) => {
                             <div className="sb-sidenav-menu">
                                 <div className="nav">
                                     <div className="sb-sidenav-menu-heading">Core</div>
-                                    <a className="nav-link" href="/dashboard/producer/new-order">
-                                        <div className="sb-nav-link-icon">
-                                            <i className="fas fa-tachometer-alt"></i>
-                                        </div>
-                                        Place New Order
-                                    </a>
-                                    <a className="nav-link" href="/dashboard/producer/orders">
-                                        <div className="sb-nav-link-icon">
-                                            <i className="fas fa-book-open"></i>
-                                        </div>
-                                        Current Orders
-                                    </a>
+                                    {
+                                        panels.map(({ link, icon, text }) => (
+                                            <a className="nav-link" href={ link }>
+                                                <div className="sb-nav-link-icon">
+                                                    { icon }
+                                                </div>
+                                                { text }
+                                            </a>
+                                        ))
+                                    }
                                 </div>
                             </div>
                             <div className="sb-sidenav-footer">
@@ -116,5 +124,3 @@ const Dashboard: React.FC = (props) => {
         </div>
     );
 };
-
-export default Dashboard;
