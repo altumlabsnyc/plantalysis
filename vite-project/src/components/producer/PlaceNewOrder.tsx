@@ -4,21 +4,20 @@ import {
   CssBaseline,
   Link,
   TextField,
-  ThemeProvider,
   Typography,
   createTheme,
-} from "@mui/material"
-import React, { useEffect, useState } from "react"
+} from "@mui/material";
+import React, { useEffect, useState } from "react";
 
-import { Session } from "@supabase/supabase-js"
-import { supabase } from "../Authentication"
+import { Session } from "@supabase/supabase-js";
+import { supabase } from "../Authentication";
 
-import useUserDetails from "@/hooks/useUserDetails"
-import { loadStripe } from "@stripe/stripe-js"
-import { useUser } from "@supabase/auth-helpers-react"
-import { useLocation } from "react-router-dom"
-import Stripe from "stripe"
-import { LabOrder, labOrderInputs, userData } from "../UserTypes"
+import useUserDetails from "@/hooks/useUserDetails";
+import { loadStripe } from "@stripe/stripe-js";
+import { useUser } from "@supabase/auth-helpers-react";
+import { useLocation } from "react-router-dom";
+import Stripe from "stripe";
+import { LabOrder, labOrderInputs, userData } from "../UserTypes";
 
 function Copyright(props: any) {
   return (
@@ -34,57 +33,57 @@ function Copyright(props: any) {
       </Link>{" "}
       by Altum Labs.
     </Typography>
-  )
+  );
 }
 
 interface SessionProps {
-  session: Session | null
+  session: Session | null;
 }
 
-const defaultTheme = createTheme()
+const defaultTheme = createTheme();
 export default function PlaceNewOrder({ session }: SessionProps) {
-  const user = useUser()
+  const user = useUser();
   // console.log(user)
 
-  const { data, error, isLoading } = useUserDetails(user)
-  console.log(data)
+  const { data, error, isLoading } = useUserDetails(user);
+  console.log(data);
 
-  const location = useLocation()
+  const location = useLocation();
 
-  const [stripe, setStripe] = useState<Stripe | null>(null)
+  const [stripe, setStripe] = useState<Stripe | null>(null);
 
   useEffect(() => {
     async function fetchStripe() {
       const stripeInstance = await loadStripe(
         import.meta.env.VITE_STRIPE_PUBLIC_KEY
-      )
+      );
       // @ts-ignore
-      setStripe(stripeInstance)
+      setStripe(stripeInstance);
     }
-    fetchStripe()
-  }, [])
+    fetchStripe();
+  }, []);
 
   useEffect(() => {
     // Parse the URL parameters
-    const params = new URLSearchParams(location.search)
-    const sessionId = params.get("session_id")
+    const params = new URLSearchParams(location.search);
+    const sessionId = params.get("session_id");
 
     if (sessionId) {
       // Checkout session completed, get session_id from the URL
 
       // Insert lab order into database
-      handlePlaceLabOrder(labOrder, brandName, sessionId)
+      handlePlaceLabOrder(labOrder, brandName, sessionId);
     }
-  }, [location]) // Re-run when location changes
+  }, [location]); // Re-run when location changes
 
   const redirectToCheckout = async (formData: FormData, user_id: string) => {
-    if (!stripe) return // if stripe hasn't loaded, do nothing
+    if (!stripe) return; // if stripe hasn't loaded, do nothing
 
     // else, parse lab order and create a checkout session
-    const location = formData.get("location")?.toString() || null
-    const pickup_date = formData.get("pickup_date")?.toString() || null
-    const strain_info = formData.get("strain_info")?.toString() || null
-    const brand_name = formData.get("brand_name")?.toString() || null
+    const location = formData.get("location")?.toString() || null;
+    const pickup_date = formData.get("pickup_date")?.toString() || null;
+    const strain_info = formData.get("strain_info")?.toString() || null;
+    const brand_name = formData.get("brand_name")?.toString() || null;
 
     const labOrder: LabOrder = {
       id: "",
@@ -100,7 +99,7 @@ export default function PlaceNewOrder({ session }: SessionProps) {
       lab_notes: null,
       lab_user_id: null,
       lcms_id: null,
-    }
+    };
 
     const response = await fetch(
       `${import.meta.env.VITE_BACKEND_DOMAIN}/create-checkout-session`,
@@ -116,69 +115,69 @@ export default function PlaceNewOrder({ session }: SessionProps) {
           userId: user_id,
         }),
       }
-    )
+    );
 
-    const session = await response.json()
+    const session = await response.json();
 
-    console.log(session)
+    console.log(session);
 
     // @ts-ignore
     const result = await stripe.redirectToCheckout({
       sessionId: session.sessionId,
-    })
+    });
 
     if (result.error) {
       // handle error here
     }
-  }
+  };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault()
-    const formData = new FormData(event.currentTarget)
+    event.preventDefault();
+    const formData = new FormData(event.currentTarget);
 
-    if (!session) return // if session hasn't loaded, do nothing
-    const { user } = session
+    if (!session) return; // if session hasn't loaded, do nothing
+    const { user } = session;
 
-    redirectToCheckout(formData, user.id)
+    redirectToCheckout(formData, user.id);
     // const { labOrder: labOrder, brandName: brandName } =
     //   handleLabOrderSubmit(data)
     // console.log(labOrder, brandName)
 
     // handlePlaceLabOrder(labOrder, brandName)
-  }
+  };
 
   //Filling out user data
 
-  const [loading, setLoading] = useState(true)
-  const [generalUserData, setGeneralUserData] = useState<userData | null>(null)
+  const [loading, setLoading] = useState(true);
+  const [generalUserData, setGeneralUserData] = useState<userData | null>(null);
 
   useEffect(() => {
     async function getProfile() {
-      setLoading(true)
+      setLoading(true);
       if (session) {
-        const { user } = session
+        const { user } = session;
 
         let { data, error } = await supabase
           .from("user")
           .select("*")
           .eq("id", user.id)
-          .single()
+          .single();
 
         if (error) {
-          console.warn(error)
+          console.warn(error);
         } else if (data) {
-          setGeneralUserData(data)
+          setGeneralUserData(data);
         }
 
-        setLoading(false)
+        setLoading(false);
       }
     }
 
-    getProfile()
-  }, [session])
+    getProfile();
+  }, [session]);
 
   return (
-    <ThemeProvider theme={defaultTheme}>
+    <div>
       <CssBaseline />
 
       <Box
@@ -228,6 +227,6 @@ export default function PlaceNewOrder({ session }: SessionProps) {
           <Copyright sx={{ mt: 5 }} />
         </Box>
       </Box>
-    </ThemeProvider>
-  )
+    </div>
+  );
 }

@@ -1,6 +1,6 @@
 import namor from '@ggascoigne/namor'
 import { createClient, SupabaseClient } from "@supabase/supabase-js";
-import { SUPABASE_KEY, SUPABASE_URL } from "./../../../Constants";
+import { SUPABASE_KEY, SUPABASE_URL } from "../../../Constants";
 import { supabase } from '../../../Authentication';
 
 export type Person = {
