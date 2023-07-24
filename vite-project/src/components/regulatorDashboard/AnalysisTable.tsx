@@ -15,10 +15,6 @@ import {
   NOT_APPROVED,
 } from "../UserTypes"
 
-import { Page } from "./regulator/Page"
-import { Table } from "./regulator/Table"
-import { PersonData } from "./regulator/utils"
-
 const columns = [
   {
     Header: "Analysis ID",
@@ -65,10 +61,10 @@ const AnalysisTable: React.FC<{ analysis: AnalysisTableRow[] }> = ({
 
   const [anchorEl, setAnchorEl] = React.useState<HTMLElement | null>(null)
 
-  const handleClick = (event: BaseSyntheticEvent, row: Row) => {
-    setAnchorEl(event.currentTarget)
-    setMoleculePredictionData(row.original.molecules)
-  }
+  // const handleClick = (event: BaseSyntheticEvent, row: Row) => {
+  //   setAnchorEl(event.currentTarget)
+  //   setMoleculePredictionData(row.original.molecules)
+  // }
 
   const handlePopoverClose = () => {
     console.log("close")
@@ -119,37 +115,36 @@ const AnalysisTable: React.FC<{ analysis: AnalysisTableRow[] }> = ({
   }
 
   const onApprove = function () {
-    if (isSendingClaimRequest) return
-    const analysis_ids = selectedRows
-      .map((e) => e.original)
-      .filter((e) => e.status == NOT_APPROVED)
-      .map((e) => e.analysis_id)
+    // if (isSendingClaimRequest) return
+    // const analysis_ids = selectedRows
+    //   .map((e) => e.original)
+    //   .filter((e) => e.status == NOT_APPROVED)
+    //   .map((e) => e.analysis_id)
 
-    onStartClaimRequest()
+    // onStartClaimRequest()
 
-    approveOrders(analysis_ids).then(() => {
-      onClaimSuccess()
-      // set order's to claimed
-      const new_data = data.map((e) => {
-        if (e.status == "Not Approved") {
-          e.status = analysis_ids.includes(e.analysis_id)
-            ? APPROVED
-            : NOT_APPROVED
-        }
-        return e
-      })
-      setData(new_data)
-      window.location.reload()
-    })
+    // approveOrders(analysis_ids).then(() => {
+    //   onClaimSuccess()
+    //   // set order's to claimed
+    //   const new_data = data.map((e) => {
+    //     if (e.status == "Not Approved") {
+    //       e.status = analysis_ids.includes(e.analysis_id)
+    //         ? APPROVED
+    //         : NOT_APPROVED
+    //     }
+    //     return e
+    //   })
+    //   setData(new_data)
+    //   window.location.reload()
+    // })
   }
-  const onSelectionChange = function (a) {
-    setSelectedRows(a.selectedFlatRows)
-    // console.log(a.selectedFlatRows)
-  }
+  // const onSelectionChange = function (a) {
+  //   setSelectedRows(a.selectedFlatRows)
+  //   // console.log(a.selectedFlatRows)
+  // }
 
   return (
-    <Page>
-      {/* <ClickAwayListener onClickAway={handlePopoverClose}><div> */}
+    <>
       <Popover
         id="mouse-over-popover"
         sx={{
@@ -169,32 +164,10 @@ const AnalysisTable: React.FC<{ analysis: AnalysisTableRow[] }> = ({
         disableRestoreFocus
       >
         <>
-          <Table<MoleculePredict>
-            name={"testTable"}
-            columns={moleculePredictionColumns}
-            data={moleculePredictionData}
-            hideToolbar={true}
-            disableSelection={true}
-            disablePagination={true}
-            disableGroupBy={true}
-          />
+          {/* molecular prediction table here */}
         </>
       </Popover>
-      {/* </div></ClickAwayListener> */}
-      <CssBaseline />
-      <Table<PersonData>
-        name={"testTable"}
-        columns={columns}
-        onClick={(e, row) => {
-          if (e && e.currentTarget && e.currentTarget.parentElement) {
-            e.currentTarget = e.currentTarget.parentElement
-          }
-          handleClick(e, row)
-        }}
-        data={data}
-        onSelectionChange={onSelectionChange}
-        onApprove={onApprove}
-      />
+        {/* analysis table here */}
       <Snackbar
         open={isSnackBarOpen}
         autoHideDuration={2000}
@@ -203,7 +176,7 @@ const AnalysisTable: React.FC<{ analysis: AnalysisTableRow[] }> = ({
       >
         <Alert severity={snackBarSeverity}>{snackBarMessage}</Alert>
       </Snackbar>
-    </Page>
+    </>
   )
 }
 
