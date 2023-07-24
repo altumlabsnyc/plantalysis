@@ -1,5 +1,5 @@
 import React from "react";
-import Dashboard from "../DashBoard.js";
+import Dashboard, { DashboardPanel } from "../DashBoard.js";
 import "simple-datatables";
 import "simple-datatables/dist/style.css";
 import "https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js";
@@ -11,21 +11,22 @@ import "../assets/dashboard/js/datatables-simple-demo.js";
 import "../assets/dashboard/css/styles.css";
 import "https://use.fontawesome.com/releases/v6.3.0/js/all.js";
 
-const ProducerDashboard: React.FC = (props) => {
-  const { children } = props
-  const panels = [
-    <a className="nav-link" href="/dashboard/producer/new-order">
-      <div className="sb-nav-link-icon">
-        <i className="fas fa-tachometer-alt"></i>
-      </div>
-      Place New Order
-    </a>,
-    <a className="nav-link" href="/dashboard/producer/orders">
-      <div className="sb-nav-link-icon">
-        <i className="fas fa-book-open"></i>
-      </div>
-      Current Orders
-    </a>
+interface ProducerDashboardProps {
+  children: React.ReactNode;
+}
+
+export default function ProducerDashboard({ children }: ProducerDashboardProps) {
+  const panels: DashboardPanel[] = [
+    {
+      link: "/dashboard/producer/new-order",
+      icon: <i className="fas fa-tachometer-alt" />,
+      text: "Place New Order"
+    },
+    {
+      link: "/dashboard/producer/orders",
+      icon: <i className="fas fa-book-open"></i>,
+      text: "Current Orders"
+    }
   ]
   return (
     <Dashboard
@@ -36,5 +37,3 @@ const ProducerDashboard: React.FC = (props) => {
     </Dashboard>
   );
 };
-
-export default ProducerDashboard;
