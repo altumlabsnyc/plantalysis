@@ -12,7 +12,7 @@ import { Session } from "@supabase/supabase-js"
 import "https://use.fontawesome.com/releases/v6.3.0/js/all.js"
 import { Route } from "react-router-dom"
 import "../assets/dashboard/css/styles.css"
-import Upload from "../regulator/Upload.js"
+import Upload from "../regulatorDashboard/Upload.js"
 import ClaimOrders from "./ClaimOrders"
 import CurrentOrders from "./CurrentOrders"
 
