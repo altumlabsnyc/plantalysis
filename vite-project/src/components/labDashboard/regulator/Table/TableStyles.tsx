@@ -1,9 +1,6 @@
-import MuiTableRow, {
+import {
   Checkbox,
-  default as MuiTableBody,
-  default as MuiTableCell,
-  default as MuiTableHead,
-  default as MuiTableTable,
+  Table,
   TableBodyTypeMap,
   TableCellProps,
   TableHeadTypeMap,
@@ -149,9 +146,9 @@ export const TableTable: React.FC<Partial<TableTypeMap> & CN> = ({
 }) => {
   const classes = useStyles()
   return (
-    <MuiTableTable className={cx(className, classes.tableTable)} {...rest}>
+    <Table className={cx(className, classes.tableTable)} {...rest}>
       {children}
-    </MuiTableTable>
+    </Table>
   )
 }
 
@@ -162,9 +159,9 @@ export const TableBody: React.FC<Partial<TableBodyTypeMap> & CN> = ({
 }) => {
   const classes = useStyles()
   return (
-    <MuiTableBody className={cx(className, classes.tableBody)} {...rest}>
+    <TableBody className={cx(className, classes.tableBody)} {...rest}>
       {children}
-    </MuiTableBody>
+    </TableBody>
   )
 }
 
@@ -175,9 +172,9 @@ export const TableHead: React.FC<Partial<TableHeadTypeMap> & CN> = ({
 }) => {
   const classes = useStyles()
   return (
-    <MuiTableHead className={cx(className, classes.tableHead)} {...rest}>
+    <TableHead className={cx(className, classes.tableHead)} {...rest}>
       {children}
-    </MuiTableHead>
+    </TableHead>
   )
 }
 
@@ -188,9 +185,9 @@ export const TableHeadRow: React.FC<Partial<TableRowTypeMap> & CN> = ({
 }) => {
   const classes = useStyles()
   return (
-    <MuiTableRow className={cx(className, classes.tableHeadRow)} {...rest}>
+    <TableRow className={cx(className, classes.tableHeadRow)} {...rest}>
       {children}
-    </MuiTableRow>
+    </TableRow>
   )
 }
 
@@ -201,9 +198,9 @@ export const TableHeadCell: React.FC<Partial<TableCellProps> & CN> = ({
 }) => {
   const classes = useStyles()
   return (
-    <MuiTableCell className={cx(className, classes.tableHeadCell)} {...rest}>
+    <TableCell className={cx(className, classes.tableHeadCell)} {...rest}>
       {children}
-    </MuiTableCell>
+    </TableCell>
   )
 }
 
@@ -214,9 +211,9 @@ export const TableRow: React.FC<Partial<TableRowTypeMap> & CN> = ({
 }) => {
   const classes = useStyles()
   return (
-    <MuiTableRow className={cx(className, classes.tableRow)} {...rest}>
+    <TableRow className={cx(className, classes.tableRow)} {...rest}>
       {children}
-    </MuiTableRow>
+    </TableRow>
   )
 }
 
@@ -227,9 +224,9 @@ export const TableCell: React.FC<Partial<TableCellProps> & CN> = ({
 }) => {
   const classes = useStyles()
   return (
-    <MuiTableCell className={cx(className, classes.tableCell)} {...rest}>
+    <TableCell className={cx(className, classes.tableCell)} {...rest}>
       {children}
-    </MuiTableCell>
+    </TableCell>
   )
 }
 

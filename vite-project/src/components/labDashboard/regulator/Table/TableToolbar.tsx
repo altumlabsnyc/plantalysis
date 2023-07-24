@@ -9,12 +9,12 @@ import {
 } from "@mui/material"
 
 import {
-  default as AddIcon,
-  default as CreateIcon,
-  default as DeleteIcon,
-  default as FilterListIcon,
-  default as ViewColumnsIcon,
-} from "@mui/material"
+  Add,
+  Create,
+  Delete,
+  FilterList,
+  ViewColumn,
+} from "@mui/icons-material"
 import classnames from "classnames"
 import {
   MouseEvent,
@@ -216,7 +216,7 @@ export function TableToolbar<T extends Record<string, unknown>>({
         {onAdd && (
           <InstanceSmallIconActionButton<T>
             instance={instance}
-            icon={<AddIcon />}
+            icon={<Add />}
             onClick={onAdd}
             label="Add"
             enabled={({ state }: TableInstance<T>) =>
@@ -229,7 +229,7 @@ export function TableToolbar<T extends Record<string, unknown>>({
         {onEdit && (
           <InstanceSmallIconActionButton<T>
             instance={instance}
-            icon={<CreateIcon />}
+            icon={<Create />}
             onClick={onEdit}
             label="Edit"
             enabled={({ state }: TableInstance<T>) =>
@@ -242,7 +242,7 @@ export function TableToolbar<T extends Record<string, unknown>>({
         {onDelete && (
           <InstanceSmallIconActionButton<T>
             instance={instance}
-            icon={<DeleteIcon />}
+            icon={<Delete />}
             onClick={onDelete}
             label="Delete"
             enabled={({ state }: TableInstance<T>) =>
@@ -296,14 +296,14 @@ export function TableToolbar<T extends Record<string, unknown>>({
         />
         {hideableColumns.length > 1 && (
           <SmallIconActionButton
-            icon={<ViewColumnsIcon />}
+            icon={<ViewColumn />}
             onClick={handleColumnsClick}
             label="Show / hide columns"
             variant="right"
           />
         )}
         <SmallIconActionButton
-          icon={<FilterListIcon />}
+          icon={<FilterList />}
           onClick={handleFilterClick}
           label="Filter by columns"
           variant="right"

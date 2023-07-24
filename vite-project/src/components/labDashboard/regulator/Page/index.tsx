@@ -1,4 +1,4 @@
-import createStyles, { Theme, makeStyles } from "@mui/material"
+import { Theme, createStyles, makeStyles } from "@mui/material"
 import classNames from "classnames"
 import React from "react"
 
