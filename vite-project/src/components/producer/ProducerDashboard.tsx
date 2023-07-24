@@ -1,4 +1,4 @@
-import Dashboard, { DashboardPanel } from "@/components/Dashboard.js"
+import Dashboard, { DashboardPanel } from "@/components/Dashboard"
 import "https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
 import "https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js"
 import React from "react"
@@ -29,8 +29,8 @@ function ProducerDashboard({ children }: ProducerDashboardProps) {
     {
       link: "/dashboard/producer/orders",
       icon: <i className="fas fa-book-open" />,
-      text: "Current Orders"
-    }
+      text: "Current Orders",
+    },
   ]
   return (
     <Dashboard role={"Producer"} panels={panels}>
