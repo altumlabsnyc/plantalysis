@@ -5,3 +5,5 @@ server/node_modules
 # server/.env
 
 # vite-project/.env
+
+node_modules
