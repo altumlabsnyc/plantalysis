@@ -7,11 +7,10 @@ import {
 import {
   Theme,
   TablePagination as _MuiTablePagination,
-  createStyles,
-  makeStyles,
   useTheme,
 } from "@mui/material"
 import IconButton from "@mui/material/IconButton"
+import { createStyles, makeStyles } from "@mui/styles"
 import React, { PropsWithChildren, ReactElement, useCallback } from "react"
 import { TableInstance } from "react-table"
 

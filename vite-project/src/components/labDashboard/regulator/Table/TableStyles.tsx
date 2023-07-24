@@ -6,15 +6,13 @@ import {
   TableHeadTypeMap,
   TableRowTypeMap,
   TableTypeMap,
-  Theme,
-  createStyles,
-  makeStyles,
   styled,
 } from "@mui/material"
+import { makeStyles } from "@mui/styles"
 import cx from "classnames"
 import React, { CSSProperties } from "react"
 
-export const useStyles = makeStyles((theme: Theme) =>
+export const useStyles = makeStyles((theme) =>
   createStyles({
     tableTable: {
       borderSpacing: 0,
