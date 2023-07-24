@@ -16,6 +16,7 @@
     "noEmit": true,
     "jsx": "react-jsx",
     "baseUrl": ".",
+    "noEmitOnError": false,
     "paths": {
       "@/*": ["src/*"]
       // You can add other paths as needed

@@ -1,38 +1,53 @@
-import { Button, IconButton, Theme, Toolbar, Tooltip, createStyles, makeStyles } from '@material-ui/core'
+import {
+  Button,
+  IconButton,
+  Theme,
+  Toolbar,
+  Tooltip,
+  createStyles,
+  makeStyles,
+} from "@mui/material"
 
-import AddIcon from '@material-ui/icons/Add'
-import CreateIcon from '@material-ui/icons/CreateOutlined'
-import DeleteIcon from '@material-ui/icons/DeleteOutline'
-import FilterListIcon from '@material-ui/icons/FilterList'
-import ViewColumnsIcon from '@material-ui/icons/ViewColumn'
-import CheckOutlinedIcon from '@mui/icons-material/CheckOutlined';
-import classnames from 'classnames'
-import React, { MouseEvent, MouseEventHandler, PropsWithChildren, ReactElement, useCallback, useState } from 'react'
-import { TableInstance } from 'react-table'
+import {
+  default as AddIcon,
+  default as CreateIcon,
+  default as DeleteIcon,
+  default as FilterListIcon,
+  default as ViewColumnsIcon,
+} from "@mui/material"
+import classnames from "classnames"
+import {
+  MouseEvent,
+  MouseEventHandler,
+  PropsWithChildren,
+  ReactElement,
+  useCallback,
+  useState,
+} from "react"
+import { TableInstance } from "react-table"
 
-import { TableMouseEventHandler } from '../../types/react-table-config'
-import { ColumnHidePage } from './ColumnHidePage'
-import { FilterPage } from './FilterPage'
+import { ColumnHidePage } from "./ColumnHidePage"
+import { FilterPage } from "./FilterPage"
 
 export const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     toolbar: {
-      display: 'flex',
-      justifyContent: 'space-between',
+      display: "flex",
+      justifyContent: "space-between",
     },
     leftButtons: {},
     rightButtons: {},
     leftIcons: {
-      '&:first-of-type': {
+      "&:first-of-type": {
         marginLeft: -12,
       },
     },
     rightIcons: {
       padding: 12,
-      marginTop: '-6px',
+      marginTop: "-6px",
       width: 48,
       height: 48,
-      '&:last-of-type': {
+      "&:last-of-type": {
         marginRight: -12,
       },
     },
@@ -42,10 +57,11 @@ export const useStyles = makeStyles((theme: Theme) =>
 type InstanceActionButton<T extends Record<string, unknown>> = {
   instance: TableInstance<T>
   icon?: JSX.Element
+  // @ts-ignore
   onClick: TableMouseEventHandler
   enabled?: (instance: TableInstance<T>) => boolean
   label: string
-  variant?: 'right' | 'left'
+  variant?: "right" | "left"
 }
 
 type ActionButton = {
@@ -53,7 +69,7 @@ type ActionButton = {
   onClick: MouseEventHandler
   enabled?: boolean
   label: string
-  variant?: 'right' | 'left'
+  variant?: "right" | "left"
 }
 
 export const InstanceLabeledActionButton = <T extends Record<string, unknown>>({
@@ -63,20 +79,37 @@ export const InstanceLabeledActionButton = <T extends Record<string, unknown>>({
   label,
   enabled = () => true,
 }: InstanceActionButton<T>): ReactElement => (
-  <Button variant='contained' color='primary' onClick={onClick(instance)} disabled={!enabled(instance)}>
+  <Button
+    variant="contained"
+    color="primary"
+    onClick={onClick(instance)}
+    disabled={!enabled(instance)}
+  >
     {icon}
     {label}
   </Button>
 )
 
-export const LabeledActionButton = ({ icon, onClick, label, enabled = true }: ActionButton): ReactElement => (
-  <Button variant='contained' color='primary' onClick={onClick} disabled={!enabled}>
+export const LabeledActionButton = ({
+  icon,
+  onClick,
+  label,
+  enabled = true,
+}: ActionButton): ReactElement => (
+  <Button
+    variant="contained"
+    color="primary"
+    onClick={onClick}
+    disabled={!enabled}
+  >
     {icon}
     {label}
   </Button>
 )
 
-export const InstanceSmallIconActionButton = <T extends Record<string, unknown>>({
+export const InstanceSmallIconActionButton = <
+  T extends Record<string, unknown>
+>({
   instance,
   icon,
   onClick,
@@ -90,8 +123,8 @@ export const InstanceSmallIconActionButton = <T extends Record<string, unknown>>
       <span>
         <IconButton
           className={classnames({
-            [classes.rightIcons]: variant === 'right',
-            [classes.leftIcons]: variant === 'left',
+            [classes.rightIcons]: variant === "right",
+            [classes.leftIcons]: variant === "left",
           })}
           onClick={onClick(instance)}
           disabled={!enabled(instance)}
@@ -116,8 +149,8 @@ export const SmallIconActionButton = ({
       <span>
         <IconButton
           className={classnames({
-            [classes.rightIcons]: variant === 'right',
-            [classes.leftIcons]: variant === 'left',
+            [classes.rightIcons]: variant === "right",
+            [classes.leftIcons]: variant === "left",
           })}
           onClick={onClick}
           disabled={!enabled}
@@ -143,14 +176,16 @@ export function TableToolbar<T extends Record<string, unknown>>({
   onDelete,
   onEdit,
   onClaim,
-  onSelectionChange
+  onSelectionChange,
 }: PropsWithChildren<TableToolbarProps<T>>): ReactElement | null {
   const { columns } = instance
   const classes = useStyles()
   const [anchorEl, setAnchorEl] = useState<Element | undefined>(undefined)
   const [columnsOpen, setColumnsOpen] = useState(false)
   const [filterOpen, setFilterOpen] = useState(false)
-  const hideableColumns = columns.filter((column) => !(column.id === '_selector'))
+  const hideableColumns = columns.filter(
+    (column) => !(column.id === "_selector")
+  )
 
   const handleColumnsClick = useCallback(
     (event: MouseEvent) => {
@@ -183,11 +218,12 @@ export function TableToolbar<T extends Record<string, unknown>>({
             instance={instance}
             icon={<AddIcon />}
             onClick={onAdd}
-            label='Add'
+            label="Add"
             enabled={({ state }: TableInstance<T>) =>
-              !state.selectedRowIds || Object.keys(state.selectedRowIds).length === 0
+              !state.selectedRowIds ||
+              Object.keys(state.selectedRowIds).length === 0
             }
-            variant='left'
+            variant="left"
           />
         )}
         {onEdit && (
@@ -195,11 +231,12 @@ export function TableToolbar<T extends Record<string, unknown>>({
             instance={instance}
             icon={<CreateIcon />}
             onClick={onEdit}
-            label='Edit'
+            label="Edit"
             enabled={({ state }: TableInstance<T>) =>
-              state.selectedRowIds && Object.keys(state.selectedRowIds).length === 1
+              state.selectedRowIds &&
+              Object.keys(state.selectedRowIds).length === 1
             }
-            variant='left'
+            variant="left"
           />
         )}
         {onDelete && (
@@ -207,59 +244,69 @@ export function TableToolbar<T extends Record<string, unknown>>({
             instance={instance}
             icon={<DeleteIcon />}
             onClick={onDelete}
-            label='Delete'
+            label="Delete"
             enabled={({ state }: TableInstance<T>) =>
-              state.selectedRowIds && Object.keys(state.selectedRowIds).length > 0
+              state.selectedRowIds &&
+              Object.keys(state.selectedRowIds).length > 0
             }
-            variant='left'
+            variant="left"
           />
         )}
-        
-            {onClaim && <Button
+
+        {onClaim && (
+          <Button
             onClick={onClaim}
             type="submit"
-            
             variant="contained"
             sx={{
-                mt: 3,
-                mb: 2,
-                backgroundColor: "#CFAA41",
-                color: "white",
-                "&:hover": {
+              mt: 3,
+              mb: 2,
+              backgroundColor: "#CFAA41",
+              color: "white",
+              "&:hover": {
                 backgroundColor: "#CFAA41", // Maintain the same background color on hover
-                },
+              },
             }}
-            >
+          >
             Claim
-            </Button>}
-        {
-          onSelectionChange && (
-            <InstanceSmallIconActionButton<T>
-              instance={instance}
-              onClick={onSelectionChange}
-              label={''}
-              enabled={() => true}
-              variant='left'
-            />
-          )
-        }
+          </Button>
+        )}
+        {onSelectionChange && (
+          <InstanceSmallIconActionButton<T>
+            instance={instance}
+            onClick={onSelectionChange}
+            label={""}
+            enabled={() => true}
+            variant="left"
+          />
+        )}
       </div>
       <div className={classes.rightButtons}>
-        <ColumnHidePage<T> instance={instance} onClose={handleClose} show={columnsOpen} anchorEl={anchorEl} />
-        <FilterPage<T> instance={instance} onClose={handleClose} show={filterOpen} anchorEl={anchorEl} />
+        <ColumnHidePage<T>
+          instance={instance}
+          onClose={handleClose}
+          show={columnsOpen}
+          anchorEl={anchorEl}
+        />
+        <FilterPage<T>
+          instance={instance}
+          onClose={handleClose}
+          show={filterOpen}
+          anchorEl={anchorEl}
+        />
         {hideableColumns.length > 1 && (
           <SmallIconActionButton
             icon={<ViewColumnsIcon />}
             onClick={handleColumnsClick}
-            label='Show / hide columns'
-            variant='right'
+            label="Show / hide columns"
+            variant="right"
           />
         )}
         <SmallIconActionButton
           icon={<FilterListIcon />}
           onClick={handleFilterClick}
-          label='Filter by columns'
-          variant='right'
+          label="Filter by columns"
+          variant="right"
         />
       </div>
     </Toolbar>

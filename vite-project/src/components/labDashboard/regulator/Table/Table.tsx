@@ -1,14 +1,18 @@
-import { TableSortLabel, TextField, Tooltip } from "@material-ui/core";
-import KeyboardArrowRight from "@material-ui/icons/KeyboardArrowRight";
-import KeyboardArrowUp from "@material-ui/icons/KeyboardArrowUp";
-import cx from "classnames";
+import {
+  default as KeyboardArrowRight,
+  default as KeyboardArrowUp,
+  TableSortLabel,
+  TextField,
+  Tooltip,
+} from "@mui/material"
+import cx from "classnames"
 import React, {
   CSSProperties,
   MouseEventHandler,
   PropsWithChildren,
   ReactElement,
-  useEffect
-} from "react";
+  useEffect,
+} from "react"
 import {
   Cell,
   CellProps,
@@ -30,15 +34,14 @@ import {
   useResizeColumns,
   useRowSelect,
   useSortBy,
-  useTable
-} from "react-table";
+  useTable,
+} from "react-table"
 
-import { camelToWords, useDebounce, useLocalStorage } from "../utils";
-import { FilterChipBar } from "./FilterChipBar";
-import { fuzzyTextFilter, numericTextFilter } from "./filters";
-import { ResizeHandle } from "./ResizeHandle";
-import { TableDebug } from "./TableDebug";
-import { TablePagination } from "./TablePagination";
+import { camelToWords, useDebounce, useLocalStorage } from "../utils"
+import { FilterChipBar } from "./FilterChipBar"
+import { fuzzyTextFilter, numericTextFilter } from "./filters"
+import { ResizeHandle } from "./ResizeHandle"
+import { TablePagination } from "./TablePagination"
 import {
   HeaderCheckbox,
   RowCheckbox,
@@ -50,46 +53,46 @@ import {
   TableLabel,
   TableRow,
   TableTable,
-  useStyles
-} from "./TableStyles";
-import { TableToolbar } from "./TableToolbar";
-import { TooltipCellRenderer } from "./TooltipCell";
+  useStyles,
+} from "./TableStyles"
+import { TableToolbar } from "./TableToolbar"
+import { TooltipCellRenderer } from "./TooltipCell"
 
 export interface TableProperties<T extends Record<string, unknown>>
   extends TableOptions<T> {
-  name: string;
-  onAdd?: (instance: TableInstance<T>) => MouseEventHandler;
-  onDelete?: (instance: TableInstance<T>) => MouseEventHandler;
-  onEdit?: (instance: TableInstance<T>) => MouseEventHandler;
-  onClick?: (row: Row<T>) => void;
-  onSelectionChange?: (instance: TableInstance<T>) => void;
+  name: string
+  onAdd?: (instance: TableInstance<T>) => MouseEventHandler
+  onDelete?: (instance: TableInstance<T>) => MouseEventHandler
+  onEdit?: (instance: TableInstance<T>) => MouseEventHandler
+  onClick?: (row: Row<T>) => void
+  onSelectionChange?: (instance: TableInstance<T>) => void
 }
 
 const DefaultHeader: React.FC<HeaderProps<any>> = ({ column }) => (
   <>{column.id.startsWith("_") ? null : camelToWords(column.id)}</>
-);
+)
 
 // yes this is recursive, but the depth never exceeds three so it seems safe enough
 const findFirstColumn = <T extends Record<string, unknown>>(
   columns: Array<ColumnInstance<T>>
 ): ColumnInstance<T> =>
-  columns[0].columns ? findFirstColumn(columns[0].columns) : columns[0];
+  columns[0].columns ? findFirstColumn(columns[0].columns) : columns[0]
 
 function DefaultColumnFilter<T extends Record<string, unknown>>({
   columns,
-  column
+  column,
 }: FilterProps<T>) {
-  const { id, filterValue, setFilter, render } = column;
-  const [value, setValue] = React.useState(filterValue || "");
+  const { id, filterValue, setFilter, render } = column
+  const [value, setValue] = React.useState(filterValue || "")
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setValue(event.target.value);
-  };
+    setValue(event.target.value)
+  }
   // ensure that reset loads the new value
   useEffect(() => {
-    setValue(filterValue || "");
-  }, [filterValue]);
+    setValue(filterValue || "")
+  }, [filterValue])
 
-  const isFirstColumn = findFirstColumn(columns) === column;
+  const isFirstColumn = findFirstColumn(columns) === column
   return (
     <TextField
       name={id}
@@ -100,10 +103,10 @@ function DefaultColumnFilter<T extends Record<string, unknown>>({
       variant="standard"
       onChange={handleChange}
       onBlur={(e) => {
-        setFilter(e.target.value || undefined);
+        setFilter(e.target.value || undefined)
       }}
     />
-  );
+  )
 }
 
 const getStyles = (props: any, disableResizing = false, align = "left") => [
@@ -112,10 +115,10 @@ const getStyles = (props: any, disableResizing = false, align = "left") => [
     style: {
       justifyContent: align === "right" ? "flex-end" : "flex-start",
       alignItems: "flex-start",
-      display: "flex"
-    }
-  }
-];
+      display: "flex",
+    },
+  },
+]
 
 const selectionHook = (hooks: Hooks<any>) => {
   hooks.allColumns.push((columns) => [
@@ -137,21 +140,21 @@ const selectionHook = (hooks: Hooks<any>) => {
       // to the render a checkbox
       Cell: ({ row }: CellProps<any>) => (
         <RowCheckbox {...row.getToggleRowSelectedProps()} />
-      )
+      ),
     },
-    ...columns
-  ]);
+    ...columns,
+  ])
   hooks.useInstanceBeforeDimensions.push(({ headerGroups }) => {
     // fix the parent group of the selection button to not be resizable
-    const selectionGroupHeader = headerGroups[0].headers[0];
-    selectionGroupHeader.canResize = false;
-  });
-};
+    const selectionGroupHeader = headerGroups[0].headers[0]
+    selectionGroupHeader.canResize = false
+  })
+}
 
 const headerProps = <T extends Record<string, unknown>>(
   props: any,
   { column }: Meta<T, { column: HeaderGroup<T> }>
-) => getStyles(props, column && column.disableResizing, column && column.align);
+) => getStyles(props, column && column.disableResizing, column && column.align)
 
 const cellProps = <T extends Record<string, unknown>>(
   props: any,
@@ -161,7 +164,7 @@ const cellProps = <T extends Record<string, unknown>>(
     props,
     cell.column && cell.column.disableResizing,
     cell.column && cell.column.align
-  );
+  )
 
 const defaultColumn = {
   Filter: DefaultColumnFilter,
@@ -170,8 +173,8 @@ const defaultColumn = {
   // When using the useFlexLayout:
   minWidth: 30, // minWidth is only used as a limit for resizing
   width: 150, // width is used for both the flex-basis and flex-grow
-  maxWidth: 200 // maxWidth is only used as a limit for resizing
-};
+  maxWidth: 200, // maxWidth is only used as a limit for resizing
+}
 
 const hooks = [
   useColumnOrder,
@@ -183,34 +186,43 @@ const hooks = [
   usePagination,
   useResizeColumns,
   useRowSelect,
-  selectionHook
-];
+  selectionHook,
+]
 
 const filterTypes = {
   fuzzyText: fuzzyTextFilter,
-  numeric: numericTextFilter
-};
+  numeric: numericTextFilter,
+}
 
 export function Table<T extends Record<string, unknown>>(
   props: PropsWithChildren<TableProperties<T>>
 ): ReactElement {
-  const { name, columns, onAdd, onDelete, onEdit, onClick, onClaim, onSelectionChange } = props;
-  const classes = useStyles();
+  const {
+    name,
+    columns,
+    onAdd,
+    onDelete,
+    onEdit,
+    onClick,
+    onClaim,
+    onSelectionChange,
+  } = props
+  const classes = useStyles()
 
   const [initialState, setInitialState] = useLocalStorage(
     `tableState:${name}`,
     {}
-  );
+  )
   const instance = useTable<T>(
     {
       ...props,
       columns,
       filterTypes,
       defaultColumn,
-      initialState
+      initialState,
     },
     ...hooks
-  );
+  )
 
   const {
     getTableProps,
@@ -218,40 +230,38 @@ export function Table<T extends Record<string, unknown>>(
     getTableBodyProps,
     page,
     prepareRow,
-    state
-  } = instance;
-  const debouncedState = useDebounce(state, 500);
+    state,
+  } = instance
+  const debouncedState = useDebounce(state, 500)
 
   useEffect(() => {
-    const {
-      sortBy,
-      filters,
-      pageSize,
-      columnResizing,
-      hiddenColumns
-    } = debouncedState;
+    const { sortBy, filters, pageSize, columnResizing, hiddenColumns } =
+      debouncedState
     const val = {
       sortBy,
       filters,
       pageSize,
       columnResizing,
-      hiddenColumns
-    };
-    setInitialState(val);
-  }, [setInitialState, debouncedState]);
+      hiddenColumns,
+    }
+    setInitialState(val)
+  }, [setInitialState, debouncedState])
 
   const cellClickHandler = (cell: Cell<T>) => () => {
     onClick &&
       !cell.column.isGrouped &&
       !cell.row.isGrouped &&
       cell.column.id !== "_selector" &&
-      onClick(cell.row);
-  };
+      onClick(cell.row)
+  }
 
-  const { role: tableRole, ...tableProps } = getTableProps();
+  const { role: tableRole, ...tableProps } = getTableProps()
   return (
     <>
-      <TableToolbar instance={instance} {...{ onAdd, onDelete, onEdit, onClaim, onSelectionChange }} />
+      <TableToolbar
+        instance={instance}
+        {...{ onAdd, onDelete, onEdit, onClaim, onSelectionChange }}
+      />
       <FilterChipBar<T> instance={instance} />
       <TableTable {...tableProps}>
         <TableHead>
@@ -261,26 +271,22 @@ export function Table<T extends Record<string, unknown>>(
               title: headerGroupTitle,
               role: headerGroupRole,
               ...getHeaderGroupProps
-            } = headerGroup.getHeaderGroupProps();
+            } = headerGroup.getHeaderGroupProps()
             return (
               <TableHeadRow key={headerGroupKey} {...getHeaderGroupProps}>
                 {headerGroup.headers.map((column) => {
                   const style = {
-                    textAlign: column.align ? column.align : "left "
-                  } as CSSProperties;
+                    textAlign: column.align ? column.align : "left ",
+                  } as CSSProperties
                   const {
                     key: headerKey,
                     role: headerRole,
                     ...getHeaderProps
-                  } = column.getHeaderProps(headerProps);
-                  const {
-                    title: groupTitle = "",
-                    ...columnGroupByProps
-                  } = column.getGroupByToggleProps();
-                  const {
-                    title: sortTitle = "",
-                    ...columnSortByProps
-                  } = column.getSortByToggleProps();
+                  } = column.getHeaderProps(headerProps)
+                  const { title: groupTitle = "", ...columnGroupByProps } =
+                    column.getGroupByToggleProps()
+                  const { title: sortTitle = "", ...columnSortByProps } =
+                    column.getSortByToggleProps()
 
                   return (
                     <TableHeadCell key={headerKey} {...getHeaderProps}>
@@ -315,27 +321,27 @@ export function Table<T extends Record<string, unknown>>(
                       {/*<div>{column.canFilter ? column.render('Filter') : null}</div>*/}
                       {column.canResize && <ResizeHandle column={column} />}
                     </TableHeadCell>
-                  );
+                  )
                 })}
               </TableHeadRow>
-            );
+            )
           })}
         </TableHead>
         <TableBody {...getTableBodyProps()}>
           {page.map((row) => {
-            prepareRow(row);
+            prepareRow(row)
             const {
               key: rowKey,
               role: rowRole,
               ...getRowProps
-            } = row.getRowProps();
+            } = row.getRowProps()
             return (
               <TableRow
                 key={rowKey}
                 {...getRowProps}
                 className={cx({
                   rowSelected: row.isSelected,
-                  clickable: onClick
+                  clickable: onClick,
                 })}
               >
                 {row.cells.map((cell) => {
@@ -343,7 +349,7 @@ export function Table<T extends Record<string, unknown>>(
                     key: cellKey,
                     role: cellRole,
                     ...getCellProps
-                  } = cell.getCellProps(cellProps);
+                  } = cell.getCellProps(cellProps)
                   return (
                     <TableCell
                       key={cellKey}
@@ -355,7 +361,7 @@ export function Table<T extends Record<string, unknown>>(
                           <TableSortLabel
                             classes={{
                               iconDirectionAsc: classes.iconDirectionAsc,
-                              iconDirectionDesc: classes.iconDirectionDesc
+                              iconDirectionDesc: classes.iconDirectionDesc,
                             }}
                             active
                             direction={row.isExpanded ? "desc" : "asc"}
@@ -372,15 +378,15 @@ export function Table<T extends Record<string, unknown>>(
                         cell.render("Cell")
                       )}
                     </TableCell>
-                  );
+                  )
                 })}
               </TableRow>
-            );
+            )
           })}
         </TableBody>
       </TableTable>
       <TablePagination<T> instance={instance} />
-      <TableDebug enabled instance={instance} />
+      {/* <TableDebug enabled instance={instance} /> */}
     </>
-  );
+  )
 }
