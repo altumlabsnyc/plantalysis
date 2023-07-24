@@ -1,8 +1,8 @@
-import { Theme, createStyles, makeStyles } from "@mui/material"
+import { createStyles, makeStyles } from "@mui/styles"
 import classNames from "classnames"
 import React from "react"
 
-const useStyles = makeStyles((theme: Theme) =>
+const useStyles = makeStyles((theme: any) =>
   createStyles({
     main: {
       background: "#FFFFFF",

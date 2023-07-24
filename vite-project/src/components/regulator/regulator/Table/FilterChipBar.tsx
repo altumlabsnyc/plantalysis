@@ -1,4 +1,5 @@
-import { Chip, createStyles, makeStyles } from "@mui/material"
+import { Chip } from "@mui/material"
+import { createStyles, makeStyles } from "@mui/styles"
 import { ReactElement, useCallback } from "react"
 import { ColumnInstance, FilterValue, IdType, TableInstance } from "react-table"
 

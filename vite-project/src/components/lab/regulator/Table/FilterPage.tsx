@@ -1,10 +1,5 @@
-import {
-  Button,
-  Popover,
-  Typography,
-  createStyles,
-  makeStyles,
-} from "@mui/material"
+import { Button, Popover, Typography } from "@mui/material"
+import { createStyles, makeStyles } from "@mui/styles"
 import { FormEvent, ReactElement, useCallback } from "react"
 import { TableInstance } from "react-table"
 

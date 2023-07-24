@@ -1,11 +1,8 @@
-import CircularProgress, {
-  Theme,
-  createStyles,
-  makeStyles,
-} from "@mui/material"
+import { CircularProgress } from "@mui/material"
+import { createStyles, makeStyles } from "@mui/styles"
 import React from "react"
 
-const useStyles = makeStyles((theme: Theme) =>
+const useStyles = makeStyles((theme: any) =>
   createStyles({
     root: {
       display: "flex",
