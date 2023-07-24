@@ -3,10 +3,6 @@ import React from "react"
 import { claimNewOrders } from "../Authentication"
 import { CLAIMED, LabOrderTableRow, NOT_CLAIMED } from "../UserTypes"
 
-import { Page } from "./regulator/Page"
-import { Table } from "./regulator/Table"
-import { PersonData } from "./regulator/utils"
-
 const columns = [
   {
     Header: "Order ID",
@@ -72,36 +68,36 @@ export default function LabOrderTable({ labOrders, showClaimed }: TableProps) {
   }
 
   const onClaim = function () {
-    if (isSendingClaimRequest) return
-    const order_ids = selectedRows
-      .map((e) => e.original)
-      .filter((e) => e.status == NOT_CLAIMED)
-      .map((e) => e.id)
+    // if (isSendingClaimRequest) return
+    // const order_ids = selectedRows
+    //   .map((e) => e.original)
+    //   .filter((e) => e.status == NOT_CLAIMED)
+    //   .map((e) => e.id)
 
-    onStartClaimRequest()
+    // onStartClaimRequest()
 
-    claimNewOrders(order_ids).then(() => {
-      onClaimSuccess()
-      // set order's to claimed
-      const new_data = data.map((e) => {
-        if (e.status == NOT_CLAIMED) {
-          e.status = order_ids.includes(e.id) ? CLAIMED : NOT_CLAIMED
-        }
-        return e
-      })
-      setData(new_data)
-      window.location.reload()
-    })
+    // claimNewOrders(order_ids).then(() => {
+    //   onClaimSuccess()
+    //   // set order's to claimed
+    //   const new_data = data.map((e) => {
+    //     if (e.status == NOT_CLAIMED) {
+    //       e.status = order_ids.includes(e.id) ? CLAIMED : NOT_CLAIMED
+    //     }
+    //     return e
+    //   })
+    //   setData(new_data)
+    //   window.location.reload()
+    // })
   }
-  const onSelectionChange = function (a) {
-    setSelectedRows(a.selectedFlatRows)
-    // console.log(a.selectedFlatRows)
-  }
+  // const onSelectionChange = function (a) {
+  //   setSelectedRows(a.selectedFlatRows)
+  //   // console.log(a.selectedFlatRows)
+  // }
 
   return (
-    <Page>
+    <>
       <CssBaseline />
-      {showClaimed && (
+      {/* {showClaimed && (
         <Table<PersonData>
           name={"testTable"}
           columns={columns}
@@ -115,9 +111,9 @@ export default function LabOrderTable({ labOrders, showClaimed }: TableProps) {
           name={"testTable"}
           columns={columns}
           data={data}
-          // onSelectionChange={onSelectionChange}
+        // onSelectionChange={onSelectionChange}
         />
-      )}
+      )} */}
       <Snackbar
         open={isSnackBarOpen}
         autoHideDuration={2000}
@@ -126,7 +122,7 @@ export default function LabOrderTable({ labOrders, showClaimed }: TableProps) {
       >
         <Alert severity={snackBarSeverity}>{snackBarMessage}</Alert>
       </Snackbar>
-    </Page>
+    </>
   )
 }
 

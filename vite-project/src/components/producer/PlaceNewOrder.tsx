@@ -72,7 +72,7 @@ export default function PlaceNewOrder({ session }: SessionProps) {
       // Checkout session completed, get session_id from the URL
 
       // Insert lab order into database
-      handlePlaceLabOrder(labOrder, brandName, sessionId);
+      // handlePlaceLabOrder(labOrder, brandName, sessionId);
     }
   }, [location]); // Re-run when location changes
 

@@ -9,9 +9,7 @@ import Landing from "./components/Landing"
 import Library from "./components/Library"
 import Login from "./components/Login"
 import Register from "./components/Register"
-import Stripe from "./components/Stripe"
 import LabDashboardRouter from "./components/lab/LabDashboard"
-import Regulator from "./components/lab/Regulator"
 import PlaceNewOrder from "./components/producer/PlaceNewOrder"
 import ProducerDashboardRouter from "./components/producer/ProducerDashboard"
 import RegulatorDashboard from "./components/regulatorDashboard/RegulatorDashboard"
@@ -47,16 +45,8 @@ function App() {
           <Route path="/dashboard/regulator">
             <RegulatorDashboard session={session} />
           </Route>
-
-          <ProtectedRoute
-            path="/regulator"
-            component={Regulator}
-            session={session}
-            redirectPath="/login"
-          />
           <Route path="/faq" component={Faq} />
           <Route path="/library" component={Library} />
-          <Route path="/stripe" component={Stripe} />
           <Route path="/new-order">
             <PlaceNewOrder session={session} />
           </Route>
