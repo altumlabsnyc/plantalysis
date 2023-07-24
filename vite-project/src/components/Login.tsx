@@ -95,7 +95,7 @@ export default function SignInSide() {
               mx: 4,
               display: "flex",
               flexDirection: "column",
-              alignItems: "center",
+              alignItems: "left",
             }}
           >
             <Typography component="h1" variant="h5">
@@ -157,7 +157,7 @@ export default function SignInSide() {
                   </Link>
                 </Grid>
                 <Grid item>
-                  <Link href="#" variant="body2">
+                  <Link href="/register" variant="body2">
                     {"Don't have an account? Sign Up"}
                   </Link>
                 </Grid>

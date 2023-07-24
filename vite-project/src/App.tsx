@@ -1,67 +1,80 @@
-import Login from "./components/Login";
-import Register from "./components/Register";
-import Upload from "./components/Upload";
-import Regulator from "./components/Regulator";
-import Landing from "./components/Landing";
-import Faq from "./components/Faq";
-import Library from "./components/Library";
-import Stripe from "./components/Stripe";
-import PlaceOrder from "./components/producer/PlaceNewOrder";
-// import "./App.css";
-import { useState, useEffect } from "react";
-import { supabase } from "./components/Authentication";
-import { Session } from "@supabase/supabase-js";
-import ProtectedRoute from "./ProtectedRoute";
+import ProtectedRoute from "./ProtectedRoute"
+import Faq from "./components/Faq"
+import Landing from "./components/Landing"
+import Library from "./components/Library"
+import Login from "./components/Login"
+import Register from "./components/Register"
+import Stripe from "./components/Stripe"
+import LabCurrentOrders from "./components/labDashboard/LabCurrentOrders"
+import LabDashboard from "./components/labDashboard/LabDashboard"
+import LabOrder from "./components/labDashboard/LabOrder"
+import PlaceOrder from "./components/producer/PlaceNewOrder"
+import ProducerDashboard from "./components/producer/ProducerDashboard"
+import ProducerOrders from "./components/producer/ProducerOrders"
+import Regulator from "./components/regulatorDashboard/Regulator"
+import RegulatorDashboard from "./components/regulatorDashboard/RegulatorDashboard"
+import Upload from "./components/regulatorDashboard/Upload"
 
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { SessionContextProvider } from "@supabase/auth-helpers-react"
+import { Session } from "@supabase/supabase-js"
+import { useEffect, useState } from "react"
+import { Route, BrowserRouter as Router, Switch } from "react-router-dom"
+import { supabase } from "./components/Authentication"
+import ProdPlaceOrder from "./components/producer/PlaceNewOrder"
 
 function App() {
-  const [session, setSession] = useState<Session | null>(null);
+  const [session, setSession] = useState<Session | null>(null)
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
-      setSession(session);
-    });
+      setSession(session)
+    })
 
     supabase.auth.onAuthStateChange((_event, session) => {
-      setSession(session);
-    });
-  }, []);
+      setSession(session)
+    })
+  }, [])
   return (
-    <Router>
-      <Switch>
-        <Route exact path="/" component={Landing} />
-        <Route path="/login" component={Login} />
-        <Route path="/register" component={Register} />
-        <Route path="/upload" component={Upload} />
-        <ProtectedRoute
-          path="/regulator"
-          component={Regulator}
-          session={session}
-          redirectPath="/login"
-        />
-        <Route path="/faq" component={Faq} />
-        <Route path="/library" component={Library} />
-        <Route path="/stripe" component={Stripe} />
-        <Route path="/new-order">
-          <PlaceOrder session={session} />
-        </Route>
-      </Switch>
-    </Router>
-  );
+    <SessionContextProvider supabaseClient={supabase}>
+      <Router>
+        <Switch>
+          <Route exact path="/" component={Landing} />
+          <Route path="/login" component={Login} />
+          <Route path="/register" component={Register} />
+          <Route path="/dashboard/labs/upload" component={Upload} />
+          <Route path="/dashboard/labs/orders">
+            <LabCurrentOrders session={session} />
+          </Route>
+          <Route path="/dashboard/producer/orders">
+            <ProducerOrders session={session} />
+          </Route>
+          <Route path="/dashboard/producer/new-order">
+            <ProdPlaceOrder session={session} />
+          </Route>
+          <Route path="/dashboard/labs/claim">
+            <LabOrder session={session} />
+          </Route>
+          <ProtectedRoute
+            path="/regulator"
+            component={Regulator}
+            session={session}
+            redirectPath="/login"
+          />
+          <Route path="/faq" component={Faq} />
+          <Route path="/library" component={Library} />
+          <Route path="/stripe" component={Stripe} />
+          <Route path="/dashboard/producer/" component={ProducerDashboard} />
+          <Route path="/new-order">
+            <PlaceOrder session={session} />
+          </Route>
+          <Route path="/dashboard/regulator">
+            <RegulatorDashboard session={session} />
+          </Route>
+          <Route path="/dashboard/labs/" component={LabDashboard} />
+        </Switch>
+      </Router>
+    </SessionContextProvider>
+  )
 }
 
-export default App;
-
-//   return (
-//     <div className="container" style={{ padding: "50px 0 100px 0" }}>
-//       {!session ? (
-//         <Auth />
-//       ) : (
-//         <Account key={session.user.id} session={session} />
-//       )}
-//     </div>
-//   );
-// }
-
-// export default App;
+export default App

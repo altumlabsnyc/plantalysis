@@ -44,7 +44,7 @@ const Plantalysis: React.FC = () => {
         <div className="container-fluid">
           <div className="row justify-content-center">
             <div className="col-xl-9 d-flex align-items-center justify-content-lg-between">
-              <a href="index.html" className="logo me-auto me-lg-0">
+              <a href="https://altumlabs.co" target = "_blank" className="logo me-auto me-lg-0">
                 <img src={logo} alt="" className="img-fluid" />
               </a>
               <nav id="navbar" className="navbar order-last">
@@ -84,7 +84,7 @@ const Plantalysis: React.FC = () => {
         <div className="container-fluid">
           <div className="row justify-content-center">
             <center>
-              <div className="col-xl-8">
+              <div className="col-xl-9">
                 <h1>P L A N T A L Y S I S</h1>
                 <h3>Know what's inside.</h3>
                 <br />

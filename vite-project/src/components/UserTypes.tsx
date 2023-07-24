@@ -23,6 +23,30 @@ export interface Input {
 
 export type userData = Database["public"]["Tables"]["user"]["Row"];
 export type LabOrder = Database["public"]["Tables"]["lab_order"]["Row"];
+export type Brand = Database["public"]["Tables"]["brand"]["Row"];
+export type Batch = Database["public"]["Tables"]["batch"]["Row"];
+export type Analysis = Database["public"]["Tables"]["analysis"]["Row"];
+export type MoleculePredict =
+  Database["public"]["Tables"]["molecule_prediction"]["Row"];
+
+
+
+export type LabOrderTableRow = LabOrder & {
+  status: string;
+}
+
+export type ForApproval = {
+  lab_name: string | null;
+  brand_name: string | null;
+  molecules: Array<MoleculePredict> | null;
+  pass: boolean;
+  sku: string | null;
+  analysis_id: string;
+};
+
+export type AnalysisTableRow = ForApproval & {
+  status: string;
+}
 
 //all user types
 export type govUser = Database["public"]["Tables"]["regulator_user"]["Row"];
@@ -130,9 +154,15 @@ export const generalInputs: Array<Input> = [
 export const labOrderInputs: Array<Input> = [
   { name: "Pickup location of the order", id: "location", type: "text" },
   { name: "Pickup date", id: "pickup_date", type: "date" },
+  { name: "Brand name", id: "brand_name", type: "text" },
   {
     name: "Please write a description of the strain",
     id: "strain_info",
     type: "text",
   },
 ];
+
+export const NOT_CLAIMED = 'Not Claimed'
+export const CLAIMED = 'Claimed'
+export const NOT_APPROVED = 'Not Approved'
+export const APPROVED = 'Approved'
