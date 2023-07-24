@@ -1,4 +1,9 @@
+import { SessionContextProvider } from "@supabase/auth-helpers-react"
+import { Session } from "@supabase/supabase-js"
+import { useEffect, useState } from "react"
+import { Route, BrowserRouter as Router, Switch } from "react-router-dom"
 import ProtectedRoute from "./ProtectedRoute"
+import { supabase } from "./components/Authentication"
 import Faq from "./components/Faq"
 import Landing from "./components/Landing"
 import Library from "./components/Library"
@@ -8,19 +13,15 @@ import Stripe from "./components/Stripe"
 import LabCurrentOrders from "./components/labDashboard/LabCurrentOrders"
 import LabDashboard from "./components/labDashboard/LabDashboard"
 import LabOrder from "./components/labDashboard/LabOrder"
-import PlaceOrder from "./components/producer/PlaceNewOrder"
+import {
+  default as PlaceOrder,
+  default as ProdPlaceOrder,
+} from "./components/producer/PlaceNewOrder"
 import ProducerDashboard from "./components/producer/ProducerDashboard"
 import ProducerOrders from "./components/producer/ProducerOrders"
 import Regulator from "./components/regulatorDashboard/Regulator"
 import RegulatorDashboard from "./components/regulatorDashboard/RegulatorDashboard"
 import Upload from "./components/regulatorDashboard/Upload"
-
-import { SessionContextProvider } from "@supabase/auth-helpers-react"
-import { Session } from "@supabase/supabase-js"
-import { useEffect, useState } from "react"
-import { Route, BrowserRouter as Router, Switch } from "react-router-dom"
-import { supabase } from "./components/Authentication"
-import ProdPlaceOrder from "./components/producer/PlaceNewOrder"
 
 function App() {
   const [session, setSession] = useState<Session | null>(null)
