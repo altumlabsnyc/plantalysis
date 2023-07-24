@@ -64,44 +64,6 @@ export default function Dashboard({ children, role, panels }: DashboardProps) {
             </li>
           </ul>
         </nav>
-        <div id="layoutSidenav">
-          <div id="layoutSidenav_nav">
-            <nav
-              className="sb-sidenav accordion sb-sidenav-dark"
-              id="sidenavAccordion"
-            >
-              <div className="sb-sidenav-menu">
-                <div className="nav">
-                  <div className="sb-sidenav-menu-heading">Core</div>
-                  {panels.map(({ link, icon, text }) => (
-                    <a className="nav-link" href={link}>
-                      <div className="sb-nav-link-icon">{icon}</div>
-                      {text}
-                    </a>
-                  ))}
-                </div>
-              </div>
-              <div className="sb-sidenav-footer">
-                <div className="small">Logged in as:</div>
-                Producer Name User
-              </div>
-            </nav>
-          </div>
-          <div id="layoutSidenav_content">
-            <main>
-              <div className="container-fluid px-4">{children}</div>
-            </main>
-            <footer className="py-4 bg-light mt-auto">
-              <div className="container-fluid px-4">
-                <div className="d-flex align-items-center justify-content-between small">
-                  <div className="text-muted">
-                    Copyright &copy; PLANTALYSIS by Altum Labs 2023
-                  </div>
-                </div>
-              </div>
-            </footer>
-          </div>
-        </div>
       </body>
     </div>
   )
