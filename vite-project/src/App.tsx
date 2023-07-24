@@ -2,7 +2,6 @@ import { SessionContextProvider } from "@supabase/auth-helpers-react"
 import { Session } from "@supabase/supabase-js"
 import { useEffect, useState } from "react"
 import { Route, BrowserRouter as Router, Switch } from "react-router-dom"
-import ProtectedRoute from "./ProtectedRoute"
 import { supabase } from "./components/Authentication"
 import Faq from "./components/Faq"
 import Landing from "./components/Landing"
@@ -26,6 +25,7 @@ function App() {
       setSession(session)
     })
   }, [])
+
   return (
     <SessionContextProvider supabaseClient={supabase}>
       <Router>
