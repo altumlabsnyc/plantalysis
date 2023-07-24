@@ -1,10 +1,5 @@
-import {
-  default as KeyboardArrowRight,
-  default as KeyboardArrowUp,
-  TableSortLabel,
-  TextField,
-  Tooltip,
-} from "@mui/material"
+import { KeyboardArrowRight, KeyboardArrowUp } from "@mui/icons-material"
+import { TableSortLabel, TextField, Tooltip } from "@mui/material"
 import cx from "classnames"
 import React, {
   BaseSyntheticEvent,

@@ -1,9 +1,11 @@
 import {
-  default as FirstPageIcon,
-  default as IconButton,
-  default as KeyboardArrowLeft,
-  default as KeyboardArrowRight,
-  default as LastPageIcon,
+  FirstPage,
+  KeyboardArrowLeft,
+  KeyboardArrowRight,
+  LastPage,
+} from "@mui/icons-material"
+import {
+  IconButton,
   Theme,
   TablePagination as _MuiTablePagination,
   createStyles,
@@ -85,7 +87,7 @@ function TablePaginationActions(props: TablePaginationActionsProps) {
         disabled={page === 0}
         aria-label="first page"
       >
-        {theme.direction === "rtl" ? <LastPageIcon /> : <FirstPageIcon />}
+        {theme.direction === "rtl" ? <LastPage /> : <FirstPage />}
       </IconButton>
       <IconButton
         onClick={handleBackButtonClick}
@@ -114,7 +116,7 @@ function TablePaginationActions(props: TablePaginationActionsProps) {
         disabled={page >= Math.ceil(count / rowsPerPage) - 1}
         aria-label="last page"
       >
-        {theme.direction === "rtl" ? <FirstPageIcon /> : <LastPageIcon />}
+        {theme.direction === "rtl" ? <FirstPage /> : <LastPage />}
       </IconButton>
     </div>
   )
