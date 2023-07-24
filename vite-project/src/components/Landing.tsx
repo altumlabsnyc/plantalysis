@@ -1,17 +1,17 @@
-import React from "react";
+import React from "react"
 // css
-import "./assets/landing/vendor/swiper/swiper-bundle.min.css";
-import "./assets/landing/css/style.css";
-import "./assets/landing/vendor/remixicon/remixicon.css";
-import "./assets/landing/vendor/glightbox/css/glightbox.min.css";
-import "./assets/landing/vendor/boxicons/css/boxicons.min.css";
-import "./assets/landing/vendor/bootstrap-icons/bootstrap-icons.css";
-import "./assets/landing/vendor/bootstrap/css/bootstrap.min.css";
+import "./assets/landing/css/style.css"
+import "./assets/landing/vendor/bootstrap-icons/bootstrap-icons.css"
+import "./assets/landing/vendor/bootstrap/css/bootstrap.min.css"
+import "./assets/landing/vendor/boxicons/css/boxicons.min.css"
+import "./assets/landing/vendor/glightbox/css/glightbox.min.css"
+import "./assets/landing/vendor/remixicon/remixicon.css"
+import "./assets/landing/vendor/swiper/swiper-bundle.min.css"
 // imgs
-import BG1 from "./assets/landing/img/BG.png";
-import BG2 from "./assets/landing/img/BG2.png";
-import BG3 from "./assets/landing/img/BG3.png";
-import logo from "./assets/landing/img/logo.png";
+import BG1 from "./assets/landing/img/BG.png"
+import BG2 from "./assets/landing/img/BG2.png"
+import BG3 from "./assets/landing/img/BG3.png"
+import logo from "./assets/landing/img/logo.png"
 
 const Plantalysis: React.FC = () => {
   return (
@@ -36,7 +36,11 @@ const Plantalysis: React.FC = () => {
         <div className="container-fluid">
           <div className="row justify-content-center">
             <div className="col-xl-9 d-flex align-items-center justify-content-lg-between">
-              <a href="https://altumlabs.co" target = "_blank" className="logo me-auto me-lg-0">
+              <a
+                href="https://altumlabs.co"
+                target="_blank"
+                className="logo me-auto me-lg-0"
+              >
                 <img src={logo} alt="" className="img-fluid" />
               </a>
               <nav id="navbar" className="navbar order-last">
@@ -301,7 +305,7 @@ const Plantalysis: React.FC = () => {
         <i className="bi bi-arrow-up-short"></i>
       </a>
     </div>
-  );
-};
+  )
+}
 
-export default Plantalysis;
+export default Plantalysis
