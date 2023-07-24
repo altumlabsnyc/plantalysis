@@ -12,14 +12,12 @@ import RegulatorDashboard from "./components/regulatorDashboard/RegulatorDashboa
 import LabDashboard from "./components/labDashboard/LabDashboard";
 import LabCurrentOrders from "./components/labDashboard/LabCurrentOrders";
 import LabOrder from "./components/labDashboard/LabOrder";
-import ProducerDashboard from "./components/ProducerDashboard/ProducerDashboard";
-import ProducerOrders from "./components/ProducerDashboard/ProdOrders";
 
 import { useState, useEffect } from "react";
 import { supabase } from "./components/Authentication";
 import { Session } from "@supabase/supabase-js";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import ProdPlaceOrder from "./components/ProducerDashboard/ProdPlaceOrder";
+import ProducerDashboardRouter from "./components/producer/ProducerDashboard";
 
 function App() {
   const [session, setSession] = useState<Session | null>(null);
@@ -43,12 +41,11 @@ function App() {
         <Route path="/dashboard/labs/orders">
           <LabCurrentOrders session={session} />
         </Route>
-        <Route path="/dashboard/producer/orders">
-          <ProducerOrders session={session} />
+
+        <Route path="/dashboard/producer">
+          <ProducerDashboardRouter session={session} />
         </Route>
-        <Route path="/dashboard/producer/new-order">
-          <ProdPlaceOrder session={session} />
-        </Route>
+
         <Route path="/dashboard/labs/claim">
           <LabOrder session={session} />
         </Route>
@@ -61,7 +58,6 @@ function App() {
         <Route path="/faq" component={Faq} />
         <Route path="/library" component={Library} />
         <Route path="/stripe" component={Stripe} />
-        <Route path="/dashboard/producer/" component={ProducerDashboard} />
         <Route path="/new-order">
           <PlaceOrder session={session} />
         </Route>

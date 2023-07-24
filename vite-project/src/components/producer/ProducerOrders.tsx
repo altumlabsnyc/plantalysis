@@ -13,7 +13,6 @@ import { LabOrder, LabOrderTableRow } from "../UserTypes.js";
 import { supabase, fetchProducerOrders } from "../Authentication.js";
 import { Session } from "@supabase/supabase-js";
 import LabOrderTable from "../labDashboard/LabOrderTable.js";
-import ProducerDashboard from "./ProducerDashboard.js";
 
 interface SessionProps {
   session: Session | null;
@@ -41,10 +40,6 @@ export default function ProducerOrders({ session }: SessionProps) {
   }, [session]);
 
   return (
-    <ProducerDashboard>
-      {<LabOrderTable labOrders={labOrders} showClaimed={false} />}
-    </ProducerDashboard>
+    <LabOrderTable labOrders={labOrders} showClaimed={false} />
   );
 }
-
-// export default LabOrder;

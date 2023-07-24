@@ -10,12 +10,16 @@ import "../assets/dashboard/js/datatables-simple-demo.js";
 // css
 import "../assets/dashboard/css/styles.css";
 import "https://use.fontawesome.com/releases/v6.3.0/js/all.js";
+import { Route } from "react-router-dom";
+import { Session } from "@supabase/supabase-js";
+import PlaceNewOrder from "./PlaceNewOrder.js";
+import ProducerOrders from "./ProducerOrders.js";
 
 interface ProducerDashboardProps {
   children: React.ReactNode;
 }
 
-export default function ProducerDashboard({ children }: ProducerDashboardProps) {
+function ProducerDashboard({ children }: ProducerDashboardProps) {
   const panels: DashboardPanel[] = [
     {
       link: "/dashboard/producer/new-order",
@@ -37,3 +41,24 @@ export default function ProducerDashboard({ children }: ProducerDashboardProps) 
     </Dashboard>
   );
 };
+
+interface SessionProps {
+  session: Session | null
+}
+
+export default function ProducerDashboardRouter({ session }: SessionProps) {
+  return (
+    <>
+      <Route path="/dashboard/producer/new-order">
+        <ProducerDashboard>
+          <PlaceNewOrder session={session} />
+        </ProducerDashboard>
+      </Route>
+      <Route path="/dashboard/producer/orders">
+        <ProducerDashboard>
+          <ProducerOrders session={session} />
+        </ProducerDashboard>
+      </Route>
+    </>
+  )
+}
