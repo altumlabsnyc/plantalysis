@@ -1,6 +1,12 @@
-import { Button, Popover, Typography, createStyles, makeStyles } from '@material-ui/core'
-import React, { FormEvent, ReactElement, useCallback } from 'react'
-import { TableInstance } from 'react-table'
+import {
+  Button,
+  Popover,
+  Typography,
+  createStyles,
+  makeStyles,
+} from "@mui/material"
+import { FormEvent, ReactElement, useCallback } from "react"
+import { TableInstance } from "react-table"
 
 const useStyles = makeStyles(
   createStyles({
@@ -8,31 +14,31 @@ const useStyles = makeStyles(
       padding: 24,
     },
     filtersResetButton: {
-      position: 'absolute',
+      position: "absolute",
       top: 18,
       right: 21,
     },
     popoverTitle: {
       fontWeight: 500,
-      padding: '0 24px 24px 0',
-      textTransform: 'uppercase',
+      padding: "0 24px 24px 0",
+      textTransform: "uppercase",
     },
     grid: {
-      display: 'grid',
-      gridTemplateColumns: 'repeat(2, 218px)',
-      '@media (max-width: 600px)': {
-        gridTemplateColumns: 'repeat(1, 180px)',
+      display: "grid",
+      gridTemplateColumns: "repeat(2, 218px)",
+      "@media (max-width: 600px)": {
+        gridTemplateColumns: "repeat(1, 180px)",
       },
       gridColumnGap: 24,
       gridRowGap: 24,
     },
     cell: {
-      width: '100%',
-      display: 'inline-flex',
-      flexDirection: 'column',
+      width: "100%",
+      display: "inline-flex",
+      flexDirection: "column",
     },
     hidden: {
-      display: 'none',
+      display: "none",
     },
   })
 )
@@ -69,22 +75,26 @@ export function FilterPage<T extends Record<string, unknown>>({
     <div>
       <Popover
         anchorEl={anchorEl}
-        id={'popover-filters'}
+        id={"popover-filters"}
         onClose={onClose}
         open={show}
         anchorOrigin={{
-          vertical: 'bottom',
-          horizontal: 'right',
+          vertical: "bottom",
+          horizontal: "right",
         }}
         transformOrigin={{
-          vertical: 'top',
-          horizontal: 'right',
+          vertical: "top",
+          horizontal: "right",
         }}
       >
         <div className={classes.columnsPopOver}>
           <Typography className={classes.popoverTitle}>Filters</Typography>
           <form onSubmit={onSubmit}>
-            <Button className={classes.filtersResetButton} color='primary' onClick={resetFilters}>
+            <Button
+              className={classes.filtersResetButton}
+              color="primary"
+              onClick={resetFilters}
+            >
               Reset
             </Button>
             <div className={classes.grid}>
@@ -92,11 +102,11 @@ export function FilterPage<T extends Record<string, unknown>>({
                 .filter((it) => it.canFilter)
                 .map((column) => (
                   <div key={column.id} className={classes.cell}>
-                    {column.render('Filter')}
+                    {column.render("Filter")}
                   </div>
                 ))}
             </div>
-            <Button className={classes.hidden} type={'submit'}>
+            <Button className={classes.hidden} type={"submit"}>
               &nbsp;
             </Button>
           </form>

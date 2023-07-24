@@ -1,35 +1,23 @@
 import {
-  Button,
-  ClickAwayListener,
+  Alert,
+  AlertColor,
   CssBaseline,
-  InputLabel,
-  MenuItem,
-  TextField,
-} from "@material-ui/core";
-import { Alert, AlertColor, Snackbar } from "@mui/material";
-import { Popover } from "@material-ui/core";
-import React, { BaseSyntheticEvent, useCallback, useState } from "react";
+  Popover,
+  Snackbar,
+} from "@mui/material"
+import React, { BaseSyntheticEvent, useState } from "react"
+import { Row } from "react-table"
+import { approveOrders } from "../Authentication"
 import {
-  CellProps,
-  FilterProps,
-  FilterValue,
-  IdType,
-  Row,
-  TableInstance,
-} from "react-table";
-import { approveOrders, claimNewOrders } from "../Authentication";
-import {
-  AnalysisTableRow,
   APPROVED,
-  LabOrder,
-  LabOrderTableRow,
+  AnalysisTableRow,
   MoleculePredict,
   NOT_APPROVED,
-} from "../UserTypes";
+} from "../UserTypes"
 
-import { Page } from "./regulator/Page";
-import { Table } from "./regulator/Table";
-import { PersonData, makeData } from "./regulator/utils";
+import { Page } from "./regulator/Page"
+import { Table } from "./regulator/Table"
+import { PersonData } from "./regulator/utils"
 
 const columns = [
   {
@@ -53,7 +41,7 @@ const columns = [
     Header: "QR link",
     accessor: "sku",
   },
-];
+]
 
 const moleculePredictionColumns = [
   {
@@ -64,100 +52,100 @@ const moleculePredictionColumns = [
     Header: "Concentration",
     accessor: "concentration",
   },
-];
+]
 
 const AnalysisTable: React.FC<{ analysis: AnalysisTableRow[] }> = ({
   analysis,
 }) => {
-  const [data, setData] = React.useState(analysis);
+  const [data, setData] = React.useState(analysis)
 
   const [moleculePredictionData, setMoleculePredictionData] = useState<
     MoleculePredict[]
-  >([]);
+  >([])
 
-  const [anchorEl, setAnchorEl] = React.useState<HTMLElement | null>(null);
+  const [anchorEl, setAnchorEl] = React.useState<HTMLElement | null>(null)
 
   const handleClick = (event: BaseSyntheticEvent, row: Row) => {
-    setAnchorEl(event.currentTarget);
-    setMoleculePredictionData(row.original.molecules);
-  };
+    setAnchorEl(event.currentTarget)
+    setMoleculePredictionData(row.original.molecules)
+  }
 
   const handlePopoverClose = () => {
-    console.log("close");
-    setAnchorEl(null);
-    setMoleculePredictionData([]);
-  };
+    console.log("close")
+    setAnchorEl(null)
+    setMoleculePredictionData([])
+  }
 
-  const open = Boolean(anchorEl);
+  const open = Boolean(anchorEl)
 
   React.useEffect(() => {
     if (analysis) {
-      setData(analysis);
+      setData(analysis)
     }
-  }, [analysis]);
+  }, [analysis])
 
-  const [selectedRows, setSelectedRows] = React.useState([]);
+  const [selectedRows, setSelectedRows] = React.useState([])
 
-  const [isSnackBarOpen, setIsSnackBarOpen] = React.useState(false);
-  const [snackBarMessage, setSnackBarMessage] = React.useState("");
+  const [isSnackBarOpen, setIsSnackBarOpen] = React.useState(false)
+  const [snackBarMessage, setSnackBarMessage] = React.useState("")
   const [snackBarSeverity, setSnackBarSeverity] =
-    React.useState<AlertColor>("info");
+    React.useState<AlertColor>("info")
   const [isSendingClaimRequest, setIsSendingClaimRequest] =
-    React.useState(false);
+    React.useState(false)
 
   const handleSnackBarClose = (
     event: React.SyntheticEvent | Event,
     reason?: string
   ) => {
     if (reason === "clickaway") {
-      return;
+      return
     }
 
-    setIsSnackBarOpen(false);
-  };
+    setIsSnackBarOpen(false)
+  }
 
   const onStartClaimRequest = function () {
-    setIsSendingClaimRequest(true);
-    setIsSnackBarOpen(true);
-    setSnackBarSeverity("info");
-    setSnackBarMessage("Claiming orders...");
-  };
+    setIsSendingClaimRequest(true)
+    setIsSnackBarOpen(true)
+    setSnackBarSeverity("info")
+    setSnackBarMessage("Claiming orders...")
+  }
 
   const onClaimSuccess = function () {
-    setIsSendingClaimRequest(false);
-    setIsSnackBarOpen(true);
-    setSnackBarSeverity("success");
-    setSnackBarMessage("Successfully claimed orders!");
-  };
+    setIsSendingClaimRequest(false)
+    setIsSnackBarOpen(true)
+    setSnackBarSeverity("success")
+    setSnackBarMessage("Successfully claimed orders!")
+  }
 
   const onApprove = function () {
-    if (isSendingClaimRequest) return;
+    if (isSendingClaimRequest) return
     const analysis_ids = selectedRows
       .map((e) => e.original)
       .filter((e) => e.status == NOT_APPROVED)
-      .map((e) => e.analysis_id);
+      .map((e) => e.analysis_id)
 
-    onStartClaimRequest();
+    onStartClaimRequest()
 
     approveOrders(analysis_ids).then(() => {
-      onClaimSuccess();
+      onClaimSuccess()
       // set order's to claimed
       const new_data = data.map((e) => {
         if (e.status == "Not Approved") {
           e.status = analysis_ids.includes(e.analysis_id)
             ? APPROVED
-            : NOT_APPROVED;
+            : NOT_APPROVED
         }
-        return e;
-      });
-      setData(new_data);
+        return e
+      })
+      setData(new_data)
       window.location.reload()
-    });
-  };
+    })
+  }
   const onSelectionChange = function (a) {
-    setSelectedRows(a.selectedFlatRows);
+    setSelectedRows(a.selectedFlatRows)
     // console.log(a.selectedFlatRows)
-  };
+  }
 
   return (
     <Page>
@@ -199,9 +187,9 @@ const AnalysisTable: React.FC<{ analysis: AnalysisTableRow[] }> = ({
         columns={columns}
         onClick={(e, row) => {
           if (e && e.currentTarget && e.currentTarget.parentElement) {
-            e.currentTarget = e.currentTarget.parentElement;
+            e.currentTarget = e.currentTarget.parentElement
           }
-          handleClick(e, row);
+          handleClick(e, row)
         }}
         data={data}
         onSelectionChange={onSelectionChange}
@@ -216,7 +204,7 @@ const AnalysisTable: React.FC<{ analysis: AnalysisTableRow[] }> = ({
         <Alert severity={snackBarSeverity}>{snackBarMessage}</Alert>
       </Snackbar>
     </Page>
-  );
-};
+  )
+}
 
-export default AnalysisTable;
+export default AnalysisTable

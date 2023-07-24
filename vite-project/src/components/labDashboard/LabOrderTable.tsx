@@ -1,5 +1,4 @@
-import { CssBaseline } from "@material-ui/core"
-import { Alert, AlertColor, Snackbar } from "@mui/material"
+import { Alert, AlertColor, CssBaseline, Snackbar } from "@mui/material"
 import React from "react"
 import { claimNewOrders } from "../Authentication"
 import { CLAIMED, LabOrderTableRow, NOT_CLAIMED } from "../UserTypes"
