@@ -8,13 +8,13 @@ import "./assets/landing/vendor/boxicons/css/boxicons.min.css";
 import "./assets/landing/vendor/bootstrap-icons/bootstrap-icons.css";
 import "./assets/landing/vendor/bootstrap/css/bootstrap.min.css";
 // js
-import "./assets/landing/vendor/purecounter/purecounter_vanilla.js";
-import "./assets/landing/vendor/bootstrap/js/bootstrap.bundle.min.js";
-import "./assets/landing/vendor/glightbox/js/glightbox.min.js";
-import "./assets/landing/vendor/isotope-layout/isotope.pkgd.min.js";
-import "./assets/landing/vendor/swiper/swiper-bundle.min.js";
-import "./assets/landing/vendor/php-email-form/validate.js";
-import "./assets/landing/js/main.js";
+// import "./assets/landing/vendor/purecounter/purecounter_vanilla.js";
+// import "./assets/landing/vendor/bootstrap/js/bootstrap.bundle.min.js";
+// import "./assets/landing/vendor/glightbox/js/glightbox.min.js";
+// import "./assets/landing/vendor/isotope-layout/isotope.pkgd.min.js";
+// import "./assets/landing/vendor/swiper/swiper-bundle.min.js";
+// import "./assets/landing/vendor/php-email-form/validate.js";
+// import "./assets/landing/js/main.js";
 // imgs
 import BG1 from "./assets/landing/img/BG.png";
 import BG2 from "./assets/landing/img/BG2.png";
