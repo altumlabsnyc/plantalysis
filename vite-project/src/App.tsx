@@ -1,23 +1,20 @@
 import Login from "./components/Login";
 import Register from "./components/Register";
-import Upload from "./components/regulatorDashboard/Upload";
-import Regulator from "./components/regulatorDashboard/Regulator";
+import Regulator from "./components/regulator/Regulator";
 import Landing from "./components/Landing";
 import Faq from "./components/Faq";
 import Library from "./components/Library";
 import Stripe from "./components/Stripe";
 import PlaceOrder from "./components/producer/PlaceNewOrder";
 import ProtectedRoute from "./ProtectedRoute";
-import RegulatorDashboard from "./components/regulatorDashboard/RegulatorDashboard";
 import LabDashboardRouter from "./components/lab/LabDashboard";
-import LabCurrentOrders from "./components/lab/CurrentOrders";
-import LabOrder from "./components/lab/LabOrder";
 
 import { useState, useEffect } from "react";
 import { supabase } from "./components/Authentication";
 import { Session } from "@supabase/supabase-js";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import ProducerDashboardRouter from "./components/producer/ProducerDashboard";
+import RegulatorDashboard from "./components/regulator/RegulatorDashboard";
 
 function App() {
   const [session, setSession] = useState<Session | null>(null);
@@ -46,6 +43,10 @@ function App() {
           <ProducerDashboardRouter session={session} />
         </Route>
 
+        <Route path="/dashboard/regulator">
+          <RegulatorDashboard session={session} />
+        </Route>
+
         <ProtectedRoute
           path="/regulator"
           component={Regulator}
@@ -57,9 +58,6 @@ function App() {
         <Route path="/stripe" component={Stripe} />
         <Route path="/new-order">
           <PlaceOrder session={session} />
-        </Route>
-        <Route path="/dashboard/regulator">
-          <RegulatorDashboard session={session} />
         </Route>
       </Switch>
     </Router>

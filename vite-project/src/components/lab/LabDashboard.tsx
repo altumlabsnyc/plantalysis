@@ -12,7 +12,7 @@ import 'https://use.fontawesome.com/releases/v6.3.0/js/all.js';
 import Dashboard, { DashboardPanel } from '../DashBoard.js';
 import { Session } from '@supabase/supabase-js';
 import { Route } from 'react-router-dom';
-import Upload from '../regulatorDashboard/Upload.js';
+import Upload from '../regulator/Upload.js';
 import CurrentOrders from './CurrentOrders'
 import ClaimOrders from './ClaimOrders';
 
@@ -63,7 +63,7 @@ export default function ProducerDashboardRouter({ session }: SessionProps) {
           <CurrentOrders session={session} />
         </LabDashboard>
       </Route>
-      <Route path="/dashboard/lab/claim-new-orders">
+      <Route path="/dashboard/lab/claim-orders">
         <LabDashboard>
           <ClaimOrders session={session} />
         </LabDashboard>
