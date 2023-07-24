@@ -13,6 +13,7 @@ import React, { useEffect, useState } from "react"
 import { Session } from "@supabase/supabase-js"
 import { supabase } from "../Authentication"
 
+import useUserDetails from "@/hooks/useUserDetails"
 import { loadStripe } from "@stripe/stripe-js"
 import { useUser } from "@supabase/auth-helpers-react"
 import { useLocation } from "react-router-dom"
@@ -43,7 +44,10 @@ interface SessionProps {
 const defaultTheme = createTheme()
 export default function PlaceNewOrder({ session }: SessionProps) {
   const user = useUser()
-  console.log(user)
+  // console.log(user)
+
+  const { data, error, isLoading } = useUserDetails(user)
+  console.log(data)
 
   const location = useLocation()
 
