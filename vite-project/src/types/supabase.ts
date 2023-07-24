@@ -785,6 +785,25 @@ export interface Database {
           }
         ]
       }
+      sampling_firm_user: {
+        Row: {
+          id: string
+        }
+        Insert: {
+          id: string
+        }
+        Update: {
+          id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "sampling_firm_user_id_fkey"
+            columns: ["id"]
+            referencedRelation: "user"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
       university_user: {
         Row: {
           id: string
@@ -848,7 +867,48 @@ export interface Database {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      delete_claim: {
+        Args: {
+          uid: string
+          claim: string
+        }
+        Returns: string
+      }
+      get_claim: {
+        Args: {
+          uid: string
+          claim: string
+        }
+        Returns: Json
+      }
+      get_claims: {
+        Args: {
+          uid: string
+        }
+        Returns: Json
+      }
+      get_my_claim: {
+        Args: {
+          claim: string
+        }
+        Returns: Json
+      }
+      get_my_claims: {
+        Args: Record<PropertyKey, never>
+        Returns: Json
+      }
+      is_claims_admin: {
+        Args: Record<PropertyKey, never>
+        Returns: boolean
+      }
+      set_claim: {
+        Args: {
+          uid: string
+          claim: string
+          value: Json
+        }
+        Returns: string
+      }
     }
     Enums: {
       license_type_enum: "AUCC" | "AUCP" | "AUHC"

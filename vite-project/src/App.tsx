@@ -1,34 +1,33 @@
-import Login from "./components/Login";
-import Register from "./components/Register";
-import Regulator from "./components/regulator/Regulator";
-import Landing from "./components/Landing";
-import Faq from "./components/Faq";
-import Library from "./components/Library";
-import Stripe from "./components/Stripe";
-import PlaceOrder from "./components/producer/PlaceNewOrder";
-import ProtectedRoute from "./ProtectedRoute";
-import LabDashboardRouter from "./components/lab/LabDashboard";
 
-import { useState, useEffect } from "react";
-import { supabase } from "./components/Authentication";
-import { Session } from "@supabase/supabase-js";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import ProducerDashboardRouter from "./components/producer/ProducerDashboard";
 import RegulatorDashboard from "./components/regulator/RegulatorDashboard";
+import { SessionContextProvider } from "@supabase/auth-helpers-react"
+import { Session } from "@supabase/supabase-js"
+import { useEffect, useState } from "react"
+import { Route, BrowserRouter as Router, Switch } from "react-router-dom"
+import ProtectedRoute from "./ProtectedRoute"
+import { supabase } from "./components/Authentication"
+import Faq from "./components/Faq"
+import Landing from "./components/Landing"
+import Library from "./components/Library"
+import Login from "./components/Login"
+import Register from "./components/Register"
+import Stripe from "./components/Stripe"
 
 function App() {
-  const [session, setSession] = useState<Session | null>(null);
+  const [session, setSession] = useState<Session | null>(null)
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
-      setSession(session);
-    });
+      setSession(session)
+    })
 
     supabase.auth.onAuthStateChange((_event, session) => {
-      setSession(session);
-    });
-  }, []);
+      setSession(session)
+    })
+  }, [])
   return (
+<SessionContextProvider supabaseClient={supabase}>
     <Router>
       <Switch>
         <Route exact path="/" component={Landing} />
@@ -61,7 +60,8 @@ function App() {
         </Route>
       </Switch>
     </Router>
+    </SessionContextProvider>
   );
 }
 
-export default App;
+export default App

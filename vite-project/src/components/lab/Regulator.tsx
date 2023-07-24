@@ -1,17 +1,30 @@
-import { Button, CssBaseline, InputLabel, MenuItem, TextField } from '@material-ui/core'
-import React, { useCallback } from 'react'
-import { CellProps, FilterProps, FilterValue, IdType, Row, TableInstance } from 'react-table'
+import {
+  Button,
+  CssBaseline,
+  InputLabel,
+  MenuItem,
+  TextField,
+} from "@mui/material"
+import React, { useCallback } from "react"
+import {
+  CellProps,
+  FilterProps,
+  FilterValue,
+  IdType,
+  Row,
+  TableInstance,
+} from "react-table"
 
-import { Page } from './regulator/Page'
-import { Table } from './regulator/Table'
-import { PersonData, makeData } from './regulator/utils'
+import { Page } from "./regulator/Page"
+import { Table } from "./regulator/Table"
+import { PersonData, makeData } from "./regulator/utils"
 
 // This is a custom aggregator that
 // takes in an array of values and
 // returns the rounded median
 function roundedMedian(values: any[]) {
-  let min = values[0] || ''
-  let max = values[0] || ''
+  let min = values[0] || ""
+  let max = values[0] || ""
 
   values.forEach((value) => {
     min = Math.min(min, value)
@@ -21,7 +34,11 @@ function roundedMedian(values: any[]) {
   return Math.round((min + max) / 2)
 }
 
-function filterGreaterThan(rows: Array<Row<any>>, id: Array<IdType<any>>, filterValue: FilterValue) {
+function filterGreaterThan(
+  rows: Array<Row<any>>,
+  id: Array<IdType<any>>,
+  filterValue: FilterValue
+) {
   return rows.filter((row) => {
     const rowValue = row.values[id[0]]
     return rowValue >= filterValue
@@ -32,7 +49,7 @@ function filterGreaterThan(rows: Array<Row<any>>, id: Array<IdType<any>>, filter
 // when given the new filter value and returns true, the filter
 // will be automatically removed. Normally this is just an undefined
 // check, but here, we want to remove the filter if it's not a number
-filterGreaterThan.autoRemove = (val: any) => typeof val !== 'number'
+filterGreaterThan.autoRemove = (val: any) => typeof val !== "number"
 
 function SelectColumnFilter({
   column: { filterValue, render, setFilter, preFilteredRows, id },
@@ -48,13 +65,13 @@ function SelectColumnFilter({
   return (
     <TextField
       select
-      label={render('Header')}
-      value={filterValue || ''}
+      label={render("Header")}
+      value={filterValue || ""}
       onChange={(e) => {
         setFilter(e.target.value || undefined)
       }}
     >
-      <MenuItem value={''}>All</MenuItem>
+      <MenuItem value={""}>All</MenuItem>
       {options.map((option, i) => (
         <MenuItem key={i} value={option}>
           {option}
@@ -77,20 +94,23 @@ const getMinMax = (rows: Row<PersonData>[], id: IdType<PersonData>) => {
 function SliderColumnFilter({
   column: { render, filterValue, setFilter, preFilteredRows, id },
 }: FilterProps<PersonData>) {
-  const [min, max] = React.useMemo(() => getMinMax(preFilteredRows, id), [id, preFilteredRows])
+  const [min, max] = React.useMemo(
+    () => getMinMax(preFilteredRows, id),
+    [id, preFilteredRows]
+  )
 
   return (
     <div
       style={{
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'baseline',
+        display: "flex",
+        justifyContent: "space-between",
+        alignItems: "baseline",
       }}
     >
       <TextField
         name={id}
-        label={render('Header')}
-        type='range'
+        label={render("Header")}
+        type="range"
         inputProps={{
           min,
           max,
@@ -100,7 +120,11 @@ function SliderColumnFilter({
           setFilter(parseInt(e.target.value, 10))
         }}
       />
-      <Button variant='outlined' style={{ width: 60, height: 36 }} onClick={() => setFilter(undefined)}>
+      <Button
+        variant="outlined"
+        style={{ width: 60, height: 36 }}
+        onClick={() => setFilter(undefined)}
+      >
         Off
       </Button>
     </div>
@@ -115,9 +139,9 @@ const useActiveElement = () => {
   }
 
   React.useEffect(() => {
-    document.addEventListener('focusin', handleFocusIn)
+    document.addEventListener("focusin", handleFocusIn)
     return () => {
-      document.removeEventListener('focusin', handleFocusIn)
+      document.removeEventListener("focusin", handleFocusIn)
     }
   }, [])
 
@@ -130,49 +154,60 @@ const useActiveElement = () => {
 function NumberRangeColumnFilter({
   column: { filterValue = [], render, preFilteredRows, setFilter, id },
 }: FilterProps<PersonData>) {
-  const [min, max] = React.useMemo(() => getMinMax(preFilteredRows, id), [id, preFilteredRows])
+  const [min, max] = React.useMemo(
+    () => getMinMax(preFilteredRows, id),
+    [id, preFilteredRows]
+  )
   const focusedElement = useActiveElement()
-  const hasFocus = focusedElement && (focusedElement.id === `${id}_1` || focusedElement.id === `${id}_2`)
+  const hasFocus =
+    focusedElement &&
+    (focusedElement.id === `${id}_1` || focusedElement.id === `${id}_2`)
   return (
     <>
       <InputLabel htmlFor={id} shrink focused={!!hasFocus}>
-        {render('Header')}
+        {render("Header")}
       </InputLabel>
       <div
         style={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'baseline',
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "baseline",
           paddingTop: 5,
         }}
       >
         <TextField
           id={`${id}_1`}
-          value={filterValue[0] || ''}
-          type='number'
+          value={filterValue[0] || ""}
+          type="number"
           onChange={(e) => {
             const val = e.target.value
-            setFilter((old: any[] = []) => [val ? parseInt(val, 10) : undefined, old[1]])
+            setFilter((old: any[] = []) => [
+              val ? parseInt(val, 10) : undefined,
+              old[1],
+            ])
           }}
           placeholder={`Min (${min})`}
           style={{
-            width: '70px',
-            marginRight: '0.5rem',
+            width: "70px",
+            marginRight: "0.5rem",
           }}
         />
         to
         <TextField
           id={`${id}_2`}
-          value={filterValue[1] || ''}
-          type='number'
+          value={filterValue[1] || ""}
+          type="number"
           onChange={(e) => {
             const val = e.target.value
-            setFilter((old: any[] = []) => [old[0], val ? parseInt(val, 10) : undefined])
+            setFilter((old: any[] = []) => [
+              old[0],
+              val ? parseInt(val, 10) : undefined,
+            ])
           }}
           placeholder={`Max (${max})`}
           style={{
-            width: '70px',
-            marginLeft: '0.5rem',
+            width: "70px",
+            marginLeft: "0.5rem",
           }}
         />
       </div>
@@ -182,64 +217,69 @@ function NumberRangeColumnFilter({
 
 const columns = [
   {
-    Header: 'Name',
+    Header: "Name",
     columns: [
       {
-        Header: 'First Name',
-        accessor: 'firstName',
-        aggregate: 'count',
-        Aggregated: ({ cell: { value } }: CellProps<PersonData>) => `${value} Names`,
+        Header: "First Name",
+        accessor: "firstName",
+        aggregate: "count",
+        Aggregated: ({ cell: { value } }: CellProps<PersonData>) =>
+          `${value} Names`,
       },
       {
-        Header: 'Last Name',
-        accessor: 'lastName',
-        aggregate: 'uniqueCount',
-        filter: 'fuzzyText',
-        Aggregated: ({ cell: { value } }: CellProps<PersonData>) => `${value} Unique Names`,
+        Header: "Last Name",
+        accessor: "lastName",
+        aggregate: "uniqueCount",
+        filter: "fuzzyText",
+        Aggregated: ({ cell: { value } }: CellProps<PersonData>) =>
+          `${value} Unique Names`,
       },
     ],
   },
   {
-    Header: 'Info',
+    Header: "Info",
     columns: [
       {
-        Header: 'Age',
-        accessor: 'age',
+        Header: "Age",
+        accessor: "age",
         width: 50,
         minWidth: 50,
-        align: 'right',
+        align: "right",
         Filter: SliderColumnFilter,
-        filter: 'equals',
-        aggregate: 'average',
+        filter: "equals",
+        aggregate: "average",
         disableGroupBy: true,
         defaultCanSort: false,
         disableSortBy: false,
-        Aggregated: ({ cell: { value } }: CellProps<PersonData>) => `${value} (avg)`,
+        Aggregated: ({ cell: { value } }: CellProps<PersonData>) =>
+          `${value} (avg)`,
       },
       {
-        Header: 'Visits',
-        accessor: 'visits',
+        Header: "Visits",
+        accessor: "visits",
         width: 50,
         minWidth: 50,
-        align: 'right',
+        align: "right",
         Filter: NumberRangeColumnFilter,
-        filter: 'between',
-        aggregate: 'sum',
-        Aggregated: ({ cell: { value } }: CellProps<PersonData>) => `${value} (total)`,
+        filter: "between",
+        aggregate: "sum",
+        Aggregated: ({ cell: { value } }: CellProps<PersonData>) =>
+          `${value} (total)`,
       },
       {
-        Header: 'Status',
-        accessor: 'status',
+        Header: "Status",
+        accessor: "status",
         Filter: SelectColumnFilter,
-        filter: 'includes',
+        filter: "includes",
       },
       {
-        Header: 'Profile Progress',
-        accessor: 'progress',
+        Header: "Profile Progress",
+        accessor: "progress",
         Filter: SliderColumnFilter,
         filter: filterGreaterThan,
         aggregate: roundedMedian,
-        Aggregated: ({ cell: { value } }: CellProps<PersonData>) => `${value} (med)`,
+        Aggregated: ({ cell: { value } }: CellProps<PersonData>) =>
+          `${value} (med)`,
       },
     ],
   },
@@ -251,8 +291,10 @@ const Regulator: React.FC = () => {
   const dummy = useCallback(
     (instance: TableInstance<PersonData>) => () => {
       console.log(
-        'Selected',
-        instance.selectedFlatRows.map((v) => `'${v.original.firstName} ${v.original.lastName}'`).join(', ')
+        "Selected",
+        instance.selectedFlatRows
+          .map((v) => `'${v.original.firstName} ${v.original.lastName}'`)
+          .join(", ")
       )
     },
     []
@@ -262,7 +304,7 @@ const Regulator: React.FC = () => {
     <Page>
       <CssBaseline />
       <Table<PersonData>
-        name={'testTable'}
+        name={"testTable"}
         columns={columns}
         data={data}
         onAdd={dummy}
@@ -273,4 +315,4 @@ const Regulator: React.FC = () => {
   )
 }
 
-export default Regulator;
+export default Regulator

@@ -1,17 +1,17 @@
-import { Chip, createStyles, makeStyles } from '@material-ui/core'
-import React, { ReactElement, useCallback } from 'react'
-import { ColumnInstance, FilterValue, IdType, TableInstance } from 'react-table'
+import { Chip, createStyles, makeStyles } from "@mui/material"
+import { ReactElement, useCallback } from "react"
+import { ColumnInstance, FilterValue, IdType, TableInstance } from "react-table"
 
 const useStyles = makeStyles(
   createStyles({
     filtersActiveLabel: {
-      color: '#998',
-      fontSize: '14px',
+      color: "#998",
+      fontSize: "14px",
       paddingRight: 10,
     },
     chipZone: {
-      padding: '18px 0 5px 10px',
-      width: '100%',
+      padding: "18px 0 5px 10px",
+      width: "100%",
     },
     chipLabel: {
       fontWeight: 500,
@@ -19,7 +19,7 @@ const useStyles = makeStyles(
     },
     filterChip: {
       marginRight: 4,
-      color: '#222',
+      color: "#222",
     },
   })
 )
@@ -28,9 +28,12 @@ type FilterChipBarProps<T extends Record<string, unknown>> = {
   instance: TableInstance<T>
 }
 
-const getFilterValue = (column: ColumnInstance<any>, filterValue: FilterValue) => {
+const getFilterValue = (
+  column: ColumnInstance<any>,
+  filterValue: FilterValue
+) => {
   switch (column.filter) {
-    case 'between':
+    case "between":
       const min = filterValue[0]
       const max = filterValue[1]
       return min ? (max ? `${min}-${max}` : `>=${min}`) : `<=${max}`
@@ -68,12 +71,14 @@ export function FilterChipBar<T extends Record<string, unknown>>({
                 key={column.id}
                 label={
                   <>
-                    <span className={classes.chipLabel}>{column.render('Header')}: </span>
+                    <span className={classes.chipLabel}>
+                      {column.render("Header")}:{" "}
+                    </span>
                     {getFilterValue(column, value)}
                   </>
                 }
                 onDelete={() => handleDelete(column.id)}
-                variant='outlined'
+                variant="outlined"
               />
             )
           )
