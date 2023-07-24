@@ -28,9 +28,9 @@ function ProducerDashboard({ children }: ProducerDashboardProps) {
     },
     {
       link: "/dashboard/producer/orders",
-      icon: <i className="fas fa-book-open"></i>,
-      text: "Current Orders",
-    },
+      icon: <i className="fas fa-book-open" />,
+      text: "Current Orders"
+    }
   ]
   return (
     <Dashboard role={"Producer"} panels={panels}>
@@ -46,16 +46,14 @@ interface SessionProps {
 export default function ProducerDashboardRouter({ session }: SessionProps) {
   return (
     <>
-      <Route path="/dashboard/producer/new-order">
-        <ProducerDashboard>
+      <ProducerDashboard>
+        <Route path="/dashboard/producer/new-order">
           <PlaceNewOrder session={session} />
-        </ProducerDashboard>
-      </Route>
-      <Route path="/dashboard/producer/orders">
-        <ProducerDashboard>
+        </Route>
+        <Route path="/dashboard/producer/orders">
           <ProducerOrders session={session} />
-        </ProducerDashboard>
-      </Route>
+        </Route>
+      </ProducerDashboard>
     </>
   )
 }

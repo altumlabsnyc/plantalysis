@@ -9,16 +9,17 @@ import "../assets/dashboard/js/datatables-simple-demo.js";
 // css
 import "../assets/dashboard/css/styles.css";
 import "https://use.fontawesome.com/releases/v6.3.0/js/all.js";
-import { LabOrder, LabOrderTableRow } from "../UserTypes.js";
-import { supabase, fetchProducerOrders } from "../Authentication.js";
+import Regulator from "./Regulator.js";
+import { LabOrder, LabOrderTableRow, NOT_CLAIMED } from "../UserTypes.js";
+import { supabase, fetchUnclaimedOrders } from "../Authentication.js";
 import { Session } from "@supabase/supabase-js";
-import LabOrderTable from "../lab/LabOrderTable.js";
+import LabOrderTable from "./LabOrderTable.js";
 
 interface SessionProps {
   session: Session | null;
 }
 
-export default function ProducerOrders({ session }: SessionProps) {
+export default function ClaimOrders({ session }: SessionProps) {
   const [labOrders, setLabOrders] = useState<Array<LabOrderTableRow>>([]);
   const [loading, setLoading] = useState(true);
   useEffect(() => {
@@ -26,9 +27,11 @@ export default function ProducerOrders({ session }: SessionProps) {
       setLoading(true);
       if (session) {
         setLabOrders(
-          (await fetchProducerOrders()).map((t: LabOrder): LabOrderTableRow => {
-            return { ...t, status: "Claimed" };
-          })
+          (await fetchUnclaimedOrders()).map(
+            (t: LabOrder): LabOrderTableRow => {
+              return { ...t, status: "Not Claimed" };
+            }
+          )
         );
         // console.log('aaaaaaaaaa')
         // console.log(temp)
@@ -40,6 +43,9 @@ export default function ProducerOrders({ session }: SessionProps) {
   }, [session]);
 
   return (
-    <LabOrderTable labOrders={labOrders} showClaimed={false} />
+
+    <LabOrderTable labOrders={labOrders} showClaimed={true} />
   );
 }
+
+// export default LabOrder;
