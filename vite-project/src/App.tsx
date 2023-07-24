@@ -12,6 +12,7 @@ import LabDashboardRouter from "./components/lab/LabDashboard"
 import PlaceNewOrder from "./components/producer/PlaceNewOrder"
 import ProducerDashboardRouter from "./components/producer/ProducerDashboard"
 import RegulatorDashboard from "./components/regulatorDashboard/RegulatorDashboard"
+import "./index.css"
 
 function App() {
   const [session, setSession] = useState<Session | null>(null)
