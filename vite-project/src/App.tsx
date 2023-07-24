@@ -9,9 +9,9 @@ import Stripe from "./components/Stripe";
 import PlaceOrder from "./components/producer/PlaceNewOrder";
 import ProtectedRoute from "./ProtectedRoute";
 import RegulatorDashboard from "./components/regulatorDashboard/RegulatorDashboard";
-import LabDashboard from "./components/labDashboard/LabDashboard";
-import LabCurrentOrders from "./components/labDashboard/LabCurrentOrders";
-import LabOrder from "./components/labDashboard/LabOrder";
+import LabDashboardRouter from "./components/lab/LabDashboard";
+import LabCurrentOrders from "./components/lab/CurrentOrders";
+import LabOrder from "./components/lab/LabOrder";
 
 import { useState, useEffect } from "react";
 import { supabase } from "./components/Authentication";
@@ -37,18 +37,15 @@ function App() {
         <Route exact path="/" component={Landing} />
         <Route path="/login" component={Login} />
         <Route path="/register" component={Register} />
-        <Route path="/dashboard/labs/upload" component={Upload} />
-        <Route path="/dashboard/labs/orders">
-          <LabCurrentOrders session={session} />
+        
+        <Route path="/dashboard/lab">
+          <LabDashboardRouter session={session} />
         </Route>
 
         <Route path="/dashboard/producer">
           <ProducerDashboardRouter session={session} />
         </Route>
 
-        <Route path="/dashboard/labs/claim">
-          <LabOrder session={session} />
-        </Route>
         <ProtectedRoute
           path="/regulator"
           component={Regulator}
@@ -64,7 +61,6 @@ function App() {
         <Route path="/dashboard/regulator">
           <RegulatorDashboard session={session} />
         </Route>
-        <Route path="/dashboard/labs/" component={LabDashboard} />
       </Switch>
     </Router>
   );
