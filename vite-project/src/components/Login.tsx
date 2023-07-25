@@ -1,18 +1,18 @@
-import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
-import Checkbox from "@mui/material/Checkbox";
-import CssBaseline from "@mui/material/CssBaseline";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Grid from "@mui/material/Grid";
-import Link from "@mui/material/Link";
-import Paper from "@mui/material/Paper";
-import TextField from "@mui/material/TextField";
-import Typography from "@mui/material/Typography";
-import { createStyles } from "@mui/styles";
-import * as React from "react";
+import Box from "@mui/material/Box"
+import Button from "@mui/material/Button"
+import Checkbox from "@mui/material/Checkbox"
+import CssBaseline from "@mui/material/CssBaseline"
+import FormControlLabel from "@mui/material/FormControlLabel"
+import Grid from "@mui/material/Grid"
+import Link from "@mui/material/Link"
+import Paper from "@mui/material/Paper"
+import TextField from "@mui/material/TextField"
+import Typography from "@mui/material/Typography"
+import * as React from "react"
 // import background from "./assets/login/img/frame.png";
-import background from "./assets/login/img/frame.png";
-import { handleSignIn } from "./Authentication";
+import { useUser } from "@supabase/auth-helpers-react"
+import background from "./assets/login/img/frame.png"
+import { handleSignIn } from "./Authentication"
 
 function Copyright(props: any) {
   return (
@@ -28,32 +28,36 @@ function Copyright(props: any) {
       </Link>{" "}
       by Altum Labs.
     </Typography>
-  );
+  )
 }
 
 export default function SignInSide() {
+  const user = useUser()
+
+  console.log(user)
+
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    console.log("si entra");
-    const data = new FormData(event.currentTarget);
-    const formEmail = data.get("email")?.toString();
-    const formPassword = data.get("password")?.toString();
-    let actualEmail: string = "";
+    event.preventDefault()
+    console.log("si entra")
+    const data = new FormData(event.currentTarget)
+    const formEmail = data.get("email")?.toString()
+    const formPassword = data.get("password")?.toString()
+    let actualEmail: string = ""
     if (formEmail) {
-      actualEmail = formEmail;
+      actualEmail = formEmail
     }
-    let actualPassword: string = "";
+    let actualPassword: string = ""
     if (formPassword) {
-      actualPassword = formPassword;
+      actualPassword = formPassword
     }
     if (actualEmail == "") {
-      Error("Please insert a valid email");
+      Error("Please insert a valid email")
     }
     if (actualPassword == "") {
-      Error("Please insert a valid password");
+      Error("Please insert a valid password")
     }
-    handleSignIn(actualEmail, actualPassword);
-  };
+    handleSignIn(actualEmail, actualPassword)
+  }
 
   return (
     <Grid container component="main" sx={{ height: "100vh" }}>
@@ -165,5 +169,5 @@ export default function SignInSide() {
         </Box>
       </Grid>
     </Grid>
-  );
+  )
 }
