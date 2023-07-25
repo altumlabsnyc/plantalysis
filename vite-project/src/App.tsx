@@ -11,6 +11,7 @@ import Register from "./components/Register"
 import LabDashboardRouter from "./components/lab/LabDashboard"
 import PlaceNewOrder from "./components/producer/PlaceNewOrder"
 import ProducerDashboardRouter from "./components/producer/ProducerDashboard"
+import nav from './components/Header';
 import RegulatorDashboard from "./components/regulatorDashboard/RegulatorDashboard"
 import "./index.css"
 
@@ -48,6 +49,7 @@ function App() {
           </Route>
           <Route path="/faq" component={Faq} />
           <Route path="/library" component={Library} />
+          <Route path = "/nav" component={nav} />
           <Route path="/new-order">
             <PlaceNewOrder session={session} />
           </Route>
