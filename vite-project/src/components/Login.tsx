@@ -12,7 +12,10 @@ import { createStyles } from "@mui/styles";
 import * as React from "react";
 // import background from "./assets/login/img/frame.png";
 import background from "./assets/login/img/frame.png";
-import { handleSignIn } from "./Authentication";
+import { handleSignIn } from "@/hooks/handleSignIn";
+import { useUser } from "@supabase/auth-helpers-react";
+import useUserDetails from "@/hooks/useUserDetails";
+import { UserType } from "./UserTypes";
 
 function Copyright(props: any) {
   return (
@@ -32,9 +35,10 @@ function Copyright(props: any) {
 }
 
 export default function SignInSide() {
+  const user = useUser();
+  const userDetails = useUserDetails(user);
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    console.log("si entra");
     const data = new FormData(event.currentTarget);
     const formEmail = data.get("email")?.toString();
     const formPassword = data.get("password")?.toString();
@@ -52,7 +56,28 @@ export default function SignInSide() {
     if (actualPassword == "") {
       Error("Please insert a valid password");
     }
-    handleSignIn(actualEmail, actualPassword);
+    handleSignIn(actualEmail, actualPassword).then((userType: UserType) => {
+      switch (userType) {
+        case "consumer":
+          window.location.href = "/library";
+          break;
+          break;
+        case "regulator":
+          window.location.href = "/dashboard/regulator";
+          break;
+        case "lab":
+          window.location.href = "/dashboard/labs";
+          break;
+        case "university":
+          window.location.href = "/"; //update
+          break;
+        case "producer":
+          window.location.href = "/dashboard/producer"; //update
+          break;
+        default:
+          throw new Error("you are not a valid user");
+      }
+    });
   };
 
   return (
