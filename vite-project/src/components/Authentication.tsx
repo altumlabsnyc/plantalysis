@@ -27,8 +27,9 @@ import {
 } from "react";
 
 import { v4 as uuidv4 } from "uuid";
+import { supabase } from "@/utils/supabase";
 
-export const supabase = createClient<Database>(SUPABASE_URL, SUPABASE_KEY);
+// export const supabase = createClient<Database>(SUPABASE_URL, SUPABASE_KEY);
 
 export async function handleSignIn(
   email: string,

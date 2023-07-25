@@ -11,7 +11,8 @@ import "../assets/dashboard/css/styles.css";
 import "https://use.fontawesome.com/releases/v6.3.0/js/all.js";
 import Regulator from "./Regulator.js";
 import { LabOrder, LabOrderTableRow } from "../UserTypes.js";
-import { supabase, fetchClaimedOrders } from "../Authentication.js";
+import { fetchClaimedOrders } from "../Authentication.js";
+import { supabase } from "@/utils/supabase.js";
 import { Session } from "@supabase/supabase-js";
 import LabOrderTable from "./LabOrderTable.js";
 

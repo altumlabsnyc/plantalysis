@@ -5,12 +5,11 @@ import {
   Link,
   TextField,
   Typography,
-  createTheme,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 
 import { Session } from "@supabase/supabase-js";
-import { supabase } from "../Authentication";
+import { supabase } from "@/utils/supabase";
 
 import useUserDetails from "@/hooks/useUserDetails";
 import { loadStripe } from "@stripe/stripe-js";
@@ -40,7 +39,6 @@ interface SessionProps {
   session: Session | null;
 }
 
-const defaultTheme = createTheme();
 export default function PlaceNewOrder({ session }: SessionProps) {
   const user = useUser();
   // console.log(user)
@@ -70,9 +68,8 @@ export default function PlaceNewOrder({ session }: SessionProps) {
 
     if (sessionId) {
       // Checkout session completed, get session_id from the URL
-
       // Insert lab order into database
-      handlePlaceLabOrder(labOrder, brandName, sessionId);
+      // handlePlaceLabOrder(labOrder, brandName, sessionId);
     }
   }, [location]); // Re-run when location changes
 

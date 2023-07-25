@@ -1,15 +1,14 @@
-import React from 'react';
-import 'simple-datatables'; 
-import 'simple-datatables/dist/style.css';
-import 'https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js';
-import 'https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js';
+import React from "react";
+import "simple-datatables";
+import "simple-datatables/dist/style.css";
+import "https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js";
+import "https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js";
 // js
-import '../assets/dashboard/js/scripts.js';
-import '../assets/dashboard/js/datatables-simple-demo.js';
+import "../assets/dashboard/js/scripts.js";
+import "../assets/dashboard/js/datatables-simple-demo.js";
 // css
-import '../assets/dashboard/css/styles.css'
-import 'https://use.fontawesome.com/releases/v6.3.0/js/all.js';
-
+import "../assets/dashboard/css/styles.css";
+import "https://use.fontawesome.com/releases/v6.3.0/js/all.js";
 
 const LabDashboard: React.FC = () => {
   return (
@@ -33,10 +32,20 @@ const LabDashboard: React.FC = () => {
           {/* Navbar */}
           <ul className="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
             <li className="nav-item dropdown">
-              <a className="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <a
+                className="nav-link dropdown-toggle"
+                id="navbarDropdown"
+                href="#"
+                role="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
                 <i className="fas fa-user fa-fw"></i>
               </a>
-              <ul className="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+              <ul
+                className="dropdown-menu dropdown-menu-end"
+                aria-labelledby="navbarDropdown"
+              >
                 <li>
                   <a className="dropdown-item" href="#!">
                     Settings
@@ -56,7 +65,10 @@ const LabDashboard: React.FC = () => {
         </nav>
         <div id="layoutSidenav">
           <div id="layoutSidenav_nav">
-            <nav className="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+            <nav
+              className="sb-sidenav accordion sb-sidenav-dark"
+              id="sidenavAccordion"
+            >
               <div className="sb-sidenav-menu">
                 <div className="nav">
                   <div className="sb-sidenav-menu-heading">Core</div>
@@ -64,19 +76,19 @@ const LabDashboard: React.FC = () => {
                     <div className="sb-nav-link-icon">
                       <i className="fas fa-tachometer-alt"></i>
                     </div>
-                     Upload Sample Data
+                    Upload Sample Data
                   </a>
                   <a className="nav-link" href="/dashboard/labs/orders">
                     <div className="sb-nav-link-icon">
-                      <i className ="fas fa-book-open"></i>
+                      <i className="fas fa-book-open"></i>
                     </div>
-                     Current Orders
+                    Current Orders
                   </a>
                   <a className="nav-link" href="/dashboard/labs/claim">
                     <div className="sb-nav-link-icon">
-                    <i className ="fas fa-columns"></i>
+                      <i className="fas fa-columns"></i>
                     </div>
-                     Claim Lab Orders
+                    Claim Lab Orders
                   </a>
                 </div>
               </div>
@@ -99,7 +111,9 @@ const LabDashboard: React.FC = () => {
             <footer className="py-4 bg-light mt-auto">
               <div className="container-fluid px-4">
                 <div className="d-flex align-items-center justify-content-between small">
-                  <div className="text-muted">Copyright &copy; PLANTALYSIS by Altum Labs 2023</div>
+                  <div className="text-muted">
+                    Copyright &copy; PLANTALYSIS by Altum Labs 2023
+                  </div>
                 </div>
               </div>
             </footer>

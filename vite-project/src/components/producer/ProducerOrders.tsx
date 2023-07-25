@@ -10,7 +10,8 @@ import "../assets/dashboard/js/datatables-simple-demo.js";
 import "../assets/dashboard/css/styles.css";
 import "https://use.fontawesome.com/releases/v6.3.0/js/all.js";
 import { LabOrder, LabOrderTableRow } from "../UserTypes.js";
-import { supabase, fetchProducerOrders } from "../Authentication.js";
+import { fetchProducerOrders } from "../Authentication.js";
+import { supabase } from "@/utils/supabase.js";
 import { Session } from "@supabase/supabase-js";
 import LabOrderTable from "../labDashboard/LabOrderTable.js";
 
@@ -39,7 +40,5 @@ export default function ProducerOrders({ session }: SessionProps) {
     fetchOrders();
   }, [session]);
 
-  return (
-    <LabOrderTable labOrders={labOrders} showClaimed={false} />
-  );
+  return <LabOrderTable labOrders={labOrders} showClaimed={false} />;
 }

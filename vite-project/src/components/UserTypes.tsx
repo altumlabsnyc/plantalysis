@@ -29,11 +29,9 @@ export type Analysis = Database["public"]["Tables"]["analysis"]["Row"];
 export type MoleculePredict =
   Database["public"]["Tables"]["molecule_prediction"]["Row"];
 
-
-
 export type LabOrderTableRow = LabOrder & {
   status: string;
-}
+};
 
 export type ForApproval = {
   lab_name: string | null;
@@ -46,7 +44,7 @@ export type ForApproval = {
 
 export type AnalysisTableRow = ForApproval & {
   status: string;
-}
+};
 
 //all user types
 export type govUser = Database["public"]["Tables"]["regulator_user"]["Row"];
@@ -153,7 +151,7 @@ export const generalInputs: Array<Input> = [
 
 export const labOrderInputs: Array<Input> = [
   { name: "Pickup location of the order", id: "location", type: "text" },
-  { name: "Pickup date", id: "pickup_date", type: "date" },
+  { name: "Pickup date", id: "pickup_date", type: "text" },
   { name: "Brand name", id: "brand_name", type: "text" },
   {
     name: "Please write a description of the strain",
@@ -162,7 +160,13 @@ export const labOrderInputs: Array<Input> = [
   },
 ];
 
-export const NOT_CLAIMED = 'Not Claimed'
-export const CLAIMED = 'Claimed'
-export const NOT_APPROVED = 'Not Approved'
-export const APPROVED = 'Approved'
+export const newBrandInputs: Array<Input> = [
+  { name: "Brand name", id: "brand_name", type: "text" },
+  { name: "Serving size", id: "serving_size", type: "number" },
+  { name: "Logo", id: "brand_logo", type: "image" },
+];
+
+export const NOT_CLAIMED = "Not Claimed";
+export const CLAIMED = "Claimed";
+export const NOT_APPROVED = "Not Approved";
+export const APPROVED = "Approved";
