@@ -93,7 +93,7 @@ function Nav() {
             <div className="flex items-center space-x-4">
               <MenuIcon />
               <StarIcon />
-              <div className="flex items-center space-x-2 text-grey">
+              <div className = "text-gray-400">
                 Lab Dashboard
               </div>
             </div>
