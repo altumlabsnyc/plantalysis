@@ -1,25 +1,28 @@
-import React from "react"
+import React from "react";
 
-import logo from "@/components/assets/img/logo.png"
-import { Dialog, Transition } from "@headlessui/react"
-import { ChairAlt } from "@mui/icons-material"
-import classNames from "classnames"
-import { Fragment, useState } from "react"
+import logo from "@/components/assets/img/logo.png";
+import { Dialog, Transition } from "@headlessui/react";
+import { ChairAlt } from "@mui/icons-material";
+import classNames from "classnames";
+import { Fragment, useState } from "react";
+import { UserType } from "./UserTypes";
+
+import LeftSideBar from "./LeftSideBar";
 
 export type DashboardPanel = {
-  link: string
-  icon: React.ReactNode
-  text: string
-}
+  link: string;
+  icon: React.ReactNode;
+  text: string;
+};
 
 interface DashboardProps {
-  children: React.ReactNode
-  role: string
-  panels: DashboardPanel[]
+  children: React.ReactNode;
+  role: UserType;
+  panels: DashboardPanel[];
 }
 
 export default function Dashboard({ children, role, panels }: DashboardProps) {
-  const [sidebarOpen, setSidebarOpen] = useState(false)
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
     <>
@@ -123,46 +126,7 @@ export default function Dashboard({ children, role, panels }: DashboardProps) {
         {/* Static sidebar for desktop */}
         <div className="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col">
           {/* Sidebar component, put the dynamic sidebar here */}
-          <div className="flex grow flex-col gap-y-5 overflow-y-auto border-r border-gray-200 px-6 bg-pink-300">
-            <p>dynamic left sidebar here</p>
-            <div className="flex h-16 shrink-0 items-center gap-4">
-              <img
-                className="h-8 w-auto bg-red-400"
-                src={logo}
-                alt="Your Company"
-              />
-              Altum Labs
-            </div>
-            <nav className="flex flex-1 flex-col ">
-              <ul role="list" className="flex flex-1 flex-col gap-y-7">
-                <li>
-                  <ul role="list" className="-mx-2 space-y-1">
-                    <li>
-                      <ul role="list" className="-mx-2 space-y-1">
-                        <li>
-                          <a
-                            className={classNames(
-                              "bg-gray-50 text-indigo-600",
-                              "group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold"
-                            )}
-                          >
-                            <ChairAlt
-                              className={classNames(
-                                "text-indigo-600",
-                                "h-6 w-6 shrink-0"
-                              )}
-                              aria-hidden="true"
-                            />
-                            sidebar item
-                          </a>
-                        </li>
-                      </ul>
-                    </li>
-                  </ul>
-                </li>
-              </ul>
-            </nav>
-          </div>
+          <LeftSideBar panels={panels}></LeftSideBar>
         </div>
 
         <div className="sticky top-0 z-40 flex items-center gap-x-6 px-4 py-4 shadow-sm sm:px-6 lg:hidden bg-yellow-300">
@@ -196,5 +160,5 @@ export default function Dashboard({ children, role, panels }: DashboardProps) {
         </aside>
       </div>
     </>
-  )
+  );
 }

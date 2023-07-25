@@ -11,6 +11,7 @@
   "dependencies": {
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
+    "@fontsource/inter": "^5.0.5",
     "@ggascoigne/namor": "^2.0.4",
     "@headlessui/react": "^1.7.15",
     "@mui/icons-material": "^5.14.1",
@@ -31,6 +32,7 @@
     "ev-emitter": "^2.1.2",
     "express": "^4.18.2",
     "fizzy-ui-utils": "^3.0.0",
+    "flowbite": "^1.7.0",
     "get-size": "^3.0.0",
     "isotope-layout": "^3.0.6",
     "jquery": "^3.7.0",

@@ -5,7 +5,6 @@ import {
   Link,
   TextField,
   Typography,
-  createTheme,
 } from "@mui/material"
 import React, { useEffect, useState } from "react"
 
@@ -40,8 +39,7 @@ interface SessionProps {
   session: Session | null
 }
 
-const defaultTheme = createTheme()
-export default function PlaceNewOrder({ session }: SessionProps) {
+export default function PlaceNewOrder() {
   const user = useUser()
   console.log(user)
 
@@ -134,8 +132,7 @@ export default function PlaceNewOrder({ session }: SessionProps) {
     event.preventDefault()
     const formData = new FormData(event.currentTarget)
 
-    if (!session) return // if session hasn't loaded, do nothing
-    const { user } = session
+    if (!user) return
 
     redirectToCheckout(formData, user.id)
     // const { labOrder: labOrder, brandName: brandName } =
@@ -153,9 +150,7 @@ export default function PlaceNewOrder({ session }: SessionProps) {
   useEffect(() => {
     async function getProfile() {
       setLoading(true)
-      if (session) {
-        const { user } = session
-
+      if (user) {
         let { data, error } = await supabase
           .from("user")
           .select("*")
@@ -173,7 +168,7 @@ export default function PlaceNewOrder({ session }: SessionProps) {
     }
 
     getProfile()
-  }, [session])
+  }, [user])
 
   return (
     <div>

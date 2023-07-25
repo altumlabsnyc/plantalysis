@@ -19,4 +19,6 @@ export type MoleculePredict =
   Database["public"]["Tables"]["molecule_prediction"]["Row"];
   export type LabOrder = Database["public"]["Tables"]["lab_order"]["Row"];
 
-export type UserType = Database["public"]["Enums"]["user_type_enum"];
+
+export type UserRole = Database["public"]["Enums"]["user_type_enum"]
+
