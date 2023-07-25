@@ -34,7 +34,7 @@ function App() {
           <Route exact path="/" component={Landing} />
           <Route path="/login" component={Login} />
           <Route path="/register" component={Register} />
-
+          
           <ProtectedRoute
             component={LabDashboardRouter}
             path="/dashboard/lab"
