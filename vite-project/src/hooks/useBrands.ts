@@ -19,22 +19,24 @@ import { Brand } from "@/types/supabaseAlias";
    */
   export default function useBrandsDetails(user: User | null) {
     const fetcher = async () => {
-      let brandError: any,
-        brandData: Array<Brand> | null
+        let brandError: any,
+        brandData: Array<Brand> | null;
   
       const brandsFetchPromise = supabase
         .from("brand")
         .select("*")
-        .eq("id", user?.id)
+        .eq("producer_user_id", user?.id)
         .then(({ data, error }) => {
           brandData = data
           brandError = error
         })
   
-      await brandsFetchPromise;
+        await brandsFetchPromise;
   
   
-      console.log(brandError)
+      if (brandError){
+        console.log(brandError)
+      }
   
       // if (error) throw error
   

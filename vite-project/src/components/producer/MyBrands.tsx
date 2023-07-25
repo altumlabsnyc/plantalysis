@@ -42,31 +42,24 @@ function Copyright(props: any) {
 export default function MyBrands() {
   const user = useUser();
 
-  const { data: userDetails, error, isLoading } = useUserDetails(user);
-
-  const currentBrands = useBrandsDetails(user);
-  console.log("ACA", currentBrands.data);
+  const {
+    data: currentBrands,
+    error: brandsError,
+    isLoading: brandsLoad,
+  } = useBrandsDetails(user);
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
 
     const newBrand = getNewBrand(formData);
-    console.log(newBrand);
     if (!currentBrands) {
       throw new Error("error loading new brands");
     }
-    console.log("ANTES", currentBrands.data?.length);
     insertAndShowBrands({
-      oldBrands: currentBrands?.data,
+      oldBrands: currentBrands,
       newBrand: newBrand,
       user: user,
     });
-    console.log("DESPUES", currentBrands.data?.length);
-    // const { labOrder: labOrder, brandName: brandName } =
-    //   handleLabOrderSubmit(data)
-    // console.log(labOrder, brandName)
-
-    // handlePlaceLabOrder(labOrder, brandName)
   };
 
   function getNewBrand(formData: FormData): Brand {
