@@ -5,18 +5,18 @@ import {
   Link,
   TextField,
   Typography,
-} from "@mui/material"
-import React, { useEffect, useState } from "react"
+} from "@mui/material";
+import React, { useEffect, useState } from "react";
 
-import { Session } from "@supabase/supabase-js"
-import { supabase } from "../Authentication"
+import { Session } from "@supabase/supabase-js";
+import { supabase } from "@/utils/supabase";
 
-import useUserDetails from "@/hooks/useUserDetails"
-import { loadStripe } from "@stripe/stripe-js"
-import { useUser } from "@supabase/auth-helpers-react"
-import { useLocation } from "react-router-dom"
-import Stripe from "stripe"
-import { LabOrder, labOrderInputs, userData } from "../UserTypes"
+import useUserDetails from "@/hooks/useUserDetails";
+import { loadStripe } from "@stripe/stripe-js";
+import { useUser } from "@supabase/auth-helpers-react";
+import { useLocation } from "react-router-dom";
+import Stripe from "stripe";
+import { LabOrder, labOrderInputs, userData } from "../UserTypes";
 
 function Copyright(props: any) {
   return (
@@ -32,55 +32,55 @@ function Copyright(props: any) {
       </Link>{" "}
       by Altum Labs.
     </Typography>
-  )
+  );
 }
 
 interface SessionProps {
-  session: Session | null
+  session: Session | null;
 }
 
 export default function PlaceNewOrder() {
-  const user = useUser()
-  console.log(user)
+  const user = useUser();
+  console.log(user);
 
-  const { data, error, isLoading } = useUserDetails(user)
-  console.log(data)
+  const { data, error, isLoading } = useUserDetails(user);
+  console.log(data);
 
-  const location = useLocation()
+  const location = useLocation();
 
-  const [stripe, setStripe] = useState<Stripe | null>(null)
+  const [stripe, setStripe] = useState<Stripe | null>(null);
 
   useEffect(() => {
     async function fetchStripe() {
       const stripeInstance = await loadStripe(
         import.meta.env.VITE_STRIPE_PUBLIC_KEY
-      )
+      );
       // @ts-ignore
-      setStripe(stripeInstance)
+      setStripe(stripeInstance);
     }
-    fetchStripe()
-  }, [])
+    fetchStripe();
+  }, []);
 
   useEffect(() => {
     // Parse the URL parameters
-    const params = new URLSearchParams(location.search)
-    const sessionId = params.get("session_id")
+    const params = new URLSearchParams(location.search);
+    const sessionId = params.get("session_id");
 
     if (sessionId) {
       // Checkout session completed, get session_id from the URL
       // Insert lab order into database
       // handlePlaceLabOrder(labOrder, brandName, sessionId);
     }
-  }, [location]) // Re-run when location changes
+  }, [location]); // Re-run when location changes
 
   const redirectToCheckout = async (formData: FormData, user_id: string) => {
-    if (!stripe) return // if stripe hasn't loaded, do nothing
+    if (!stripe) return; // if stripe hasn't loaded, do nothing
 
     // else, parse lab order and create a checkout session
-    const location = formData.get("location")?.toString() || null
-    const pickup_date = formData.get("pickup_date")?.toString() || null
-    const strain_info = formData.get("strain_info")?.toString() || null
-    const brand_name = formData.get("brand_name")?.toString() || null
+    const location = formData.get("location")?.toString() || null;
+    const pickup_date = formData.get("pickup_date")?.toString() || null;
+    const strain_info = formData.get("strain_info")?.toString() || null;
+    const brand_name = formData.get("brand_name")?.toString() || null;
 
     const labOrder: LabOrder = {
       id: "",
@@ -96,7 +96,7 @@ export default function PlaceNewOrder() {
       lab_notes: null,
       lab_user_id: null,
       lcms_id: null,
-    }
+    };
 
     const response = await fetch(
       `${import.meta.env.VITE_BACKEND_DOMAIN}/create-checkout-session`,
@@ -112,63 +112,63 @@ export default function PlaceNewOrder() {
           userId: user_id,
         }),
       }
-    )
+    );
 
-    const session = await response.json()
+    const session = await response.json();
 
-    console.log(session)
+    console.log(session);
 
     // @ts-ignore
     const result = await stripe.redirectToCheckout({
       sessionId: session.sessionId,
-    })
+    });
 
     if (result.error) {
       // handle error here
     }
-  }
+  };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault()
-    const formData = new FormData(event.currentTarget)
+    event.preventDefault();
+    const formData = new FormData(event.currentTarget);
 
-    if (!user) return
+    if (!user) return;
 
-    redirectToCheckout(formData, user.id)
+    redirectToCheckout(formData, user.id);
     // const { labOrder: labOrder, brandName: brandName } =
     //   handleLabOrderSubmit(data)
     // console.log(labOrder, brandName)
 
     // handlePlaceLabOrder(labOrder, brandName)
-  }
+  };
 
   //Filling out user data
 
-  const [loading, setLoading] = useState(true)
-  const [generalUserData, setGeneralUserData] = useState<userData | null>(null)
+  const [loading, setLoading] = useState(true);
+  const [generalUserData, setGeneralUserData] = useState<userData | null>(null);
 
   useEffect(() => {
     async function getProfile() {
-      setLoading(true)
+      setLoading(true);
       if (user) {
         let { data, error } = await supabase
           .from("user")
           .select("*")
           .eq("id", user.id)
-          .single()
+          .single();
 
         if (error) {
-          console.warn(error)
+          console.warn(error);
         } else if (data) {
-          setGeneralUserData(data)
+          setGeneralUserData(data);
         }
 
-        setLoading(false)
+        setLoading(false);
       }
     }
 
-    getProfile()
-  }, [user])
+    getProfile();
+  }, [user]);
 
   return (
     <div>
@@ -222,5 +222,5 @@ export default function PlaceNewOrder() {
         </Box>
       </Box>
     </div>
-  )
+  );
 }
