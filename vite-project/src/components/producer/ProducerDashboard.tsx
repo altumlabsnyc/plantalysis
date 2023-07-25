@@ -1,13 +1,14 @@
-import Dashboard, { DashboardPanel } from "@/components/Dashboard"
-import { Session } from "@supabase/supabase-js"
-import React from "react"
-import { Route } from "react-router-dom"
-import "../assets/dashboard/css/styles.css"
-import PlaceNewOrder from "./PlaceNewOrder.js"
-import ProducerOrders from "./ProducerOrders.js"
+import Dashboard, { DashboardPanel } from "@/components/Dashboard";
+import { Session } from "@supabase/supabase-js";
+import React from "react";
+import { Route } from "react-router-dom";
+import "../assets/dashboard/css/styles.css";
+import PlaceNewOrder from "./PlaceNewOrder.js";
+import ProducerOrders from "./ProducerOrders.js";
+import { UserType } from "../UserTypes";
 
 interface ProducerDashboardProps {
-  children: React.ReactNode
+  children: React.ReactNode;
 }
 
 function ProducerDashboard({ children }: ProducerDashboardProps) {
@@ -22,16 +23,16 @@ function ProducerDashboard({ children }: ProducerDashboardProps) {
       icon: <i className="fas fa-book-open" />,
       text: "Current Orders",
     },
-  ]
+  ];
   return (
-    <Dashboard role={"Producer"} panels={panels}>
+    <Dashboard role={"producer"} panels={panels}>
       {children}
     </Dashboard>
-  )
+  );
 }
 
 interface SessionProps {
-  session: Session | null
+  session: Session | null;
 }
 
 export default function ProducerDashboardRouter({ session }: SessionProps) {
@@ -44,5 +45,5 @@ export default function ProducerDashboardRouter({ session }: SessionProps) {
         <ProducerOrders session={session} />
       </Route>
     </ProducerDashboard>
-  )
+  );
 }
