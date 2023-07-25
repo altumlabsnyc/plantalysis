@@ -1,6 +1,11 @@
 module.exports = {
+<<<<<<< Updated upstream
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}", "./node_modules/flowbite/**/*.js"],
   darkMode: false, // or 'media' or 'class'
+=======
+  content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
+  darkMode: "media",
+>>>>>>> Stashed changes
   theme: {
     extend: {},
     colors: {

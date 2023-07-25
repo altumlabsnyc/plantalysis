@@ -1,19 +1,18 @@
+import { supabase } from "@/components/Authentication"
+import Faq from "@/components/Faq"
+import Landing from "@/components/Landing"
+import Library from "@/components/Library"
+import Login from "@/components/Login"
+import ProtectedRoute from "@/components/ProtectedRoutes"
+import Register from "@/components/Register"
+import LabDashboardRouter from "@/components/lab/LabDashboard"
+import ProducerDashboardRouter from "@/components/producer/ProducerDashboard"
+import RegulatorDashboard from "@/components/regulatorDashboard/RegulatorDashboard"
+import "@/index.css"
 import { SessionContextProvider } from "@supabase/auth-helpers-react"
 import { Session } from "@supabase/supabase-js"
 import { useEffect, useState } from "react"
 import { Route, BrowserRouter as Router, Switch } from "react-router-dom"
-import { supabase } from "./components/Authentication"
-import Faq from "./components/Faq"
-import Landing from "./components/Landing"
-import Library from "./components/Library"
-import Login from "./components/Login"
-import Register from "./components/Register"
-import LabDashboardRouter from "./components/lab/LabDashboard"
-import PlaceNewOrder from "./components/producer/PlaceNewOrder"
-import ProducerDashboardRouter from "./components/producer/ProducerDashboard"
-import nav from './components/Header';
-import RegulatorDashboard from "./components/regulatorDashboard/RegulatorDashboard"
-import "./index.css"
 
 function App() {
   const [session, setSession] = useState<Session | null>(null)
@@ -36,23 +35,30 @@ function App() {
           <Route path="/login" component={Login} />
           <Route path="/register" component={Register} />
 
-          <Route path="/dashboard/lab">
-            <LabDashboardRouter session={session} />
-          </Route>
+          <ProtectedRoute
+            component={LabDashboardRouter}
+            path="/dashboard/lab"
+            roles={["lab"]}
+          />
 
-          <Route path="/dashboard/producer">
-            <ProducerDashboardRouter session={session} />
-          </Route>
+          <ProtectedRoute
+            component={ProducerDashboardRouter}
+            path="/dashboard/producer"
+            roles={["producer"]}
+          />
 
-          <Route path="/dashboard/regulator">
-            <RegulatorDashboard session={session} />
-          </Route>
+          <ProtectedRoute
+            component={RegulatorDashboard}
+            path="/dashboard/regulator"
+            roles={["regulator"]}
+          />
+
           <Route path="/faq" component={Faq} />
           <Route path="/library" component={Library} />
-          <Route path = "/nav" component={nav} />
-          <Route path="/new-order">
-            <PlaceNewOrder session={session} />
-          </Route>
+
+          {/* <Route path="/new-order">
+            <PlaceNewOrder />
+          </Route> */}
         </Switch>
       </Router>
     </SessionContextProvider>

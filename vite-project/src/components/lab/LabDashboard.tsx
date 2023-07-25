@@ -1,14 +1,13 @@
-import React from "react";
-import Dashboard, { DashboardPanel } from "@/components/Dashboard";
-import { Session } from "@supabase/supabase-js";
-import { Route } from "react-router-dom";
-import "../assets/dashboard/css/styles.css";
-import Upload from "../regulatorDashboard/Upload.js";
-import ClaimOrders from "./ClaimOrders";
-import CurrentOrders from "./CurrentOrders";
+import Dashboard, { DashboardPanel } from "@/components/Dashboard"
+import React from "react"
+import { Route } from "react-router-dom"
+import "../assets/dashboard/css/styles.css"
+import Upload from "../regulatorDashboard/Upload.js"
+import ClaimOrders from "./ClaimOrders"
+import CurrentOrders from "./CurrentOrders"
 
 interface LabDashboardProps {
-  children: React.ReactNode;
+  children: React.ReactNode
 }
 
 function LabDashboard({ children }: LabDashboardProps) {
@@ -28,30 +27,30 @@ function LabDashboard({ children }: LabDashboardProps) {
       icon: <i className="fas fa-book-open"></i>,
       text: "Claim Lab Orders",
     },
-  ];
+  ]
   return (
     <Dashboard role={"lab"} panels={panels}>
       {children}
     </Dashboard>
-  );
+  )
 }
 
-interface SessionProps {
-  session: Session | null;
-}
-
-export default function LabDashboardRouter({ session }: SessionProps) {
+export default function LabDashboardRouter() {
   return (
     <LabDashboard>
       <Route path="/dashboard/lab/upload">
         <Upload />
       </Route>
       <Route path="/dashboard/lab/current-orders">
-        <CurrentOrders session={session} />
+        <LabDashboard>
+          <CurrentOrders />
+        </LabDashboard>
       </Route>
       <Route path="/dashboard/lab/claim-orders">
-        <ClaimOrders session={session} />
+        <LabDashboard>
+          <ClaimOrders />
+        </LabDashboard>
       </Route>
     </LabDashboard>
-  );
+  )
 }

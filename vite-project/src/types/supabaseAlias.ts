@@ -8,3 +8,5 @@ export type RegulatorUser =
 export type SamplingFirmUser =
   Database["public"]["Tables"]["sampling_firm_user"]["Row"]
 export type ConsumerUser = Database["public"]["Tables"]["consumer_user"]["Row"]
+
+export type UserRole = Database["public"]["Enums"]["user_type_enum"]

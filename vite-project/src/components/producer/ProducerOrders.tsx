@@ -1,43 +1,34 @@
-import "https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js";
-import "https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js";
-import { useEffect, useState } from "react";
-import "simple-datatables";
-import "simple-datatables/dist/style.css";
-// js
-import "../assets/dashboard/js/datatables-simple-demo.js";
-import "../assets/dashboard/js/scripts.js";
+import { useEffect, useState } from "react"
 // css
-import { Session } from "@supabase/supabase-js";
-import "https://use.fontawesome.com/releases/v6.3.0/js/all.js";
-import { fetchProducerOrders } from "../Authentication.js";
-import { LabOrder, LabOrderTableRow } from "../UserTypes.js";
-import "../assets/dashboard/css/styles.css";
-import LabOrderTable from "../lab/LabOrderTable.js";
+import { useUser } from "@supabase/auth-helpers-react"
+import { fetchProducerOrders } from "../Authentication.js"
+import { LabOrder, LabOrderTableRow } from "../UserTypes.js"
+import "../assets/dashboard/css/styles.css"
+import LabOrderTable from "../lab/LabOrderTable.js"
 
-interface SessionProps {
-  session: Session | null;
-}
+export default function ProducerOrders() {
+  const [labOrders, setLabOrders] = useState<Array<LabOrderTableRow>>([])
+  const [loading, setLoading] = useState(true)
 
-export default function ProducerOrders({ session }: SessionProps) {
-  const [labOrders, setLabOrders] = useState<Array<LabOrderTableRow>>([]);
-  const [loading, setLoading] = useState(true);
+  const user = useUser()
+
   useEffect(() => {
     async function fetchOrders() {
-      setLoading(true);
-      if (session) {
+      setLoading(true)
+      if (user) {
         setLabOrders(
           (await fetchProducerOrders()).map((t: LabOrder): LabOrderTableRow => {
-            return { ...t, status: "Claimed" };
+            return { ...t, status: "Claimed" }
           })
-        );
+        )
         // console.log('aaaaaaaaaa')
         // console.log(temp)
-        setLoading(false);
+        setLoading(false)
       }
     }
 
-    fetchOrders();
-  }, [session]);
+    fetchOrders()
+  }, [user])
 
   return (
     <>
@@ -47,5 +38,5 @@ export default function ProducerOrders({ session }: SessionProps) {
       </div>
       <LabOrderTable labOrders={labOrders} showClaimed={false} />
     </>
-  );
+  )
 }
