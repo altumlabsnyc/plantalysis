@@ -47,44 +47,41 @@ export async function handleSignUp(
     });
 
     // sign in
-    console.log(
-      "cual es el user?",
-      (await supabase.auth.getUser()).data.user?.id
-    );
+
     const { data, error } = await supabase.auth.signInWithPassword({
       email: actualEmail,
       password: password,
     });
 
-    // const user = await supabase.auth.getUser();
+    const user = await supabase.auth.getUser();
 
-    // if (error) {
-    //   console.error(error);
-    // } else {
-    //   const id: string = user.data.user?.id ? user.data.user.id : "";
-    //   if (id == "") {
-    //     Error("User ID cannot be undefined");
-    //   }
-    //   userData.id = id;
-    //   await insertUser(userData);
+    if (error) {
+      console.error(error);
+    } else {
+      const id: string = user.data.user?.id ? user.data.user.id : "";
+      if (id == "") {
+        Error("User ID cannot be undefined");
+      }
+      userData.id = id;
+      await insertUser(userData);
 
-    //   if (labData) {
-    //     labData.id = id;
-    //     await supabase.from("lab_user").insert([labData]);
-    //   } else if (govData) {
-    //     govData.id = id;
-    //     await supabase.from("regulator_user").insert([govData]);
-    //   } else if (prodData) {
-    //     prodData.id = id;
-    //     await supabase.from("producer_user").insert([prodData]);
-    //   } else if (eduData) {
-    //     eduData.id = id;
-    //     const response = await supabase
-    //       .from("university_user")
-    //       .insert([eduData]);
-    //   }
-    //     // window.location.href = "/login";
-    //   }
+      if (labData) {
+        labData.id = id;
+        await supabase.from("lab_user").insert([labData]);
+      } else if (govData) {
+        govData.id = id;
+        await supabase.from("regulator_user").insert([govData]);
+      } else if (prodData) {
+        prodData.id = id;
+        await supabase.from("producer_user").insert([prodData]);
+      } else if (eduData) {
+        eduData.id = id;
+        const response = await supabase
+          .from("university_user")
+          .insert([eduData]);
+      }
+      window.location.href = "/login";
+    }
   } catch (error) {
     console.log("error inserting user", error);
   }
