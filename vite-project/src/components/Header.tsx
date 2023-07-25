@@ -1,75 +1,11 @@
 import React, { useState } from "react";
 import { Transition } from "@headlessui/react";
 import "./assets/css/header.css";
-
-const StarIcon = () => (
-  <svg
-    className="h-6 w-6 text-gray-400 hover:text-gray-500"
-    fill="none"
-    viewBox="0 0 24 24"
-    stroke="currentColor"
-    aria-hidden="true"
-  >
-    <path
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      strokeWidth="2"
-      d="M12 2L9 11l-7 4 3 7 9-5 9 5 3-7-7-4-3-9z"
-    />
-  </svg>
-);
-
-
-const SunIcon = () => (
-  <svg
-    className="h-6 w-6 text-gray-400 hover:text-gray-500"
-    fill="none"
-    viewBox="0 0 24 24"
-    stroke="currentColor"
-    aria-hidden="true"
-  >
-    <path
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      strokeWidth="2"
-      d="M19 12a7 7 0 11-14 0 7 7 0 0114 0zM12 1v2m0 18v2M4.22 4.22l1.42 1.42m12.72 12.72l1.42 1.42M1 12h2m18 0h2M4.22 19.78l1.42-1.42m12.72-12.72l1.42-1.42"
-    />
-  </svg>
-);
-
-const BellIcon = () => (
-  <svg
-    className="h-6 w-6 text-gray-400 hover:text-gray-500"
-    fill="none"
-    viewBox="0 0 24 24"
-    stroke="currentColor"
-    aria-hidden="true"
-  >
-    <path
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      strokeWidth="2"
-      d="M13 2C11.3431 2 10 3.34315 10 5V12H6C4.34315 12 3 13.3431 3 15V19C3 20.6569 4.34315 22 6 22H18C19.6569 22 21 20.6569 21 19V15C21 13.3431 19.6569 12 18 12H14V5C14 3.34315 12.6569 2 11 2Z"
-    />
-  </svg>
-);
-
-const MenuIcon = () => (
-  <svg
-    className="h-6 w-6 text-gray-400 hover:text-gray-500"
-    fill="none"
-    viewBox="0 0 24 24"
-    stroke="currentColor"
-    aria-hidden="true"
-  >
-    <path
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      strokeWidth="2"
-      d="M4 6h16M4 12h16m-7 6h7"
-    />
-  </svg>
-);
+import Sun from "./assets/svg/Sun.svg";
+import Clock from "./assets/svg/Clock.svg";
+import Bell from "./assets/svg/Bell.svg";
+import Sidebar from "./assets/svg/Sidebar.svg";
+import Star from "./assets/svg/Star.svg";
 
 function Nav() {
   const [isOpen, setIsOpen] = useState(false);
@@ -89,10 +25,9 @@ function Nav() {
       <nav className="bg-background container">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
-            {/* Logo and text container */}
             <div className="flex items-center space-x-4">
-              <MenuIcon />
-              <StarIcon />
+              <a href = ""><img className = "w-7 h-7" src = {Sidebar}></img></a>
+              <a href = ""><img className = "pb-1 w-7 h-7" src = {Star}></img></a>
               <div className = "text-gray-400">
                 Lab Dashboard
               </div>
@@ -105,9 +40,10 @@ function Nav() {
                 onChange={handleSearchChange}
                 className="px-2 py-1 border rounded-md text-sm bg-search text-black focus:outline-none focus:ring-2 focus:ring-indigo-400"
               />
-              <SunIcon />
-              <BellIcon />
-              <MenuIcon />
+              <a href = ""><img className = "w-7 h-7" src = {Sun}></img></a>
+              <a href = ""><img className = "w-7 h-7" src = {Clock}></img></a>
+              <a href = ""><img className = "w-7 h-7" src = {Bell}></img></a>
+              <a href = ""><img className = "w-7 h-7" src = {Sidebar}></img></a>
             </div>
             <div className="-mr-2 flex md:hidden">
               <button
