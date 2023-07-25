@@ -18,7 +18,7 @@ export type RoleDataType = (
   | SamplingFirmUser
   | ConsumerUser
 ) & { role: string }
-type UserRoleDataType = {
+export type UserRoleDataType = {
   userDetails: BaseUser
   roleDetails: RoleDataType
 }

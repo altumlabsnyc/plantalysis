@@ -26,7 +26,7 @@ import {
   labUser,
   prodUser,
 } from "./UserTypes";
-import { handleSignUp } from "./Authentication";
+import { handleSignUp, AllRolesData } from "@/hooks/handleSignUp";
 
 function Copyright(props: any) {
   return (
@@ -45,7 +45,7 @@ function Copyright(props: any) {
   );
 }
 
-export default function SignInSide() {
+export default function Register() {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -93,7 +93,14 @@ export default function SignInSide() {
 
     // do signup straight ahead if this is the base user case
     if (selectedUser == "consumer" && pass !== undefined) {
-      handleSignUp(newGeneralUserData, pass);
+      const roleData: AllRolesData = {
+        consumerData: { id: "", personality: null },
+      };
+      handleSignUp({
+        userDetails: newGeneralUserData,
+        roleData: roleData,
+        password: pass,
+      });
     }
   }
 
@@ -101,44 +108,32 @@ export default function SignInSide() {
     if (generalUserData) {
       switch (selectedUser) {
         case "producer":
-          handleSignUp(
-            generalUserData,
-            password,
-            undefined,
-            undefined,
-            helperProdInfo(data),
-            undefined
-          );
+          handleSignUp({
+            userDetails: generalUserData,
+            roleData: { producerData: helperProdInfo(data) },
+            password: password,
+          });
           break;
         case "university":
-          handleSignUp(
-            generalUserData,
-            password,
-            undefined,
-            undefined,
-            undefined,
-            helperEduInfo(data)
-          );
+          handleSignUp({
+            userDetails: generalUserData,
+            roleData: { universityData: helperEduInfo(data) },
+            password: password,
+          });
           break;
         case "lab":
-          handleSignUp(
-            generalUserData,
-            password,
-            helperLabInfo(data),
-            undefined,
-            undefined,
-            undefined
-          );
+          handleSignUp({
+            userDetails: generalUserData,
+            roleData: { labData: helperLabInfo(data) },
+            password: password,
+          });
           break;
         case "regulator":
-          handleSignUp(
-            generalUserData,
-            password,
-            undefined,
-            helperGovInfo(data),
-            undefined,
-            undefined
-          );
+          handleSignUp({
+            userDetails: generalUserData,
+            roleData: { regulatorData: helperGovInfo(data) },
+            password: password,
+          });
           break;
       }
     }
