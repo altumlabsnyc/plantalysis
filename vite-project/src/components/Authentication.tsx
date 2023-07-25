@@ -30,47 +30,6 @@ import { v4 as uuidv4 } from "uuid";
 
 export const supabase = createClient<Database>(SUPABASE_URL, SUPABASE_KEY);
 
-export async function handleSignIn(
-  email: string,
-  password: string
-): Promise<void> {
-  try {
-    const { data, error } = await supabase.auth.signInWithPassword({
-      email: email,
-      password: password,
-    });
-
-    if (error) {
-      console.error(error);
-    } else {
-      const userType = await getUserType();
-
-      switch (userType) {
-        case "consumer":
-          window.location.href = "/library";
-          break;
-        case "regulator":
-          window.location.href = "/dashboard/regulator";
-          break;
-        case "lab":
-          window.location.href = "/dashboard/labs";
-          break;
-        case "university":
-          window.location.href = "/"; //update
-          break;
-        case "producer":
-          window.location.href = "/dashboard/producer"; //update
-          break;
-        default:
-          window.location.href = "/login";
-      }
-      // window.location.href = "/regulator";
-    }
-  } catch (error) {
-    console.error("Sign in failed:", error);
-  }
-}
-
 export async function handleSignUp(
   userData: userData,
   password: string,
@@ -88,6 +47,7 @@ export async function handleSignUp(
     });
 
     // sign in
+
     const { data, error } = await supabase.auth.signInWithPassword({
       email: actualEmail,
       password: password,

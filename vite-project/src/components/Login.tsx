@@ -10,9 +10,13 @@ import TextField from "@mui/material/TextField"
 import Typography from "@mui/material/Typography"
 import * as React from "react"
 // import background from "./assets/login/img/frame.png";
-import { useUser } from "@supabase/auth-helpers-react"
+
+import { handleSignIn } from "@/hooks/handleSignIn";
+import { useUser } from "@supabase/auth-helpers-react";
+import useUserDetails from "@/hooks/useUserDetails";
+import { UserType } from "./UserTypes";
 import background from "./assets/login/img/frame.png"
-import { handleSignIn } from "./Authentication"
+
 
 function Copyright(props: any) {
   return (
@@ -32,17 +36,14 @@ function Copyright(props: any) {
 }
 
 export default function SignInSide() {
-  const user = useUser()
-
-  console.log(user)
-
+  const user = useUser();
+  const userDetails = useUserDetails(user);
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault()
-    console.log("si entra")
-    const data = new FormData(event.currentTarget)
-    const formEmail = data.get("email")?.toString()
-    const formPassword = data.get("password")?.toString()
-    let actualEmail: string = ""
+    event.preventDefault();
+    const data = new FormData(event.currentTarget);
+    const formEmail = data.get("email")?.toString();
+    const formPassword = data.get("password")?.toString();
+    let actualEmail: string = "";
     if (formEmail) {
       actualEmail = formEmail
     }
@@ -56,8 +57,29 @@ export default function SignInSide() {
     if (actualPassword == "") {
       Error("Please insert a valid password")
     }
-    handleSignIn(actualEmail, actualPassword)
-  }
+    handleSignIn(actualEmail, actualPassword).then((userType: UserType) => {
+      switch (userType) {
+        case "consumer":
+          window.location.href = "/library";
+          break;
+          break;
+        case "regulator":
+          window.location.href = "/dashboard/regulator";
+          break;
+        case "lab":
+          window.location.href = "/dashboard/labs";
+          break;
+        case "university":
+          window.location.href = "/"; //update
+          break;
+        case "producer":
+          window.location.href = "/dashboard/producer"; //update
+          break;
+        default:
+          throw new Error("you are not a valid user");
+      }
+    });
+  };
 
   return (
     <Grid container component="main" sx={{ height: "100vh" }}>
