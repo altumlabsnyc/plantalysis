@@ -11,14 +11,14 @@ import { User } from "@supabase/supabase-js"
 import useSWR from "swr"
 
 // You might need to define the data types, depending on what data is fetched
-type RoleDataType = (
+export type RoleDataType = (
   | ProducerUser
   | LabUser
   | RegulatorUser
   | SamplingFirmUser
   | ConsumerUser
 ) & { role: string }
-type UserRoleDataType = {
+export type UserRoleDataType = {
   userDetails: BaseUser
   roleDetails: RoleDataType
 }

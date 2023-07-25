@@ -11,7 +11,9 @@
   "dependencies": {
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
+    "@fontsource/inter": "^5.0.5",
     "@ggascoigne/namor": "^2.0.4",
+    "@headlessui/react": "^1.7.15",
     "@mui/icons-material": "^5.14.1",
     "@mui/material": "^5.14.0",
     "@mui/styles": "^5.14.1",
@@ -22,7 +24,6 @@
     "@types/d3": "^7.4.0",
     "@types/jquery": "^3.5.16",
     "assert": "^2.0.0",
-    "autoprefixer": "^10.4.14",
     "bootstrap": "^5.3.0",
     "buffer": "^6.0.3",
     "classnames": "^2.3.2",
@@ -31,6 +32,7 @@
     "ev-emitter": "^2.1.2",
     "express": "^4.18.2",
     "fizzy-ui-utils": "^3.0.0",
+    "flowbite": "^1.7.0",
     "get-size": "^3.0.0",
     "isotope-layout": "^3.0.6",
     "jquery": "^3.7.0",
@@ -38,7 +40,6 @@
     "masonry-layout": "^4.2.2",
     "match-sorter": "^6.3.1",
     "outlayer": "^2.1.1",
-    "postcss": "^8.4.27",
     "react": "^17.0.0",
     "react-dom": "^17.0.2",
     "react-helmet": "^6.1.0",
@@ -48,7 +49,6 @@
     "simple-datatables": "^7.3.0",
     "stripe": "^12.13.0",
     "swr": "^2.2.0",
-    "tailwindcss": "^3.3.3",
     "uuid": "^9.0.0"
   },
   "devDependencies": {
@@ -58,9 +58,12 @@
     "@types/react-table": "^7.7.14",
     "@types/uuid": "^9.0.2",
     "@vitejs/plugin-react": "^3.1.0",
+    "autoprefixer": "^10.4.14",
     "husky": "^8.0.3",
     "lint-staged": "^13.2.3",
+    "postcss": "^8.4.27",
     "supabase": "^1.77.9",
+    "tailwindcss": "^3.3.3",
     "typescript": "^4.9.5",
     "vite": "^4.1.0"
   }

@@ -1,0 +1,40 @@
+a:hover {
+  text-decoration: none;
+  color: black;
+}
+
+/* Add styles for the selected link */
+.selected-link {
+  position: relative; /* To allow absolute positioning for the ::after element */
+  font-weight: bold; /* Make the text bold */
+  display: inline-block; /* Allow the ::after element to stretch to the width of the word */
+}
+
+/* Add an underline that moves down and is thicker */
+.selected-link::after {
+  content: "";
+  position: absolute;
+  bottom: 0px; /* Adjust this value to control the distance the underline moves down */
+  left: 0;
+  width: 100%; /* Make the underline stretch across the entire width of the link */
+  height: 3px; /* Adjust this value to control the thickness of the underline */
+  background-color: black; /* Customize the color of the underline */
+}
+
+/* Add styles for the inactive links */
+.color > a:not(.selected-link) {
+  color: rgba(0, 0, 0, 0.4); /* Black with 40% opacity */
+}
+
+/* Add hover styles for the inactive links */
+.color > a:not(.selected-link):hover {
+  color: rgba(0, 0, 0, 0.8); /* Black with 80% opacity on hover */
+}
+
+/* Add hover styles for the selected link */
+.color > a.selected-link:hover {
+  color: rgba(0, 0, 0, 1); /* Black with 100% opacity on hover */
+}
+
+
+

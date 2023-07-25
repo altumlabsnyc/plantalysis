@@ -24,7 +24,7 @@ function ProducerDashboard({ children }: ProducerDashboardProps) {
     },
   ]
   return (
-    <Dashboard role={"Producer"} panels={panels}>
+    <Dashboard role={"producer"} panels={panels}>
       {children}
     </Dashboard>
   )
@@ -34,17 +34,15 @@ interface SessionProps {
   session: Session | null
 }
 
-export default function ProducerDashboardRouter({ session }: SessionProps) {
+export default function ProducerDashboardRouter() {
   return (
-    <>
-      <ProducerDashboard>
-        <Route path="/dashboard/producer/new-order">
-          <PlaceNewOrder session={session} />
-        </Route>
-        <Route path="/dashboard/producer/orders">
-          <ProducerOrders session={session} />
-        </Route>
-      </ProducerDashboard>
-    </>
+    <ProducerDashboard>
+      <Route path="/dashboard/producer/new-order">
+        <PlaceNewOrder />
+      </Route>
+      <Route path="/dashboard/producer/orders">
+        <ProducerOrders />
+      </Route>
+    </ProducerDashboard>
   )
 }

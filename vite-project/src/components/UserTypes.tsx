@@ -29,11 +29,9 @@ export type Analysis = Database["public"]["Tables"]["analysis"]["Row"];
 export type MoleculePredict =
   Database["public"]["Tables"]["molecule_prediction"]["Row"];
 
-
-
 export type LabOrderTableRow = LabOrder & {
   status: string;
-}
+};
 
 export type ForApproval = {
   lab_name: string | null;
@@ -46,7 +44,7 @@ export type ForApproval = {
 
 export type AnalysisTableRow = ForApproval & {
   status: string;
-}
+};
 
 //all user types
 export type govUser = Database["public"]["Tables"]["regulator_user"]["Row"];
@@ -162,7 +160,7 @@ export const labOrderInputs: Array<Input> = [
   },
 ];
 
-export const NOT_CLAIMED = 'Not Claimed'
-export const CLAIMED = 'Claimed'
-export const NOT_APPROVED = 'Not Approved'
-export const APPROVED = 'Approved'
+export const NOT_CLAIMED = "Not Claimed";
+export const CLAIMED = "Claimed";
+export const NOT_APPROVED = "Not Approved";
+export const APPROVED = "Approved";
