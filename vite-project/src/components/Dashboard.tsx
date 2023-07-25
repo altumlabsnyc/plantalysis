@@ -1,28 +1,28 @@
-import React from "react";
+import React from "react"
 
-import logo from "@/components/assets/img/logo.png";
-import { Dialog, Transition } from "@headlessui/react";
-import { ChairAlt } from "@mui/icons-material";
-import classNames from "classnames";
-import { Fragment, useState } from "react";
-import { UserType } from "./UserTypes";
+import logo from "@/components/assets/img/logo.png"
+import { Dialog, Transition } from "@headlessui/react"
+import { ChairAlt } from "@mui/icons-material"
+import classNames from "classnames"
+import { Fragment, useState } from "react"
+import { UserType } from "./UserTypes"
 
-import LeftSideBar from "./LeftSideBar";
+import LeftSideBar from "./LeftSideBar"
 
 export type DashboardPanel = {
-  link: string;
-  icon: React.ReactNode;
-  text: string;
-};
+  link: string
+  icon: React.ReactNode
+  text: string
+}
 
 interface DashboardProps {
-  children: React.ReactNode;
-  role: UserType;
-  panels: DashboardPanel[];
+  children: React.ReactNode
+  role: UserType
+  panels: DashboardPanel[]
 }
 
 export default function Dashboard({ children, role, panels }: DashboardProps) {
-  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(false)
 
   return (
     <>
@@ -160,5 +160,5 @@ export default function Dashboard({ children, role, panels }: DashboardProps) {
         </aside>
       </div>
     </>
-  );
+  )
 }
