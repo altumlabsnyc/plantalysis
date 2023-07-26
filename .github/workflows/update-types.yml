@@ -27,10 +27,22 @@ jobs:
         id: git_status
         run: |
           echo "::set-output name=status::$(git status -s)"
-      - name: Create new branch and commit files
+      - name: Setup branch for changes
         if: ${{contains(steps.git_status.outputs.status, ' ')}}
         run: |
-          git switch -c update-database-types
+          git fetch origin
+          BRANCH_EXISTS=$(git ls-remote --heads origin | grep update-database-types || echo "")
+          if [[ -z "${BRANCH_EXISTS}" ]]; then
+            echo "Branch does not exist. Creating it..."
+            git switch -c update-database-types
+          else
+            echo "Branch already exists. Resetting it to match main..."
+            git switch update-database-types
+            git reset --hard origin/main
+          fi
+      - name: Commit files
+        if: ${{contains(steps.git_status.outputs.status, ' ')}}
+        run: |
           git add vite-project/src/types/supabase.ts
           git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
@@ -47,4 +59,5 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           title: "Update database types"
-          branch: update-database-types
+          branch: "update-database-types"
+          base: "main"
