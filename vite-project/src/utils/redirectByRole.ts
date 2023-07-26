@@ -15,7 +15,7 @@ export default function redirectByRole(history: any, userType: UserRole) {
       history.push("/dashboard/producer")
       break
     case "lab":
-      history.push("/dashboard/labs")
+      history.push("/dashboard/lab")
       break
     case "regulator":
       history.push("/dashboard/regulator")
