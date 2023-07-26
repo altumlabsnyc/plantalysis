@@ -1,7 +1,7 @@
-import { UserRole } from "@/types/supabaseAlias"
-import { useSessionContext } from "@supabase/auth-helpers-react"
-import { ComponentType, FunctionComponent } from "react"
-import { Redirect, Route, RouteProps } from "react-router-dom"
+import { UserRole } from '@/types/supabaseAlias'
+import { useSessionContext } from '@supabase/auth-helpers-react'
+import { ComponentType, FunctionComponent } from 'react'
+import { Redirect, Route, RouteProps } from 'react-router-dom'
 
 interface ProtectedRouteProps extends RouteProps {
   component: ComponentType<any>

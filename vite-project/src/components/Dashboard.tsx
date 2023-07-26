@@ -1,13 +1,13 @@
-import React from "react"
+import React from 'react'
 
-import logo from "@/components/assets/img/logo.png"
-import { Dialog, Transition } from "@headlessui/react"
-import { ChairAlt } from "@mui/icons-material"
-import classNames from "classnames"
-import { Fragment, useState } from "react"
-import { UserType } from "./UserTypes"
+import logo from '@/components/assets/img/logo.png'
+import { Dialog, Transition } from '@headlessui/react'
+import { ChairAlt } from '@mui/icons-material'
+import classNames from 'classnames'
+import { Fragment, useState } from 'react'
+import { UserType } from './UserTypes'
 
-import LeftSideBar from "./LeftSideBar"
+import LeftSideBar from './LeftSideBar'
 
 export type DashboardPanel = {
   link: string
@@ -23,6 +23,8 @@ interface DashboardProps {
 
 export default function Dashboard({ children, role, panels }: DashboardProps) {
   const [sidebarOpen, setSidebarOpen] = useState(false)
+
+  console.log(role)
 
   return (
     <>
@@ -98,14 +100,14 @@ export default function Dashboard({ children, role, panels }: DashboardProps) {
                             <li>
                               <a
                                 className={classNames(
-                                  "bg-gray-50 text-indigo-600",
-                                  "group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold"
+                                  'bg-gray-50 text-indigo-600',
+                                  'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold',
                                 )}
                               >
                                 <ChairAlt
                                   className={classNames(
-                                    "text-indigo-600",
-                                    "h-6 w-6 shrink-0"
+                                    'text-indigo-600',
+                                    'h-6 w-6 shrink-0',
                                   )}
                                   aria-hidden="true"
                                 />

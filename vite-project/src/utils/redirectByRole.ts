@@ -1,4 +1,4 @@
-import { UserRole } from "@/types/supabaseAlias"
+import { UserRole } from '@/types/supabaseAlias'
 
 /**
  * Use this function to redirect users based on their user type.
@@ -8,26 +8,26 @@ import { UserRole } from "@/types/supabaseAlias"
  */
 export default function redirectByRole(history: any, userType: UserRole) {
   switch (userType) {
-    case "consumer":
-      history.push("/library")
+    case 'consumer':
+      history.push('/library')
       break
-    case "producer":
-      history.push("/dashboard/producer")
+    case 'producer':
+      history.push('/dashboard/producer')
       break
     case "lab":
       history.push("/dashboard/lab")
       break
-    case "regulator":
-      history.push("/dashboard/regulator")
+    case 'regulator':
+      history.push('/dashboard/regulator')
       break
-    case "university":
-      history.push("/dashboard/university")
+    case 'university':
+      history.push('/dashboard/university')
       break
     // @ts-ignore
-    case "sampling_firm":
-      history.push("/dashboard/sampling_firm")
+    case 'sampling_firm':
+      history.push('/dashboard/sampling_firm')
       break
     default:
-      throw new Error("You are not a valid user")
+      throw new Error('You are not a valid user')
   }
 }

@@ -1,3 +1,4 @@
+
 import { useUser } from "@supabase/auth-helpers-react";
 import { useEffect, useState } from "react";
 
@@ -21,6 +22,6 @@ export default function CurrentOrders() {
   } else {
     throw new Error("Not loading but no valid data provided");
   }
+
 }
 
-// export default LabOrder;

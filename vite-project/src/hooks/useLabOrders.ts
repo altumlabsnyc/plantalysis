@@ -1,8 +1,7 @@
-
-import { supabase } from "@/utils/supabase"
-import { User } from "@supabase/supabase-js"
-import useSWR from "swr"
-import { LabOrder } from "@/types/supabaseAlias";
+import { LabOrder } from '@/types/supabaseAlias'
+import { supabase } from '@/utils/supabase'
+import { User } from '@supabase/supabase-js'
+import useSWR from 'swr'
 
 export enum LabOrdersRequested{
   claimedByALab,
@@ -10,8 +9,6 @@ export enum LabOrdersRequested{
   ofAProducer,
   allOrders
 }
-
-
 
 /**
  * SWR hook that fetches all lab orders from Supabase. Returns all lab order details.
@@ -75,16 +72,16 @@ let fetchingFunction = (allOrders: LabOrder[] | undefined, user: User | null): L
   }
 }
 
-
 //HELPERS FOR LAB_ORDERS FETCHING
 
 /**
  * Fetches claimed orders by a specific lab user
  * @param allOrders : all lab_orders in file
  * @param user expects user.user_type to be "lab"
- * 
+ *
  * @returns the list of the lab orders that belong to that specific user
  */
+
 export function getUserClaimedOrders(allOrders: LabOrder[] | undefined, user: User|null): Array<LabOrder>{
   if (allOrders){
     const claimedOrders = allOrders.filter((order)=>{
@@ -98,7 +95,7 @@ export function getUserClaimedOrders(allOrders: LabOrder[] | undefined, user: Us
 /**
  * Fetches unclaimed orders
  * @param allOrders : all lab_orders in file
- * 
+ *
  * @returns the list of the lab orders that dont have an assigned lab user
  */
 export function getUnClaimedOrders(allOrders: LabOrder[] | undefined, user: User | null): Array<LabOrder>{
@@ -119,6 +116,5 @@ export function getProducerOrders(allOrders: LabOrder[] | undefined, user: User 
   // todo: UPDATE THIS FUNCTION
   return allOrders? allOrders: [];
 }
-
 
 

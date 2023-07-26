@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react'
 // css
 import { useUser } from "@supabase/auth-helpers-react";
 import { fetchProducerOrders } from "../Authentication.js";
@@ -7,30 +7,32 @@ import "../assets/dashboard/css/styles.css";
 import LabOrderTable from "../lab/LabOrderTable.js";
 import useLabOrders, { LabOrdersRequested } from "@/hooks/useLabOrders";
 
+
 export default function ProducerOrders() {
-  const [labOrders, setLabOrders] = useState<Array<LabOrderTableRow>>([]);
-  const [loading, setLoading] = useState(true);
+  const [labOrders, setLabOrders] = useState<Array<LabOrderTableRow>>([])
+  const [loading, setLoading] = useState(true)
 
   const user = useUser();
   const allOrders = useLabOrders(user, LabOrdersRequested.ofAProducer);
 
+
   useEffect(() => {
     async function fetchOrders() {
-      setLoading(true);
+      setLoading(true)
       if (user) {
         setLabOrders(
           (await fetchProducerOrders()).map((t: LabOrder): LabOrderTableRow => {
-            return { ...t, status: "Claimed" };
-          })
-        );
+            return { ...t, status: 'Claimed' }
+          }),
+        )
         // console.log('aaaaaaaaaa')
         // console.log(temp)
-        setLoading(false);
+        setLoading(false)
       }
     }
 
-    fetchOrders();
-  }, [user]);
+    fetchOrders()
+  }, [user])
 
   return (
     <>
@@ -40,5 +42,5 @@ export default function ProducerOrders() {
       </div>
       <LabOrderTable labOrders={labOrders} showClaimed={false} />
     </>
-  );
+  )
 }

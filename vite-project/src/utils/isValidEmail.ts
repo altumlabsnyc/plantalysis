@@ -5,7 +5,7 @@
  * @returns true if the email is valid, false otherwise.
  */
 export default function isValidEmail(
-  email: string | undefined | null
+  email: string | undefined | null,
 ): boolean {
   if (!email) return false
 
