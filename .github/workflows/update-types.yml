@@ -26,6 +26,7 @@ jobs:
         with:
           node-version: 16
       - name: Update types
+        id: update-types
         run: |
           cd vite-project
           npm run update-types
@@ -58,6 +59,7 @@ jobs:
         run: |
           git push -f origin update-database-types
       - name: Create Pull Request
+        id: cpr
         if: ${{contains(steps.git_status.outputs.status, ' ')}}
         uses: peter-evans/create-pull-request@v3
         with:
@@ -67,6 +69,6 @@ jobs:
           base: "main"
           auto_merge: true
       - name: Check output
-          run: |
-            echo "Pull Request Number - ${{ steps.cpr.outputs.pull-request-number }}"
-            echo "Pull Request URL - ${{ steps.cpr.outputs.pull-request-url }}"
+        run: |
+          echo "Pull Request Number - ${{ steps.cpr.outputs.pull-request-number }}"
+          echo "Pull Request URL - ${{ steps.cpr.outputs.pull-request-url }}"
