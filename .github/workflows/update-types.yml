@@ -35,6 +35,7 @@ jobs:
       - name: Setup branch for changes
         if: ${{contains(steps.git_status.outputs.status, ' ')}}
         run: |
+          git stash
           git fetch origin
           BRANCH_EXISTS=$(git ls-remote --heads origin | grep update-database-types || echo "")
           if [[ -z "${BRANCH_EXISTS}" ]]; then
@@ -45,6 +46,7 @@ jobs:
             git switch update-database-types
             git reset --hard origin/main
           fi
+          git stash pop
       - name: Commit files
         if: ${{contains(steps.git_status.outputs.status, ' ')}}
         run: |
