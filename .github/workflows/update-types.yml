@@ -32,11 +32,6 @@ jobs:
         id: git_status
         run: |
           echo "::set-output name=status::$(git status -s)"
-      - name: Commit files
-        if: ${{contains(steps.git_status.outputs.status, ' ')}}
-        run: |
-          git add vite-project/src/types/supabase.ts
-          git commit -m "Update database types" -a
       - name: Setup branch for changes
         if: ${{contains(steps.git_status.outputs.status, ' ')}}
         run: |
@@ -50,12 +45,15 @@ jobs:
             git switch update-database-types
             git reset --hard origin/main
           fi
+      - name: Commit files
+        if: ${{contains(steps.git_status.outputs.status, ' ')}}
+        run: |
+          git add vite-project/src/types/supabase.ts
+          git commit -m "Update database types" -a
       - name: Push changes
         if: ${{contains(steps.git_status.outputs.status, ' ')}}
-        uses: ad-m/github-push-action@master
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          branch: update-database-types
+        run: |
+          git push -f origin update-database-types
       - name: Create Pull Request
         if: ${{contains(steps.git_status.outputs.status, ' ')}}
         uses: peter-evans/create-pull-request@v3
