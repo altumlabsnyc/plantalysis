@@ -160,20 +160,19 @@ export const labOrderInputs: Array<Input> = [
   },
 ]
 
-
 export const brandInputs: Array<Input> = [
-  { name: "Brand Name", id: "brand_name", type: "text" },
-  { name: "Serving Size", id: "serving_size", type: "number" },
-  { name: "Path to logo", id: "img_path", type: "file" },
-];
+  { name: 'Brand Name', id: 'brand_name', type: 'text' },
+  { name: 'Serving Size', id: 'serving_size', type: 'number' },
+  { name: 'Path to logo', id: 'img_path', type: 'file' },
+]
 
 export const facilityInputs: Array<Input> = [
-  { name: "Address", id: "address", type: "text" },
-  { name: "Facility Name", id: "facility_name", type: "text" },
-  { name: "Description", id: "description", type: "text" },
-];
+  { name: 'Address', id: 'address', type: 'text' },
+  { name: 'Facility Name', id: 'facility_name', type: 'text' },
+  { name: 'Description', id: 'description', type: 'text' },
+]
 
-export const NOT_CLAIMED = "Not Claimed";
-export const CLAIMED = "Claimed";
-export const NOT_APPROVED = "Not Approved";
-export const APPROVED = "Approved";
+export const NOT_CLAIMED = 'Not Claimed'
+export const CLAIMED = 'Claimed'
+export const NOT_APPROVED = 'Not Approved'
+export const APPROVED = 'Approved'

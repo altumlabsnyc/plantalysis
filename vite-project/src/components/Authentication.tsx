@@ -1,8 +1,6 @@
-
 // import { v4 as uuidv4 } from "uuid";
 import { supabase } from '@/utils/supabase'
 import { ForApproval, LabOrder } from './UserTypes'
-
 
 export async function fetchAnalyzedOrders(): Promise<Array<ForApproval>> {
   const forApproval: Array<ForApproval> = []
