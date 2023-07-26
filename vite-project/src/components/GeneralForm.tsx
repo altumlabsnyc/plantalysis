@@ -5,12 +5,12 @@ import {
   Link,
   TextField,
   Typography,
-} from "@mui/material";
+} from '@mui/material'
 
-import useUserDetails from "@/hooks/useUserDetails";
-import { useUser } from "@supabase/auth-helpers-react";
-import { Input } from "@/components/UserTypes";
-import { FormEvent } from "react"; // Import FormEvent type
+import { Input } from '@/components/UserTypes'
+import useUserDetails from '@/hooks/useUserDetails'
+import { useUser } from '@supabase/auth-helpers-react'
+import { FormEvent } from 'react' // Import FormEvent type
 
 function Copyright(props: any) {
   return (
@@ -20,20 +20,20 @@ function Copyright(props: any) {
       align="center"
       {...props}
     >
-      {"Copyright © "}
+      {'Copyright © '}
       <Link color="inherit" href="https://altumlabs.co/">
         PLANTALYSIS
-      </Link>{" "}
+      </Link>{' '}
       by Altum Labs.
     </Typography>
-  );
+  )
 }
 
 export interface GeneralFormProps<T> {
-  inputs: Input[];
-  createT: (formData: FormEvent<HTMLFormElement>) => T;
-  oldT: Array<T>;
-  insertT: (toInsert: T, oldData: Array<T>) => void;
+  inputs: Input[]
+  createT: (formData: FormEvent<HTMLFormElement>) => T
+  oldT: Array<T>
+  insertT: (toInsert: T, oldData: Array<T>) => void
 }
 
 export default function GeneralForm<T>({
@@ -42,13 +42,13 @@ export default function GeneralForm<T>({
   oldT,
   insertT,
 }: GeneralFormProps<T>) {
-  const user = useUser();
+  const user = useUser()
 
-  const { data: generalUserData, error, isLoading } = useUserDetails(user);
+  const { data: generalUserData, error, isLoading } = useUserDetails(user)
   const handleSubmit = (formData: FormEvent<HTMLFormElement>) => {
-    const toInsert = createT(formData);
-    insertT(toInsert, oldT);
-  };
+    const toInsert = createT(formData)
+    insertT(toInsert, oldT)
+  }
 
   return (
     <div>
@@ -74,12 +74,12 @@ export default function GeneralForm<T>({
           variant="contained"
           sx={{
             mt: 3,
-            alignItems: "right",
+            alignItems: 'right',
             mb: 2,
-            backgroundColor: "#CFAA41",
-            color: "white",
-            "&:hover": {
-              backgroundColor: "#CFAA41", // Maintain the same background color on hover
+            backgroundColor: '#CFAA41',
+            color: 'white',
+            '&:hover': {
+              backgroundColor: '#CFAA41', // Maintain the same background color on hover
             },
           }}
         >
@@ -89,5 +89,5 @@ export default function GeneralForm<T>({
         <Copyright sx={{ mt: 5 }} />
       </Box>
     </div>
-  );
+  )
 }

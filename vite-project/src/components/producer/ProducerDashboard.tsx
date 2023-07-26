@@ -1,20 +1,91 @@
-
-import Dashboard, { DashboardPanel } from "@/components/Dashboard";
-import { Session } from "@supabase/supabase-js";
-import React from "react";
-import { Route } from "react-router-dom";
-import "../assets/dashboard/css/styles.css";
-import PlaceNewOrder from "./PlaceNewOrder.js";
-import ProducerOrders from "./ProducerOrders.js";
-import Brands from "@/components/producer/MyBrands";
-import Facilities from "./MyFacilities";
-
+import Dashboard, { DashboardPanel } from '@/components/Dashboard'
+import Bell from '@/components/assets/svg/Bell.svg'
+import Clock from '@/components/assets/svg/Clock.svg'
+import Sidebar from '@/components/assets/svg/Sidebar.svg'
+import Star from '@/components/assets/svg/Star.svg'
+import Sun from '@/components/assets/svg/Sun.svg'
+import Brands from '@/components/producer/MyBrands'
+import useUserDetails from '@/hooks/useUserDetails'
+import { useUser } from '@supabase/auth-helpers-react'
+import React, { useState } from 'react'
+import { toast } from 'react-hot-toast'
+import { Route } from 'react-router-dom'
+import '../assets/dashboard/css/styles.css'
+import Facilities from './MyFacilities'
+import PlaceNewOrder from './PlaceNewOrder.js'
+import ProducerOrders from './ProducerOrders.js'
 
 interface ProducerDashboardProps {
-  children: React.ReactNode;
+  children: React.ReactNode
 }
 
 function ProducerDashboard({ children }: ProducerDashboardProps) {
+  const user = useUser()
+  const { data: userDetails } = useUserDetails(user)
+
+  const [desktopSidebarOpen, setDesktopSidebarOpen] = useState(true)
+
+  const headerIcons = [
+    {
+      icon: Sun,
+      onClick: () =>
+        toast('Dark mode coming soon!', {
+          icon: '🌞',
+        }),
+    },
+    {
+      icon: Clock,
+      onClick: () =>
+        toast("I don't know what this does!", {
+          icon: '🕒',
+        }),
+    },
+    {
+      icon: Bell,
+      onClick: () =>
+        toast('Notifications coming soon!', {
+          icon: '🔔',
+        }),
+    },
+    {
+      icon: Sidebar,
+      onClick: () => setDesktopSidebarOpen(!desktopSidebarOpen),
+    },
+    {
+      icon: Star,
+      onClick: () =>
+        toast("I don't know what this does!", {
+          icon: '⭐',
+        }),
+    },
+  ]
+
+  const headerLinks = [
+    {
+      label: 'Place Order',
+      onClick: () =>
+        toast('Place Order coming soon!', {
+          icon: '⭐',
+        }),
+    },
+    {
+      label: 'Orders',
+      onClick: () =>
+        toast('Orders coming soon!', {
+          icon: '⭐',
+        }),
+    },
+    {
+      label: 'Manage Brands',
+      onClick: () =>
+        toast('Manage Brands coming soon!', {
+          icon: '⭐',
+        }),
+    },
+  ]
+
+  console.log(desktopSidebarOpen)
+
   const panels: DashboardPanel[] = [
     {
       link: '/dashboard/producer/new-order',
@@ -27,23 +98,34 @@ function ProducerDashboard({ children }: ProducerDashboardProps) {
       text: 'Current Orders',
     },
     {
-      link: "/dashboard/producer/brands",
+      link: '/dashboard/producer/brands',
       icon: <i className="fas fa-book-open" />,
-      text: "My Brands",
+      text: 'My Brands',
     },
     {
-      link: "/dashboard/producer/facilities",
+      link: '/dashboard/producer/facilities',
       icon: <i className="fas fa-book-open" />,
-      text: "My Facilities",
+      text: 'My Facilities',
     },
-  ];
+  ]
+
   return (
-    <Dashboard role={'producer'} panels={panels}>
+    <Dashboard
+      role={'producer'}
+      panels={panels}
+      dashboardTitle={
+        !userDetails?.userDetails.first_name
+          ? 'Welcome'
+          : 'Welcome, ' + userDetails?.userDetails.first_name
+      }
+      headerIcons={headerIcons}
+      headerLinks={headerLinks}
+      desktopSidebarOpen={desktopSidebarOpen}
+    >
       {children}
     </Dashboard>
-  );
+  )
 }
-
 
 export default function ProducerDashboardRouter() {
   return (
@@ -61,5 +143,5 @@ export default function ProducerDashboardRouter() {
         <Facilities />
       </Route>
     </ProducerDashboard>
-  );
+  )
 }

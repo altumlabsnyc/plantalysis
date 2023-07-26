@@ -17,6 +17,7 @@ export default function CurrentOrders() {
       return { ...order, status: 'Claimed' }
     })
 
+
     return (
       <div>
         {labOrders.data.map((order) => (
@@ -25,6 +26,7 @@ export default function CurrentOrders() {
       </div>
     )
     //<LabOrderTable labOrders={labOrderRows} showClaimed={false} />;
+
   } else {
     throw new Error('Not loading but no valid data provided')
   }
