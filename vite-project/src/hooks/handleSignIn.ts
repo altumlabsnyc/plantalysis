@@ -1,8 +1,8 @@
-import { UserType } from "@/components/UserTypes"
-import { supabase } from "@/utils/supabase"
+import { UserType } from '@/components/UserTypes'
+import { supabase } from '@/utils/supabase'
 
 export async function handleSignIn(email: string, password: string) {
-  const { data, error } = await supabase.auth.signInWithPassword({
+  const { data } = await supabase.auth.signInWithPassword({
     email: email,
     password: password,
   })

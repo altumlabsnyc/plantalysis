@@ -1,4 +1,4 @@
-import React from "react"
+import React from 'react'
 const Upload: React.FC = () => {
   // we need a newer package than material-ui-dropzone
 

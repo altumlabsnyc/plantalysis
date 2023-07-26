@@ -1,8 +1,8 @@
-import classNames from "classnames"
+import classNames from 'classnames'
 
 // TODO: variants
 interface Props {
-  size: "xs" | "sm" | "md" | "lg"
+  size: 'xs' | 'sm' | 'md' | 'lg'
 }
 
 export default function Spinner({ size }: Props) {
@@ -10,11 +10,11 @@ export default function Spinner({ size }: Props) {
     <svg
       aria-hidden="true"
       className={classNames(
-        { "h-3 w-3": size === "xs" },
-        { "h-4 w-4": size === "sm" },
-        { "h-5 w-5": size === "md" },
-        { "h-6 w-6": size === "lg" },
-        "inline animate-spin-fast fill-white text-green-800"
+        { 'h-3 w-3': size === 'xs' },
+        { 'h-4 w-4': size === 'sm' },
+        { 'h-5 w-5': size === 'md' },
+        { 'h-6 w-6': size === 'lg' },
+        'inline animate-spin-fast fill-white text-green-800',
       )}
       viewBox="0 0 100 100"
       fill="none"

@@ -1,6 +1,6 @@
 // global.d.ts
-import { Theme } from "@mui/material/styles"
+import { Theme } from '@mui/material/styles'
 
-declare module "@mui/system" {
+declare module '@mui/system' {
   interface DefaultTheme extends Theme {}
 }

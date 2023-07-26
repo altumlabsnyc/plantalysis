@@ -1,23 +1,22 @@
-import Box from "@mui/material/Box"
-import CssBaseline from "@mui/material/CssBaseline"
-import Grid from "@mui/material/Grid"
-import Link from "@mui/material/Link"
-import Paper from "@mui/material/Paper"
-import TextField from "@mui/material/TextField"
-import Typography from "@mui/material/Typography"
-import toast, { Toaster } from "react-hot-toast"
+import Box from '@mui/material/Box'
+import CssBaseline from '@mui/material/CssBaseline'
+import Grid from '@mui/material/Grid'
+import Link from '@mui/material/Link'
+import Paper from '@mui/material/Paper'
+import TextField from '@mui/material/TextField'
+import Typography from '@mui/material/Typography'
+import toast, { Toaster } from 'react-hot-toast'
 // import background from "./assets/login/img/frame.png";
 
-import { handleSignIn } from "@/hooks/handleSignIn"
-import useUserDetails from "@/hooks/useUserDetails"
-import delay from "@/utils/delay"
-import isValidEmail from "@/utils/isValidEmail"
-import redirectByRole from "@/utils/redirectByRole"
-import { useUser } from "@supabase/auth-helpers-react"
-import { useState } from "react"
-import { useHistory } from "react-router-dom"
-import background from "./assets/login/img/frame.png"
-import Spinner from "./common/Spinner"
+import { handleSignIn } from '@/hooks/handleSignIn'
+import delay from '@/utils/delay'
+import isValidEmail from '@/utils/isValidEmail'
+import redirectByRole from '@/utils/redirectByRole'
+import { useUser } from '@supabase/auth-helpers-react'
+import { useState } from 'react'
+import { useHistory } from 'react-router-dom'
+import background from './assets/login/img/frame.png'
+import Spinner from './common/Spinner'
 
 function Copyright(props: any) {
   return (
@@ -27,10 +26,10 @@ function Copyright(props: any) {
       align="center"
       {...props}
     >
-      {"Copyright © "}
+      {'Copyright © '}
       <Link color="inherit" href="https://altumlabs.co/">
         PLANTALYSIS
-      </Link>{" "}
+      </Link>{' '}
       by Altum Labs.
     </Typography>
   )
@@ -39,7 +38,7 @@ function Copyright(props: any) {
 export default function SignInSide() {
   const history = useHistory()
   const user = useUser()
-  const userDetails = useUserDetails(user)
+  // const userDetails = useUserDetails(user);
 
   const [loading, setLoading] = useState(false)
 
@@ -48,24 +47,24 @@ export default function SignInSide() {
     setLoading(true)
 
     const data = new FormData(event.currentTarget)
-    const email = data.get("email")?.toString()
-    const password = data.get("password")?.toString()
+    const email = data.get('email')?.toString()
+    const password = data.get('password')?.toString()
 
     if (!email || !isValidEmail(email)) {
-      toast.error("Please insert a valid email")
+      toast.error('Please insert a valid email')
       setLoading(false)
       return
     }
 
     if (!password) {
-      toast.error("Please insert a valid password")
+      toast.error('Please insert a valid password')
       setLoading(false)
       return
     }
 
     handleSignIn(email, password).then(async (userType) => {
       if (!userType) {
-        toast.error("Invalid email password combination")
+        toast.error('Invalid email password combination')
         setLoading(false)
         return
       }
@@ -78,7 +77,7 @@ export default function SignInSide() {
   }
 
   return (
-    <Grid container component="main" sx={{ height: "100vh" }}>
+    <Grid container component="main" sx={{ height: '100vh' }}>
       <Toaster />
       <CssBaseline />
       <Grid
@@ -88,22 +87,22 @@ export default function SignInSide() {
         md={7}
         sx={{
           backgroundImage: `url(${background})`,
-          backgroundRepeat: "no-repeat",
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          position: "relative", // Add relative position to the Grid item
+          backgroundRepeat: 'no-repeat',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          position: 'relative', // Add relative position to the Grid item
         }}
       >
         <Typography
           component="h1"
           variant="h3"
           sx={{
-            position: "absolute",
-            top: "20%",
-            left: "20%",
-            transform: "translate(-50%, -50%)",
-            color: "white",
-            fontWeight: "bold",
+            position: 'absolute',
+            top: '20%',
+            left: '20%',
+            transform: 'translate(-50%, -50%)',
+            color: 'white',
+            fontWeight: 'bold',
           }}
         >
           Log In
@@ -114,9 +113,9 @@ export default function SignInSide() {
           sx={{
             my: 16,
             mx: 4,
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "left",
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'left',
           }}
         >
           <Typography component="h1" variant="h5">
@@ -125,7 +124,7 @@ export default function SignInSide() {
           <p className="text-sm mt-1">
             {user ? (
               <span>
-                Logged in as {user.email}.{" "}
+                Logged in as {user.email}.{' '}
                 <span
                   className="underline text-blue-500 cursor-pointer"
                   onClick={() =>
@@ -157,7 +156,7 @@ export default function SignInSide() {
               autoComplete="email"
               autoFocus
               inputProps={{
-                className: "focus:outline-none focus:ring-0",
+                className: 'focus:outline-none focus:ring-0',
               }}
             />
             <TextField
@@ -170,7 +169,7 @@ export default function SignInSide() {
               id="password"
               autoComplete="current-password"
               inputProps={{
-                className: "focus:outline-none focus:ring-0",
+                className: 'focus:outline-none focus:ring-0',
               }}
             />
             <button
