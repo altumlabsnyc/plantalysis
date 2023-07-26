@@ -5,7 +5,7 @@ import useSWR, {mutate, useSWRConfig} from "swr"
 import { Brand } from "@/types/supabaseAlias";
 import { v4 as uuidv4 } from "uuid";
 
-const insertBrand = async (brand: Brand) => {
+export const insertBrand = async (brand: Brand, brandId?: string) => {
     //new Brand ID
 
     try {
@@ -23,10 +23,13 @@ const insertBrand = async (brand: Brand) => {
   export default async function insertAndShowBrands(data: {
     oldBrands: Brand[] | null;
     newBrand: Brand;
-    user: User | null
+    user: User | null;
+    newBrandId?: string
   }) {
-    const newBrandId = uuidv4();
-    data.newBrand.id = newBrandId;
+    if (!data.newBrandId){
+    data.newBrandId = uuidv4();
+    }
+    data.newBrand.id = data.newBrandId;
     // const user = useUser();
   
     try {
