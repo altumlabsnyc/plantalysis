@@ -44,7 +44,7 @@ export default function LabDashboardRouter() {
       <Route path="/dashboard/lab/current-orders">
         <CurrentOrders />
       </Route>
-      <Route path="/dashboard/lab/claim-orders">
+      <Route path="/dashboard/lab/claim-new-orders">
         <ClaimOrders />
       </Route>
     </LabDashboard>

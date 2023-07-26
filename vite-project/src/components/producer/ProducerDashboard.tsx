@@ -1,12 +1,17 @@
-import Dashboard, { DashboardPanel } from '@/components/Dashboard'
-import React from 'react'
-import { Route } from 'react-router-dom'
-import '../assets/dashboard/css/styles.css'
-import PlaceNewOrder from './PlaceNewOrder.js'
-import ProducerOrders from './ProducerOrders.js'
+
+import Dashboard, { DashboardPanel } from "@/components/Dashboard";
+import { Session } from "@supabase/supabase-js";
+import React from "react";
+import { Route } from "react-router-dom";
+import "../assets/dashboard/css/styles.css";
+import PlaceNewOrder from "./PlaceNewOrder.js";
+import ProducerOrders from "./ProducerOrders.js";
+import Brands from "@/components/producer/MyBrands";
+import Facilities from "./MyFacilities";
+
 
 interface ProducerDashboardProps {
-  children: React.ReactNode
+  children: React.ReactNode;
 }
 
 function ProducerDashboard({ children }: ProducerDashboardProps) {
@@ -21,13 +26,24 @@ function ProducerDashboard({ children }: ProducerDashboardProps) {
       icon: <i className="fas fa-book-open" />,
       text: 'Current Orders',
     },
-  ]
+    {
+      link: "/dashboard/producer/brands",
+      icon: <i className="fas fa-book-open" />,
+      text: "My Brands",
+    },
+    {
+      link: "/dashboard/producer/facilities",
+      icon: <i className="fas fa-book-open" />,
+      text: "My Facilities",
+    },
+  ];
   return (
     <Dashboard role={'producer'} panels={panels}>
       {children}
     </Dashboard>
-  )
+  );
 }
+
 
 export default function ProducerDashboardRouter() {
   return (
@@ -38,6 +54,12 @@ export default function ProducerDashboardRouter() {
       <Route path="/dashboard/producer/orders">
         <ProducerOrders />
       </Route>
+      <Route path="/dashboard/producer/brands">
+        <Brands />
+      </Route>
+      <Route path="/dashboard/producer/facilities">
+        <Facilities />
+      </Route>
     </ProducerDashboard>
-  )
+  );
 }

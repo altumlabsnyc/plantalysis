@@ -3,7 +3,12 @@ import { supabase } from '@/utils/supabase'
 import { User } from '@supabase/supabase-js'
 import useSWR from 'swr'
 
-//   const user = useUser();
+export enum LabOrdersRequested{
+  claimedByALab,
+  unClaimedByLab,
+  ofAProducer,
+  allOrders
+}
 
 /**
  * SWR hook that fetches all lab orders from Supabase. Returns all lab order details.
@@ -12,40 +17,56 @@ import useSWR from 'swr'
  * @returns {data, error, isLoading} data is null if user is null, otherwise it is
  * an object with userDetails and roleDetails. error is the error object from SWR.
  */
-export default function useLabOrders(user: User | null) {
+export default function useLabOrders(user: User | null, requested: LabOrdersRequested) {
   const fetcher = async () => {
-    let ordersError: any, ordersData: Array<LabOrder> | null
 
-    const ordersFetchPromise = supabase
-      .from('lab_order')
-      .select('*')
-      .then(({ data, error }) => {
-        ordersData = data
-        ordersError = error
-      })
+    const {data: data, error: error} = await supabase
+      .from("lab_order")
+      .select("*")
 
-    await ordersFetchPromise
 
-    if (ordersError) {
-      console.log(ordersError)
+    if (error){
+      console.log(error)
+      throw new Error("error retrieving lab_order data")
     }
 
-    // @ts-ignore
-    if (!ordersData) {
-      return null
+
+    if (!data) {
+      throw new Error('no data returned by fetch to lab_orders')
     }
 
-    // Return the combined data
-    return ordersData
+    return data;
   }
 
   const { data, error, isLoading } = useSWR(
-    user ? '/api/lab_orders/' : null,
-    fetcher,
+    user ? `/api/lab_order/` : null,
+    fetcher
   )
+let fetchingFunction = (allOrders: LabOrder[] | undefined, user: User | null): LabOrder[] =>{
+  return allOrders? allOrders: []
+};
+  
+  switch(requested){
+    case LabOrdersRequested.allOrders:
+      fetchingFunction = getAllOrders
+      break;
+    case LabOrdersRequested.claimedByALab:
+      fetchingFunction = getUserClaimedOrders
+      break;
+    case LabOrdersRequested.unClaimedByLab:
+      fetchingFunction = getUnClaimedOrders
+      break;
+    case LabOrdersRequested.ofAProducer:
+      fetchingFunction = getProducerOrders;
+      break;
+    default:
+      throw new Error("Please provide a valid type of fetch for lab orders");
+  }
 
+  const filteredData = fetchingFunction(data, user)
+  
   return {
-    data: data as LabOrder[] | null,
+    data: filteredData as LabOrder[] | null,
     error,
     isLoading,
   }
@@ -60,15 +81,15 @@ export default function useLabOrders(user: User | null) {
  *
  * @returns the list of the lab orders that belong to that specific user
  */
-export function getUserClaimedOrders(
-  allOrders: LabOrder[],
-  user: User,
-): Array<LabOrder> {
-  console.log('llega aca')
-  const claimedOrders = allOrders.filter((order) => {
-    order.lab_user_id == user.id
-  })
-  return claimedOrders
+
+export function getUserClaimedOrders(allOrders: LabOrder[] | undefined, user: User|null): Array<LabOrder>{
+  if (allOrders){
+    const claimedOrders = allOrders.filter((order)=>{
+        return order.lab_user_id === user?.id
+    })
+    return claimedOrders
+  }
+  return [];
 }
 
 /**
@@ -77,13 +98,23 @@ export function getUserClaimedOrders(
  *
  * @returns the list of the lab orders that dont have an assigned lab user
  */
-export function getUserUnClaimedOrders(
-  allOrders: LabOrder[],
-  user: User,
-): Array<LabOrder> {
-  console.log(user)
-  const unclaimedOrders = allOrders.filter((order) => {
-    order.lab_user_id == null
-  })
-  return unclaimedOrders
+export function getUnClaimedOrders(allOrders: LabOrder[] | undefined, user: User | null): Array<LabOrder>{
+  if (allOrders){
+    const unclaimedOrders = allOrders.filter((order)=>{
+        return order.lab_user_id === null
+    })
+    return unclaimedOrders
+  }
+  return []
 }
+
+export function getAllOrders(allOrders: LabOrder[] | undefined, user: User | null): Array<LabOrder>{
+  return allOrders? allOrders: [];
+}
+
+export function getProducerOrders(allOrders: LabOrder[] | undefined, user: User | null): Array<LabOrder>{
+  // todo: UPDATE THIS FUNCTION
+  return allOrders? allOrders: [];
+}
+
+

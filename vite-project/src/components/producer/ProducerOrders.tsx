@@ -1,18 +1,20 @@
 import { useEffect, useState } from 'react'
 // css
-import { useUser } from '@supabase/auth-helpers-react'
-import { fetchProducerOrders } from '../Authentication.js'
-import { LabOrder, LabOrderTableRow } from '../UserTypes.js'
-import '../assets/dashboard/css/styles.css'
-import LabOrderTable from '../lab/LabOrderTable.js'
+import { useUser } from "@supabase/auth-helpers-react";
+import { fetchProducerOrders } from "../Authentication.js";
+import { LabOrder, LabOrderTableRow } from "../UserTypes.js";
+import "../assets/dashboard/css/styles.css";
+import LabOrderTable from "../lab/LabOrderTable.js";
+import useLabOrders, { LabOrdersRequested } from "@/hooks/useLabOrders";
+
 
 export default function ProducerOrders() {
   const [labOrders, setLabOrders] = useState<Array<LabOrderTableRow>>([])
   const [loading, setLoading] = useState(true)
 
-  console.log(loading)
+  const user = useUser();
+  const allOrders = useLabOrders(user, LabOrdersRequested.ofAProducer);
 
-  const user = useUser()
 
   useEffect(() => {
     async function fetchOrders() {

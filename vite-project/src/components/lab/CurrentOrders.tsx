@@ -1,39 +1,27 @@
-import useLabOrders, { getUserClaimedOrders } from '@/hooks/useLabOrders.js'
-import { useUser } from '@supabase/auth-helpers-react'
-import { useEffect, useState } from 'react'
-import { LabOrder, LabOrderTableRow } from '../UserTypes.js'
-import LabOrderTable from './LabOrderTable.js'
+
+import { useUser } from "@supabase/auth-helpers-react";
+import { useEffect, useState } from "react";
+
+import { LabOrder, LabOrderTableRow } from "../UserTypes.js";
+import LabOrderTable from "./LabOrderTable.js";
+import useLabOrders, { LabOrdersRequested } from "@/hooks/useLabOrders.js";
+import { lab } from "d3";
 
 export default function CurrentOrders() {
-  const user = useUser()
-  const allOrders = useLabOrders(user)
+  const user = useUser();
+  const labOrders = useLabOrders(user, LabOrdersRequested.claimedByALab);
 
-  const [labOrders, setLabOrders] = useState<Array<LabOrderTableRow>>([])
-  console.log(labOrders, allOrders, user?.id)
-  const [loading, setLoading] = useState(true)
-  useEffect(() => {
-    async function fetchOrders() {
-      //TODO: fix dependent current order to all orders
-      setLoading(true)
-      if (user && allOrders.data) {
-        setLabOrders(
-          getUserClaimedOrders(allOrders.data, user).map(
-            (t: LabOrder): LabOrderTableRow => {
-              console.log(t)
-              return { ...t, status: 'Claimed' }
-            },
-          ),
-        )
-        setLoading(false)
-      }
-    }
+  if (labOrders.isLoading) {
+    return <p>Loading...</p>;
+  } else if (labOrders.data) {
+    const labOrderRows = labOrders.data.map((order) => {
+      return { ...order, status: "Claimed" };
+    });
 
-    fetchOrders()
-  }, [user])
+    return <LabOrderTable labOrders={labOrderRows} showClaimed={false} />;
+  } else {
+    throw new Error("Not loading but no valid data provided");
+  }
 
-  console.log(loading)
-
-  return <LabOrderTable labOrders={labOrders} showClaimed={false} />
 }
 
-// export default LabOrder;
