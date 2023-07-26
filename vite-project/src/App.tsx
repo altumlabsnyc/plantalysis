@@ -47,12 +47,14 @@ function App() {
           </Route> */}
 
           <Route path="/playground">
-            <div style={{
-              background: 'grey',
-              width: '100%',
-              height: '700px',
-              display: 'flex'
-            }}>
+            <div
+              style={{
+                background: 'grey',
+                width: '100%',
+                height: '700px',
+                display: 'flex',
+              }}
+            >
               <LabDashboardContent />
             </div>
           </Route>

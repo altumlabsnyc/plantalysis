@@ -1,14 +1,11 @@
-
-import { supabase } from "@/utils/supabase"
-import { User } from "@supabase/supabase-js"
-import useSWR from "swr"
-import { useUser } from "@supabase/auth-helpers-react";
-import { Database } from "@/types/supabase"
-import { Facility } from "@/types/supabaseAlias";
+import { supabase } from '@/utils/supabase'
+import { User } from '@supabase/supabase-js'
+import useSWR from 'swr'
+import { useUser } from '@supabase/auth-helpers-react'
+import { Database } from '@/types/supabase'
+import { Facility } from '@/types/supabaseAlias'
 
 //   const user = useUser();
-
-
 
 /**
  * SWR hook that fetches facilities of a specific user from Supabase. Returns all facility details.
@@ -19,22 +16,20 @@ import { Facility } from "@/types/supabaseAlias";
  */
 export default function useFacilitiesDetails(user: User | null) {
   const fetcher = async () => {
-      let facilityError: any,
-      facilityData: Array<Facility> | null;
+    let facilityError: any, facilityData: Array<Facility> | null
 
     const facilityFetchPromise = supabase
-      .from("facility")
-      .select("*")
-      .eq("producer_id", user?.id)
+      .from('facility')
+      .select('*')
+      .eq('producer_id', user?.id)
       .then(({ data, error }) => {
         facilityData = data
         facilityError = error
       })
 
-      await facilityFetchPromise;
+    await facilityFetchPromise
 
-
-    if (facilityError){
+    if (facilityError) {
       console.log(facilityError)
     }
 
@@ -51,9 +46,9 @@ export default function useFacilitiesDetails(user: User | null) {
 
   const { data, error, isLoading } = useSWR(
     user ? `/api/facilities/${user.id}` : null,
-    fetcher
+    fetcher,
   )
-  
+
   return {
     data: data as Facility[] | null,
     error,
