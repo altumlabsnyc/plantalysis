@@ -1,11 +1,11 @@
-import logo from "@/components/assets/img/logo.png";
-import { ChairAlt } from "@mui/icons-material";
-import classNames from "classnames";
+import logo from '@/components/assets/img/logo.png'
+import { ChairAlt } from '@mui/icons-material'
+import classNames from 'classnames'
 
-import { DashboardPanel } from "./Dashboard";
+import { DashboardPanel } from './Dashboard'
 
 interface LeftSideBarProps {
-  panels: DashboardPanel[];
+  panels: DashboardPanel[]
 }
 
 export default function LeftSideBar({ panels }: LeftSideBarProps) {
@@ -39,15 +39,15 @@ export default function LeftSideBar({ panels }: LeftSideBarProps) {
                       <a
                         href={option.link}
                         className={classNames(
-                          "bg-gray-50 text-indigo-600",
-                          "group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold"
+                          'bg-gray-50 text-indigo-600',
+                          'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold',
                         )}
                         key={option.link}
                       >
                         <ChairAlt
                           className={classNames(
-                            "text-indigo-600",
-                            "h-6 w-6 shrink-0"
+                            'text-indigo-600',
+                            'h-6 w-6 shrink-0',
                           )}
                           aria-hidden="true"
                         />
@@ -62,5 +62,5 @@ export default function LeftSideBar({ panels }: LeftSideBarProps) {
         </ul>
       </nav>
     </div>
-  );
+  )
 }

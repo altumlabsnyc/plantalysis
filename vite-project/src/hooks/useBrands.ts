@@ -1,14 +1,9 @@
-
-import { supabase } from "@/utils/supabase"
-import { User } from "@supabase/supabase-js"
-import useSWR from "swr"
-import { useUser } from "@supabase/auth-helpers-react";
-import { Database } from "@/types/supabase"
-import { Brand } from "@/types/supabaseAlias";
+import { Brand } from '@/types/supabaseAlias'
+import { supabase } from '@/utils/supabase'
+import { User } from '@supabase/supabase-js'
+import useSWR from 'swr'
 
 //   const user = useUser();
-
-
 
 /**
  * SWR hook that fetches brands of a specific user from Supabase. Returns all brand details.
@@ -19,22 +14,20 @@ import { Brand } from "@/types/supabaseAlias";
  */
 export default function useBrandsDetails(user: User | null) {
   const fetcher = async () => {
-      let brandError: any,
-      brandData: Array<Brand> | null;
+    let brandError: any, brandData: Array<Brand> | null
 
     const brandsFetchPromise = supabase
-      .from("brand")
-      .select("*")
-      .eq("producer_user_id", user?.id)
+      .from('brand')
+      .select('*')
+      .eq('producer_user_id', user?.id)
       .then(({ data, error }) => {
         brandData = data
         brandError = error
       })
 
-      await brandsFetchPromise;
+    await brandsFetchPromise
 
-
-    if (brandError){
+    if (brandError) {
       console.log(brandError)
     }
 
@@ -51,9 +44,9 @@ export default function useBrandsDetails(user: User | null) {
 
   const { data, error, isLoading } = useSWR(
     user ? `/api/brands/${user.id}` : null,
-    fetcher
+    fetcher,
   )
-  
+
   return {
     data: data as Brand[] | null,
     error,

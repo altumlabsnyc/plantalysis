@@ -1,8 +1,8 @@
-import { useUser } from "@supabase/auth-helpers-react"
-import { useEffect, useState } from "react"
-import { fetchUnclaimedOrders } from "../Authentication.js"
-import { LabOrder, LabOrderTableRow } from "../UserTypes.js"
-import LabOrderTable from "./LabOrderTable.js"
+import { useUser } from '@supabase/auth-helpers-react'
+import { useEffect, useState } from 'react'
+import { fetchUnclaimedOrders } from '../Authentication.js'
+import { LabOrder, LabOrderTableRow } from '../UserTypes.js'
+import LabOrderTable from './LabOrderTable.js'
 
 export default function ClaimOrders() {
   const user = useUser()
@@ -16,9 +16,9 @@ export default function ClaimOrders() {
         setLabOrders(
           (await fetchUnclaimedOrders()).map(
             (t: LabOrder): LabOrderTableRow => {
-              return { ...t, status: "Not Claimed" }
-            }
-          )
+              return { ...t, status: 'Not Claimed' }
+            },
+          ),
         )
         // console.log('aaaaaaaaaa')
         // console.log(temp)
@@ -28,6 +28,8 @@ export default function ClaimOrders() {
 
     fetchOrders()
   }, [user])
+
+  console.log(loading)
 
   return <LabOrderTable labOrders={labOrders} showClaimed={true} />
 }

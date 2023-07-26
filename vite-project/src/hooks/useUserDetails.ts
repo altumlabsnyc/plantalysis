@@ -5,10 +5,11 @@ import {
   ProducerUser,
   RegulatorUser,
   SamplingFirmUser,
-} from "@/types/supabaseAlias"
-import { supabase } from "@/utils/supabase"
-import { User } from "@supabase/supabase-js"
-import useSWR from "swr"
+} from '@/types/supabaseAlias'
+import { supabase } from '@/utils/supabase'
+import { User } from '@supabase/supabase-js'
+import toast from 'react-hot-toast'
+import useSWR from 'swr'
 
 // You might need to define the data types, depending on what data is fetched
 export type RoleDataType = (
@@ -39,9 +40,9 @@ export default function useUserDetails(user: User | null) {
       roleError: any
 
     const userFetchPromise = supabase
-      .from("user")
-      .select("*")
-      .eq("id", user?.id)
+      .from('user')
+      .select('*')
+      .eq('id', user?.id)
       .single()
       .then(({ data, error }) => {
         userData = data
@@ -50,63 +51,63 @@ export default function useUserDetails(user: User | null) {
 
     let roleFetchPromise
     switch (user?.app_metadata.plantalysis_role) {
-      case "producer":
+      case 'producer':
         roleFetchPromise = supabase
-          .from("producer_user")
-          .select("*")
-          .eq("id", user?.id)
+          .from('producer_user')
+          .select('*')
+          .eq('id', user?.id)
           .single()
           .then(({ data, error }) => {
             if (!data) return null
-            roleData = { ...data, role: "producer" }
+            roleData = { ...data, role: 'producer' }
             roleError = error
           })
         break
-      case "lab":
+      case 'lab':
         roleFetchPromise = supabase
-          .from("lab_user")
-          .select("*")
-          .eq("id", user?.id)
+          .from('lab_user')
+          .select('*')
+          .eq('id', user?.id)
           .single()
           .then(({ data, error }) => {
             if (!data) return null
-            roleData = { ...data, role: "lab" }
+            roleData = { ...data, role: 'lab' }
             roleError = error
           })
         break
-      case "regulator":
+      case 'regulator':
         roleFetchPromise = supabase
-          .from("regulator_user")
-          .select("*")
-          .eq("id", user?.id)
+          .from('regulator_user')
+          .select('*')
+          .eq('id', user?.id)
           .single()
           .then(({ data, error }) => {
             if (!data) return null
-            roleData = { ...data, role: "regulator" }
+            roleData = { ...data, role: 'regulator' }
             roleError = error
           })
         break
-      case "sampling_firm":
+      case 'sampling_firm':
         roleFetchPromise = supabase
-          .from("sampling_firm_user")
-          .select("*")
-          .eq("id", user?.id)
+          .from('sampling_firm_user')
+          .select('*')
+          .eq('id', user?.id)
           .single()
           .then(({ data, error }) => {
             if (!data) return null
-            roleData = { ...data, role: "sampling_firm" }
+            roleData = { ...data, role: 'sampling_firm' }
             roleError = error
           })
         break
-      case "consumer_user":
+      case 'consumer_user':
         roleFetchPromise = supabase
-          .from("consumer_user")
-          .select("*")
-          .eq("id", user?.id)
+          .from('consumer_user')
+          .select('*')
+          .eq('id', user?.id)
           .single()
           .then(({ data, error }) => {
             if (!data) return null
-            roleData = { ...data, role: "consumer" }
+            roleData = { ...data, role: 'consumer' }
             roleError = error
           })
         break
@@ -122,9 +123,9 @@ export default function useUserDetails(user: User | null) {
     // Combine errors into one if they exist
     const error = userError || roleError
 
-    console.log(error)
+    // console.log(error);
 
-    // if (error) throw error
+    if (error) toast.error(error.message)
 
     // @ts-ignore
     if (!userData || !roleData) {
@@ -137,7 +138,7 @@ export default function useUserDetails(user: User | null) {
 
   const { data, error, isLoading } = useSWR(
     user ? `/api/role_user/${user.id}` : null,
-    fetcher
+    fetcher,
   )
 
   return {
