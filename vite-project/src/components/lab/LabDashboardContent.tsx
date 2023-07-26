@@ -7,7 +7,8 @@ export default function LabDashboardContent() {
             display: 'flex',
             flexDirection: 'column',
             padding: '20px',
-            gap: '20px'
+            gap: '20px',
+            margin: '0 auto'
         }}>
             <LabUpperPanels />
             <OrderHistoryPanel />
