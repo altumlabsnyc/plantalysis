@@ -1,10 +1,9 @@
-import Dashboard, { DashboardPanel } from "@/components/Dashboard"
-import { Session } from "@supabase/supabase-js"
-import React from "react"
-import { Route } from "react-router-dom"
-import "../assets/dashboard/css/styles.css"
-import PlaceNewOrder from "./PlaceNewOrder.js"
-import ProducerOrders from "./ProducerOrders.js"
+import Dashboard, { DashboardPanel } from '@/components/Dashboard'
+import React from 'react'
+import { Route } from 'react-router-dom'
+import '../assets/dashboard/css/styles.css'
+import PlaceNewOrder from './PlaceNewOrder.js'
+import ProducerOrders from './ProducerOrders.js'
 
 interface ProducerDashboardProps {
   children: React.ReactNode
@@ -13,35 +12,31 @@ interface ProducerDashboardProps {
 function ProducerDashboard({ children }: ProducerDashboardProps) {
   const panels: DashboardPanel[] = [
     {
-      link: "/dashboard/producer/new-order",
+      link: '/dashboard/producer/new-order',
       icon: <i className="fas fa-tachometer-alt" />,
-      text: "Place New Order",
+      text: 'Place New Order',
     },
     {
-      link: "/dashboard/producer/orders",
+      link: '/dashboard/producer/orders',
       icon: <i className="fas fa-book-open" />,
-      text: "Current Orders",
+      text: 'Current Orders',
     },
   ]
   return (
-    <Dashboard role={"Producer"} panels={panels}>
+    <Dashboard role={'producer'} panels={panels}>
       {children}
     </Dashboard>
   )
 }
 
-interface SessionProps {
-  session: Session | null
-}
-
-export default function ProducerDashboardRouter({ session }: SessionProps) {
+export default function ProducerDashboardRouter() {
   return (
     <ProducerDashboard>
       <Route path="/dashboard/producer/new-order">
-        <PlaceNewOrder session={session} />
+        <PlaceNewOrder />
       </Route>
       <Route path="/dashboard/producer/orders">
-        <ProducerOrders session={session} />
+        <ProducerOrders />
       </Route>
     </ProducerDashboard>
   )

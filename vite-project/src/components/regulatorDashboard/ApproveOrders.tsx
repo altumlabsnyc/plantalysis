@@ -1,38 +1,33 @@
-import React, { useState, useEffect } from "react";
-import { Session } from "@supabase/supabase-js";
+import { useEffect, useState } from 'react'
 
-import { fetchAnalyzedOrders } from "../Authentication.js";
-import { ForApproval, AnalysisTableRow, NOT_APPROVED } from "../UserTypes.js";
-import AnalysisTable from "./AnalysisTable.js";
+import { useUser } from '@supabase/auth-helpers-react'
+import { fetchAnalyzedOrders } from '../Authentication.js'
+import { AnalysisTableRow, ForApproval, NOT_APPROVED } from '../UserTypes.js'
+import AnalysisTable from './AnalysisTable.js'
 
-interface SessionProps {
-  session: Session | null;
-}
+export default function ApproveOrders() {
+  const user = useUser()
 
-export default function ApproveOrders({ session }: SessionProps) {
-  const [analysis, setAnalysis] = useState<Array<AnalysisTableRow>>([]);
-  const [loading, setLoading] = useState(true);
+  const [analysis, setAnalysis] = useState<Array<AnalysisTableRow>>([])
+  const [loading, setLoading] = useState(true)
+  console.log(loading)
   useEffect(() => {
     async function fetchAnalysis() {
-      setLoading(true);
-      if (session) {
+      setLoading(true)
+      if (user) {
         setAnalysis(
           (await fetchAnalyzedOrders()).map(
             (t: ForApproval): AnalysisTableRow => {
               return { ...t, status: NOT_APPROVED }
-            }
-          )
-        );
-        setLoading(false);
+            },
+          ),
+        )
+        setLoading(false)
       }
     }
 
-    fetchAnalysis();
-  }, [session]);
+    fetchAnalysis()
+  }, [user])
 
-  return (
-    <AnalysisTable analysis={analysis} />
-  );
+  return <AnalysisTable analysis={analysis} />
 }
-
-

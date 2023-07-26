@@ -1,10 +1,4 @@
-import React from "react"
-import "../assets/css/upload/all.css"
-import "../assets/css/upload/bootstrap.min.css"
-import "../assets/css/upload/fileinput.min.css"
-import "../assets/css/upload/jquery-ui.css"
-import "../assets/css/upload/upload.css"
-
+import React from 'react'
 const Upload: React.FC = () => {
   // we need a newer package than material-ui-dropzone
 

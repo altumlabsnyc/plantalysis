@@ -1,18 +1,22 @@
-import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
-import Checkbox from "@mui/material/Checkbox";
-import CssBaseline from "@mui/material/CssBaseline";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Grid from "@mui/material/Grid";
-import Link from "@mui/material/Link";
-import Paper from "@mui/material/Paper";
-import TextField from "@mui/material/TextField";
-import Typography from "@mui/material/Typography";
-import { createStyles } from "@mui/styles";
-import * as React from "react";
+import Box from '@mui/material/Box'
+import CssBaseline from '@mui/material/CssBaseline'
+import Grid from '@mui/material/Grid'
+import Link from '@mui/material/Link'
+import Paper from '@mui/material/Paper'
+import TextField from '@mui/material/TextField'
+import Typography from '@mui/material/Typography'
+import toast, { Toaster } from 'react-hot-toast'
 // import background from "./assets/login/img/frame.png";
-import background from "./assets/login/img/frame.png";
-import { handleSignIn } from "./Authentication";
+
+import { handleSignIn } from '@/hooks/handleSignIn'
+import delay from '@/utils/delay'
+import isValidEmail from '@/utils/isValidEmail'
+import redirectByRole from '@/utils/redirectByRole'
+import { useUser } from '@supabase/auth-helpers-react'
+import { useState } from 'react'
+import { useHistory } from 'react-router-dom'
+import background from './assets/login/img/frame.png'
+import Spinner from './common/Spinner'
 
 function Copyright(props: any) {
   return (
@@ -22,41 +26,59 @@ function Copyright(props: any) {
       align="center"
       {...props}
     >
-      {"Copyright © "}
+      {'Copyright © '}
       <Link color="inherit" href="https://altumlabs.co/">
         PLANTALYSIS
-      </Link>{" "}
+      </Link>{' '}
       by Altum Labs.
     </Typography>
-  );
+  )
 }
 
 export default function SignInSide() {
+  const history = useHistory()
+  const user = useUser()
+  // const userDetails = useUserDetails(user);
+
+  const [loading, setLoading] = useState(false)
+
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    console.log("si entra");
-    const data = new FormData(event.currentTarget);
-    const formEmail = data.get("email")?.toString();
-    const formPassword = data.get("password")?.toString();
-    let actualEmail: string = "";
-    if (formEmail) {
-      actualEmail = formEmail;
+    event.preventDefault()
+    setLoading(true)
+
+    const data = new FormData(event.currentTarget)
+    const email = data.get('email')?.toString()
+    const password = data.get('password')?.toString()
+
+    if (!email || !isValidEmail(email)) {
+      toast.error('Please insert a valid email')
+      setLoading(false)
+      return
     }
-    let actualPassword: string = "";
-    if (formPassword) {
-      actualPassword = formPassword;
+
+    if (!password) {
+      toast.error('Please insert a valid password')
+      setLoading(false)
+      return
     }
-    if (actualEmail == "") {
-      Error("Please insert a valid email");
-    }
-    if (actualPassword == "") {
-      Error("Please insert a valid password");
-    }
-    handleSignIn(actualEmail, actualPassword);
-  };
+
+    handleSignIn(email, password).then(async (userType) => {
+      if (!userType) {
+        toast.error('Invalid email password combination')
+        setLoading(false)
+        return
+      }
+      // needed so that the user updates and the protected route does not deny them
+      await delay(1000)
+
+      setLoading(false)
+      redirectByRole(history, userType)
+    })
+  }
 
   return (
-    <Grid container component="main" sx={{ height: "100vh" }}>
+    <Grid container component="main" sx={{ height: '100vh' }}>
+      <Toaster />
       <CssBaseline />
       <Grid
         item
@@ -65,22 +87,22 @@ export default function SignInSide() {
         md={7}
         sx={{
           backgroundImage: `url(${background})`,
-          backgroundRepeat: "no-repeat",
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          position: "relative", // Add relative position to the Grid item
+          backgroundRepeat: 'no-repeat',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          position: 'relative', // Add relative position to the Grid item
         }}
       >
         <Typography
           component="h1"
           variant="h3"
           sx={{
-            position: "absolute",
-            top: "20%",
-            left: "20%",
-            transform: "translate(-50%, -50%)",
-            color: "white",
-            fontWeight: "bold",
+            position: 'absolute',
+            top: '20%',
+            left: '20%',
+            transform: 'translate(-50%, -50%)',
+            color: 'white',
+            fontWeight: 'bold',
           }}
         >
           Log In
@@ -89,17 +111,33 @@ export default function SignInSide() {
       <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
         <Box
           sx={{
-            my: 8,
+            my: 16,
             mx: 4,
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "left",
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'left',
           }}
         >
           <Typography component="h1" variant="h5">
             Welcome Back
           </Typography>
-          Login to access your library.
+          <p className="text-sm mt-1">
+            {user ? (
+              <span>
+                Logged in as {user.email}.{' '}
+                <span
+                  className="underline text-blue-500 cursor-pointer"
+                  onClick={() =>
+                    redirectByRole(history, user.app_metadata.plantalysis_role)
+                  }
+                >
+                  Jump to dashboard
+                </span>
+              </span>
+            ) : (
+              <span>Login to access your dashboard.</span>
+            )}
+          </p>
           <Box
             component="form"
             id="loginForm"
@@ -117,6 +155,9 @@ export default function SignInSide() {
               name="email"
               autoComplete="email"
               autoFocus
+              inputProps={{
+                className: 'focus:outline-none focus:ring-0',
+              }}
             />
             <TextField
               margin="normal"
@@ -127,27 +168,23 @@ export default function SignInSide() {
               type="password"
               id="password"
               autoComplete="current-password"
-            />
-            <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
-              label="Remember me"
-            />
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={{
-                mt: 3,
-                mb: 2,
-                backgroundColor: "#CFAA41",
-                color: "white",
-                "&:hover": {
-                  backgroundColor: "#CFAA41", // Maintain the same background color on hover
-                },
+              inputProps={{
+                className: 'focus:outline-none focus:ring-0',
               }}
+            />
+            <button
+              type="submit"
+              className="flex items-center justify-center mt-3 mb-4 bg-yellow-400 hover:bg-yellow-500 transition-all duration-200 w-full p-2 rounded-md text-white font-bold"
             >
-              Sign In
-            </Button>
+              <div className="relative px-4 flex items-center">
+                {loading && (
+                  <div className="absolute left-0 mb-1">
+                    <Spinner size="sm" />
+                  </div>
+                )}
+                <span>Sign In</span>
+              </div>
+            </button>
             <Grid container>
               <Grid item xs>
                 <Link href="#" variant="body2">
@@ -165,5 +202,5 @@ export default function SignInSide() {
         </Box>
       </Grid>
     </Grid>
-  );
+  )
 }

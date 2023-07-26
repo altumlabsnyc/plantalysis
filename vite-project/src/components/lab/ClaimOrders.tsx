@@ -1,40 +1,37 @@
-import React, { useEffect, useState } from "react";
-import { LabOrder, LabOrderTableRow, NOT_CLAIMED } from "../UserTypes.js";
-import { supabase, fetchUnclaimedOrders } from "../Authentication.js";
-import { Session } from "@supabase/supabase-js";
-import LabOrderTable from "./LabOrderTable.js";
+import { useUser } from '@supabase/auth-helpers-react'
+import { useEffect, useState } from 'react'
+import { fetchUnclaimedOrders } from '../Authentication.js'
+import { LabOrder, LabOrderTableRow } from '../UserTypes.js'
+import LabOrderTable from './LabOrderTable.js'
 
-interface SessionProps {
-  session: Session | null;
-}
+export default function ClaimOrders() {
+  const user = useUser()
 
-export default function ClaimOrders({ session }: SessionProps) {
-  const [labOrders, setLabOrders] = useState<Array<LabOrderTableRow>>([]);
-  const [loading, setLoading] = useState(true);
+  const [labOrders, setLabOrders] = useState<Array<LabOrderTableRow>>([])
+  const [loading, setLoading] = useState(true)
   useEffect(() => {
     async function fetchOrders() {
-      setLoading(true);
-      if (session) {
+      setLoading(true)
+      if (user) {
         setLabOrders(
           (await fetchUnclaimedOrders()).map(
             (t: LabOrder): LabOrderTableRow => {
-              return { ...t, status: "Not Claimed" };
-            }
-          )
-        );
+              return { ...t, status: 'Not Claimed' }
+            },
+          ),
+        )
         // console.log('aaaaaaaaaa')
         // console.log(temp)
-        setLoading(false);
+        setLoading(false)
       }
     }
 
-    fetchOrders();
-  }, [session]);
+    fetchOrders()
+  }, [user])
 
-  return (
+  console.log(loading)
 
-    <LabOrderTable labOrders={labOrders} showClaimed={true} />
-  );
+  return <LabOrderTable labOrders={labOrders} showClaimed={true} />
 }
 
 // export default LabOrder;

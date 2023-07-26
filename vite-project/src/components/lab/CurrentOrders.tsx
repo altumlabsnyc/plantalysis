@@ -1,35 +1,39 @@
-import React, { useEffect, useState } from "react";
-import { LabOrder, LabOrderTableRow } from "../UserTypes.js";
-import { supabase, fetchClaimedOrders } from "../Authentication.js";
-import { Session } from "@supabase/supabase-js";
-import LabOrderTable from "./LabOrderTable.js";
+import useLabOrders, { getUserClaimedOrders } from '@/hooks/useLabOrders.js'
+import { useUser } from '@supabase/auth-helpers-react'
+import { useEffect, useState } from 'react'
+import { LabOrder, LabOrderTableRow } from '../UserTypes.js'
+import LabOrderTable from './LabOrderTable.js'
 
-interface SessionProps {
-  session: Session | null;
-}
+export default function CurrentOrders() {
+  const user = useUser()
+  const allOrders = useLabOrders(user)
 
-export default function CurrentOrders({ session }: SessionProps) {
-  const [labOrders, setLabOrders] = useState<Array<LabOrderTableRow>>([]);
-  const [loading, setLoading] = useState(true);
+  const [labOrders, setLabOrders] = useState<Array<LabOrderTableRow>>([])
+  console.log(labOrders, allOrders, user?.id)
+  const [loading, setLoading] = useState(true)
   useEffect(() => {
     async function fetchOrders() {
-      setLoading(true);
-      if (session) {
+      //TODO: fix dependent current order to all orders
+      setLoading(true)
+      if (user && allOrders.data) {
         setLabOrders(
-          (await fetchClaimedOrders()).map((t: LabOrder): LabOrderTableRow => {
-            return { ...t, status: "Claimed" };
-          })
-        );
-        setLoading(false);
+          getUserClaimedOrders(allOrders.data, user).map(
+            (t: LabOrder): LabOrderTableRow => {
+              console.log(t)
+              return { ...t, status: 'Claimed' }
+            },
+          ),
+        )
+        setLoading(false)
       }
     }
 
-    fetchOrders();
-  }, [session]);
+    fetchOrders()
+  }, [user])
 
-  return (
-    <LabOrderTable labOrders={labOrders} showClaimed={false} />
-  );
+  console.log(loading)
+
+  return <LabOrderTable labOrders={labOrders} showClaimed={false} />
 }
 
 // export default LabOrder;

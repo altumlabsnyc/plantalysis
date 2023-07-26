@@ -1,17 +1,17 @@
-import React from "react"
+import React from 'react'
 // css
-import "./assets/landing/css/style.css"
-import "./assets/landing/vendor/bootstrap-icons/bootstrap-icons.css"
-import "./assets/landing/vendor/bootstrap/css/bootstrap.min.css"
-import "./assets/landing/vendor/boxicons/css/boxicons.min.css"
-import "./assets/landing/vendor/glightbox/css/glightbox.min.css"
-import "./assets/landing/vendor/remixicon/remixicon.css"
-import "./assets/landing/vendor/swiper/swiper-bundle.min.css"
+import './assets/landing/css/style.css'
+import './assets/landing/vendor/bootstrap-icons/bootstrap-icons.css'
+import './assets/landing/vendor/bootstrap/css/bootstrap.min.css'
+import './assets/landing/vendor/boxicons/css/boxicons.min.css'
+import './assets/landing/vendor/glightbox/css/glightbox.min.css'
+import './assets/landing/vendor/remixicon/remixicon.css'
+import './assets/landing/vendor/swiper/swiper-bundle.min.css'
 // imgs
-import BG1 from "./assets/landing/img/BG.png"
-import BG2 from "./assets/landing/img/BG2.png"
-import BG3 from "./assets/landing/img/BG3.png"
-import logo from "./assets/landing/img/logo.png"
+import BG1 from './assets/landing/img/BG.png'
+import BG2 from './assets/landing/img/BG2.png'
+import BG3 from './assets/landing/img/BG3.png'
+import logo from './assets/landing/img/logo.png'
 
 const Plantalysis: React.FC = () => {
   return (
@@ -40,6 +40,7 @@ const Plantalysis: React.FC = () => {
                 href="https://altumlabs.co"
                 target="_blank"
                 className="logo me-auto me-lg-0"
+                rel="noreferrer"
               >
                 <img src={logo} alt="" className="img-fluid" />
               </a>
@@ -53,7 +54,7 @@ const Plantalysis: React.FC = () => {
                 </ul>
                 <a
                   href="/login"
-                  style={{ color: "white" }}
+                  style={{ color: 'white' }}
                   className="get-started-btn scrollto"
                 >
                   Login
@@ -61,7 +62,7 @@ const Plantalysis: React.FC = () => {
 
                 <a
                   href="/register"
-                  style={{ color: "white" }}
+                  style={{ color: 'white' }}
                   className="get-started-btn scrollto"
                 >
                   Register
@@ -82,25 +83,25 @@ const Plantalysis: React.FC = () => {
             <center>
               <div className="col-xl-9">
                 <h1>P L A N T A L Y S I S</h1>
-                <h3>Know what's inside.</h3>
+                <h3>Know what&apos;s inside.</h3>
                 <br />
-                <div className="row" style={{ whiteSpace: "nowrap" }}>
+                <div className="row" style={{ whiteSpace: 'nowrap' }}>
                   <div className="col">
-                    <ul style={{ textAlign: "left" }}>
+                    <ul style={{ textAlign: 'left' }}>
                       <li>Comprehensive Data Protection</li>
                       <li>Automated Molecular Analysis</li>
                       <li>AI-powered Compound Quantification</li>
                     </ul>
                   </div>
                   <div className="col">
-                    <ul style={{ textAlign: "left" }}>
+                    <ul style={{ textAlign: 'left' }}>
                       <li>Accredited Laboratory Marketplace</li>
                       <li>Step-by-Step Process Tracking</li>
                       <li>Live Sample-Level Regulator Approval</li>
                     </ul>
                   </div>
                   <div className="col">
-                    <ul style={{ textAlign: "left" }}>
+                    <ul style={{ textAlign: 'left' }}>
                       <li>QR-Accessible Test Results</li>
                       <li>OCM-Compliant Label Generator</li>
                       <li>Consumer Insights Analytics</li>
@@ -122,7 +123,7 @@ const Plantalysis: React.FC = () => {
         <section id="pricing" className="pricing">
           <div className="container">
             <center>
-              <h2 style={{ color: "#335E50" }}>Welcome!</h2>
+              <h2 style={{ color: '#335E50' }}>Welcome!</h2>
               <p>
                 Sign Up or Log In to access the innovative platform that makes
                 your compliance processes frictionless.
@@ -134,7 +135,7 @@ const Plantalysis: React.FC = () => {
                   <div className="col-lg">
                     <img className="rounded-circle" src={BG1} alt="" />
                   </div>
-                  <h3 style={{ color: "#335E50", fontSize: "25px" }}>LABS</h3>
+                  <h3 style={{ color: '#335E50', fontSize: '25px' }}>LABS</h3>
                   <div className="btn-wrap">
                     <a href="/login" className="btn-fill">
                       Login
@@ -152,7 +153,7 @@ const Plantalysis: React.FC = () => {
                   <div className="col-lg">
                     <img className="rounded-circle" src={BG2} alt="" />
                   </div>
-                  <h3 style={{ color: "#335E50", fontSize: "25px" }}>
+                  <h3 style={{ color: '#335E50', fontSize: '25px' }}>
                     PRODUCER
                   </h3>
                   <div className="btn-wrap">
@@ -172,7 +173,7 @@ const Plantalysis: React.FC = () => {
                   <div className="col-lg">
                     <img className="rounded-circle" src={BG3} alt="" />
                   </div>
-                  <h3 style={{ color: "#335E50", fontSize: "25px" }}>
+                  <h3 style={{ color: '#335E50', fontSize: '25px' }}>
                     REGULATOR
                   </h3>
                   <div className="btn-wrap">
@@ -287,12 +288,12 @@ const Plantalysis: React.FC = () => {
             </a>
           </div>
           <div className="copyright">
-            {" "}
-            &copy; Copyright{" "}
+            {' '}
+            &copy; Copyright{' '}
             <strong>
               <span>Altum Labs</span>
             </strong>
-            . All Rights Reserved{" "}
+            . All Rights Reserved{' '}
           </div>
         </div>
       </footer>
