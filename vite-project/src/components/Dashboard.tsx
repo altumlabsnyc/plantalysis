@@ -1,13 +1,14 @@
 import React from 'react'
 
 import logo from '@/components/assets/img/logo.png'
+import EmailConfirmationBanner from '@/components/common/EmailConfirmationBanner'
 import { Dialog, Transition } from '@headlessui/react'
 import { ChairAlt } from '@mui/icons-material'
+import { useUser } from '@supabase/auth-helpers-react'
 import classNames from 'classnames'
 import { Fragment, useState } from 'react'
-import { UserType } from './UserTypes'
-
 import LeftSideBar from './LeftSideBar'
+import { UserType } from './UserTypes'
 
 export type DashboardPanel = {
   link: string
@@ -22,6 +23,8 @@ interface DashboardProps {
 }
 
 export default function Dashboard({ children, role, panels }: DashboardProps) {
+  const user = useUser()
+
   const [sidebarOpen, setSidebarOpen] = useState(false)
 
   console.log(role)
@@ -29,6 +32,7 @@ export default function Dashboard({ children, role, panels }: DashboardProps) {
   return (
     <>
       <div>
+        {user?.email_confirmed_at && <EmailConfirmationBanner />}
         {/* Mobile menu & transition CAN IGNORE FOR NOW */}
         <Transition.Root show={sidebarOpen} as={Fragment}>
           <Dialog
