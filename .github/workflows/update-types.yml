@@ -27,9 +27,10 @@ jobs:
         id: git_status
         run: |
           echo "::set-output name=status::$(git status -s)"
-      - name: Commit files
+      - name: Create new branch and commit files
         if: ${{contains(steps.git_status.outputs.status, ' ')}}
         run: |
+          git switch -c update-database-types
           git add vite-project/src/types/supabase.ts
           git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
@@ -39,4 +40,11 @@ jobs:
         uses: ad-m/github-push-action@master
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          branch: ${{ github.ref }}
+          branch: update-database-types
+      - name: Create Pull Request
+        if: ${{contains(steps.git_status.outputs.status, ' ')}}
+        uses: peter-evans/create-pull-request@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          title: "Update database types"
+          branch: update-database-types
