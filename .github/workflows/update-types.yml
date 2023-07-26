@@ -25,7 +25,8 @@ jobs:
       - uses: actions/setup-node@v2.1.5
         with:
           node-version: 16
-      - run: |
+      - name: Update types
+        run: |
           cd vite-project
           npm run update-types
       - name: check for file changes
@@ -64,3 +65,8 @@ jobs:
           title: "Update database types"
           branch: "update-database-types"
           base: "main"
+          auto_merge: true
+      - name: Check output
+          run: |
+            echo "Pull Request Number - ${{ steps.cpr.outputs.pull-request-number }}"
+            echo "Pull Request URL - ${{ steps.cpr.outputs.pull-request-url }}"
