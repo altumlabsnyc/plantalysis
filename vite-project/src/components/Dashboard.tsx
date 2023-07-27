@@ -1,16 +1,17 @@
 import React from 'react'
-
 import logo from '@/components/assets/img/logo.png'
+import EmailConfirmationBanner from '@/components/common/EmailConfirmationBanner'
 import { Dialog, Transition } from '@headlessui/react'
 import { ChairAlt } from '@mui/icons-material'
+import { useUser } from '@supabase/auth-helpers-react'
 import classNames from 'classnames'
 import { Fragment, useState } from 'react'
 import { UserType } from './UserTypes'
-
 import { HeaderIcon, HeaderLink } from '@/types/dashboard'
 import { Toaster } from 'react-hot-toast'
 import Header from './Header'
 import LeftSideBar from './LeftSideBar'
+import { UserType } from './UserTypes'
 
 export type DashboardPanel = {
   link: string
@@ -43,6 +44,8 @@ export default function Dashboard({
 
   return (
     <>
+      <div>
+        {user?.email_confirmed_at && <EmailConfirmationBanner />
       <Toaster />
       <div className="bg-background">
         {/* Mobile menu & transition CAN IGNORE FOR NOW */}
