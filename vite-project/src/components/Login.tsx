@@ -127,9 +127,10 @@ export default function SignInSide() {
                 Logged in as {user.email}.{' '}
                 <span
                   className="underline text-blue-500 cursor-pointer"
-                  onClick={() =>
+                  onClick={() => {
+                    console.log(user)
                     redirectByRole(history, user.app_metadata.plantalysis_role)
-                  }
+                  }}
                 >
                   Jump to dashboard
                 </span>

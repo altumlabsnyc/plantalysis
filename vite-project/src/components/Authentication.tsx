@@ -2,30 +2,6 @@
 import { supabase } from '@/utils/supabase'
 import { ForApproval, LabOrder } from './UserTypes'
 
-//Start implementation in /hooks
-export async function fetchUnclaimedOrders(): Promise<Array<LabOrder>> {
-  const allOrders = (await supabase.from('lab_order').select('*')).data
-  if (allOrders) {
-    const unclaimedOrders = allOrders.filter(
-      (order) => order.lab_user_id == null,
-    )
-    return unclaimedOrders
-  }
-  return []
-}
-
-//start implementation in hooks
-export async function fetchClaimedOrders(): Promise<Array<LabOrder>> {
-  const labUserId = (await supabase.auth.getUser()).data.user?.id
-  const allOrders = (
-    await supabase.from('lab_order').select('*').eq('lab_user_id', labUserId)
-  ).data
-  if (allOrders) {
-    return allOrders
-  }
-  return []
-}
-
 export async function fetchAnalyzedOrders(): Promise<Array<ForApproval>> {
   const forApproval: Array<ForApproval> = []
   const allAnalyzed = await (

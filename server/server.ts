@@ -7,7 +7,7 @@ import { v4 as uuidv4 } from "uuid"
 
 dotenv.config()
 
-const port: string | number = process.env.SERVER_PORT || 8080
+const port = process.env.PORT || 8080
 const stripeKey: string | undefined = process.env.STRIPE_SECRET_KEY
 const frontendDomain: string | undefined = process.env.FRONTEND_DOMAIN
 const successURL: string | undefined = process.env.SUCCESS_URL
@@ -187,5 +187,9 @@ app.post(
     res.json({ received: true })
   }
 )
+
+app.get("/test", (req: Request, res: Response) => {
+  res.json({ message: "Hello, this is a test!" })
+})
 
 app.listen(port, () => console.log(`Running on port ${port}`))
