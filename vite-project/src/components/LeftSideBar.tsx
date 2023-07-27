@@ -85,7 +85,7 @@ export default function LeftSideBar({ sidebarOpen }: LeftSideBarProps) {
           leaveFrom="translate-x-0"
           leaveTo="-translate-x-full"
         >
-          <div className="flex grow flex-col gap-y-5 overflow-y-auto border-r border-white-200 px-9 bg-white">
+          <div className="flex grow flex-col gap-y-5 overflow-y-auto border-r border-white-200 px-9 bg-background">
             {' '}
             {/* Add "bg-white" class for white background */}
             <div className="flex h-15 mt-3 shrink-0 items-center gap-4">
@@ -148,7 +148,7 @@ export default function LeftSideBar({ sidebarOpen }: LeftSideBarProps) {
                           <li key={option.link}>
                             <a
                               href={option.link}
-                              className="bg-white-50 text-grey-600 group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold w-full"
+                              className="bg-white-50 text-grey-600 group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold w-full hover:text-green-700"
                             >
                               {option.text}
                             </a>
