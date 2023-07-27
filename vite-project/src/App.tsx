@@ -1,5 +1,6 @@
 import Faq from '@/components/Faq'
 import Landing from '@/components/Landing'
+import LeftSideBar from './components/LeftSideBar'
 import Library from '@/components/Library'
 import Login from '@/components/Login'
 import ProtectedRoute from '@/components/ProtectedRoutes'
@@ -21,6 +22,8 @@ function App() {
           <Route exact path="/" component={Landing} />
           <Route path="/login" component={Login} />
           <Route path="/register" component={Register} />
+          <Route path="/leftsidebar" component={LeftSideBar} />
+
           <ProtectedRoute
             component={LabDashboardRouter}
             path="/dashboard/lab"

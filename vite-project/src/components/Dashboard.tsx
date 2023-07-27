@@ -13,7 +13,7 @@ import { UserType } from './UserTypes'
 
 export type DashboardPanel = {
   link: string
-  icon: React.ReactNode
+  icon?: React.ReactNode
   text: string
 }
 
