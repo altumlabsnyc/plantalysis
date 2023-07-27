@@ -1,8 +1,5 @@
-import { useUser } from '@supabase/auth-helpers-react'
-import { useEffect, useState } from 'react'
-import { LabOrder, LabOrderTableRow } from '../UserTypes.js'
-import LabOrderTable from './LabOrderTable.js'
 import useLabOrders, { LabOrdersRequested } from '@/hooks/useLabOrders.js'
+import { useUser } from '@supabase/auth-helpers-react'
 
 export default function ClaimOrders() {
   const user = useUser()
@@ -15,7 +12,14 @@ export default function ClaimOrders() {
       return { ...order, status: 'Not Claimed' }
     })
 
-    return <LabOrderTable labOrders={labOrderRows} showClaimed={false} />
+    return (
+      <div>
+        {labOrders.data.map((order) => (
+          <p key={order.id}>{order.id}</p>
+        ))}
+      </div>
+    )
+    // <LabOrderTable labOrders={labOrderRows} showClaimed={false} />;
   } else {
     throw new Error('Not loading but no valid data provided')
   }

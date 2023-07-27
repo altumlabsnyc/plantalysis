@@ -1,33 +1,22 @@
-import { useEffect, useState } from 'react'
-
 import { useUser } from '@supabase/auth-helpers-react'
-import { fetchAnalyzedOrders } from '../Authentication.js'
-import { AnalysisTableRow, ForApproval, NOT_APPROVED } from '../UserTypes.js'
-import AnalysisTable from './AnalysisTable.js'
+
+import { ForApproval, useAnalysis } from '@/hooks/useAnalysis.js'
+import useLabOrders, { LabOrdersRequested } from '@/hooks/useLabOrders.js'
 
 export default function ApproveOrders() {
   const user = useUser()
+  const allLabOrders = useLabOrders(user, LabOrdersRequested.allOrders)
+  const analysisData = useAnalysis(user, allLabOrders.data)
 
-  const [analysis, setAnalysis] = useState<Array<AnalysisTableRow>>([])
-  const [loading, setLoading] = useState(true)
-  console.log(loading)
-  useEffect(() => {
-    async function fetchAnalysis() {
-      setLoading(true)
-      if (user) {
-        setAnalysis(
-          (await fetchAnalyzedOrders()).map(
-            (t: ForApproval): AnalysisTableRow => {
-              return { ...t, status: NOT_APPROVED }
-            },
-          ),
-        )
-        setLoading(false)
-      }
-    }
-
-    fetchAnalysis()
-  }, [user])
-
-  return <AnalysisTable analysis={analysis} />
+  if (analysisData.data) {
+    return (
+      <div>
+        {analysisData.data.map((order: ForApproval) => (
+          <p key={order.sku}>{order.brand_name}</p>
+        ))}
+      </div>
+    )
+  } else {
+    return <p>Loading...</p>
+  }
 }

@@ -1,13 +1,14 @@
 import { LabOrder } from '@/types/supabaseAlias'
+import { ProducerRequestsTableData } from '@/components/OrderRequestsPanel'
 import { supabase } from '@/utils/supabase'
 import { User } from '@supabase/supabase-js'
 import useSWR from 'swr'
 
 export enum LabOrdersRequested {
-  claimedByALab,
-  unClaimedByLab,
-  ofAProducer,
-  allOrders,
+  claimedByALab = 'claimed',
+  unClaimedByLab = 'unclaimed',
+  ofAProducer = 'ofProducer',
+  allOrders = 'all',
 }
 
 /**
@@ -39,7 +40,7 @@ export default function useLabOrders(
   }
 
   const { data, error, isLoading } = useSWR(
-    user ? `/api/lab_order/` : null,
+    user ? `/api/lab_order/${requested}/${user.id}` : null,
     fetcher,
   )
   let fetchingFunction = (
@@ -76,6 +77,64 @@ export default function useLabOrders(
 }
 
 //HELPERS FOR LAB_ORDERS FETCHING
+export function useOrderRequestsPanelOrders(user: User | null) {
+  const fetcher = async () => {
+    let ordersError: any,
+      ordersData: Array<ProducerRequestsTableData> | null | undefined
+
+    const ordersFetchPromise = supabase
+      .from('lab_order')
+      .select(
+        `
+        id,
+        lab_user_id,
+        batch (
+          facility (
+            producer_user (
+              common_name
+            )
+          )
+        )
+      `,
+      )
+      .then(({ data, error }) => {
+        console.log(data)
+        ordersData = data?.map(({ id, lab_user_id, batch }) => {
+          return {
+            id,
+            lab_user_id,
+            common_name: batch?.facility?.producer_user?.common_name,
+          }
+        })
+        ordersError = error
+      })
+
+    await ordersFetchPromise
+
+    if (ordersError) {
+      console.log(ordersError)
+    }
+
+    // @ts-ignore
+    if (!ordersData) {
+      return null
+    }
+
+    // Return the combined data
+    return ordersData
+  }
+
+  const { data, error, isLoading } = useSWR(
+    user ? '/api/lab_orders/' : null,
+    fetcher,
+  )
+
+  return {
+    data: data as LabOrder[] | null,
+    error,
+    isLoading,
+  }
+}
 
 /**
  * Fetches claimed orders by a specific lab user

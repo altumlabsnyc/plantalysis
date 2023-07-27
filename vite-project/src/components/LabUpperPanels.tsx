@@ -1,8 +1,12 @@
+import { useState } from 'react'
 import OrderRequestPanel from './OrderRequestsPanel'
 import RequestDetailPanel from './RequestDetailPanel'
 import UploadPanel from './UploadPanel'
 
 export default function LabUpperPanels() {
+  const [activeLabOrderId, setActiveLabOrderId] = useState<string | null>(
+    'default val',
+  )
   return (
     <div
       style={{
@@ -21,9 +25,10 @@ export default function LabUpperPanels() {
           alignItems: 'stretch',
         }}
       >
-        <OrderRequestPanel />
+        <OrderRequestPanel setActiveLabOrderId={setActiveLabOrderId} />
         <UploadPanel />
       </div>
+
       <RequestDetailPanel />
     </div>
   )
