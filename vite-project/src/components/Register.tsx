@@ -2,11 +2,11 @@ import {
   Box,
   Button,
   CssBaseline,
+  Radio,
   FormControlLabel,
   Grid,
   Link,
   Paper,
-  Radio,
   RadioGroup,
   TextField,
   Typography,
@@ -165,26 +165,26 @@ export default function Register() {
     const billing_address = data.get('billing_address')?.toString() || null
     const legal_name = data.get('legal_name')?.toString() || null
     const common_name = data.get('common_name')?.toString() || null
-    const license_number =
-      data.get('producer_license_number')?.toString() || null
     const license_type = data.get('license_type')?.toString() || null
-    // TODO: fix checkbox for license type instead of expecting that input
+    // TODO: fix Radio for license type instead of expecting that input
     const actualLisenceType =
       license_type == 'AUCC' || license_type == 'AUCP' || license_type == 'AUHC'
         ? license_type
         : null
+    const license_number =
+      data.get('producer_license_number')?.toString() || null
     const contact_phone = data.get('producer_contact_phone')?.toString() || null
     const prodData: ProducerUser = {
       primary_facility_address: primary_facility_address,
       billing_address: billing_address,
       legal_name: legal_name,
       common_name: common_name,
+      license_type: actualLisenceType,
       license_number: license_number,
       id: id,
-      license_type: actualLisenceType,
       contact_phone: contact_phone,
-    }
-    return prodData
+    };
+    return prodData;
   }
 
   function helperLabInfo(data: FormData): LabUser {
@@ -394,19 +394,51 @@ export default function Register() {
                   .filter((user) => selectedUser === user.userType)
                   .map((user) => (
                     <div key={user.name}>
-                      {user.inputs?.map((input) => (
-                        <TextField
-                          key={input.id}
-                          margin="normal"
-                          required
-                          fullWidth
-                          id={input.id}
-                          label={input.name}
-                          name={input.id}
-                          autoComplete={`Enter your ${input.name.toLowerCase()}`}
-                          autoFocus
-                        />
-                      ))}
+                      {user.inputs?.map((input) => {
+                        if (input.id === 'license_type') {
+                          return (
+                            <div key={input.id}>
+                              <Typography variant="subtitle1">License Type:</Typography>
+                              <FormControlLabel
+                                control={<Radio />}
+                                label="AUCC"
+                                name="license_type"
+                                value="AUCC"
+                              />
+                              <FormControlLabel
+                                control={<Radio />}
+                                label="AUCP"
+                                name="license_type"
+                                value="AUCP"
+                              />
+                              <FormControlLabel
+                                control={<Radio />}
+                                label="AUHC"
+                                name="license_type"
+                                value="AUHC"
+                              />
+                            </div>
+                          );
+                        }
+                        // Render other text fields except "license_type"
+                          if (input.id !== 'producer_license_type') {
+                            return (
+                              <TextField
+                                key={input.id}
+                                margin="normal"
+                                required
+                                fullWidth
+                                id={input.id}
+                                label={input.name}
+                                name={input.id}
+                                autoComplete={`Enter your ${input.name.toLowerCase()}`}
+                                autoFocus
+                              />
+                            );
+                        }
+                        // Render "license_number" text field after "license_type"
+                        return null;
+                      })}
                     </div>
                   ))}
               </div>

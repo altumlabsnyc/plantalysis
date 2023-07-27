@@ -33,17 +33,20 @@ export const userSpecificInputs: Map<UserRole, Array<Input>> = new Map([
   [
     'producer',
     [
-      { name: 'Legal Name', id: 'legal_name', type: 'text' },
-      { name: 'DBA or Common Name', id: 'common_name', type: 'text' },
-      {
-        name: 'Facility Address',
-        id: 'primary_facility_address',
-        type: 'text',
-      },
-      { name: 'Billing Address', id: 'billing_address', type: 'text' },
-      { name: 'License Number', id: 'producer_license_number', type: 'text' },
-      { name: 'License Type', id: 'license_type', type: 'text' },
-      { name: 'Contact Phone', id: 'producer_contact_phone', type: 'tel' },
+      'producer',
+      [
+        { name: 'Legal Name', id: 'legal_name', type: 'text' },
+        { name: 'DBA or Common Name', id: 'common_name', type: 'text' },
+        {
+          name: 'Facility Address',
+          id: 'primary_facility_address',
+          type: 'text',
+        },
+        { name: 'Billing Address', id: 'billing_address', type: 'text' },
+        { name: 'License Type', id: 'license_type', type: 'radio' },
+        { name: 'License Number', id: 'producer_license_number', type: 'text' },
+        { name: 'Contact Phone', id: 'producer_contact_phone', type: 'tel' },
+      ],
     ],
   ],
   [
