@@ -11,6 +11,7 @@ export default function Brands() {
   const brands = useBrandsDetails(user)
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     const formData = new FormData(event.currentTarget)
+    console.log('ACA LLEGA EL DATA', formData)
     const brandName = formData.get('brand_name')?.toString()
     const servingSize = formData.get('serving_size')?.toString()
     const imgPath = formData.get('img_path')?.toString() || null
@@ -31,6 +32,7 @@ export default function Brands() {
     return newBrand
   }
   const insertBrand = (newBrand: Brand, oldBrands: Brand[]) => {
+    return
     insertAndShowBrands({
       oldBrands: oldBrands,
       newBrand: newBrand,

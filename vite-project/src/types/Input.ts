@@ -4,6 +4,7 @@ export default interface Input {
     name: string
     id: string
     type: string
+    options?: Array<string>
   }
 
   export interface userTypeFields {

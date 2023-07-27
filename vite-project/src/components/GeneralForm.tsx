@@ -5,12 +5,17 @@ import {
   Link,
   TextField,
   Typography,
+  Radio,
+  RadioGroup,
+  FormControlLabel,
+  FormControl,
 } from '@mui/material'
 
 import Input from '@/types/Input'
 import useUserDetails from '@/hooks/useUserDetails'
 import { useUser } from '@supabase/auth-helpers-react'
 import { FormEvent } from 'react' // Import FormEvent type
+import { CheckBox } from '@mui/icons-material'
 
 function Copyright(props: any) {
   return (
@@ -56,17 +61,35 @@ export default function GeneralForm<T>({
 
       <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
         {inputs.map((input) => (
-          <TextField
-            margin="normal"
-            required
-            fullWidth
-            id={input.id}
-            label={input.name}
-            name={input.id}
-            key={input.id}
-            autoComplete={`Enter your ${input.name.toLowerCase()}`}
-            autoFocus
-          />
+          <div>
+            {input.type !== 'radio' && (
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                id={input.id}
+                label={input.name}
+                name={input.id}
+                key={input.id}
+                autoComplete={`Enter your ${input.name.toLowerCase()}`}
+                autoFocus
+              />
+            )}
+            {input.type == 'radio' && (
+              <FormControl>
+                Enter your {input.name}
+                <RadioGroup>
+                  {input.options?.map((option) => (
+                    <FormControlLabel
+                      value={option}
+                      control={<Radio />}
+                      label={option}
+                    />
+                  ))}
+                </RadioGroup>
+              </FormControl>
+            )}
+          </div>
         ))}
 
         <Button
