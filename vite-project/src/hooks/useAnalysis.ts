@@ -1,7 +1,7 @@
 import {User} from '@supabase/supabase-js'
-import { MoleculePredict, Analysis, LabOrder } from '@/components/UserTypes'
 import { supabase } from '@/utils/supabase'
 import useSWR from 'swr'
+import { MoleculePredict, Analysis, LabOrder } from '@/types/supabaseAlias'
 
 export type ForApproval = {
     lab_name: string | null

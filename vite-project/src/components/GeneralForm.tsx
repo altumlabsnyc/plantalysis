@@ -7,7 +7,7 @@ import {
   Typography,
 } from '@mui/material'
 
-import { Input } from '@/components/UserTypes'
+import Input from '@/types/Input'
 import useUserDetails from '@/hooks/useUserDetails'
 import { useUser } from '@supabase/auth-helpers-react'
 import { FormEvent } from 'react' // Import FormEvent type

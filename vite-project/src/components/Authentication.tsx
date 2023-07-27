@@ -1,6 +1,6 @@
 // import { v4 as uuidv4 } from "uuid";
 import { supabase } from '@/utils/supabase'
-import { LabOrder } from './UserTypes'
+import { LabOrder } from '@/types/supabaseAlias'
 
 export async function approveOrders(analysisIds: Array<string>): Promise<void> {
   for (const analysisId of analysisIds) {

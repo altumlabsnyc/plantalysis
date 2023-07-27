@@ -2,9 +2,9 @@ import { useEffect, useState } from 'react'
 
 import { useUser } from '@supabase/auth-helpers-react'
 
-import { AnalysisTableRow, ForApproval, NOT_APPROVED } from '../UserTypes.js'
+import { AnalysisTableRow, OrderStatus } from '../UserTypes.js'
 import AnalysisTable from './AnalysisTable.js'
-import { useAnalysis } from '@/hooks/useAnalysis.js'
+import { useAnalysis, ForApproval } from '@/hooks/useAnalysis.js'
 import useLabOrders, { LabOrdersRequested } from '@/hooks/useLabOrders.js'
 
 export default function ApproveOrders() {
