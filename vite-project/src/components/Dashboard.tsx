@@ -1,5 +1,4 @@
 import React from 'react'
-
 import logo from '@/components/assets/img/logo.png'
 import EmailConfirmationBanner from '@/components/common/EmailConfirmationBanner'
 import { Dialog, Transition } from '@headlessui/react'
@@ -7,6 +6,10 @@ import { ChairAlt } from '@mui/icons-material'
 import { useUser } from '@supabase/auth-helpers-react'
 import classNames from 'classnames'
 import { Fragment, useState } from 'react'
+import { UserType } from './UserTypes'
+import { HeaderIcon, HeaderLink } from '@/types/dashboard'
+import { Toaster } from 'react-hot-toast'
+import Header from './Header'
 import LeftSideBar from './LeftSideBar'
 import { UserType } from './UserTypes'
 
@@ -20,11 +23,21 @@ interface DashboardProps {
   children: React.ReactNode
   role: UserType
   panels: DashboardPanel[]
+  dashboardTitle: string
+  headerIcons: HeaderIcon[]
+  headerLinks: HeaderLink[]
+  desktopSidebarOpen: boolean
 }
 
-export default function Dashboard({ children, role, panels }: DashboardProps) {
-  const user = useUser()
-
+export default function Dashboard({
+  children,
+  role,
+  panels,
+  dashboardTitle,
+  headerIcons,
+  headerLinks,
+  desktopSidebarOpen,
+}: DashboardProps) {
   const [sidebarOpen, setSidebarOpen] = useState(false)
 
   console.log(role)
@@ -32,7 +45,9 @@ export default function Dashboard({ children, role, panels }: DashboardProps) {
   return (
     <>
       <div>
-        {user?.email_confirmed_at && <EmailConfirmationBanner />}
+        {user?.email_confirmed_at && <EmailConfirmationBanner />
+      <Toaster />
+      <div className="bg-background">
         {/* Mobile menu & transition CAN IGNORE FOR NOW */}
         <Transition.Root show={sidebarOpen} as={Fragment}>
           <Dialog
@@ -87,7 +102,7 @@ export default function Dashboard({ children, role, panels }: DashboardProps) {
                     </div>
                   </Transition.Child>
                   {/* Mobile / Small Screen Sidebar components */}
-                  <div className="flex grow flex-col gap-y-5 overflow-y-auto px-6 pb-2 bg-emerald-300">
+                  <div className="flex grow flex-col gap-y-5 overflow-y-auto px-6 pb-2 bg-background z-50">
                     <p>dynamic mobile sidebar</p>
                     <div className="flex h-16 shrink-0 items-center gap-4">
                       <img
@@ -130,10 +145,8 @@ export default function Dashboard({ children, role, panels }: DashboardProps) {
         </Transition.Root>
 
         {/* Static sidebar for desktop */}
-        <div className="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col">
-          {/* Sidebar component, put the dynamic sidebar here */}
-          <LeftSideBar panels={panels}></LeftSideBar>
-        </div>
+        {/* Sidebar component, put the dynamic sidebar here */}
+        <LeftSideBar panels={panels} sidebarOpen={desktopSidebarOpen} />
 
         <div className="sticky top-0 z-40 flex items-center gap-x-6 px-4 py-4 shadow-sm sm:px-6 lg:hidden bg-yellow-300">
           <button
@@ -152,10 +165,19 @@ export default function Dashboard({ children, role, panels }: DashboardProps) {
           </a>
         </div>
 
-        <main className="lg:pl-72">
-          <div className="bg-green-300 w-full">
+        <main
+          className={classNames(
+            { 'lg:pl-72': desktopSidebarOpen },
+            'transition-all duration-300 ease-in-out h-screen',
+          )}
+        >
+          <div className="bg-background w-full">
             {/* Main area */}
-            <div className="w-full bg-orange-200 h-12">dynamic header here</div>
+            <Header
+              dashboardTitle={dashboardTitle}
+              headerIcons={headerIcons}
+              headerLinks={headerLinks}
+            />
             {children}
           </div>
         </main>

@@ -11,6 +11,7 @@ import '@/index.css'
 import { supabase } from '@/utils/supabase'
 import { SessionContextProvider } from '@supabase/auth-helpers-react'
 import { Route, BrowserRouter as Router, Switch } from 'react-router-dom'
+import LabDashboardContent from './components/lab/LabDashboardContent'
 
 function App() {
   return (
@@ -20,7 +21,6 @@ function App() {
           <Route exact path="/" component={Landing} />
           <Route path="/login" component={Login} />
           <Route path="/register" component={Register} />
-
           <ProtectedRoute
             component={LabDashboardRouter}
             path="/dashboard/lab"
@@ -45,6 +45,19 @@ function App() {
           {/* <Route path="/new-order">
             <PlaceNewOrder />
           </Route> */}
+
+          <Route path="/playground">
+            <div
+              style={{
+                background: 'grey',
+                width: '100%',
+                height: '700px',
+                display: 'flex',
+              }}
+            >
+              <LabDashboardContent />
+            </div>
+          </Route>
         </Switch>
       </Router>
     </SessionContextProvider>
