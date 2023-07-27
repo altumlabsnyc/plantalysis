@@ -81,18 +81,27 @@ export interface Database {
           brand_id: string
           facility_id: string | null
           id: string
+          producer_user_id: string | null
+          product_type: Database["public"]["Enums"]["product_type_enum"] | null
+          strain: string | null
           weight: number | null
         }
         Insert: {
           brand_id: string
           facility_id?: string | null
           id?: string
+          producer_user_id?: string | null
+          product_type?: Database["public"]["Enums"]["product_type_enum"] | null
+          strain?: string | null
           weight?: number | null
         }
         Update: {
           brand_id?: string
           facility_id?: string | null
           id?: string
+          producer_user_id?: string | null
+          product_type?: Database["public"]["Enums"]["product_type_enum"] | null
+          strain?: string | null
           weight?: number | null
         }
         Relationships: [
@@ -106,6 +115,12 @@ export interface Database {
             foreignKeyName: "batch_facility_id_fkey"
             columns: ["facility_id"]
             referencedRelation: "facility"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "batch_producer_user_id_fkey"
+            columns: ["producer_user_id"]
+            referencedRelation: "producer_user"
             referencedColumns: ["id"]
           }
         ]
@@ -270,7 +285,9 @@ export interface Database {
           location: string | null
           order_time: string
           pickup_date: string | null
-          strain_info: string | null
+          turnaround_time:
+            | Database["public"]["Enums"]["turnaround_time_enum"]
+            | null
         }
         Insert: {
           batch_id?: string | null
@@ -280,7 +297,9 @@ export interface Database {
           location?: string | null
           order_time?: string
           pickup_date?: string | null
-          strain_info?: string | null
+          turnaround_time?:
+            | Database["public"]["Enums"]["turnaround_time_enum"]
+            | null
         }
         Update: {
           batch_id?: string | null
@@ -290,7 +309,9 @@ export interface Database {
           location?: string | null
           order_time?: string
           pickup_date?: string | null
-          strain_info?: string | null
+          turnaround_time?:
+            | Database["public"]["Enums"]["turnaround_time_enum"]
+            | null
         }
         Relationships: [
           {
@@ -929,6 +950,8 @@ export interface Database {
         | "Solvents"
         | "Metals"
         | "Others"
+      product_type_enum: "flower" | "concentrate" | "edibles"
+      turnaround_time_enum: "48" | "96" | "168" | "336"
       user_type_enum:
         | "consumer"
         | "regulator"
