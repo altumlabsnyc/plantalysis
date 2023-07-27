@@ -15,7 +15,16 @@ export default function ClaimOrders() {
       return { ...order, status: 'Not Claimed' }
     })
 
-    return <LabOrderTable labOrders={labOrderRows} showClaimed={false} />
+
+    return (
+      <div>
+        {labOrders.data.map((order) => (
+          <p>{order.id}</p>
+        ))}
+      </div>
+    )
+    // <LabOrderTable labOrders={labOrderRows} showClaimed={false} />;
+
   } else {
     throw new Error('Not loading but no valid data provided')
   }

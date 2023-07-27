@@ -3,11 +3,12 @@ import { supabase } from '@/utils/supabase'
 import { User } from '@supabase/supabase-js'
 import useSWR from 'swr'
 
-export enum LabOrdersRequested {
-  claimedByALab,
-  unClaimedByLab,
-  ofAProducer,
-  allOrders,
+
+export enum LabOrdersRequested{
+  claimedByALab = 'claimed',
+  unClaimedByLab = 'unclaimed',
+  ofAProducer = 'ofProducer',
+  allOrders = 'all'
 }
 
 /**
@@ -39,8 +40,8 @@ export default function useLabOrders(
   }
 
   const { data, error, isLoading } = useSWR(
-    user ? `/api/lab_order/` : null,
-    fetcher,
+    user ? `/api/lab_order/${requested}/${user.id}` : null,
+    fetcher
   )
   let fetchingFunction = (
     allOrders: LabOrder[] | undefined,
