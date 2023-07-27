@@ -140,6 +140,7 @@ import { UserRole } from "@/types/supabaseAlias";
     { name: 'Brand Name', id: 'brand_name', type: 'text' },
     { name: 'Serving Size', id: 'serving_size', type: 'number' },
     { name: 'Path to logo', id: 'img_path', type: 'file' },
+    { name: 'Test Options', id: 'img_path', type: 'radio', options: ['a', 'b', 'c'] },
   ]
   
   /**
