@@ -19,7 +19,7 @@ const express_1 = __importDefault(require("express"));
 const stripe_1 = __importDefault(require("stripe"));
 const uuid_1 = require("uuid");
 dotenv_1.default.config();
-const port = process.env.SERVER_PORT || 8080;
+const port = process.env.PORT || 8080;
 const stripeKey = process.env.STRIPE_SECRET_KEY;
 const frontendDomain = process.env.FRONTEND_DOMAIN;
 const successURL = process.env.SUCCESS_URL;
@@ -156,4 +156,7 @@ app.post("/webhook", express_1.default.raw({ type: "application/json" }), (req, 
     }
     res.json({ received: true });
 }));
+app.get("/test", (req, res) => {
+    res.json({ message: "Hello, this is a test!" });
+});
 app.listen(port, () => console.log(`Running on port ${port}`));

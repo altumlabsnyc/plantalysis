@@ -20,3 +20,4 @@ export type MoleculePredict =
 export type LabOrder = Database['public']['Tables']['lab_order']['Row']
 
 export type UserRole = Database['public']['Enums']['user_type_enum']
+

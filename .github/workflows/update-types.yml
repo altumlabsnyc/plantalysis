@@ -25,7 +25,9 @@ jobs:
       - uses: actions/setup-node@v2.1.5
         with:
           node-version: 16
-      - run: |
+      - name: Update types
+        id: update-types
+        run: |
           cd vite-project
           npm run update-types
       - name: check for file changes
@@ -35,6 +37,7 @@ jobs:
       - name: Setup branch for changes
         if: ${{contains(steps.git_status.outputs.status, ' ')}}
         run: |
+          git stash
           git fetch origin
           BRANCH_EXISTS=$(git ls-remote --heads origin | grep update-database-types || echo "")
           if [[ -z "${BRANCH_EXISTS}" ]]; then
@@ -45,6 +48,7 @@ jobs:
             git switch update-database-types
             git reset --hard origin/main
           fi
+          git stash pop
       - name: Commit files
         if: ${{contains(steps.git_status.outputs.status, ' ')}}
         run: |
@@ -52,11 +56,10 @@ jobs:
           git commit -m "Update database types" -a
       - name: Push changes
         if: ${{contains(steps.git_status.outputs.status, ' ')}}
-        uses: ad-m/github-push-action@master
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          branch: update-database-types
+        run: |
+          git push -f origin update-database-types
       - name: Create Pull Request
+        id: cpr
         if: ${{contains(steps.git_status.outputs.status, ' ')}}
         uses: peter-evans/create-pull-request@v3
         with:
@@ -64,3 +67,8 @@ jobs:
           title: "Update database types"
           branch: "update-database-types"
           base: "main"
+          auto_merge: true
+      - name: Check output
+        run: |
+          echo "Pull Request Number - ${{ steps.cpr.outputs.pull-request-number }}"
+          echo "Pull Request URL - ${{ steps.cpr.outputs.pull-request-url }}"

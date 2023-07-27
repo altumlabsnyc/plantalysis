@@ -1,5 +1,5 @@
 interface PanelProps {
-    children: React.ReactNode;
+  children: React.ReactNode
 }
 
 export default function Panel({ children }: PanelProps) {

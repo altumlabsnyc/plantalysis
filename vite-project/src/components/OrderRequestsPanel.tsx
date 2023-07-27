@@ -4,7 +4,7 @@ import { createColumnHelper } from '@tanstack/react-table'
 
 import "./assets/css/panel.css"
 import { approveLabOrder } from "@/hooks/approveLabOrder";
-import { useOrderRequestsPanelOrders, getUserUnClaimedOrders } from "@/hooks/useLabOrders";
+import { useOrderRequestsPanelOrders, getUnClaimedOrders } from "@/hooks/useLabOrders";
 import { useUser } from "@supabase/auth-helpers-react";
 import { LabOrder } from "@/types/supabaseAlias";
 // import useUnapprovedOrderRequests from "@/hooks/useUnapprovedOrderRequests";
@@ -91,7 +91,7 @@ export default function OrderRequestPanel({
     const user = useUser()
     const { data: allOrders, error, isLoading } = useOrderRequestsPanelOrders(user)
     const data = allOrders && user
-        ? getUserUnClaimedOrders(allOrders as LabOrder[], user)
+        ? getUnClaimedOrders(allOrders as LabOrder[], user)
         : []
     return (
         <div style={{ margin: 'auto 0' }}>
@@ -109,6 +109,6 @@ export default function OrderRequestPanel({
                     />
                 </div>
             </Panel>
-        </div>
-    )
+    </div>
+  )
 }

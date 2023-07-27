@@ -1,37 +1,31 @@
 import { useUser } from '@supabase/auth-helpers-react'
 import { useEffect, useState } from 'react'
-import { fetchUnclaimedOrders } from '../Authentication.js'
 import { LabOrder, LabOrderTableRow } from '../UserTypes.js'
 import LabOrderTable from './LabOrderTable.js'
+import useLabOrders, { LabOrdersRequested } from '@/hooks/useLabOrders.js'
 
 export default function ClaimOrders() {
   const user = useUser()
+  const labOrders = useLabOrders(user, LabOrdersRequested.unClaimedByLab)
 
-  const [labOrders, setLabOrders] = useState<Array<LabOrderTableRow>>([])
-  const [loading, setLoading] = useState(true)
-  useEffect(() => {
-    async function fetchOrders() {
-      setLoading(true)
-      if (user) {
-        setLabOrders(
-          (await fetchUnclaimedOrders()).map(
-            (t: LabOrder): LabOrderTableRow => {
-              return { ...t, status: 'Not Claimed' }
-            },
-          ),
-        )
-        // console.log('aaaaaaaaaa')
-        // console.log(temp)
-        setLoading(false)
-      }
-    }
+  if (labOrders.isLoading) {
+    return <p>Loading...</p>
+  } else if (labOrders.data) {
+    const labOrderRows = labOrders.data.map((order) => {
+      return { ...order, status: 'Not Claimed' }
+    })
 
-    fetchOrders()
-  }, [user])
 
-  console.log(loading)
+    return (
+      <div>
+        {labOrders.data.map((order) => (
+          <p>{order.id}</p>
+        ))}
+      </div>
+    )
+    // <LabOrderTable labOrders={labOrderRows} showClaimed={false} />;
 
-  return <LabOrderTable labOrders={labOrders} showClaimed={true} />
+  } else {
+    throw new Error('Not loading but no valid data provided')
+  }
 }
-
-// export default LabOrder;
