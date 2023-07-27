@@ -4,6 +4,7 @@ import dotenv from "dotenv"
 import express, { Request, Response } from "express"
 import Stripe from "stripe"
 import { v4 as uuidv4 } from "uuid"
+import { Database } from "./types/supabase"
 
 dotenv.config()
 
@@ -23,7 +24,7 @@ if (!frontendDomain) {
 
 const supabaseUrl = process.env.SUPABASE_URL
 const supabaseKey = process.env.SUPABASE_KEY
-const supabase = createClient(supabaseUrl!, supabaseKey!)
+const supabase = createClient<Database>(supabaseUrl!, supabaseKey!)
 
 if (!supabaseUrl) {
   throw new Error("The Supabase URL is missing in .env file")
@@ -33,42 +34,32 @@ if (!supabaseKey) {
   throw new Error("The Supabase key is missing in .env file")
 }
 
-async function insertLabOrder(session: any) {
-  const metadata = session.metadata
+interface Metadata {
+  priceId: string
+  facilityId: string
+  userId: string
+  location: string
+  strainName: string
+  productType: Database["public"]["Enums"]["product_type_enum"]
+  turnaroundTime: Database["public"]["Enums"]["turnaround_time_enum"]
+  pickupDate: string // ISO string
+}
 
-  const labOrder = JSON.parse(metadata.labOrder)
-  const { location, date, lab_notes } = labOrder
-  const userId = metadata.userId
+async function insertLabOrder(session: any) {
+  const metadata: Metadata = session.metadata
 
   const batchId = uuidv4()
-  const brandId = uuidv4()
 
-  // first, create brand
-  const brandName = metadata.brandName
-  const { data: brandData, error: brandError } = await supabase
-    .from("brand")
-    .insert([
-      {
-        name: brandName,
-        id: brandId,
-        producer_user_id: userId,
-      },
-    ])
-
-  console.log(brandData)
-  console.log(brandError)
-
-  if (brandError) {
-    console.error(brandError)
-  }
-
-  // then, create batch
+  // create batch for lab order
   const { data: batchData, error: batchError } = await supabase
     .from("batch")
     .insert([
       {
         id: batchId,
-        brand_id: brandId,
+        facility_id: metadata.facilityId,
+        producer_user_id: metadata.userId,
+        product_type: metadata.productType,
+        strain: metadata.strainName,
       },
     ])
 
@@ -79,17 +70,13 @@ async function insertLabOrder(session: any) {
     console.error(batchError)
   }
 
-  // Extract data from the session
-
-  console.log("lab order information in function", location, date, lab_notes)
-
   // Create the order in the database
   const { data, error } = await supabase.from("lab_order").insert([
     {
-      location,
-      pickup_date: date,
-      lab_notes,
       batch_id: batchId,
+      location: metadata.location,
+      pickup_date: metadata.pickupDate,
+      turnaround_time: metadata.turnaroundTime,
     }, // Add the rest of the fields here
   ])
 
@@ -109,13 +96,20 @@ app.use(cors())
 
 // app.use(express.static('public'));
 
-const YOUR_DOMAIN = "http://localhost:5173"
-
 app.post(
   "/create-checkout-session",
   express.json(),
   async (req: Request, res: Response) => {
-    const { priceId, labOrder, brandName, userId } = req.body // you would replace this with the id of the Stripe price you created in the Stripe Dashboard
+    const {
+      priceId,
+      userId,
+      facilityId,
+      location,
+      strainName,
+      productType,
+      turnaroundTime,
+      pickupDate,
+    }: Metadata = req.body
 
     try {
       const session = await stripe.checkout.sessions.create({
@@ -128,9 +122,13 @@ app.post(
           },
         ],
         metadata: {
-          labOrder: JSON.stringify(labOrder),
-          brandName: brandName,
-          userId: userId,
+          priceId,
+          userId,
+          location,
+          strainName,
+          productType,
+          turnaroundTime,
+          pickupDate,
         },
         success_url: `${frontendDomain}${successURL}`,
         cancel_url: `${frontendDomain}${cancelURL}`,
@@ -152,8 +150,6 @@ app.post(
   express.raw({ type: "application/json" }),
   async (req, res) => {
     const sig = req.headers["stripe-signature"]
-
-    console.log(sig)
 
     if (sig === undefined) {
       console.log("undefined)")

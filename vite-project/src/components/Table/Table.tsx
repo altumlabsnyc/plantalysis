@@ -12,11 +12,7 @@ interface TableProps<T> {
   hideHeader?: boolean | null
 }
 
-export default function Table<T>({
-  data,
-  columns,
-  hideHeader
-}: TableProps<T>) {
+export default function Table<T>({ data, columns, hideHeader }: TableProps<T>) {
   const table = useReactTable({
     data,
     columns,
@@ -26,9 +22,8 @@ export default function Table<T>({
   return (
     <div>
       <table className="w-full">
-        {
-          !hideHeader &&
-            <thead>
+        {!hideHeader && (
+          <thead>
             {table.getHeaderGroups().map((headerGroup) => (
               <tr
                 key={headerGroup.id}
@@ -43,15 +38,15 @@ export default function Table<T>({
                     {header.isPlaceholder
                       ? null
                       : flexRender(
-                        header.column.columnDef.header,
-                        header.getContext(),
-                      )}
+                          header.column.columnDef.header,
+                          header.getContext(),
+                        )}
                   </th>
                 ))}
               </tr>
             ))}
           </thead>
-        }
+        )}
         <tbody>
           {table.getRowModel().rows.map((row) => (
             <tr key={row.id}>

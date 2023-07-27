@@ -1,9 +1,6 @@
 import { useUser } from '@supabase/auth-helpers-react'
 
-import { LabOrderTableRow } from '../UserTypes.js'
-import LabOrderTable from './LabOrderTable.js'
 import useLabOrders, { LabOrdersRequested } from '@/hooks/useLabOrders.js'
-import { lab } from 'd3'
 
 export default function CurrentOrders() {
   const user = useUser()
@@ -19,7 +16,7 @@ export default function CurrentOrders() {
     return (
       <div>
         {labOrders.data.map((order) => (
-          <p>{order.id}</p>
+          <p key={order.id}>{order.id}</p>
         ))}
       </div>
     )

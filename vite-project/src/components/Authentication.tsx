@@ -1,6 +1,6 @@
 // import { v4 as uuidv4 } from "uuid";
-import { supabase } from '@/utils/supabase'
 import { LabOrder } from '@/types/supabaseAlias'
+import { supabase } from '@/utils/supabase'
 
 export async function approveOrders(analysisIds: Array<string>): Promise<void> {
   for (const analysisId of analysisIds) {
@@ -27,6 +27,7 @@ export async function fetchProducerOrders(): Promise<Array<LabOrder>> {
       const response = await supabase.from('batch').select('*')
       if (response.data) {
         for (const batch of response.data) {
+          // @ts-ignore
           if (batch.brand_id == brandId.id) {
             allBatchIds.push(batch.id)
           }

@@ -79,6 +79,7 @@ export default function PlaceNewOrder() {
       id: '',
       location: location,
       pickup_date: pickup_date,
+      // @ts-ignore
       strain_info: strain_info,
       batch_id: null,
       // bio_id: null,

@@ -21,6 +21,7 @@ export default function Brands() {
     if (!brandName || !userId || !servingSize) {
       throw new Error('please provide a valid brand name and be a valid user')
     }
+    // @ts-ignore
     const newBrand: Brand = {
       name: brandName,
       id: '',

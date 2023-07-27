@@ -4,12 +4,11 @@ import { supabase } from '@/utils/supabase'
 import { User } from '@supabase/supabase-js'
 import useSWR from 'swr'
 
-
-export enum LabOrdersRequested{
+export enum LabOrdersRequested {
   claimedByALab = 'claimed',
   unClaimedByLab = 'unclaimed',
   ofAProducer = 'ofProducer',
-  allOrders = 'all'
+  allOrders = 'all',
 }
 
 /**
@@ -42,7 +41,7 @@ export default function useLabOrders(
 
   const { data, error, isLoading } = useSWR(
     user ? `/api/lab_order/${requested}/${user.id}` : null,
-    fetcher
+    fetcher,
   )
   let fetchingFunction = (
     allOrders: LabOrder[] | undefined,
@@ -78,13 +77,15 @@ export default function useLabOrders(
 }
 
 //HELPERS FOR LAB_ORDERS FETCHING
-export function useOrderRequestsPanelOrders(user: User|null) {
+export function useOrderRequestsPanelOrders(user: User | null) {
   const fetcher = async () => {
-    let ordersError: any, ordersData: Array<ProducerRequestsTableData> | null | undefined
+    let ordersError: any,
+      ordersData: Array<ProducerRequestsTableData> | null | undefined
 
     const ordersFetchPromise = supabase
       .from('lab_order')
-      .select(`
+      .select(
+        `
         id,
         lab_user_id,
         batch (
@@ -94,14 +95,15 @@ export function useOrderRequestsPanelOrders(user: User|null) {
             )
           )
         )
-      `)
+      `,
+      )
       .then(({ data, error }) => {
         console.log(data)
-        ordersData = data?.map(({id, lab_user_id, batch}) => {
+        ordersData = data?.map(({ id, lab_user_id, batch }) => {
           return {
             id,
             lab_user_id,
-            common_name: batch?.facility?.producer_user?.common_name
+            common_name: batch?.facility?.producer_user?.common_name,
           }
         })
         ordersError = error

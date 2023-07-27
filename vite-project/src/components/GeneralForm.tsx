@@ -2,20 +2,19 @@ import {
   Box,
   Button,
   CssBaseline,
+  FormControl,
+  FormControlLabel,
   Link,
-  TextField,
-  Typography,
   Radio,
   RadioGroup,
-  FormControlLabel,
-  FormControl,
+  TextField,
+  Typography,
 } from '@mui/material'
 
-import Input from '@/types/Input'
 import useUserDetails from '@/hooks/useUserDetails'
+import Input from '@/types/Input'
 import { useUser } from '@supabase/auth-helpers-react'
 import { FormEvent } from 'react' // Import FormEvent type
-import { CheckBox } from '@mui/icons-material'
 
 function Copyright(props: any) {
   return (
@@ -61,7 +60,7 @@ export default function GeneralForm<T>({
 
       <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
         {inputs.map((input) => (
-          <div>
+          <div key={input.id}>
             {input.type !== 'radio' && (
               <TextField
                 margin="normal"
@@ -81,6 +80,7 @@ export default function GeneralForm<T>({
                 <RadioGroup>
                   {input.options?.map((option) => (
                     <FormControlLabel
+                      key={option}
                       value={option}
                       control={<Radio />}
                       label={option}

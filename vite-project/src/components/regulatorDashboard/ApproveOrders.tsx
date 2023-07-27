@@ -1,10 +1,6 @@
-import { useEffect, useState } from 'react'
-
 import { useUser } from '@supabase/auth-helpers-react'
 
-import { AnalysisTableRow, OrderStatus } from '../UserTypes.js'
-import AnalysisTable from './AnalysisTable.js'
-import { useAnalysis, ForApproval } from '@/hooks/useAnalysis.js'
+import { ForApproval, useAnalysis } from '@/hooks/useAnalysis.js'
 import useLabOrders, { LabOrdersRequested } from '@/hooks/useLabOrders.js'
 
 export default function ApproveOrders() {
@@ -16,7 +12,7 @@ export default function ApproveOrders() {
     return (
       <div>
         {analysisData.data.map((order: ForApproval) => (
-          <p>{order.brand_name}</p>
+          <p key={order.sku}>{order.brand_name}</p>
         ))}
       </div>
     )

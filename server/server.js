@@ -42,34 +42,17 @@ if (!supabaseKey) {
 function insertLabOrder(session) {
     return __awaiter(this, void 0, void 0, function* () {
         const metadata = session.metadata;
-        const labOrder = JSON.parse(metadata.labOrder);
-        const { location, date, lab_notes } = labOrder;
-        const userId = metadata.userId;
         const batchId = (0, uuid_1.v4)();
-        const brandId = (0, uuid_1.v4)();
-        // first, create brand
-        const brandName = metadata.brandName;
-        const { data: brandData, error: brandError } = yield supabase
-            .from("brand")
-            .insert([
-            {
-                name: brandName,
-                id: brandId,
-                producer_user_id: userId,
-            },
-        ]);
-        console.log(brandData);
-        console.log(brandError);
-        if (brandError) {
-            console.error(brandError);
-        }
-        // then, create batch
+        // create batch for lab order
         const { data: batchData, error: batchError } = yield supabase
             .from("batch")
             .insert([
             {
                 id: batchId,
-                brand_id: brandId,
+                facility_id: metadata.facilityId,
+                producer_user_id: metadata.userId,
+                product_type: metadata.productType,
+                strain: metadata.strainName,
             },
         ]);
         console.log(batchData);
@@ -77,15 +60,13 @@ function insertLabOrder(session) {
         if (batchError) {
             console.error(batchError);
         }
-        // Extract data from the session
-        console.log("lab order information in function", location, date, lab_notes);
         // Create the order in the database
         const { data, error } = yield supabase.from("lab_order").insert([
             {
-                location,
-                pickup_date: date,
-                lab_notes,
                 batch_id: batchId,
+                location: metadata.location,
+                pickup_date: metadata.pickupDate,
+                turnaround_time: metadata.turnaroundTime,
             }, // Add the rest of the fields here
         ]);
         console.log(data);
@@ -100,9 +81,8 @@ const stripe = new stripe_1.default(stripeKey, { apiVersion: "2022-11-15" });
 const app = (0, express_1.default)();
 app.use((0, cors_1.default)());
 // app.use(express.static('public'));
-const YOUR_DOMAIN = "http://localhost:5173";
 app.post("/create-checkout-session", express_1.default.json(), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { priceId, labOrder, brandName, userId } = req.body; // you would replace this with the id of the Stripe price you created in the Stripe Dashboard
+    const { priceId, userId, facilityId, location, strainName, productType, turnaroundTime, pickupDate, } = req.body;
     try {
         const session = yield stripe.checkout.sessions.create({
             mode: "payment",
@@ -114,9 +94,13 @@ app.post("/create-checkout-session", express_1.default.json(), (req, res) => __a
                 },
             ],
             metadata: {
-                labOrder: JSON.stringify(labOrder),
-                brandName: brandName,
-                userId: userId,
+                priceId,
+                userId,
+                location,
+                strainName,
+                productType,
+                turnaroundTime,
+                pickupDate,
             },
             success_url: `${frontendDomain}${successURL}`,
             cancel_url: `${frontendDomain}${cancelURL}`,
@@ -133,7 +117,6 @@ app.post("/create-checkout-session", express_1.default.json(), (req, res) => __a
 // Handle webhook events
 app.post("/webhook", express_1.default.raw({ type: "application/json" }), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const sig = req.headers["stripe-signature"];
-    console.log(sig);
     if (sig === undefined) {
         console.log("undefined)");
         return res.status(400).send(`Webhook Error: No signature`);
