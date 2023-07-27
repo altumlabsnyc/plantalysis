@@ -41,6 +41,7 @@ export async function fetchAnalyzedOrders(): Promise<Array<ForApproval>> {
         const brandNameData = await supabase
           .from('brand')
           .select('name')
+          // @ts-ignore
           .eq('id', brandId?.brand_id)
           .single()
         const brandName = brandNameData.data
@@ -101,6 +102,7 @@ export async function fetchProducerOrders(): Promise<Array<LabOrder>> {
       const response = await supabase.from('batch').select('*')
       if (response.data) {
         for (const batch of response.data) {
+          // @ts-ignore
           if (batch.brand_id == brandId.id) {
             allBatchIds.push(batch.id)
           }

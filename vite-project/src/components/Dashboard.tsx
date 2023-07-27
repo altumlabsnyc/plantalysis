@@ -44,7 +44,9 @@ export default function Dashboard({
   return (
     <>
       <div>
-        {user?.email_confirmed_at && <EmailConfirmationBanner />}
+        {user?.email_confirmed_at && (
+          <EmailConfirmationBanner sidebarOpen={desktopSidebarOpen} />
+        )}
         <Toaster />
         <div className="bg-background">
           {/* Mobile menu & transition CAN IGNORE FOR NOW */}

@@ -1,6 +1,6 @@
 import { supabase } from '@/utils/supabase'
 import { User } from '@supabase/supabase-js'
-import useSWR, { mutate, useSWRConfig } from 'swr'
+import { mutate } from 'swr'
 
 import { Facility } from '@/types/supabaseAlias'
 import { v4 as uuidv4 } from 'uuid'
@@ -12,7 +12,7 @@ export const insertFacility = async (
   try {
     const { data, error } = await supabase.from('facility').insert(facility)
     if (error) {
-      throw new Error('Failed to add new brand')
+      throw new Error('Failed to add new facility')
     }
     return data // Assuming the response contains the updated data or success message
   } catch (error) {

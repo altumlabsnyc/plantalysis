@@ -1,9 +1,7 @@
+import { Facility } from '@/types/supabaseAlias'
 import { supabase } from '@/utils/supabase'
 import { User } from '@supabase/supabase-js'
 import useSWR from 'swr'
-import { useUser } from '@supabase/auth-helpers-react'
-import { Database } from '@/types/supabase'
-import { Facility } from '@/types/supabaseAlias'
 
 //   const user = useUser();
 
@@ -44,7 +42,7 @@ export default function useFacilitiesDetails(user: User | null) {
     return facilityData
   }
 
-  const { data, error, isLoading } = useSWR(
+  const { data, error, isLoading, mutate } = useSWR(
     user ? `/api/facilities/${user.id}` : null,
     fetcher,
   )
@@ -53,5 +51,6 @@ export default function useFacilitiesDetails(user: User | null) {
     data: data as Facility[] | null,
     error,
     isLoading,
+    mutate,
   }
 }

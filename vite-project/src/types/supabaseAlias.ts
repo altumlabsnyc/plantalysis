@@ -20,3 +20,5 @@ export type MoleculePredict =
 export type LabOrder = Database['public']['Tables']['lab_order']['Row']
 
 export type UserRole = Database['public']['Enums']['user_type_enum']
+export type TurnaroundTime = Database['public']['Enums']['turnaround_time_enum']
+export type ProductType = Database['public']['Enums']['product_type_enum']
