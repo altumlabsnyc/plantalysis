@@ -1,4 +1,4 @@
-import { UserType } from '@/components/UserTypes'
+import { UserRole } from '@/types/supabaseAlias'
 import { supabase } from '@/utils/supabase'
 
 export async function handleSignIn(email: string, password: string) {
@@ -9,7 +9,7 @@ export async function handleSignIn(email: string, password: string) {
 
   if (!data.user) return undefined
 
-  const userType: UserType = data.user.app_metadata.plantalysis_role
+  const userType: UserRole = data.user.app_metadata.plantalysis_role
 
   console.log(data.user)
   console.log(userType)

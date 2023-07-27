@@ -12,7 +12,8 @@ import { useUser } from '@supabase/auth-helpers-react'
 import React, { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import Stripe from 'stripe'
-import { LabOrder, labOrderInputs } from '../UserTypes'
+import { labOrderInputs } from '@/utils/formInputs'
+import { LabOrder } from '@/types/supabaseAlias'
 
 function Copyright(props: any) {
   return (
@@ -80,14 +81,15 @@ export default function PlaceNewOrder() {
       pickup_date: pickup_date,
       strain_info: strain_info,
       batch_id: null,
-      bio_id: null,
-      gcfid_id: null,
-      gcms_id: null,
-      hplc_id: null,
-      icpms_id: null,
+      // bio_id: null,
+      // gcfid_id: null,
+      // gcms_id: null,
+      // hplc_id: null,
+      // icpms_id: null,
       lab_notes: null,
       lab_user_id: null,
-      lcms_id: null,
+      // lcms_id: null,
+      order_time: '1', //TODO: update when backend changes
     }
 
     const response = await fetch(

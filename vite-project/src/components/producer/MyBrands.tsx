@@ -3,8 +3,8 @@ import useBrandsDetails from '@/hooks/useBrands'
 import { Brand } from '@/types/supabaseAlias'
 import { useUser } from '@supabase/auth-helpers-react'
 import { FormEvent } from 'react'
-import GeneralForm from '../GeneralForm'
-import { brandInputs } from '../UserTypes'
+import GeneralForm from '@/components/GeneralForm'
+import { brandInputs } from '@/utils/formInputs'
 
 export default function Brands() {
   const user = useUser()
@@ -26,6 +26,7 @@ export default function Brands() {
       producer_user_id: userId,
       serving_size: parseFloat(servingSize),
       image_path: imgPath,
+      unit_weight: 1, //TODO: update when backend is finished
     }
     return newBrand
   }
