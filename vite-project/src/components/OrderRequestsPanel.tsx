@@ -25,7 +25,11 @@ import './assets/css/panel.css'
  * producer_user - common_name
  */
 
-const columnHelper = createColumnHelper<LabOrder>()
+const columnHelper = createColumnHelper<LabRequestTableRow>()
+
+export type LabRequestTableRow = LabOrder & {
+  common_name: string
+}
 
 export interface OrderRequestPanel {
   setActiveLabOrder: (activeLabOrder: LabOrder | null) => void
@@ -76,7 +80,9 @@ export default function OrderRequestPanel({
     isLoading,
   } = useOrderRequestsPanelOrders(user)
   const data =
-    allOrders && user ? getUnClaimedOrders(allOrders as LabOrder[], user) : []
+    allOrders && user
+      ? getUnClaimedOrders(allOrders as LabOrder[], user) as LabRequestTableRow[]
+      : []
   return (
     <div style={{ margin: 'auto 0' }}>
       <Panel>
@@ -86,7 +92,7 @@ export default function OrderRequestPanel({
           }}
         >
           <div className="panel-title">Producer Requests</div>
-          <Table<LabOrder> data={data} columns={columns} hideHeader={true} />
+          <Table<LabRequestTableRow> data={data} columns={columns} hideHeader={true} />
         </div>
       </Panel>
     </div>
