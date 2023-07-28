@@ -107,7 +107,7 @@ export default function LeftSideBar({
             {/* Add "bg-white" class for white background */}
             <div className="flex h-15 mt-3 shrink-0 items-center gap-4">
               <img
-                className="h-full w-full object-cover"
+                className="h-full w-full object-cover cursor-pointer"
                 src={newLogo}
                 alt="Your Company"
                 onClick={() => history.push('/')}
