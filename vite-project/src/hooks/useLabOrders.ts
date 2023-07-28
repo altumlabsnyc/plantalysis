@@ -1,5 +1,5 @@
+import { LabRequestTableRow } from '@/components/OrderRequestsPanel'
 import { LabOrder } from '@/types/supabaseAlias'
-import { ProducerRequestsTableData } from '@/components/OrderRequestsPanel'
 import { supabase } from '@/utils/supabase'
 import { User } from '@supabase/supabase-js'
 import useSWR from 'swr'
@@ -80,7 +80,7 @@ export default function useLabOrders(
 export function useOrderRequestsPanelOrders(user: User | null) {
   const fetcher = async () => {
     let ordersError: any,
-      ordersData: Array<ProducerRequestsTableData> | null | undefined
+      ordersData: Array<LabRequestTableRow> | null | undefined
 
     const ordersFetchPromise = supabase
       .from('lab_order')
@@ -105,7 +105,7 @@ export function useOrderRequestsPanelOrders(user: User | null) {
             lab_user_id,
             order_time,
             common_name: batch?.facility?.producer_user?.common_name,
-          }
+          } as LabRequestTableRow
         })
         ordersError = error
       })
@@ -116,7 +116,6 @@ export function useOrderRequestsPanelOrders(user: User | null) {
       console.log(ordersError)
     }
 
-    // @ts-ignore
     if (!ordersData) {
       return null
     }
@@ -131,7 +130,7 @@ export function useOrderRequestsPanelOrders(user: User | null) {
   )
 
   return {
-    data: data as LabOrder[] | null,
+    data: data as LabRequestTableRow[] | null,
     error,
     isLoading,
   }

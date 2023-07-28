@@ -1,13 +1,13 @@
 import { LabOrder } from '@/types/supabaseAlias'
 import { useState } from 'react'
-import OrderRequestPanel from './OrderRequestsPanel'
+import OrderRequestPanel, { LabRequestTableRow } from './OrderRequestsPanel'
 import RequestDetailPanel from './LabUpperPanels/RequestDetailPanel/RequestDetailPanel'
 import UploadPanel from './UploadPanel'
 
 export default function LabUpperPanels() {
-  const [activeLabOrder, setActiveLabOrder] = useState<LabOrder|null>(
-    null
-  )
+  const [activeLabOrder, setActiveLabOrder] = useState<LabOrder | null>(null)
+  const [data, setData] = useState<LabRequestTableRow[]>([])
+
   return (
     <div
       style={{
@@ -26,13 +26,14 @@ export default function LabUpperPanels() {
           alignItems: 'stretch',
         }}
       >
-        <OrderRequestPanel setActiveLabOrder={setActiveLabOrder} />
+        <OrderRequestPanel
+          activeLabOrder={activeLabOrder}
+          setActiveLabOrder={setActiveLabOrder}
+        />
         <UploadPanel />
       </div>
 
-      <RequestDetailPanel
-        activeLabOrder={activeLabOrder}
-      />
+      <RequestDetailPanel activeLabOrder={activeLabOrder} />
     </div>
   )
 }

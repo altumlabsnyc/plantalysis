@@ -398,22 +398,37 @@ export default function Register() {
                   .filter((user) => selectedUser === user.userType)
                   .map((user) => (
                     <div key={user.name}>
-                      {user.inputs?.map((input) => (
-                        <div>
-                          {input.type === 'radio' && (
-                            <FormControl key={input.id} id={input.id}>
-                              Enter your {input.name}
-                              {input.options?.map((option) => (
-                                <FormControlLabel
-                                  key={`${input.id}-${option}`}
-                                  value={option}
-                                  control={<Radio />}
-                                  label={option}
-                                />
-                              ))}
-                            </FormControl>
-                          )}
-                          {input.id !== 'radio' && (
+                      {user.inputs?.map((input) => {
+                        if (input.id === 'license_type') {
+                          return (
+                            <div key={input.id}>
+                              <Typography variant="subtitle1">
+                                License Type:
+                              </Typography>
+                              <FormControlLabel
+                                control={<Radio />}
+                                label="AUCC"
+                                name="license_type"
+                                value="AUCC"
+                              />
+                              <FormControlLabel
+                                control={<Radio />}
+                                label="AUCP"
+                                name="license_type"
+                                value="AUCP"
+                              />
+                              <FormControlLabel
+                                control={<Radio />}
+                                label="AUHC"
+                                name="license_type"
+                                value="AUHC"
+                              />
+                            </div>
+                          )
+                        }
+                        // Render other text fields except "license_type"
+                        if (input.id !== 'producer_license_type') {
+                          return (
                             <TextField
                               key={input.id}
                               margin="normal"
@@ -425,11 +440,12 @@ export default function Register() {
                               autoComplete={`Enter your ${input.name.toLowerCase()}`}
                               autoFocus
                             />
-                          )}
-                        </div>
+
+                          )
+                        }
                         // Render "license_number" text field after "license_type"
-                        // return null
-                      ))}
+                        return null
+                      })}
                     </div>
                   ))}
               </div>

@@ -1,33 +1,86 @@
-import logo from '@/components/assets/img/logo.png'
-import { ChairAlt } from '@mui/icons-material'
-import classNames from 'classnames'
-
+import blank from '@/components/assets/img/blank.png'
+import newLogo from '@/components/assets/img/newLogo.png'
+import { SidebarSection } from '@/types/dashboard'
 import { Transition } from '@headlessui/react'
-import { Fragment } from 'react'
-import { DashboardPanel } from './Dashboard'
+import { ChevronRightIcon } from '@heroicons/react/20/solid'
+import classNames from 'classnames'
+import { Fragment, useState } from 'react'
+import { useHistory } from 'react-router-dom'
 
 interface LeftSideBarProps {
-  panels: DashboardPanel[]
   sidebarOpen: boolean
+  title: string
+  subtitle: string
+  sections: SidebarSection[]
 }
 
-export default function LeftSideBar({ panels, sidebarOpen }: LeftSideBarProps) {
-  //   let menuOptions: DashboardPanel[];
-  //   switch (pabe) {
-  //     case "lab":
-  //       menuOptions = labUserLeftSideBar;
-  //       break;
-  //     case "producer":
-  //       menuOptions = producerUserLeftSideBar;
-  //       break;
-  //     default:
-  //       menuOptions = [];
-  //       break;
-  //   }
+// interface SidebarSection {
+//   title: string
+//   pages: DashboardPanel[]
+//   collapsed: boolean
+//   isMainSection: boolean // new property to differentiate between main and subpage sections
+// }
 
-  // if (!sidebarOpen) {
-  //   return null
-  // }
+// used to keep track of state
+type SectionEnhanced = SidebarSection & {
+  collapsed: boolean
+}
+
+export default function LeftSideBar({
+  sidebarOpen,
+  title,
+  subtitle,
+  sections,
+}: LeftSideBarProps) {
+  const history = useHistory()
+
+  const [sectionsEnhanced, setSectionsEnhanced] = useState<SectionEnhanced[]>(
+    sections.map((section) => ({ ...section, collapsed: true })),
+  )
+
+  // [
+  //   {
+  //     title: 'User Profile',
+  //     pages: [
+  //       { link: '/user-profile/overview', text: 'Overview' },
+  //       { link: '/user-profile/user-guide', text: 'User Guide' },
+  //       { link: '/user-profile/customer-support', text: 'Customer Support' },
+  //       { link: '/user-profile/contacts', text: 'Contacts' },
+  //       { link: '/user-profile/order-management', text: 'Order Management' },
+  //       { link: '/user-profile/data-privacy', text: 'Data Privacy' },
+  //     ],
+  //     collapsed: true,
+  //     isMainSection: true,
+  //   },
+  //   {
+  //     title: 'Altum Corporate',
+  //     pages: [
+  //       // { link: '/altum-corporate/page-1', text: 'Altum Corporate Page 1' },
+  //       // { link: '/altum-corporate/page-2', text: 'Altum Corporate Page 2' },
+  //       // { link: '/altum-corporate/page-3', text: 'Altum Corporate Page 3' },
+  //     ],
+  //     collapsed: true,
+  //     isMainSection: true,
+  //   },
+  //   {
+  //     title: 'Blog',
+  //     pages: [
+  //       // { link: '/blog/page-1', text: 'Blog Page 1' },
+  //       // { link: '/blog/page-2', text: 'Blog Page 2' },
+  //       // { link: '/blog/page-3', text: 'Blog Page 3' },
+  //     ],
+  //     collapsed: true,
+  //     isMainSection: true,
+  //   },
+  // ]
+
+  const toggleSection = (index: number) => {
+    setSectionsEnhanced((prevSections) =>
+      prevSections.map((section, i) =>
+        i === index ? { ...section, collapsed: !section.collapsed } : section,
+      ),
+    )
+  }
 
   const sidebarClasses = classNames(
     'hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col',
@@ -49,47 +102,80 @@ export default function LeftSideBar({ panels, sidebarOpen }: LeftSideBarProps) {
           leaveFrom="translate-x-0"
           leaveTo="-translate-x-full"
         >
-          <div className="flex grow flex-col gap-y-5 overflow-y-auto border-r border-gray-200 px-6 bg-pink-300">
-            <p>dynamic left sidebar here</p>
-            <div className="flex h-16 shrink-0 items-center gap-4">
+          <div className="flex grow flex-col gap-y-5 overflow-y-auto border-r border-white-200 px-9 bg-background">
+            {' '}
+            {/* Add "bg-white" class for white background */}
+            <div className="flex h-15 mt-3 shrink-0 items-center gap-4">
               <img
-                className="h-8 w-auto bg-red-400"
-                src={logo}
+                className="h-full w-full object-cover cursor-pointer"
+                src={newLogo}
                 alt="Your Company"
+                onClick={() => history.push('/')}
               />
-              Altum Labs
+              <div className="flex flex-col"></div>
             </div>
-            <nav className="flex flex-1 flex-col ">
-              <ul role="list" className="flex flex-1 flex-col gap-y-7">
-                <li>
-                  <ul role="list" className="-mx-2 space-y-1">
-                    <li>
-                      <ul role="list" className="-mx-2 space-y-1">
-                        <li>
-                          {panels.map((option: DashboardPanel) => (
-                            <a
-                              href={option.link}
-                              className={classNames(
-                                'bg-gray-50 text-indigo-600',
-                                'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold',
-                              )}
-                              key={option.link}
+            <div className="flex h-16 shrink-0 items-center gap-4">
+              <div className="h-8 w-8 rounded-full overflow-hidden">
+                <img
+                  className="h-full w-full object-cover"
+                  src={blank}
+                  alt="Your Company"
+                />
+              </div>
+              <div className="flex flex-col">
+                <span
+                  style={{ color: '#457F6C' }} // Add inline style to set the grey color
+                  className="text-lg font-medium" // Change text-lg to make the text larger
+                >
+                  {title}
+                </span>
+                <span
+                  style={{ color: '#457F6C' }} // Add inline style to set the grey color
+                  className="text-sm" // Change text-sm to make the text smaller
+                >
+                  {subtitle}
+                </span>
+              </div>
+            </div>
+            <nav className="flex flex-1 flex-col">
+              <h2 className="text-sm text-gray-500 px-2 py-1">Pages</h2>
+              <ul role="list" className="flex flex-1 flex-col gap-y-1">
+                {sectionsEnhanced.map((section, index) => (
+                  <li key={section.title}>
+                    <button
+                      onClick={() => toggleSection(index)}
+                      className="bg-white-50 text-grey-600 group flex items-center gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold w-full items-center" // add items-center class to center the content vertically
+                    >
+                      {section.items.length !== 0 && ( // Only show arrow for main sections
+                        <ChevronRightIcon
+                          // style={{ color: '#a0aec0' }}
+                          className={classNames(
+                            'text-grey-600 transform transition-transform w-6 h-6',
+                            {
+                              'rotate-90': !section.collapsed,
+                            },
+                          )}
+                          aria-hidden="true"
+                        />
+                      )}
+                      {section.title}
+                    </button>
+                    {!section.collapsed && (
+                      <ul role="list" className="-mx-2 space-y-1 ml-6">
+                        {section.items.map((option) => (
+                          <li className="ml-6" key={option.text}>
+                            <p
+                              onClick={() => option.onClick()}
+                              className="cursor-pointer bg-white-50 text-grey-600 group flex gap-x-3 rounded-md p-1 m-0 text-sm leading-6 font-semibold w-full hover:text-green-700"
                             >
-                              <ChairAlt
-                                className={classNames(
-                                  'text-indigo-600',
-                                  'h-6 w-6 shrink-0',
-                                )}
-                                aria-hidden="true"
-                              />
                               {option.text}
-                            </a>
-                          ))}
-                        </li>
+                            </p>
+                          </li>
+                        ))}
                       </ul>
-                    </li>
-                  </ul>
-                </li>
+                    )}
+                  </li>
+                ))}
               </ul>
             </nav>
           </div>
