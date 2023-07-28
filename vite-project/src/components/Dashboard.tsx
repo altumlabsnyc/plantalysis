@@ -13,7 +13,7 @@ import { UserRole } from '@/types/supabaseAlias'
 
 export type DashboardPanel = {
   link: string
-  icon: React.ReactNode
+  icon?: React.ReactNode
   text: string
 }
 

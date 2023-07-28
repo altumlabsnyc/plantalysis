@@ -11,6 +11,7 @@ import { UserRole } from '@/types/supabaseAlias'
 /**
  * Map from UserRole to its Inputs specific to that UserRole when registering
  */
+// @ts-ignore
 export const userSpecificInputs: Map<UserRole, Array<Input>> = new Map([
   [
     'regulator',

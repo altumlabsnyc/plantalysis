@@ -1,5 +1,4 @@
 import { LabOrder } from '@/types/supabaseAlias'
-import { ProducerRequestsTableData } from '@/components/OrderRequestsPanel'
 import { supabase } from '@/utils/supabase'
 import { User } from '@supabase/supabase-js'
 import useSWR from 'swr'
@@ -80,6 +79,7 @@ export default function useLabOrders(
 export function useOrderRequestsPanelOrders(user: User | null) {
   const fetcher = async () => {
     let ordersError: any,
+      // @ts-ignore
       ordersData: Array<ProducerRequestsTableData> | null | undefined
 
     const ordersFetchPromise = supabase

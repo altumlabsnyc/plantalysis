@@ -183,8 +183,8 @@ export default function Register() {
       license_number: license_number,
       id: id,
       contact_phone: contact_phone,
-    };
-    return prodData;
+    }
+    return prodData
   }
 
   function helperLabInfo(data: FormData): LabUser {
@@ -398,7 +398,9 @@ export default function Register() {
                         if (input.id === 'license_type') {
                           return (
                             <div key={input.id}>
-                              <Typography variant="subtitle1">License Type:</Typography>
+                              <Typography variant="subtitle1">
+                                License Type:
+                              </Typography>
                               <FormControlLabel
                                 control={<Radio />}
                                 label="AUCC"
@@ -418,26 +420,26 @@ export default function Register() {
                                 value="AUHC"
                               />
                             </div>
-                          );
+                          )
                         }
                         // Render other text fields except "license_type"
-                          if (input.id !== 'producer_license_type') {
-                            return (
-                              <TextField
-                                key={input.id}
-                                margin="normal"
-                                required
-                                fullWidth
-                                id={input.id}
-                                label={input.name}
-                                name={input.id}
-                                autoComplete={`Enter your ${input.name.toLowerCase()}`}
-                                autoFocus
-                              />
-                            );
+                        if (input.id !== 'producer_license_type') {
+                          return (
+                            <TextField
+                              key={input.id}
+                              margin="normal"
+                              required
+                              fullWidth
+                              id={input.id}
+                              label={input.name}
+                              name={input.id}
+                              autoComplete={`Enter your ${input.name.toLowerCase()}`}
+                              autoFocus
+                            />
+                          )
                         }
                         // Render "license_number" text field after "license_type"
-                        return null;
+                        return null
                       })}
                     </div>
                   ))}

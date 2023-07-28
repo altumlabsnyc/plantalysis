@@ -5,9 +5,7 @@ import RequestDetailPanel from './LabUpperPanels/RequestDetailPanel/RequestDetai
 import UploadPanel from './UploadPanel'
 
 export default function LabUpperPanels() {
-  const [activeLabOrder, setActiveLabOrder] = useState<LabOrder|null>(
-    null
-  )
+  const [activeLabOrder, setActiveLabOrder] = useState<LabOrder | null>(null)
   return (
     <div
       style={{
@@ -30,9 +28,7 @@ export default function LabUpperPanels() {
         <UploadPanel />
       </div>
 
-      <RequestDetailPanel
-        activeLabOrder={activeLabOrder}
-      />
+      <RequestDetailPanel activeLabOrder={activeLabOrder} />
     </div>
   )
 }

@@ -1,15 +1,15 @@
+import { createColumnHelper } from '@tanstack/react-table'
 import Panel from './Panel'
 import Table from './Table/Table'
-import { createColumnHelper } from '@tanstack/react-table'
 
-import './assets/css/panel.css'
 import { approveLabOrder } from '@/hooks/approveLabOrder'
 import {
-  useOrderRequestsPanelOrders,
   getUnClaimedOrders,
+  useOrderRequestsPanelOrders,
 } from '@/hooks/useLabOrders'
-import { useUser } from '@supabase/auth-helpers-react'
 import { LabOrder } from '@/types/supabaseAlias'
+import { useUser } from '@supabase/auth-helpers-react'
+import './assets/css/panel.css'
 // import useUnapprovedOrderRequests from "@/hooks/useUnapprovedOrderRequests";
 
 /*
@@ -27,7 +27,7 @@ import { LabOrder } from '@/types/supabaseAlias'
 
 const columnHelper = createColumnHelper<LabOrder>()
 
-interface OrderRequestPanel {
+export interface OrderRequestPanel {
   setActiveLabOrder: (activeLabOrder: LabOrder | null) => void
 }
 

@@ -8,7 +8,7 @@ const productIds = [
   'price_1NYLCzEf36GHXrtiM4jG2zLs',
 ]
 // prod
-// const productIds = []
+// const productIds = ['price_1NYd4lEf36GHXrti3R2ZoBdY', 'price_1NYd4mEf36GHXrtizmaAqNbw', 'price_1NYd4mEf36GHXrtiyEP2L5Sa', 'price_1NYd4mEf36GHXrti7ykGNsif']
 
 /**
  * Given a product type and a turnaround time, convert to a stripe price id
