@@ -100,12 +100,12 @@ export function useOrderRequestsPanelOrders(user: User | null) {
       `,
       )
       .then(({ data, error }) => {
-        ordersData = data?.map(({id, lab_user_id, order_time, batch}) => {
+        ordersData = data?.map(({ id, lab_user_id, order_time, batch }) => {
           return {
             id,
             lab_user_id,
             order_time,
-            common_name: batch?.facility?.producer_user?.common_name
+            common_name: batch?.facility?.producer_user?.common_name,
           } as LabRequestTableRow
         })
         ordersError = error

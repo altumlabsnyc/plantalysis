@@ -10,6 +10,7 @@ import {
   RadioGroup,
   TextField,
   Typography,
+  FormControl,
 } from '@mui/material'
 import * as React from 'react'
 
@@ -108,11 +109,14 @@ export default function Register() {
     if (generalUserData) {
       switch (selectedUser) {
         case 'producer':
-          handleSignUp({
-            userDetails: generalUserData,
-            roleData: { producerData: helperProdInfo(data) },
-            password: password,
-          })
+          console.log(data.get('license_type'))
+          console.log(helperProdInfo(data))
+          return
+          // handleSignUp({
+          //   userDetails: generalUserData,
+          //   roleData: { producerData: helperProdInfo(data) },
+          //   password: password,
+          // })
           break
         case 'university':
           handleSignUp({
@@ -389,7 +393,7 @@ export default function Register() {
             )}
             {currentTab == 2 && (
               <div>
-                <Typography variant="h5">{selectedUser}</Typography>
+                <Typography variant="h5">{selectedUser}</Typography>z
                 {users
                   .filter((user) => selectedUser === user.userType)
                   .map((user) => (
@@ -436,6 +440,7 @@ export default function Register() {
                               autoComplete={`Enter your ${input.name.toLowerCase()}`}
                               autoFocus
                             />
+
                           )
                         }
                         // Render "license_number" text field after "license_type"

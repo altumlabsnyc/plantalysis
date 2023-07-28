@@ -8,11 +8,14 @@ import { Row } from 'react-table'
 
 interface TableProps<T> {
   data: T[]
-  columns: ColumnDef<T, any>[]
+  columns: ColumnDef<T, any>[] | null
   hideHeader?: boolean | null
 }
 
 export default function Table<T>({ data, columns, hideHeader }: TableProps<T>) {
+  if (!columns) {
+    throw new Error('columns need to be defined')
+  }
   const table = useReactTable({
     data,
     columns,
