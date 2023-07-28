@@ -98,7 +98,7 @@ export default function OrderRequestPanel({
 
   if (!activeLabOrder && data.length) {
     setActiveLabOrder(data[0])
-  }ain
+  }
   return (
     <div style={{ margin: 'auto 0' }}>
       <Panel>
