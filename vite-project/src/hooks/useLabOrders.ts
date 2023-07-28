@@ -86,7 +86,7 @@ export function useLabOrderRequests(user: User | null) {
   const fetcher = async () => {
     let ordersData = null
 
-    let { data, error: ordersError } = await supabase
+    const { data, error: ordersError } = await supabase
       .from('lab_order')
       .select(
         `
