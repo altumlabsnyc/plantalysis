@@ -6,7 +6,10 @@
 }
 .panel-subtitle {
     color: #457F6C;
-    font-size: 20px;
+    font-size: 18px;
     font-family: 'Poppins';
     font-weight: 400;
+}
+.panel-text {
+    font-family: 'Poppins';
 }
