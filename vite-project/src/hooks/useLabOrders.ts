@@ -1,7 +1,7 @@
-import { LabRequestTableRow } from '@/components/OrderRequestsPanel'
-import { LabOrder } from '@/types/supabaseAlias'
+import { Batch, Facility, LabOrder } from '@/types/supabaseAlias'
 import { supabase } from '@/utils/supabase'
 import { User } from '@supabase/supabase-js'
+import toast from 'react-hot-toast'
 import useSWR from 'swr'
 import { v4 } from 'uuid'
 
@@ -77,43 +77,39 @@ export default function useLabOrders(
   }
 }
 
-//HELPERS FOR LAB_ORDERS FETCHING
-export function useOrderRequestsPanelOrders(user: User | null) {
-  const fetcher = async () => {
-    let ordersError: any,
-      ordersData: Array<LabRequestTableRow> | null | undefined
+export type LabRequest = LabOrder & {
+  batch: Batch
+  facility: Facility | null
+}
 
-    const ordersFetchPromise = supabase
+//HELPERS FOR LAB_ORDERS FETCHING
+export function useLabOrderRequests(user: User | null) {
+  const fetcher = async () => {
+    let ordersData = null
+
+    let { data, error: ordersError } = await supabase
       .from('lab_order')
       .select(
         `
-        id,
-        lab_user_id,
-        order_time,
+        *,
         batch (
-          facility (
-            producer_user (
-              common_name
-            )
-          )
+          *,
+          facility ( * )
         )
-      `,
+        `,
       )
-      .then(({ data, error }) => {
-        ordersData = data?.map(({ id, lab_user_id, order_time, batch }) => {
-          return {
-            id,
-            lab_user_id,
-            order_time,
-            common_name: batch?.facility?.producer_user?.common_name,
-          } as LabRequestTableRow
-        })
-        ordersError = error
-      })
+      .is('lab_user_id', null)
 
-    await ordersFetchPromise
+    if (data != null) {
+      ordersData = data.map((order) => ({
+        ...order,
+        batch: order.batch,
+        facility: order.batch?.facility,
+      })) as LabRequest[]
+    }
 
     if (ordersError) {
+      toast.error('Error fetching orders. Please contact Altum support.')
       console.log(ordersError)
     }
 
@@ -125,15 +121,16 @@ export function useOrderRequestsPanelOrders(user: User | null) {
     return ordersData
   }
 
-  const { data, error, isLoading } = useSWR(
+  const { data, error, isLoading, mutate } = useSWR(
     user ? '/api/lab_orders/' : null,
     fetcher,
   )
 
   return {
-    data: data as LabRequestTableRow[] | null,
+    data: data as LabRequest[] | null,
     error,
     isLoading,
+    mutate,
   }
 }
 

@@ -113,8 +113,8 @@ export default function NewOrder() {
   }, [facilitiesDetails])
 
   return (
-    <div className="mx-4">
-      <div className="prose max-w-4xl bg-white rounded-xl p-4 mt-2 mx-auto mb-4">
+    <div className="mx-4 mb-4">
+      <div className="prose max-w-4xl bg-white shadow-xl rounded-xl p-4 mt-2 mx-auto mb-4">
         <h3>Place a new lab order</h3>
         <div className="text-sm mt-2">
           <p className="font-bold my-0">Pickup Location</p>

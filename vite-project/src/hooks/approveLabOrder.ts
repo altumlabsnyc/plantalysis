@@ -1,5 +1,5 @@
 import { supabase } from '@/utils/supabase'
-import { User, useUser } from '@supabase/auth-helpers-react'
+import { User } from '@supabase/auth-helpers-react'
 
 export const approveLabOrder = async (
   labOrderId: string,
@@ -12,8 +12,8 @@ export const approveLabOrder = async (
     const { data, error } = await supabase
       .from('lab_order')
       .update({ lab_user_id: user.id })
+
       .eq('id', labOrderId)
-      .select()
     if (error) {
       throw new Error('Failed to approve order')
     }

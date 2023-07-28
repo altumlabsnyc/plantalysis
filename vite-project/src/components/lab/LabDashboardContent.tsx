@@ -1,19 +1,10 @@
 import LabUpperPanels from '../LabUpperPanels'
-import OrderHistoryPanel from '../OrderHistoryPanel'
 
 export default function LabDashboardContent() {
   return (
-    <div
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-        padding: '20px',
-        gap: '20px',
-        margin: '0 auto',
-      }}
-    >
+    <div className="flex flex-col items-center m-4 gap-4 pb-8">
       <LabUpperPanels />
-      <OrderHistoryPanel />
+      {/* <OrderHistoryPanel /> */}
     </div>
   )
 }
