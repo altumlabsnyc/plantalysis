@@ -2,11 +2,11 @@ import {
   Box,
   Button,
   CssBaseline,
+  Radio,
   FormControlLabel,
   Grid,
   Link,
   Paper,
-  Radio,
   RadioGroup,
   TextField,
   Typography,
@@ -16,16 +16,17 @@ import * as React from 'react'
 import background from './assets/login/img/frame.png'
 
 import { AllRolesData, handleSignUp } from '@/hooks/handleSignUp'
+import { users, generalInputs } from '@/utils/formInputs'
+
 import {
-  UserType,
-  eduUser,
-  generalInputs,
-  govUser,
-  labUser,
-  prodUser,
-  userData,
-  users,
-} from './UserTypes'
+  ProducerUser,
+  RegulatorUser,
+  ConsumerUser,
+  UniversityUser,
+  BaseUser,
+  LabUser,
+  UserRole,
+} from '@/types/supabaseAlias'
 
 function Copyright(props: any) {
   return (
@@ -138,7 +139,7 @@ export default function Register() {
     }
   }
 
-  function helperEduInfo(data: FormData): eduUser {
+  function helperEduInfo(data: FormData): UniversityUser {
     const id = ''
     const lab_address = data.get('university_lab_address')?.toString() || null
     const primary_investigator =
@@ -147,7 +148,7 @@ export default function Register() {
       data.get('university_department')?.toString() || null
     const university_name = data.get('university_name')?.toString() || null
 
-    const uniData: eduUser = {
+    const uniData: UniversityUser = {
       lab_address: lab_address,
       university_department: university_department,
       university_name: university_name,
@@ -157,36 +158,36 @@ export default function Register() {
     return uniData
   }
 
-  function helperProdInfo(data: FormData): prodUser {
+  function helperProdInfo(data: FormData): ProducerUser {
     const id = ''
     const primary_facility_address =
       data.get('primary_facility_address')?.toString() || null
     const billing_address = data.get('billing_address')?.toString() || null
     const legal_name = data.get('legal_name')?.toString() || null
     const common_name = data.get('common_name')?.toString() || null
-    const license_number =
-      data.get('producer_license_number')?.toString() || null
     const license_type = data.get('license_type')?.toString() || null
-    // TODO: fix checkbox for license type instead of expecting that input
+    // TODO: fix Radio for license type instead of expecting that input
     const actualLisenceType =
       license_type == 'AUCC' || license_type == 'AUCP' || license_type == 'AUHC'
         ? license_type
         : null
+    const license_number =
+      data.get('producer_license_number')?.toString() || null
     const contact_phone = data.get('producer_contact_phone')?.toString() || null
-    const prodData: prodUser = {
+    const prodData: ProducerUser = {
       primary_facility_address: primary_facility_address,
       billing_address: billing_address,
       legal_name: legal_name,
       common_name: common_name,
+      license_type: actualLisenceType,
       license_number: license_number,
       id: id,
-      license_type: actualLisenceType,
       contact_phone: contact_phone,
-    }
-    return prodData
+    };
+    return prodData;
   }
 
-  function helperLabInfo(data: FormData): labUser {
+  function helperLabInfo(data: FormData): LabUser {
     const id = ''
     const lab_address = data.get('lab_address')?.toString() || null
     const contact_phone = data.get('lab_contact_phone')?.toString() || null
@@ -194,7 +195,7 @@ export default function Register() {
     const actualLicenseNumber = license_number ? parseInt(license_number) : null
     const lab_name = data.get('lab_name')?.toString() || null
     const owner_name = data.get('owner_name')?.toString() || null
-    const labData: labUser = {
+    const labData: LabUser = {
       lab_address: lab_address,
       contact_phone: contact_phone,
       lab_name: lab_name,
@@ -205,14 +206,14 @@ export default function Register() {
     return labData
   }
 
-  function helperGovInfo(data: FormData): govUser {
+  function helperGovInfo(data: FormData): RegulatorUser {
     const id = ''
     const mailing_address = data.get('mailing_address')?.toString() || null
     const regulator_name = data.get('regulator_name')?.toString() || null
     const contact_phone =
       data.get('regulator_contact_phone')?.toString() || null
 
-    const govData: govUser = {
+    const govData: RegulatorUser = {
       mailing_address: mailing_address,
       regulator_name: regulator_name,
       contact_phone: contact_phone,
@@ -222,13 +223,13 @@ export default function Register() {
   }
 
   const handleSelectingUser = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSelectedUser(event.target.value as UserType)
+    setSelectedUser(event.target.value as UserRole)
   }
 
   //useState variable declaration
-  const [selectedUser, setSelectedUser] = React.useState<UserType>()
+  const [selectedUser, setSelectedUser] = React.useState<UserRole>()
   const [currentTab, setCurrentTab] = React.useState(0)
-  const [generalUserData, setGeneralUserData] = React.useState<userData>()
+  const [generalUserData, setGeneralUserData] = React.useState<BaseUser>()
   const [password, setPassword] = React.useState<string>('')
 
   return (
@@ -393,19 +394,51 @@ export default function Register() {
                   .filter((user) => selectedUser === user.userType)
                   .map((user) => (
                     <div key={user.name}>
-                      {user.inputs?.map((input) => (
-                        <TextField
-                          key={input.id}
-                          margin="normal"
-                          required
-                          fullWidth
-                          id={input.id}
-                          label={input.name}
-                          name={input.id}
-                          autoComplete={`Enter your ${input.name.toLowerCase()}`}
-                          autoFocus
-                        />
-                      ))}
+                      {user.inputs?.map((input) => {
+                        if (input.id === 'license_type') {
+                          return (
+                            <div key={input.id}>
+                              <Typography variant="subtitle1">License Type:</Typography>
+                              <FormControlLabel
+                                control={<Radio />}
+                                label="AUCC"
+                                name="license_type"
+                                value="AUCC"
+                              />
+                              <FormControlLabel
+                                control={<Radio />}
+                                label="AUCP"
+                                name="license_type"
+                                value="AUCP"
+                              />
+                              <FormControlLabel
+                                control={<Radio />}
+                                label="AUHC"
+                                name="license_type"
+                                value="AUHC"
+                              />
+                            </div>
+                          );
+                        }
+                        // Render other text fields except "license_type"
+                          if (input.id !== 'producer_license_type') {
+                            return (
+                              <TextField
+                                key={input.id}
+                                margin="normal"
+                                required
+                                fullWidth
+                                id={input.id}
+                                label={input.name}
+                                name={input.id}
+                                autoComplete={`Enter your ${input.name.toLowerCase()}`}
+                                autoFocus
+                              />
+                            );
+                        }
+                        // Render "license_number" text field after "license_type"
+                        return null;
+                      })}
                     </div>
                   ))}
               </div>

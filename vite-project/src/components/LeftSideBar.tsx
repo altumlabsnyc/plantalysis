@@ -1,11 +1,9 @@
-import React, { useState } from 'react'
-import logo from '@/components/assets/img/logo.png'
-import newLogo from '@/components/assets/img/newLogo.png'
 import blank from '@/components/assets/img/blank.png'
-import { FaAngleRight } from 'react-icons/fa'
-import classNames from 'classnames'
+import newLogo from '@/components/assets/img/newLogo.png'
 import { Transition } from '@headlessui/react'
-import { Fragment } from 'react'
+import { ChevronRightIcon } from '@heroicons/react/20/solid'
+import classNames from 'classnames'
+import { Fragment, useState } from 'react'
 import { DashboardPanel } from './Dashboard'
 
 interface LeftSideBarProps {
@@ -129,8 +127,8 @@ export default function LeftSideBar({ sidebarOpen }: LeftSideBarProps) {
                       className="bg-white-50 text-grey-600 group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold w-full items-center" // add items-center class to center the content vertically
                     >
                       {section.isMainSection && ( // Only show arrow for main sections
-                        <FaAngleRight
-                          style={{ color: '#a0aec0' }}
+                        <ChevronRightIcon
+                          // style={{ color: '#a0aec0' }}
                           className={classNames(
                             'text-grey-600 transform transition-transform',
                             {

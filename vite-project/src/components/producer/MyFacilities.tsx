@@ -3,8 +3,8 @@ import useFacilitiesDetails from '@/hooks/useFacilities'
 import { Facility } from '@/types/supabaseAlias'
 import { useUser } from '@supabase/auth-helpers-react'
 import { FormEvent } from 'react'
-import GeneralForm from '../GeneralForm'
-import { facilityInputs } from '../UserTypes'
+import GeneralForm from '@/components/GeneralForm'
+import { facilityInputs } from '@/utils/formInputs'
 
 export default function Facilities() {
   const user = useUser()

@@ -2,13 +2,17 @@ import {
   Box,
   Button,
   CssBaseline,
+  FormControl,
+  FormControlLabel,
   Link,
+  Radio,
+  RadioGroup,
   TextField,
   Typography,
 } from '@mui/material'
 
-import { Input } from '@/components/UserTypes'
 import useUserDetails from '@/hooks/useUserDetails'
+import Input from '@/types/Input'
 import { useUser } from '@supabase/auth-helpers-react'
 import { FormEvent } from 'react' // Import FormEvent type
 
@@ -56,17 +60,36 @@ export default function GeneralForm<T>({
 
       <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
         {inputs.map((input) => (
-          <TextField
-            margin="normal"
-            required
-            fullWidth
-            id={input.id}
-            label={input.name}
-            name={input.id}
-            key={input.id}
-            autoComplete={`Enter your ${input.name.toLowerCase()}`}
-            autoFocus
-          />
+          <div key={input.id}>
+            {input.type !== 'radio' && (
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                id={input.id}
+                label={input.name}
+                name={input.id}
+                key={input.id}
+                autoComplete={`Enter your ${input.name.toLowerCase()}`}
+                autoFocus
+              />
+            )}
+            {input.type == 'radio' && (
+              <FormControl>
+                Enter your {input.name}
+                <RadioGroup>
+                  {input.options?.map((option) => (
+                    <FormControlLabel
+                      key={option}
+                      value={option}
+                      control={<Radio />}
+                      label={option}
+                    />
+                  ))}
+                </RadioGroup>
+              </FormControl>
+            )}
+          </div>
         ))}
 
         <Button

@@ -9,7 +9,7 @@ import React, { Fragment, useState } from 'react'
 import { Toaster } from 'react-hot-toast'
 import Header from './Header'
 import LeftSideBar from './LeftSideBar'
-import { UserType } from './UserTypes'
+import { UserRole } from '@/types/supabaseAlias'
 
 export type DashboardPanel = {
   link: string
@@ -19,7 +19,7 @@ export type DashboardPanel = {
 
 interface DashboardProps {
   children: React.ReactNode
-  role: UserType
+  role: UserRole
   panels: DashboardPanel[]
   dashboardTitle: string
   headerIcons: HeaderIcon[]
@@ -44,7 +44,9 @@ export default function Dashboard({
   return (
     <>
       <div>
-        {user?.email_confirmed_at && <EmailConfirmationBanner />}
+        {user?.email_confirmed_at && (
+          <EmailConfirmationBanner sidebarOpen={desktopSidebarOpen} />
+        )}
         <Toaster />
         <div className="bg-background">
           {/* Mobile menu & transition CAN IGNORE FOR NOW */}

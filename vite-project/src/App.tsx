@@ -52,7 +52,7 @@ function App() {
           <Route path="/playground">
             <div
               style={{
-                background: 'grey',
+                background: '#F8F6F2',
                 width: '100%',
                 height: '700px',
                 display: 'flex',

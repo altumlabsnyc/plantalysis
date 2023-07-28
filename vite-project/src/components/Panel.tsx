@@ -8,6 +8,7 @@ export default function Panel({ children }: PanelProps) {
       style={{
         borderRadius: '10px',
         backgroundColor: 'white',
+        padding: '4px 10px',
       }}
     >
       {children}

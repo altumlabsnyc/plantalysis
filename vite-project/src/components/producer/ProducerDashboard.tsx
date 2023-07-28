@@ -9,10 +9,10 @@ import useUserDetails from '@/hooks/useUserDetails'
 import { useUser } from '@supabase/auth-helpers-react'
 import React, { useState } from 'react'
 import { toast } from 'react-hot-toast'
-import { Route } from 'react-router-dom'
+import { Route, useHistory } from 'react-router-dom'
 import '../assets/dashboard/css/styles.css'
 import Facilities from './MyFacilities'
-import PlaceNewOrder from './PlaceNewOrder.js'
+import NewOrder from './NewOrder'
 import ProducerOrders from './ProducerOrders.js'
 
 interface ProducerDashboardProps {
@@ -20,6 +20,7 @@ interface ProducerDashboardProps {
 }
 
 function ProducerDashboard({ children }: ProducerDashboardProps) {
+  const history = useHistory()
   const user = useUser()
   const { data: userDetails } = useUserDetails(user)
 
@@ -62,25 +63,20 @@ function ProducerDashboard({ children }: ProducerDashboardProps) {
 
   const headerLinks = [
     {
+      label: 'Overview',
+      onClick: () => toast('Overview coming soon!', { icon: '⭐' }),
+    },
+    {
       label: 'Place Order',
-      onClick: () =>
-        toast('Place Order coming soon!', {
-          icon: '⭐',
-        }),
+      onClick: () => history.push('/dashboard/producer/new-order'),
     },
     {
       label: 'Orders',
-      onClick: () =>
-        toast('Orders coming soon!', {
-          icon: '⭐',
-        }),
+      onClick: () => history.push('/dashboard/producer/orders'),
     },
     {
       label: 'Manage Brands',
-      onClick: () =>
-        toast('Manage Brands coming soon!', {
-          icon: '⭐',
-        }),
+      onClick: () => history.push('/dashboard/producer/brands'),
     },
   ]
 
@@ -131,7 +127,7 @@ export default function ProducerDashboardRouter() {
   return (
     <ProducerDashboard>
       <Route path="/dashboard/producer/new-order">
-        <PlaceNewOrder />
+        <NewOrder />
       </Route>
       <Route path="/dashboard/producer/orders">
         <ProducerOrders />
