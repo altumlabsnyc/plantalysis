@@ -11,6 +11,8 @@ import SampleDetails from './SampleDetails'
 import DeliveryNotes from './DeliveryNotes'
 import DeliveryDetails from './DeliveryDetails'
 import PaymentDetails from './PaymentDetails'
+import { useUser } from '@supabase/auth-helpers-react'
+import { approveLabOrder } from '@/hooks/approveLabOrder'
 
 interface RequestDetailPanel {
   activeLabOrder: LabOrder | null
@@ -19,6 +21,8 @@ interface RequestDetailPanel {
 export default function RequestDetailPanel({
   activeLabOrder,
 }: RequestDetailPanel) {
+  const user = useUser()
+  const isApproved = activeLabOrder?.lab_user_id != null
   return (
     <Panel>
       <div
@@ -41,9 +45,29 @@ export default function RequestDetailPanel({
         >
           <p className="panel-title">
             Order Request:{' '}
-            <span className="panel-subtitle">{activeLabOrder?.id}</span>
+            <span
+              className="panel-subtitle"
+              style={{
+                fontSize: '10px'
+              }}>{activeLabOrder?.id}</span>
           </p>
-          <div>Approve Request</div>
+          <div
+            onClick={() => {
+              if (!isApproved) {
+                activeLabOrder && approveLabOrder(activeLabOrder.id, user)
+                  .then(data => console.log(data))
+              }
+            }
+            }
+            style={{
+              borderRadius: '8px',
+              borderColor: '#D0D5DD',
+              borderWidth: '1.5px',
+              padding: '0 10px',
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center'
+            }}><div>{isApproved ? 'Approved' : 'Approve Request'}</div></div>
         </div>
         <div
           style={{

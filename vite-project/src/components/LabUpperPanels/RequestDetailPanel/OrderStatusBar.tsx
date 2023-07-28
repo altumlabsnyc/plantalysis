@@ -115,6 +115,7 @@ function statusBarItem({
 }: statusBarItemProps) {
   return (
     <div
+      key={status}
       style={{
         display: 'flex',
         flexDirection: 'column',

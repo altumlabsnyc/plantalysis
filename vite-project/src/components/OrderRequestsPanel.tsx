@@ -32,12 +32,25 @@ export type LabRequestTableRow = LabOrder & {
 }
 
 export interface OrderRequestPanel {
+  activeLabOrder: LabOrder | null
   setActiveLabOrder: (activeLabOrder: LabOrder | null) => void
 }
 
 export default function OrderRequestPanel({
-  setActiveLabOrder,
+  activeLabOrder,
+  setActiveLabOrder
 }: OrderRequestPanel) {
+
+  const user = useUser()
+  const {
+    data: allOrders,
+    error,
+    isLoading,
+  } = useOrderRequestsPanelOrders(user)
+  let data = allOrders && user
+    ? getUnClaimedOrders(allOrders as LabOrder[], user) as LabRequestTableRow[]
+    : []
+
   const columns = [
     // columnHelper.accessor('common_name', {
     //     cell: info => {
@@ -64,28 +77,28 @@ export default function OrderRequestPanel({
       id: 'approve',
       cell: (props) => (
         <div
-          onClick={() => {
-            approveLabOrder(props.row.original.id, user)
+          onClick={async () => {
+            const newOrder = (await approveLabOrder(props.row.original.id, user))[0]
+            if(newOrder.id == activeLabOrder?.id) {
+              activeLabOrder.lab_user_id = newOrder.lab_user_id
+            }
+            data = data.map(e => {
+              if (e.id == newOrder.id) {
+                e.lab_user_id = newOrder.lab_user_id
+              }
+              return e
+            })
           }}
         >
-          Approve?
-        </div>
+          Approve ?
+        </div >
       ),
     }),
   ]
-  const user = useUser()
-  const {
-    data: allOrders,
-    error,
-    isLoading,
-  } = useOrderRequestsPanelOrders(user)
-  const data =
-    allOrders && user
-      ? (getUnClaimedOrders(
-          allOrders as LabOrder[],
-          user,
-        ) as LabRequestTableRow[])
-      : []
+
+  if (!activeLabOrder && data.length) {
+    setActiveLabOrder(data[0])
+  }
   return (
     <div style={{ margin: 'auto 0' }}>
       <Panel>
