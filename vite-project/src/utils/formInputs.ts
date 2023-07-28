@@ -69,7 +69,7 @@ export const userSpecificInputs: Map<UserRole, Array<Input>> = new Map([
         { name: 'Lab Address', id: 'university_lab_address', type: 'text' },
       ],
     ],
-    ['consumer', []],
+    'consumer', []],
   ])
   
   

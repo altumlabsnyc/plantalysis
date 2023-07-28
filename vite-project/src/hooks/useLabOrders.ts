@@ -3,6 +3,7 @@ import { LabOrder } from '@/types/supabaseAlias'
 import { supabase } from '@/utils/supabase'
 import { User } from '@supabase/supabase-js'
 import useSWR from 'swr'
+import { v4 } from 'uuid'
 
 export enum LabOrdersRequested {
   claimedByALab = 'claimed',
@@ -189,4 +190,76 @@ export function getProducerOrders(
 ): Array<LabOrder> {
   // todo: UPDATE THIS FUNCTION
   return allOrders ? allOrders : []
+}
+
+
+export interface ProducerLabOrderDetails{
+  id: string,
+  order_time: string,
+  location: string | null,
+  lab_user_id: string | null,
+  analysis_id: string | null
+  analysis_approved: boolean | null
+}
+
+
+
+export function useProducerPlacedOrders(user: User | null) {
+  const fetcher = async () => {
+    let ordersError: any,
+      ordersData: Array<ProducerLabOrderDetails> | null | undefined
+
+    const ordersFetchPromise = supabase
+      .from('lab_order')
+      .select( `
+      *,
+      batch!inner (
+        *,
+        producer_user_id,
+        facility ( * )
+      )
+      `).eq('batch.producer_user_id', user?.id)
+      
+      .then(({ data, error }) => {
+        console.log("data", data);
+        ordersData = data?.map((order) => {
+          const orderData: ProducerLabOrderDetails ={
+            id: order.id,
+            lab_user_id: order.lab_user_id,
+            order_time: order.order_time,
+            location:  order.batch?.facility?.location || null,
+            analysis_approved: null,
+            analysis_id: null
+          }
+          return orderData;
+        })
+      
+        ordersError = error
+      })
+      
+
+    await ordersFetchPromise
+
+    if (ordersError) {
+      console.log(ordersError)
+    }
+
+    if (!ordersData) {
+      return null
+    }
+
+    // Return the combined data
+    return ordersData
+  }
+
+  const { data, error, isLoading } = useSWR(
+    user ? `/api/lab_orders/${user.id}` : null,
+    fetcher,
+  )
+
+  return {
+    data: data as ProducerLabOrderDetails[] | null,
+    error,
+    isLoading,
+  }
 }
