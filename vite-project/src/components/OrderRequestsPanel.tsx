@@ -25,38 +25,14 @@ import { LabOrder } from '@/types/supabaseAlias'
  * producer_user - common_name
  */
 
-export type ProducerRequestsTableData = {
-  common_name: string | null | undefined
-  id: string
-  lab_user_id: string | null
-}
-
-const data: ProducerRequestsTableData[] = [
-  {
-    common_name: 'AAA Corp',
-    id: '1a2b3cff-AAA-Corp',
-    lab_user_id: 'a1b2c3ff',
-  },
-  {
-    common_name: 'BBB Corp',
-    id: '1a2b3cff-BBB-Corp',
-    lab_user_id: null,
-  },
-  {
-    common_name: 'CCC Corp',
-    id: '1a2b3cff-CCC-Corp',
-    lab_user_id: null,
-  },
-]
-
 const columnHelper = createColumnHelper<LabOrder>()
 
 interface OrderRequestPanel {
-  setActiveLabOrderId: (activeLabOrderId: string | null) => void
+  setActiveLabOrder: (activeLabOrder: LabOrder | null) => void
 }
 
 export default function OrderRequestPanel({
-  setActiveLabOrderId,
+  setActiveLabOrder,
 }: OrderRequestPanel) {
   const columns = [
     // columnHelper.accessor('common_name', {
@@ -74,7 +50,7 @@ export default function OrderRequestPanel({
             fontFamily: 'Poppins',
             fontWeight: 400,
           }}
-          onClick={() => setActiveLabOrderId(info.getValue())}
+          onClick={() => setActiveLabOrder(info.row.original)}
         >
           View Request
         </div>

@@ -88,6 +88,7 @@ export function useOrderRequestsPanelOrders(user: User | null) {
         `
         id,
         lab_user_id,
+        order_time,
         batch (
           facility (
             producer_user (
@@ -98,11 +99,11 @@ export function useOrderRequestsPanelOrders(user: User | null) {
       `,
       )
       .then(({ data, error }) => {
-        console.log(data)
-        ordersData = data?.map(({ id, lab_user_id, batch }) => {
+        ordersData = data?.map(({ id, lab_user_id, order_time, batch }) => {
           return {
             id,
             lab_user_id,
+            order_time,
             common_name: batch?.facility?.producer_user?.common_name,
           }
         })
