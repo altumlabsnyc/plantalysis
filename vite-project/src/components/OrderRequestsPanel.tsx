@@ -98,7 +98,7 @@ export default function OrderRequestPanel({
 
   if (!activeLabOrder && data.length) {
     setActiveLabOrder(data[0])
-  }
+  }ain
   return (
     <div style={{ margin: 'auto 0' }}>
       <Panel>
@@ -108,7 +108,11 @@ export default function OrderRequestPanel({
           }}
         >
           <div className="panel-title">Producer Requests</div>
-          <Table<LabRequestTableRow> data={data} columns={columns} hideHeader={true} />
+          <Table<LabRequestTableRow>
+            data={data}
+            columns={columns}
+            hideHeader={true}
+          />
         </div>
       </Panel>
     </div>
