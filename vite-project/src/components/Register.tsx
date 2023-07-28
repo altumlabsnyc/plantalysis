@@ -10,6 +10,7 @@ import {
   RadioGroup,
   TextField,
   Typography,
+  FormControl,
 } from '@mui/material'
 import * as React from 'react'
 
@@ -108,11 +109,14 @@ export default function Register() {
     if (generalUserData) {
       switch (selectedUser) {
         case 'producer':
-          handleSignUp({
-            userDetails: generalUserData,
-            roleData: { producerData: helperProdInfo(data) },
-            password: password,
-          })
+          console.log(data.get('license_type'))
+          console.log(helperProdInfo(data))
+          return
+          // handleSignUp({
+          //   userDetails: generalUserData,
+          //   roleData: { producerData: helperProdInfo(data) },
+          //   password: password,
+          // })
           break
         case 'university':
           handleSignUp({
@@ -183,8 +187,8 @@ export default function Register() {
       license_number: license_number,
       id: id,
       contact_phone: contact_phone,
-    };
-    return prodData;
+    }
+    return prodData
   }
 
   function helperLabInfo(data: FormData): LabUser {
@@ -389,56 +393,43 @@ export default function Register() {
             )}
             {currentTab == 2 && (
               <div>
-                <Typography variant="h5">{selectedUser}</Typography>
+                <Typography variant="h5">{selectedUser}</Typography>z
                 {users
                   .filter((user) => selectedUser === user.userType)
                   .map((user) => (
                     <div key={user.name}>
-                      {user.inputs?.map((input) => {
-                        if (input.id === 'license_type') {
-                          return (
-                            <div key={input.id}>
-                              <Typography variant="subtitle1">License Type:</Typography>
-                              <FormControlLabel
-                                control={<Radio />}
-                                label="AUCC"
-                                name="license_type"
-                                value="AUCC"
-                              />
-                              <FormControlLabel
-                                control={<Radio />}
-                                label="AUCP"
-                                name="license_type"
-                                value="AUCP"
-                              />
-                              <FormControlLabel
-                                control={<Radio />}
-                                label="AUHC"
-                                name="license_type"
-                                value="AUHC"
-                              />
-                            </div>
-                          );
-                        }
-                        // Render other text fields except "license_type"
-                          if (input.id !== 'producer_license_type') {
-                            return (
-                              <TextField
-                                key={input.id}
-                                margin="normal"
-                                required
-                                fullWidth
-                                id={input.id}
-                                label={input.name}
-                                name={input.id}
-                                autoComplete={`Enter your ${input.name.toLowerCase()}`}
-                                autoFocus
-                              />
-                            );
-                        }
+                      {user.inputs?.map((input) => (
+                        <div>
+                          {input.type === 'radio' && (
+                            <FormControl key={input.id} id={input.id}>
+                              Enter your {input.name}
+                              {input.options?.map((option) => (
+                                <FormControlLabel
+                                  key={`${input.id}-${option}`}
+                                  value={option}
+                                  control={<Radio />}
+                                  label={option}
+                                />
+                              ))}
+                            </FormControl>
+                          )}
+                          {input.id !== 'radio' && (
+                            <TextField
+                              key={input.id}
+                              margin="normal"
+                              required
+                              fullWidth
+                              id={input.id}
+                              label={input.name}
+                              name={input.id}
+                              autoComplete={`Enter your ${input.name.toLowerCase()}`}
+                              autoFocus
+                            />
+                          )}
+                        </div>
                         // Render "license_number" text field after "license_type"
-                        return null;
-                      })}
+                        // return null
+                      ))}
                     </div>
                   ))}
               </div>
