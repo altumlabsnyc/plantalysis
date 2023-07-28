@@ -81,7 +81,10 @@ export default function OrderRequestPanel({
   } = useOrderRequestsPanelOrders(user)
   const data =
     allOrders && user
-      ? getUnClaimedOrders(allOrders as LabOrder[], user) as LabRequestTableRow[]
+      ? (getUnClaimedOrders(
+          allOrders as LabOrder[],
+          user,
+        ) as LabRequestTableRow[])
       : []
   return (
     <div style={{ margin: 'auto 0' }}>
@@ -92,7 +95,11 @@ export default function OrderRequestPanel({
           }}
         >
           <div className="panel-title">Producer Requests</div>
-          <Table<LabRequestTableRow> data={data} columns={columns} hideHeader={true} />
+          <Table<LabRequestTableRow>
+            data={data}
+            columns={columns}
+            hideHeader={true}
+          />
         </div>
       </Panel>
     </div>
