@@ -1,3 +1,4 @@
+import { LabRequestTableRow } from '@/components/OrderRequestsPanel'
 import { LabOrder } from '@/types/supabaseAlias'
 import { supabase } from '@/utils/supabase'
 import { User } from '@supabase/supabase-js'
@@ -79,8 +80,7 @@ export default function useLabOrders(
 export function useOrderRequestsPanelOrders(user: User | null) {
   const fetcher = async () => {
     let ordersError: any,
-      // @ts-ignore
-      ordersData: Array<ProducerRequestsTableData> | null | undefined
+      ordersData: Array<LabRequestTableRow> | null | undefined
 
     const ordersFetchPromise = supabase
       .from('lab_order')
@@ -99,13 +99,13 @@ export function useOrderRequestsPanelOrders(user: User | null) {
       `,
       )
       .then(({ data, error }) => {
-        ordersData = data?.map(({ id, lab_user_id, order_time, batch }) => {
+        ordersData = data?.map(({id, lab_user_id, order_time, batch}) => {
           return {
             id,
             lab_user_id,
             order_time,
-            common_name: batch?.facility?.producer_user?.common_name,
-          }
+            common_name: batch?.facility?.producer_user?.common_name
+          } as LabRequestTableRow
         })
         ordersError = error
       })
@@ -116,7 +116,6 @@ export function useOrderRequestsPanelOrders(user: User | null) {
       console.log(ordersError)
     }
 
-    // @ts-ignore
     if (!ordersData) {
       return null
     }
@@ -131,7 +130,7 @@ export function useOrderRequestsPanelOrders(user: User | null) {
   )
 
   return {
-    data: data as LabOrder[] | null,
+    data: data as LabRequestTableRow[] | null,
     error,
     isLoading,
   }
