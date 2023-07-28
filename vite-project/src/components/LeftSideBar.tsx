@@ -1,62 +1,81 @@
 import blank from '@/components/assets/img/blank.png'
 import newLogo from '@/components/assets/img/newLogo.png'
+import { SidebarSection } from '@/types/dashboard'
 import { Transition } from '@headlessui/react'
 import { ChevronRightIcon } from '@heroicons/react/20/solid'
 import classNames from 'classnames'
 import { Fragment, useState } from 'react'
-import { DashboardPanel } from './Dashboard'
+import { useHistory } from 'react-router-dom'
 
 interface LeftSideBarProps {
-  panels: DashboardPanel[]
   sidebarOpen: boolean
-}
-
-interface SidebarSection {
   title: string
-  pages: DashboardPanel[]
-  collapsed: boolean
-  isMainSection: boolean // new property to differentiate between main and subpage sections
+  subtitle: string
+  sections: SidebarSection[]
 }
 
-export default function LeftSideBar({ sidebarOpen }: LeftSideBarProps) {
-  const [sections, setSections] = useState<SidebarSection[]>([
-    {
-      title: 'User Profile',
-      pages: [
-        { link: '/user-profile/overview', text: 'Overview' },
-        { link: '/user-profile/user-guide', text: 'User Guide' },
-        { link: '/user-profile/customer-support', text: 'Customer Support' },
-        { link: '/user-profile/contacts', text: 'Contacts' },
-        { link: '/user-profile/order-management', text: 'Order Management' },
-        { link: '/user-profile/data-privacy', text: 'Data Privacy' },
-      ],
-      collapsed: true,
-      isMainSection: true,
-    },
-    {
-      title: 'Altum Corporate',
-      pages: [
-        // { link: '/altum-corporate/page-1', text: 'Altum Corporate Page 1' },
-        // { link: '/altum-corporate/page-2', text: 'Altum Corporate Page 2' },
-        // { link: '/altum-corporate/page-3', text: 'Altum Corporate Page 3' },
-      ],
-      collapsed: true,
-      isMainSection: true,
-    },
-    {
-      title: 'Blog',
-      pages: [
-        // { link: '/blog/page-1', text: 'Blog Page 1' },
-        // { link: '/blog/page-2', text: 'Blog Page 2' },
-        // { link: '/blog/page-3', text: 'Blog Page 3' },
-      ],
-      collapsed: true,
-      isMainSection: true,
-    },
-  ])
+// interface SidebarSection {
+//   title: string
+//   pages: DashboardPanel[]
+//   collapsed: boolean
+//   isMainSection: boolean // new property to differentiate between main and subpage sections
+// }
+
+// used to keep track of state
+type SectionEnhanced = SidebarSection & {
+  collapsed: boolean
+}
+
+export default function LeftSideBar({
+  sidebarOpen,
+  title,
+  subtitle,
+  sections,
+}: LeftSideBarProps) {
+  const history = useHistory()
+
+  const [sectionsEnhanced, setSectionsEnhanced] = useState<SectionEnhanced[]>(
+    sections.map((section) => ({ ...section, collapsed: true })),
+  )
+
+  // [
+  //   {
+  //     title: 'User Profile',
+  //     pages: [
+  //       { link: '/user-profile/overview', text: 'Overview' },
+  //       { link: '/user-profile/user-guide', text: 'User Guide' },
+  //       { link: '/user-profile/customer-support', text: 'Customer Support' },
+  //       { link: '/user-profile/contacts', text: 'Contacts' },
+  //       { link: '/user-profile/order-management', text: 'Order Management' },
+  //       { link: '/user-profile/data-privacy', text: 'Data Privacy' },
+  //     ],
+  //     collapsed: true,
+  //     isMainSection: true,
+  //   },
+  //   {
+  //     title: 'Altum Corporate',
+  //     pages: [
+  //       // { link: '/altum-corporate/page-1', text: 'Altum Corporate Page 1' },
+  //       // { link: '/altum-corporate/page-2', text: 'Altum Corporate Page 2' },
+  //       // { link: '/altum-corporate/page-3', text: 'Altum Corporate Page 3' },
+  //     ],
+  //     collapsed: true,
+  //     isMainSection: true,
+  //   },
+  //   {
+  //     title: 'Blog',
+  //     pages: [
+  //       // { link: '/blog/page-1', text: 'Blog Page 1' },
+  //       // { link: '/blog/page-2', text: 'Blog Page 2' },
+  //       // { link: '/blog/page-3', text: 'Blog Page 3' },
+  //     ],
+  //     collapsed: true,
+  //     isMainSection: true,
+  //   },
+  // ]
 
   const toggleSection = (index: number) => {
-    setSections((prevSections) =>
+    setSectionsEnhanced((prevSections) =>
       prevSections.map((section, i) =>
         i === index ? { ...section, collapsed: !section.collapsed } : section,
       ),
@@ -91,6 +110,7 @@ export default function LeftSideBar({ sidebarOpen }: LeftSideBarProps) {
                 className="h-full w-full object-cover"
                 src={newLogo}
                 alt="Your Company"
+                onClick={() => history.push('/')}
               />
               <div className="flex flex-col"></div>
             </div>
@@ -107,30 +127,30 @@ export default function LeftSideBar({ sidebarOpen }: LeftSideBarProps) {
                   style={{ color: '#457F6C' }} // Add inline style to set the grey color
                   className="text-lg font-medium" // Change text-lg to make the text larger
                 >
-                  Lab Name
+                  {title}
                 </span>
                 <span
                   style={{ color: '#457F6C' }} // Add inline style to set the grey color
                   className="text-sm" // Change text-sm to make the text smaller
                 >
-                  Dashboard
+                  {subtitle}
                 </span>
               </div>
             </div>
             <nav className="flex flex-1 flex-col">
               <h2 className="text-sm text-gray-500 px-2 py-1">Pages</h2>
               <ul role="list" className="flex flex-1 flex-col gap-y-1">
-                {sections.map((section, index) => (
+                {sectionsEnhanced.map((section, index) => (
                   <li key={section.title}>
                     <button
                       onClick={() => toggleSection(index)}
-                      className="bg-white-50 text-grey-600 group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold w-full items-center" // add items-center class to center the content vertically
+                      className="bg-white-50 text-grey-600 group flex items-center gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold w-full items-center" // add items-center class to center the content vertically
                     >
-                      {section.isMainSection && ( // Only show arrow for main sections
+                      {section.items.length !== 0 && ( // Only show arrow for main sections
                         <ChevronRightIcon
                           // style={{ color: '#a0aec0' }}
                           className={classNames(
-                            'text-grey-600 transform transition-transform',
+                            'text-grey-600 transform transition-transform w-6 h-6',
                             {
                               'rotate-90': !section.collapsed,
                             },
@@ -142,14 +162,14 @@ export default function LeftSideBar({ sidebarOpen }: LeftSideBarProps) {
                     </button>
                     {!section.collapsed && (
                       <ul role="list" className="-mx-2 space-y-1 ml-6">
-                        {section.pages.map((option: DashboardPanel) => (
-                          <li key={option.link}>
-                            <a
-                              href={option.link}
-                              className="bg-white-50 text-grey-600 group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold w-full hover:text-green-700"
+                        {section.items.map((option) => (
+                          <li className="ml-6" key={option.text}>
+                            <p
+                              onClick={() => option.onClick()}
+                              className="cursor-pointer bg-white-50 text-grey-600 group flex gap-x-3 rounded-md p-1 m-0 text-sm leading-6 font-semibold w-full hover:text-green-700"
                             >
                               {option.text}
-                            </a>
+                            </p>
                           </li>
                         ))}
                       </ul>
