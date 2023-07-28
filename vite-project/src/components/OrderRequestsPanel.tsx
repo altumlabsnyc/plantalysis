@@ -32,10 +32,12 @@ export type LabRequestTableRow = LabOrder & {
 }
 
 export interface OrderRequestPanel {
+  activeLabOrder: LabOrder | null
   setActiveLabOrder: (activeLabOrder: LabOrder | null) => void
 }
 
 export default function OrderRequestPanel({
+  activeLabOrder,
   setActiveLabOrder,
 }: OrderRequestPanel) {
   const columns = [
@@ -83,6 +85,10 @@ export default function OrderRequestPanel({
     allOrders && user
       ? getUnClaimedOrders(allOrders as LabOrder[], user) as LabRequestTableRow[]
       : []
+
+  if (data.length && !activeLabOrder) {
+    setActiveLabOrder(data[0])
+  }
   return (
     <div style={{ margin: 'auto 0' }}>
       <Panel>

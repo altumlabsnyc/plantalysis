@@ -24,7 +24,10 @@ export default function LabUpperPanels() {
           alignItems: 'stretch',
         }}
       >
-        <OrderRequestPanel setActiveLabOrder={setActiveLabOrder} />
+        <OrderRequestPanel
+          activeLabOrder={activeLabOrder}
+          setActiveLabOrder={setActiveLabOrder}
+        />
         <UploadPanel />
       </div>
 
