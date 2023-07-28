@@ -49,7 +49,7 @@ export default function OrderRequestPanel({
 
   console.log(allOrders)
 
-  let data = allOrders || []
+  const data = allOrders || []
 
   const columns = [
     // columnHelper.accessor('common_name', {
