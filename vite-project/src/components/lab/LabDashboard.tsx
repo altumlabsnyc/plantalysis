@@ -4,11 +4,12 @@ import Clock from '@/components/assets/svg/Clock.svg'
 import Sidebar from '@/components/assets/svg/Sidebar.svg'
 import Star from '@/components/assets/svg/Star.svg'
 import Sun from '@/components/assets/svg/Sun.svg'
+import LabDashboardContent from '@/components/lab/LabDashboardContent'
 import useUserDetails from '@/hooks/useUserDetails'
 import { useUser } from '@supabase/auth-helpers-react'
 import React, { useState } from 'react'
 import toast from 'react-hot-toast'
-import { Route } from 'react-router-dom'
+import { Redirect, Route } from 'react-router-dom'
 import '../assets/dashboard/css/styles.css'
 import Upload from '../regulatorDashboard/Upload.js'
 import ClaimOrders from './ClaimOrders'
@@ -181,6 +182,9 @@ function LabDashboard({ children }: LabDashboardProps) {
 export default function LabDashboardRouter() {
   return (
     <LabDashboard>
+      <Route path="/dashboard/lab/overview">
+        <LabDashboardContent />
+      </Route>
       <Route path="/dashboard/lab/upload">
         <Upload />
       </Route>
@@ -190,6 +194,7 @@ export default function LabDashboardRouter() {
       <Route path="/dashboard/lab/claim-new-orders">
         <ClaimOrders />
       </Route>
+      <Redirect from="/dashboard/lab" to="/dashboard/lab/overview" />
     </LabDashboard>
   )
 }

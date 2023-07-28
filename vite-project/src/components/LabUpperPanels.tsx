@@ -1,36 +1,19 @@
-import { LabOrder } from '@/types/supabaseAlias'
+import { LabRequest } from '@/hooks/useLabOrders'
 import { useState } from 'react'
-import OrderRequestPanel, { LabRequestTableRow } from './OrderRequestsPanel'
 import RequestDetailPanel from './LabUpperPanels/RequestDetailPanel/RequestDetailPanel'
-import UploadPanel from './UploadPanel'
+import OrderRequestPanel from './OrderRequestsPanel'
 
 export default function LabUpperPanels() {
-  const [activeLabOrder, setActiveLabOrder] = useState<LabOrder | null>(null)
-  const [data, setData] = useState<LabRequestTableRow[]>([])
+  const [activeLabOrder, setActiveLabOrder] = useState<LabRequest | null>(null)
 
   return (
-    <div
-      style={{
-        display: 'flex',
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        gap: '30px',
-        height: '100%',
-      }}
-    >
-      <div
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'space-between',
-          alignItems: 'stretch',
-        }}
-      >
+    <div className="w-full flex flex-wrap justify-around">
+      <div className="flex flex-col justify-between gap-4 h-full">
         <OrderRequestPanel
           activeLabOrder={activeLabOrder}
           setActiveLabOrder={setActiveLabOrder}
         />
-        <UploadPanel />
+        {/* <UploadPanel /> */}
       </div>
 
       <RequestDetailPanel activeLabOrder={activeLabOrder} />

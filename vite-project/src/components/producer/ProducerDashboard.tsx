@@ -4,12 +4,11 @@ import Clock from '@/components/assets/svg/Clock.svg'
 import Sidebar from '@/components/assets/svg/Sidebar.svg'
 import Star from '@/components/assets/svg/Star.svg'
 import Sun from '@/components/assets/svg/Sun.svg'
-import Brands from '@/components/producer/MyBrands'
 import useUserDetails from '@/hooks/useUserDetails'
 import { useUser } from '@supabase/auth-helpers-react'
 import React, { useState } from 'react'
 import { toast } from 'react-hot-toast'
-import { Route, useHistory } from 'react-router-dom'
+import { Redirect, Route, useHistory } from 'react-router-dom'
 import '../assets/dashboard/css/styles.css'
 import Facilities from './MyFacilities'
 import NewOrder from './NewOrder'
@@ -63,20 +62,12 @@ function ProducerDashboard({ children }: ProducerDashboardProps) {
 
   const headerLinks = [
     {
-      label: 'Overview',
-      onClick: () => toast('Overview coming soon!', { icon: '⭐' }),
-    },
-    {
-      label: 'Place Order',
-      onClick: () => history.push('/dashboard/producer/new-order'),
-    },
-    {
       label: 'Orders',
       onClick: () => history.push('/dashboard/producer/orders'),
     },
     {
-      label: 'Manage Brands',
-      onClick: () => history.push('/dashboard/producer/brands'),
+      label: 'Place Order',
+      onClick: () => history.push('/dashboard/producer/new-order'),
     },
   ]
 
@@ -100,6 +91,10 @@ function ProducerDashboard({ children }: ProducerDashboardProps) {
         {
           text: 'Order Management',
           onClick: () => toast('Order Management coming soon!', { icon: '⭐' }),
+        },
+        {
+          text: 'Manage Facilities',
+          onClick: () => history.push('/dashboard/producer/facilities'),
         },
       ],
     },
@@ -129,6 +124,8 @@ function ProducerDashboard({ children }: ProducerDashboardProps) {
       ],
     },
   ]
+
+  console.log(children)
 
   return (
     <Dashboard
@@ -163,12 +160,10 @@ export default function ProducerDashboardRouter() {
       <Route path="/dashboard/producer/orders">
         <ProducerOrders />
       </Route>
-      <Route path="/dashboard/producer/brands">
-        <Brands />
-      </Route>
       <Route path="/dashboard/producer/facilities">
         <Facilities />
       </Route>
+      <Redirect from="/dashboard/producer" to="/dashboard/producer/orders" />
     </ProducerDashboard>
   )
 }

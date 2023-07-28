@@ -3,13 +3,9 @@ import Panel from './Panel'
 export default function UploadPanel() {
   return (
     <Panel>
-      <div
-        style={{
-          height: '300px',
-          width: '323px',
-        }}
-      >
+      <div className="w-64 h-32">
         {/* put upload component here */}
+        upload component
       </div>
     </Panel>
   )

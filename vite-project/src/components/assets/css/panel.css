@@ -1,15 +1,14 @@
 .panel-title {
-    color: #457F6C;
-    font-size: 25px;
-    font-family: 'Poppins';
-    font-weight: 600;
+  /* font-family: 'Poppins'; */
+  color: #457f6c;
+  font-weight: 600;
 }
 .panel-subtitle {
-    color: #457F6C;
-    font-size: 18px;
-    font-family: 'Poppins';
-    font-weight: 400;
+  color: #457f6c;
+  font-size: 18px;
+  /* font-family: 'Poppins'; */
+  font-weight: 400;
 }
 .panel-text {
-    font-family: 'Poppins';
+  /* font-family: 'Poppins'; */
 }

@@ -1,29 +1,13 @@
 import React, { useState } from 'react'
 
+import { LabRequest } from '@/hooks/useLabOrders'
+import receiveResultsBy from '@/utils/receiveResultsBy'
+import { format } from 'date-fns'
 import './../../assets/css/panel.css'
 
 const COMPLETED_COLOR = '#457F6C'
 const INCOMPLETED_COLOR = '#D0D5DD'
 const DATE_COLOR = '#667085'
-
-const arr = [
-  {
-    status: 'Requested',
-    date: 'May 1',
-  },
-  {
-    status: 'Tested',
-    date: 'May 16',
-  },
-  {
-    status: 'Shipped',
-    date: 'May 20',
-  },
-  {
-    status: 'Delivered',
-    date: 'May 31',
-  },
-]
 
 interface statusBarStatusItemProps {
   status: string
@@ -147,9 +131,42 @@ const ROW_STYLE: React.CSSProperties = {
   padding: '0 10px',
 }
 
-export default function OrderStatusBar() {
+interface Props {
+  order: LabRequest
+}
+
+export default function OrderStatusBar({ order }: Props) {
+  const today = new Date()
+  const threeDaysFromToday = new Date()
+  threeDaysFromToday.setDate(today.getDate() + 3)
+
+  const arr = [
+    {
+      status: 'Requested',
+      date: format(new Date(order.order_time), 'MMM dd'),
+    },
+    {
+      status: 'Claimed',
+      date: format(new Date(), 'MMM dd'),
+    },
+    {
+      status: 'Arrive at Lab',
+      date: format(threeDaysFromToday, 'MMM dd'),
+    },
+    {
+      status: 'Tested',
+      date: format(
+        receiveResultsBy(
+          (order?.pickup_date && new Date(order.pickup_date)) || new Date(),
+          order?.turnaround_time || '48',
+        ),
+        'MMM dd',
+      ),
+    },
+  ]
+
   const data = arr
-  const [currentStatus, setCurrentStatus] = useState<string | null>('Tested')
+  const [currentStatus, setCurrentStatus] = useState<string | null>('Requested')
   const currentStatusIndex = arr.findIndex((e) => e.status == currentStatus)
   return (
     <div
