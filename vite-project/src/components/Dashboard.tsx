@@ -1,6 +1,7 @@
 import logo from '@/components/assets/img/logo.png'
 import EmailConfirmationBanner from '@/components/common/EmailConfirmationBanner'
-import { HeaderIcon, HeaderLink } from '@/types/dashboard'
+import { HeaderIcon, HeaderLink, SidebarSection } from '@/types/dashboard'
+import { UserRole } from '@/types/supabaseAlias'
 import { Dialog, Transition } from '@headlessui/react'
 import { ChairAlt } from '@mui/icons-material'
 import { useUser } from '@supabase/auth-helpers-react'
@@ -9,19 +10,14 @@ import React, { Fragment, useState } from 'react'
 import { Toaster } from 'react-hot-toast'
 import Header from './Header'
 import LeftSideBar from './LeftSideBar'
-import { UserRole } from '@/types/supabaseAlias'
-
-export type DashboardPanel = {
-  link: string
-  icon?: React.ReactNode
-  text: string
-}
 
 interface DashboardProps {
   children: React.ReactNode
   role: UserRole
-  panels: DashboardPanel[]
   dashboardTitle: string
+  sidebarTitle: string
+  sidebarSubtitle: string
+  sidebarSections: SidebarSection[]
   headerIcons: HeaderIcon[]
   headerLinks: HeaderLink[]
   desktopSidebarOpen: boolean
@@ -30,8 +26,10 @@ interface DashboardProps {
 export default function Dashboard({
   children,
   role,
-  panels,
   dashboardTitle,
+  sidebarTitle,
+  sidebarSubtitle,
+  sidebarSections,
   headerIcons,
   headerLinks,
   desktopSidebarOpen,
@@ -150,7 +148,12 @@ export default function Dashboard({
 
           {/* Static sidebar for desktop */}
           {/* Sidebar component, put the dynamic sidebar here */}
-          <LeftSideBar panels={panels} sidebarOpen={desktopSidebarOpen} />
+          <LeftSideBar
+            sidebarOpen={desktopSidebarOpen}
+            title={sidebarTitle}
+            subtitle={sidebarSubtitle}
+            sections={sidebarSections}
+          />
 
           <div className="sticky top-0 z-40 flex items-center gap-x-6 px-4 py-4 shadow-sm sm:px-6 lg:hidden bg-yellow-300">
             <button

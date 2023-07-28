@@ -1,4 +1,4 @@
-import Dashboard, { DashboardPanel } from '@/components/Dashboard'
+import Dashboard from '@/components/Dashboard'
 import Bell from '@/components/assets/svg/Bell.svg'
 import Clock from '@/components/assets/svg/Clock.svg'
 import Sidebar from '@/components/assets/svg/Sidebar.svg'
@@ -81,22 +81,71 @@ function ProducerDashboard({ children }: ProducerDashboardProps) {
     },
   ]
 
-  const panels: DashboardPanel[] = [
+  const sidebarSections = [
     {
-      link: '/dashboard/regulator/approve-orders',
-      icon: <i className="fas fa-tachometer-alt" />,
-      text: 'Approve Orders',
+      title: 'Profile',
+      items: [
+        {
+          text: 'Overview',
+          onClick: () => toast('Overview coming soon!', { icon: '⭐' }),
+        },
+        {
+          text: 'User Guide',
+          onClick: () => toast('User Guide coming soon!', { icon: '⭐' }),
+        },
+
+        {
+          text: 'Contacts',
+          onClick: () => toast('Contacts coming soon!', { icon: '⭐' }),
+        },
+        {
+          text: 'Order Management',
+          onClick: () => toast('Order Management coming soon!', { icon: '⭐' }),
+        },
+      ],
+    },
+    {
+      title: 'More',
+      items: [
+        {
+          text: 'About',
+          onClick: () => toast('About Us coming soon!', { icon: '⭐' }),
+        },
+        {
+          text: 'Customer Support',
+          onClick: () => toast('Customer Support coming soon!', { icon: '⭐' }),
+        },
+        {
+          text: 'Plantalysis Double Blind',
+          onClick: () => toast('Double Blind coming soon!', { icon: '⭐' }),
+        },
+        {
+          text: 'Terms of Service',
+          onClick: () => toast('Terms of Service coming soon!', { icon: '⭐' }),
+        },
+        {
+          text: 'Privacy Policy',
+          onClick: () => toast('Privacy Policy coming soon!', { icon: '⭐' }),
+        },
+      ],
     },
   ]
+
   return (
     <Dashboard
       role={'regulator'}
-      panels={panels}
       dashboardTitle={
         !userDetails?.userDetails.first_name
           ? 'Welcome'
           : 'Welcome, ' + userDetails?.userDetails.first_name
       }
+      sidebarTitle={
+        !userDetails?.userDetails.first_name
+          ? 'Welcome'
+          : userDetails?.userDetails.first_name
+      }
+      sidebarSubtitle="Regulator"
+      sidebarSections={sidebarSections}
       headerIcons={headerIcons}
       headerLinks={headerLinks}
       desktopSidebarOpen={desktopSidebarOpen}
