@@ -1,45 +1,31 @@
 import { useEffect, useState } from 'react'
 // css
 import { useUser } from '@supabase/auth-helpers-react'
-import { fetchProducerOrders } from '../Authentication.js'
-import { LabOrderTableRow } from '../UserTypes.js'
-import { LabOrder } from '@/types/supabaseAlias.js'
-import '../assets/dashboard/css/styles.css'
-import LabOrderTable from '../lab/LabOrderTable.js'
-import useLabOrders, { LabOrdersRequested } from '@/hooks/useLabOrders'
+import '@/components/assets/dashboard/css/styles.css'
+import {
+  ProducerLabOrderDetails,
+  useProducerPlacedOrders,
+} from '@/hooks/useLabOrders'
+import Order from './Order.js'
+import Spinner from '@/components/common/Spinner'
 
 export default function ProducerOrders() {
-  const [labOrders, setLabOrders] = useState<Array<LabOrderTableRow>>([])
-  const [loading, setLoading] = useState(true)
-
   const user = useUser()
-  const allOrders = useLabOrders(user, LabOrdersRequested.ofAProducer)
-
-  useEffect(() => {
-    async function fetchOrders() {
-      setLoading(true)
-      if (user) {
-        setLabOrders(
-          (await fetchProducerOrders()).map((t: LabOrder): LabOrderTableRow => {
-            return { ...t, status: 'Claimed' }
-          }),
-        )
-        // console.log('aaaaaaaaaa')
-        // console.log(temp)
-        setLoading(false)
-      }
-    }
-
-    fetchOrders()
-  }, [user])
-
-  return (
-    <>
-      <div className="flex">
-        <p className="text-red-400">test</p>
-        <p>test2</p>
+  const { data: allOrders, error, isLoading } = useProducerPlacedOrders(user)
+  console.log(allOrders, error)
+  if (allOrders) {
+    return (
+      <>
+        {allOrders?.map((order: ProducerLabOrderDetails) => (
+          <Order orderData={order}></Order>
+        ))}
+      </>
+    )
+  } else {
+    return (
+      <div className="flex w-full flex-col items-center">
+        <Spinner size="lg" />
       </div>
-      <LabOrderTable labOrders={labOrders} showClaimed={false} />
-    </>
-  )
+    )
+  }
 }
