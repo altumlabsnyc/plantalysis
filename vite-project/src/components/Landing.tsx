@@ -8,12 +8,14 @@ function Hero() {
     background: `linear-gradient(180deg, #71F280 0%, #00B2727D 100%), url(${backgroundImage})`,
     boxShadow: '0px 4px 4px 0px rgba(0, 0, 0, 0.25)',
     backgroundSize: 'cover',
-  };
+  }
   return (
-    <div className="video-opacity position-absolute w-100 h-100 z-index-top" style={divStyle}></div>
-  );
+    <div
+      className="video-opacity position-absolute w-100 h-100 z-index-top"
+      style={divStyle}
+    ></div>
+  )
 }
-
 
 const Plantalysis: React.FC = () => {
   return (
