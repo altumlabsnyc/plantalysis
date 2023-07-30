@@ -1,312 +1,311 @@
-import React from 'react'
-// css
-import './assets/landing/css/style.css'
-import './assets/landing/vendor/bootstrap-icons/bootstrap-icons.css'
-import './assets/landing/vendor/bootstrap/css/bootstrap.min.css'
-import './assets/landing/vendor/boxicons/css/boxicons.min.css'
-import './assets/landing/vendor/glightbox/css/glightbox.min.css'
-import './assets/landing/vendor/remixicon/remixicon.css'
-import './assets/landing/vendor/swiper/swiper-bundle.min.css'
-// imgs
-import BG1 from './assets/landing/img/BG.png'
-import BG2 from './assets/landing/img/BG2.png'
-import BG3 from './assets/landing/img/BG3.png'
-import logo from './assets/landing/img/logo.png'
+import './assets/css/styles.css'
+
+import React from 'react';
 
 const Plantalysis: React.FC = () => {
   return (
-    <div>
-      <meta charSet="utf-8" />
-      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-      <title>PLANTALYSIS by Altum Labs</title>
-      <meta name="description" content="" />
-      <meta name="keywords" content="" />
-      {/* Favicons */}
-      <link rel="icon" href="assets/img/favicon.png" />
-      <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png" />
-      {/* Google Fonts */}
-      <link rel="preconnect" href="https://fonts.googleapis.com" />
-      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
-      <link
-        href="https://fonts.googleapis.com/css2?family=DM+Sans&display=swap"
-        rel="stylesheet"
-      />
-      {/* ======= Header ======= */}
-      <header id="header" className="fixed-top">
-        <div className="container-fluid">
-          <div className="row justify-content-center">
-            <div className="col-xl-9 d-flex align-items-center justify-content-lg-between">
-              <a
-                href="https://altumlabs.co"
-                target="_blank"
-                className="logo me-auto me-lg-0"
-                rel="noreferrer"
-              >
-                <img src={logo} alt="" className="img-fluid" />
-              </a>
-              <nav id="navbar" className="navbar order-last">
-                <ul>
-                  <li>
-                    <a className="nav-link" href="#hero">
-                      Home
-                    </a>
+    <html lang="en">
+      <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" href="./styles.css" />
+        <title>PLANTALYSIS by Altum Labs | NYC</title>
+        <meta
+          name="description"
+          content="Learn how you can deliver exceptional frontline experiences, build high-performing teams and create products people love with Qualtrics XM."
+        />
+      </head>
+      <body className="page-home">
+        <div id="page" className="hfeed site bg-light">
+          <div id="content" className="site-content bg-light en">
+            <div>
+            <nav id="nav-container" className="w-100 bg-white">
+              <div id="secondary-nav" className="xm-container small">
+                <ul className="secondary-nav-container">
+                  <li className="secondary-nav-item">
+                    <a className="secondary-nav-item-link input-sans" href="/login">Login</a>
                   </li>
                 </ul>
-                <a
-                  href="/login"
-                  style={{ color: 'white' }}
-                  className="get-started-btn scrollto"
-                >
-                  Login
-                </a>
-
-                <a
-                  href="/register"
-                  style={{ color: 'white' }}
-                  className="get-started-btn scrollto"
-                >
-                  Register
-                </a>
-
-                <i className="bi bi-list mobile-nav-toggle"></i>
-              </nav>
-              {/* .navbar */}
-            </div>
-          </div>
-        </div>
-      </header>
-      {/* End Header */}
-      {/* ======= Hero Section ======= */}
-      <section id="hero" className="d-flex flex-column justify-content-center">
-        <div className="container-fluid">
-          <div className="row justify-content-center">
-            <center>
-              <div className="col-xl-9">
-                <h1>P L A N T A L Y S I S</h1>
-                <h3>Know what&apos;s inside.</h3>
-                <br />
-                <div className="row" style={{ whiteSpace: 'nowrap' }}>
-                  <div className="col">
-                    <ul style={{ textAlign: 'left' }}>
-                      <li>Comprehensive Data Protection</li>
-                      <li>Automated Molecular Analysis</li>
-                      <li>AI-powered Compound Quantification</li>
-                    </ul>
-                  </div>
-                  <div className="col">
-                    <ul style={{ textAlign: 'left' }}>
-                      <li>Accredited Laboratory Marketplace</li>
-                      <li>Step-by-Step Process Tracking</li>
-                      <li>Live Sample-Level Regulator Approval</li>
-                    </ul>
-                  </div>
-                  <div className="col">
-                    <ul style={{ textAlign: 'left' }}>
-                      <li>QR-Accessible Test Results</li>
-                      <li>OCM-Compliant Label Generator</li>
-                      <li>Consumer Insights Analytics</li>
-                    </ul>
-                  </div>
-                </div>
-                <br />
-                <a href="#contact" className="get-started-btn">
-                  Contact Us
-                </a>
               </div>
-            </center>
-          </div>
-        </div>
-      </section>
-      {/* End Hero */}
-      <main id="main">
-        {/* ======= Pricing Section ======= */}
-        <section id="pricing" className="pricing">
-          <div className="container">
-            <center>
-              <h2 style={{ color: '#335E50' }}>Welcome!</h2>
-              <p>
-                Sign Up or Log In to access the innovative platform that makes
-                your compliance processes frictionless.
-              </p>
-            </center>
-            <div className="row">
-              <div className="col-lg-4 col-md-6">
-                <div className="box">
-                  <div className="col-lg">
-                    <img className="rounded-circle" src={BG1} alt="" />
-                  </div>
-                  <h3 style={{ color: '#335E50', fontSize: '25px' }}>LABS</h3>
-                  <div className="btn-wrap">
-                    <a href="/login" className="btn-fill">
-                      Login
-                    </a>
-                  </div>
-                  <div className="btn-wrap">
-                    <a href="/register" className="btn-buy">
-                      Register
-                    </a>
-                  </div>
-                </div>
-              </div>
-              <div className="col-lg-4 col-md-6 mt-4 mt-md-0">
-                <div className="box">
-                  <div className="col-lg">
-                    <img className="rounded-circle" src={BG2} alt="" />
-                  </div>
-                  <h3 style={{ color: '#335E50', fontSize: '25px' }}>
-                    PRODUCER
-                  </h3>
-                  <div className="btn-wrap">
-                    <a href="/login" className="btn-fill">
-                      Login
-                    </a>
-                  </div>
-                  <div className="btn-wrap">
-                    <a href="/register" className="btn-buy">
-                      Register
-                    </a>
-                  </div>
-                </div>
-              </div>
-              <div className="col-lg-4 col-md-6 mt-4 mt-lg-0">
-                <div className="box">
-                  <div className="col-lg">
-                    <img className="rounded-circle" src={BG3} alt="" />
-                  </div>
-                  <h3 style={{ color: '#335E50', fontSize: '25px' }}>
-                    REGULATOR
-                  </h3>
-                  <div className="btn-wrap">
-                    <a href="/login" className="btn-fill">
-                      Login
-                    </a>
-                  </div>
-                  <div className="btn-wrap">
-                    <a href="/register" className="btn-buy">
-                      Register
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-        {/* End Pricing Section */}
-        {/* ======= Contact Section ======= */}
-        <section id="contact" className="contact">
-          <div className="container">
-            <center>
-              <h2>Contact</h2>
-              <p>We want to hear from you.</p>
-            </center>
-          </div>
-          <div className="container">
-            <div className="row mt-5">
-              <center>
-                <div className="col-lg-8 mt-5 mt-lg-0">
-                  <form
-                    action="forms/contact.php"
-                    method="post"
-                    role="form"
-                    className="php-email-form"
-                  >
-                    <div className="row">
-                      <div className="col-md-6 form-group">
-                        <input
-                          type="text"
-                          name="name"
-                          className="form-control"
-                          id="name"
-                          placeholder="Your Name"
-                          required
-                        />
-                      </div>
-                      <div className="col-md-6 form-group mt-3 mt-md-0">
-                        <input
-                          type="email"
-                          className="form-control"
-                          name="email"
-                          id="email"
-                          placeholder="Your Email"
-                          required
-                        />
+            </nav>
+              <section className="position-relative pb-3 overflow-hidden">
+                <div className="xm-container">
+                  <div className="row align-items-stretch">
+                    <div className="col-12 border-card video-banner rounded-banner">
+                      <div className="content default-large-padding rounded-banner h-100 position-relative overflow-hidden">
+                        <div className="z-index-content position-relative h-100 w-100">
+                          <h1 className="text-center headline-75 text-white bold text-shadow pt-5 mb-4">
+                            Analysis. <br /> Done right.
+                          </h1>
+                          <div className="text-center">
+                            <p className="text-center input-sans text-uppercase headline-15-alt text-white background-homepage round-5 d-inline-block pt-0 mb-3">
+                              PLANTALYSIS PRD, LAB, AND REG ARE HERE Powered by AI.
+                            </p>
+                          </div>
+                          <div className="d-flex justify-content-center align-items-center my-5">
+                            <button
+                              className="btn btn-white mt-0 mb-0 ">
+                              REQUEST DEMO
+                            </button>
+                          </div>
+                        </div>
+                        <div className="video-opacity position-absolute w-100 h-100 z-index-top"></div>
+                        <video
+                          id="vid-lg-0"
+                          autoPlay
+                          loop
+                          muted
+                          playsInline
+                          preload="auto"
+                          className="wrapper__video position-absolute lazy z-index-bottom d-none d-md-block lz-entered lz-exited lz-loaded"
+                          data-ll-status="loaded"
+                        >
+                          <source
+                            type="video/mp4"
+                            data-src="https://www.qualtrics.com/m/desktop-sm-1.mp4"
+                            src="https://www.qualtrics.com/m/desktop-sm-1.mp4"
+                          />
+                        </video>
                       </div>
                     </div>
-                    <div className="form-group mt-3">
-                      <input
-                        type="text"
-                        className="form-control"
-                        name="subject"
-                        id="subject"
-                        placeholder="Subject"
-                        required
-                      />
-                    </div>
-                    <div className="form-group mt-3">
-                      <textarea
-                        className="form-control"
-                        name="message"
-                        rows={5}
-                        placeholder="Message"
-                        required
-                      ></textarea>
-                    </div>
-                    <div className="my-3">
-                      <div className="loading">Loading</div>
-                      <div className="error-message"></div>
-                      <div className="sent-message">
-                        Your message has been sent. Thank you!
+                  </div>
+                </div>
+              </section>
+              <section className="position-relative pt-2 overflow-hidden">
+                <div className="xm-container">
+                  <div className="row align-items-stretch">
+                    <div className="col-12 border-card">
+                      <div className="content h-100 position-relative overflow-hidden">
+                        <div className="z-index-content position-relative h-100 w-100">
+                          <h3 className="text-center input-sans text-uppercase headline-14 text-black pt-0 mb-2">Welcome!</h3>
+                          <h2 className="text-center headline-32 text-black light pt-0 mb-4">
+                            <strong>Powered by AI.</strong> Three suites to solve your digital needs. Order fast compliance testing,
+                            automate your molecular analysis, and get regulatory approval for your products in real-time.{' '}
+                            <strong>All on one platform.</strong>
+                          </h2>
+                        </div>
                       </div>
                     </div>
-                    <div className="text-center">
-                      <button type="submit">Send Message</button>
-                    </div>
-                  </form>
+                  </div>
                 </div>
-              </center>
+              </section>
+              <div className="xm-container small">
+                <div className="row justify-content-center row-cols-xl-3 row-cols-lg-2 row-cols-1">
+                  <div className="col col-md-8 pl-xl-0 pr-xl-0 overflow-hidden border-card">
+                    <div className="content h-100 d-flex flex-column bg-white default-homepage-padding">
+                      <div className="bg-white border-card medium mb-0">
+                        <p className="headline-13 input-sans mb-0 ">PRD for</p>
+                        <h3 className="headline-28 text-frontline-gradient bold">Cultivators and Processors</h3>
+                      </div>
+                      <div className="pl-20 pr-20 ">
+                        <p className="text-black">
+                          Order compliance testing in under 1 minute. We take care of the logistics so you can focus on what you do
+                          best. Using AI, we automatically generate useful documentation, such as double-blind test results, CoAs,
+                          QR codes, and live status updates. For free.
+                        </p>
+                        <div className="pt-4 d-flex justify-content-start align-items-center pb-3">
+                          <a className="btn btn-outline-black" href="/login">
+                            Login
+                          </a>
+                          <a className="btn-anchor anchor-black mb-0 ml-3" href="/signup">
+                            Sign Up
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="col col-md-8 pr-xl-0 overflow-hidden border-card">
+                    <div className="content h-100 d-flex flex-column bg-white default-homepage-padding">
+                      <div className="bg-white border-card medium mb-0">
+                        <p className="headline-13 input-sans mb-0 ">LAB FOR</p>
+                        <h3 className="headline-28 text-culture-gradient bold">Certified Laboratories</h3>
+                      </div>
+                      <div className="pl-20 pr-20 ">
+                        <p className="text-black">
+                          AI-powered automation for your internal processes. Accept testing orders with one click. Drag and drop raw
+                          data into your order table and we automatically turn it into CoAs for you. Reduce sample pickup hassle with
+                          our route optimization feature.
+                        </p>
+                        <div className= "pt-4 d-flex justify-content-start align-items-center pb-3">
+                          <a className="btn btn-outline-black" href="/login">
+                            Login
+                          </a>
+                          <a className="btn-anchor anchor-black mb-0 ml-3" href="/signup">
+                            Sign Up
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="col col-md-8 pr-xl-0 overflow-hidden border-card">
+                    <div className="content h-100 d-flex flex-column bg-white default-homepage-padding">
+                      <div className="bg-white border-card medium mb-0">
+                        <p className="headline-13 input-sans mb-0 ">REG FOR</p>
+                        <h3 className="headline-28 text-strategy-gradient bold">Government</h3>
+                      </div>
+                      <div className="pl-20 pr-20 ">
+                        <p className="text-black">
+                          Give your state’s consumers molecular-level peace of mind. Plantalysis easily integrates into Metrc and
+                          Biotrack to give your office the ability to approve and reject samples at the batch-scale and broadcast
+                          those results to consumers, all from one place.
+                        </p>
+                        <div className="pt-4 d-flex justify-content-start align-items-center pb-3">
+                          <a className="btn btn-outline-black" href="/login">
+                            Login
+                          </a>
+                          <a className="btn-anchor anchor-black mb-0 ml-3" href="/signup">
+                            Sign Up
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <section className="position-relative">
+                <div className="xm-container small position-relative logo-bar-component d-none d-md-block pt-7" style={{ zIndex: 200 }}>
+                  <div className="row align-items-stretch">
+                    <div className="col-12 border-card px-0 mb-0"></div>
+                  </div>
+                </div>
+              </section>
+              <section className="position-relative pt-0 pb-7">
+                <div className="video-blade xm-plus-bg position-relative">
+                  <div className="xm-container small pt-7 pb-4">
+                    <div className="row align-items-center mt-3">
+                      <div className="col-12 text-center mb-4">
+                        <h1 className="text-center headline-75 text-black bold text-shadow pt-5 mb-4">See more</h1>
+                        <p className="headline-17 text-black mb-4">
+                          Hear from our partners, team members, and everyday consumers who interact with our platform.
+                          <br />
+                          <br />
+                          <a className="btn-anchor text-black" href="https://www.qualtrics.com/xmplus/xm-in-action/?utm_lp=homepage" target="">
+                            EXPLORE
+                          </a>
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </section>
+              <section className="position-relative pt-0 pb-0 overflow-hidden">
+                <div className="xm-container small pt-4 pb-7">
+                  <div className="row align-items-stretch">
+                    <div className="col-12 col-md-5">
+                      <h2 className="headline-30 bold mb-4">Get started with your personalized demo</h2>
+                      <p className="pb-0">Complete the form to see the platform in action. We’ll show you how you can use Plantalysis to improve experiences across your organization.</p>
+                    </div>
+                    <div className="col-12 col-md-6 offset-md-1 mt-5 mt-lg-0" id="request-demo">
+                      <div id="desktop-marketo-form-placeholder">
+                        <div id="marketo-embedded-form-container" className="mt-n7 pt-7 text-black">
+                          <form
+                            id="personalized-demo-form"
+                            className="marketo-universal-form needs-validation bg-gray-light text-black p-0 w-100"
+                          >
+                            <div className="form-content">
+                              <h3 className="feature-module mt-0 mb-3">Request Demo</h3>
+                              <div className="row">
+                                <div className="col-md-6 form-group">
+                                  <input
+                                    id="personalized-demo-first"
+                                    className="form-control"
+                                    type="text"
+                                    autoComplete="given-name"
+                                    required
+                                    placeholder=" "
+                                  />
+                                  <label htmlFor="personalized-demo-first">First Name *</label>
+                                </div>
+                                <div className="col-md-6 form-group">
+                                  <input
+                                    id="personalized-demo-last"
+                                    className="form-control"
+                                    type="text"
+                                    autoComplete="family-name"
+                                    required
+                                    placeholder=" "
+                                  />
+                                  <label htmlFor="personalized-demo-last">Last Name *</label>
+                                </div>
+                                <div className="col-md-6 form-group">
+                                  <input
+                                    id="personalized-demo-company"
+                                    className="form-control"
+                                    type="text"
+                                    autoComplete="organization"
+                                    required
+                                    placeholder=" "
+                                  />
+                                  <label htmlFor="personalized-demo-company">Company *</label>
+                                </div>
+                                <div className="col-md-6 form-group">
+                                  <input
+                                    id="personalized-demo-title"
+                                    className="form-control"
+                                    type="text"
+                                    autoComplete="organization-title"
+                                    required
+                                    placeholder=" "
+                                  />
+                                  <label htmlFor="personalized-demo-title">Job Title *</label>
+                                </div>
+                                <div className="col-md-6 form-group">
+                                  <input
+                                    id="personalized-demo-email"
+                                    className="form-control"
+                                    type="email"
+                                    autoComplete="email"
+                                    required
+                                    placeholder=" "
+                                  />
+                                  <label htmlFor="personalized-demo-email">Business Email *</label>
+                                </div>
+                                <div className="col-md-6 form-group">
+                                  <input
+                                    id="personalized-demo-phone"
+                                    className="form-control"
+                                    type="tel"
+                                    autoComplete="tel"
+                                    required
+                                    placeholder=" "
+                                  />
+                                  <label htmlFor="personalized-demo-phone">Phone Number *</label>
+                                </div>
+                                <div className="mt-3" style={{ position: 'relative', height: '36px' }}>
+                                  <button
+                                    type="submit"
+                                    className="btn btn-outline-black mt-3"
+                                    aria-label="Submit"
+                                    style={{ marginTop: '-89.1875px !important', position: 'absolute', bottom: 0 }}
+                                  >
+                                    Submit
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+                          </form>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </section>
             </div>
-          </div>
-        </section>
-        {/* End Contact Section */}
-      </main>
-      {/* End #main */}
-      {/* ======= Footer ======= */}
-      <footer id="footer">
-        <div className="container">
-          <h3>P L A N T A L Y S I S</h3>
-          <h4>by Altum Labs</h4>
-          <p>Ensuring your wellness, empowering, consumer trust.</p>
-          <div className="social-links">
-            <a href="#" className="twitter">
-              <i className="bx bxl-twitter"></i>
-            </a>
-            <a href="#" className="instagram">
-              <i className="bx bxl-instagram"></i>
-            </a>
-            <a href="#" className="linkedin">
-              <i className="bx bxl-linkedin"></i>
-            </a>
-          </div>
-          <div className="copyright">
-            {' '}
-            &copy; Copyright{' '}
-            <strong>
-              <span>Altum Labs</span>
-            </strong>
-            . All Rights Reserved{' '}
+            <footer className="site-footer overflow-hidden" role="contentinfo">
+              <div className="xm-container text-left">
+                <div id="main-footer-content" className="row align-items-stretch py-5 py-lg-6 ">
+                  <div id="main-footer-nav" className="d-flex flex-wrap">
+                    {/* Footer content */}
+                  </div>
+                </div>
+                <div className="gradient-bar w-100"></div>
+              </div>
+            </footer>
           </div>
         </div>
-      </footer>
-      {/* End Footer */}
+      </body>
+    </html>
+  );
+};
 
-      <a
-        href="#"
-        className="back-to-top d-flex align-items-center justify-content-center"
-      >
-        <i className="bi bi-arrow-up-short"></i>
-      </a>
-    </div>
-  )
-}
-
-export default Plantalysis
+export default Plantalysis;
