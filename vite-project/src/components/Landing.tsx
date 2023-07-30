@@ -1,6 +1,19 @@
 import './assets/css/styles.css'
-
+import backgroundImage from './assets/img/hero.png'
 import React from 'react'
+
+function Hero() {
+  const divStyle = {
+    opacity: 0.4,
+    background: `linear-gradient(180deg, #71F280 0%, #00B2727D 100%), url(${backgroundImage})`,
+    boxShadow: '0px 4px 4px 0px rgba(0, 0, 0, 0.25)',
+    backgroundSize: 'cover',
+  };
+  return (
+    <div className="video-opacity position-absolute w-100 h-100 z-index-top" style={divStyle}></div>
+  );
+}
+
 
 const Plantalysis: React.FC = () => {
   return (
@@ -54,23 +67,7 @@ const Plantalysis: React.FC = () => {
                             </button>
                           </div>
                         </div>
-                        <div className="video-opacity position-absolute w-100 h-100 z-index-top"></div>
-                        <video
-                          id="vid-lg-0"
-                          autoPlay
-                          loop
-                          muted
-                          playsInline
-                          preload="auto"
-                          className="wrapper__video position-absolute lazy z-index-bottom d-none d-md-block lz-entered lz-exited lz-loaded"
-                          data-ll-status="loaded"
-                        >
-                          <source
-                            type="video/mp4"
-                            data-src="https://www.qualtrics.com/m/desktop-sm-1.mp4"
-                            src="https://www.qualtrics.com/m/desktop-sm-1.mp4"
-                          />
-                        </video>
+                        <Hero />
                       </div>
                     </div>
                   </div>
