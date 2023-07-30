@@ -23,8 +23,8 @@
 //         labOrder.lab_user_id = userId;
 //       const orderId = uuidv4();
 //       labOrder.id = orderId;
-  
 
+export {}
 
 //       if (!brandId){ //handle creating new brand
 //         if (!brandName){
@@ -36,9 +36,6 @@
 //       }
 //       const batchId = await createNewBatch(brandId); //TODO addBatch SWR
 //       labOrder.batch_id = batchId;
-  
-      
-      
 
 //       try {
 //         const { data, error } = await supabase.from("lab_order").insert(labOrder);
@@ -61,12 +58,11 @@
 //     brandName?: string
 //   }) {
 
-    
 //     data.newLabOrder.id = uuidv4()
-  
+
 //     try {
 //       await insertLabOrder(data.newLabOrder, data.user, data.brands,data.brandId, data.brandName)
-  
+
 //       // Update the cache with the new brand by using SWR's mutate function
 //       if (data.oldLabOrders){
 //       mutate(`/api/lab_orders/${data.user?.id}`, [...data.oldLabOrders, data.newLabOrder], false);
@@ -79,7 +75,6 @@
 //     }
 //   }
 
-
 // export async function createNewBatch(brandId: string): Promise<string> {
 //     const batchId = uuidv4();
 //     const newBatch: Batch = {
@@ -91,6 +86,5 @@
 //     await supabase.from("batch").insert(newBatch);
 //     return batchId;
 //   }
-  
-    
+
 // HANDED BY STRIPE

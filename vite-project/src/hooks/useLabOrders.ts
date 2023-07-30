@@ -189,17 +189,14 @@ export function getProducerOrders(
   return allOrders ? allOrders : []
 }
 
-
-export interface ProducerLabOrderDetails{
-  id: string,
-  order_time: string,
-  location: string | null,
-  lab_user_id: string | null,
+export interface ProducerLabOrderDetails {
+  id: string
+  order_time: string
+  location: string | null
+  lab_user_id: string | null
   analysis_id: string | null
   analysis_approved: boolean | null
 }
-
-
 
 export function useProducerPlacedOrders(user: User | null) {
   const fetcher = async () => {
@@ -208,32 +205,34 @@ export function useProducerPlacedOrders(user: User | null) {
 
     const ordersFetchPromise = supabase
       .from('lab_order')
-      .select( `
+      .select(
+        `
       *,
       batch!inner (
         *,
         producer_user_id,
         facility ( * )
       )
-      `).eq('batch.producer_user_id', user?.id)
-      
+      `,
+      )
+      .eq('batch.producer_user_id', user?.id)
+
       .then(({ data, error }) => {
-        console.log("data", data);
+        console.log('data', data)
         ordersData = data?.map((order) => {
-          const orderData: ProducerLabOrderDetails ={
+          const orderData: ProducerLabOrderDetails = {
             id: order.id,
             lab_user_id: order.lab_user_id,
             order_time: order.order_time,
-            location:  order.batch?.facility?.location || null,
+            location: order.batch?.facility?.location || null,
             analysis_approved: null,
-            analysis_id: null
+            analysis_id: null,
           }
-          return orderData;
+          return orderData
         })
-      
+
         ordersError = error
       })
-      
 
     await ordersFetchPromise
 

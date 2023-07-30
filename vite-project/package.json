@@ -9,7 +9,7 @@
     "preview": "vite preview",
     "lint": "eslint --ext .js,.jsx,.ts,.tsx . --debug",
     "lint:fix": "eslint --ext .js,.jsx,.ts,.tsx . --fix",
-    "update-types": "npx supabase gen types typescript --project-id \"$PROJECT_REF\" > src/types/supabase.ts"
+    "update-types": "npx supabase gen types typescript --project-id \"amyglubkjltnaexebxid\" > src/types/supabase.ts"
   },
   "dependencies": {
     "@emotion/react": "^11.11.1",
