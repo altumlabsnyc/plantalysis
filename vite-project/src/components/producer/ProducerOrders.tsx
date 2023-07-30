@@ -1,13 +1,12 @@
-import { useEffect, useState } from 'react'
 // css
-import { useUser } from '@supabase/auth-helpers-react'
 import '@/components/assets/dashboard/css/styles.css'
+import Spinner from '@/components/common/Spinner'
 import {
   ProducerLabOrderDetails,
   useProducerPlacedOrders,
 } from '@/hooks/useLabOrders'
-import Order from './Order.js'
-import Spinner from '@/components/common/Spinner'
+import { useUser } from '@supabase/auth-helpers-react'
+import Order from './Order'
 
 export default function ProducerOrders() {
   const user = useUser()
@@ -15,11 +14,11 @@ export default function ProducerOrders() {
   console.log(allOrders, error)
   if (allOrders) {
     return (
-      <>
+      <div className="mx-4 py-2 p-4">
         {allOrders?.map((order: ProducerLabOrderDetails) => (
-          <Order orderData={order}></Order>
+          <Order key={order.id} orderData={order} />
         ))}
-      </>
+      </div>
     )
   } else {
     return (

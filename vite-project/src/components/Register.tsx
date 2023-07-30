@@ -440,7 +440,6 @@ export default function Register() {
                               autoComplete={`Enter your ${input.name.toLowerCase()}`}
                               autoFocus
                             />
-
                           )
                         }
                         // Render "license_number" text field after "license_type"

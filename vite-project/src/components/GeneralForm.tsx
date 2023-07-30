@@ -2,20 +2,19 @@ import {
   Box,
   Button,
   CssBaseline,
+  FormControl,
+  FormControlLabel,
+  InputLabel,
   Link,
-  TextField,
-  Typography,
+  MenuItem,
   Radio,
   RadioGroup,
   Select,
-  MenuItem,
-  FormControlLabel,
-  FormControl,
-  InputLabel,
+  TextField,
+  Typography,
 } from '@mui/material'
 
 import Input from '@/types/Input'
-import useUserDetails from '@/hooks/useUserDetails'
 import { useUser } from '@supabase/auth-helpers-react'
 import { FormEvent } from 'react' // Import FormEvent type
 
@@ -63,7 +62,7 @@ export default function GeneralForm<T>({
       <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
         {inputs &&
           inputs.map((input) => (
-            <div>
+            <div key={input.id}>
               {input.type !== 'radio' && input.type !== 'dropdown' && (
                 <TextField
                   margin="normal"
