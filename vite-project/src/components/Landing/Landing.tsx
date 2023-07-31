@@ -402,7 +402,7 @@ const Plantalysis: React.FC = () => {
                                       className="form-control"
                                       required
                                     >
-                                      <option value="" disabled selected>
+                                      <option value="" disabled>
                                         Select State
                                       </option>
                                       <option value="AL">Alabama</option>
