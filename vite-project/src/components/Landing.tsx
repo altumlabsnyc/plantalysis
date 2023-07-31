@@ -1,9 +1,8 @@
-import './../assets/css/styles.css'
+import './assets/css/styles.css'
 import backgroundImage from './assets/img/hero.png'
-import backgroundVideo from './../assets/vid/BGVideo.mp4'
-import logo from './../assets/img/plantalysis.png'
+import backgroundVideo from './assets/vid/BGVideo.mp4'
+import logo from './assets/img/plantalysis.png'
 import React, { useEffect, useRef } from 'react'
-import ImageCarousel from './ImageCarousel'
 
 function Hero() {
   const videoRef = useRef<HTMLVideoElement>(null)
@@ -16,21 +15,25 @@ function Hero() {
     }
   }, [])
 
-  const videoStyle: React.CSSProperties = {
-    objectFit: 'cover',
-    opacity: 1.0,
+  const divStyle: React.CSSProperties = {
+    opacity: 1,
+    boxShadow: '0px 4px 4px 0px rgba(0, 0, 0, 0.25)',
+    backgroundSize: 'cover',
+    position: 'relative',
   }
 
   return (
-    <video
-      ref={videoRef}
-      className="position-absolute w-100 h-100 z-index-top top-0 left-0"
-      style={videoStyle}
-      muted
-      loop
-    >
-      <source src={backgroundVideo} type="video/mp4" />
-    </video>
+    <div style={divStyle}>
+      <video
+        ref={videoRef}
+        className="position-absolute w-100 h-100 z-index-top"
+        style={{ objectFit: 'cover' }}
+        muted
+        loop
+      >
+        <source src={backgroundVideo} type="video/mp4" />
+      </video>
+    </div>
   )
 }
 
@@ -81,14 +84,8 @@ const Plantalysis: React.FC = () => {
                     <div className="col-12 border-card video-banner rounded-banner">
                       <div className="content default-large-padding rounded-banner h-100 position-relative overflow-hidden">
                         <div className="z-index-content position-relative h-100 w-100">
-                          <h1
-                            className="text-center headline-75 text-white bold text-shadow pt-5 mb-4"
-                            style={{
-                              textShadow: '0px 0px 20px rgba(0, 0, 0, 0.5)',
-                              willChange: 'transform',
-                            }}
-                          >
-                            Analysis. <br /> Done Right.
+                          <h1 className="text-center headline-75 text-white bold text-shadow pt-5 mb-4">
+                            Analysis. <br /> Done right.
                           </h1>
                           <div className="text-center">
                             <p className="text-center input-sans text-uppercase headline-15-alt text-white background-homepage round-5 d-inline-block pt-0 mb-3">
@@ -117,13 +114,11 @@ const Plantalysis: React.FC = () => {
                           <h3 className="text-center input-sans text-uppercase headline-14 text-black pt-0 mb-2">
                             Welcome!
                           </h3>
-                          <h2 className="text-center headline-32 text-black pt-0 mb-4">
+                          <h2 className="text-center headline-32 text-black light pt-0 mb-4">
                             <strong>Powered by AI.</strong> Three suites to
-                            solve your digital needs. Order fast
-                            <br />
-                            compliance testing, automate your molecular
-                            analysis, and get <br /> regulatory approval for
-                            your products in real-time.{' '}
+                            solve your digital needs. Order fast compliance
+                            testing, automate your molecular analysis, and get
+                            regulatory approval for your products in real-time.{' '}
                             <strong>All on one platform.</strong>
                           </h2>
                         </div>
@@ -260,7 +255,6 @@ const Plantalysis: React.FC = () => {
                         </p>
                       </div>
                     </div>
-                    <ImageCarousel />
                   </div>
                 </div>
               </section>
