@@ -27,7 +27,9 @@ export function useAnalysis(
 
     if (error || !allAnalysisData) {
       console.log(error)
-      toast.error('Error fetching analysis data. Please contact Altum Labs Support.')
+      toast.error(
+        'Error fetching analysis data. Please contact Altum Labs Support.',
+      )
       throw new Error('unable to fetch analysis data')
     }
 

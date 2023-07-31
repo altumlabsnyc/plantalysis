@@ -14,7 +14,7 @@ import {
 } from '@mui/material'
 import * as React from 'react'
 
-import background from './assets/login/img/frame.png'
+import background from './assets/login/img/frame.jpg'
 
 import { AllRolesData, handleSignUp } from '@/hooks/handleSignUp'
 import { users, generalInputs } from '@/utils/formInputs'
@@ -457,10 +457,10 @@ export default function Register() {
                 mb: 2,
                 mx: 'auto', // Add this line
                 display: 'block', // And this line
-                backgroundColor: '#CFAA41',
+                backgroundColor: '#62c191',
                 color: 'white',
                 '&:hover': {
-                  backgroundColor: '#A98632',
+                  backgroundColor: '#62c191',
                 },
                 boxShadow: '0 3px 5px 2px rgba(0, 0, 0, .3)',
                 textTransform: 'none',

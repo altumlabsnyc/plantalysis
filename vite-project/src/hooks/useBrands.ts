@@ -31,7 +31,7 @@ export default function useBrandsDetails(user: User | null) {
 
     if (brandError) {
       console.log(brandError)
-      toast.error("Error fetching brands. Please contact Altum Labs Support.")
+      toast.error('Error fetching brands. Please contact Altum Labs Support.')
     }
 
     // @ts-ignore
