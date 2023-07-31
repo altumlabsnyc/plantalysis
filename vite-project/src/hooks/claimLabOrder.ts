@@ -24,7 +24,7 @@ export const claimLabOrders = async (
       return data // Assuming the response contains the updated data or success message
     } catch (error) {
       // Handle errors, such as network issues or server errors
-      toast.error("Error claiming order. Please contact Altum Labs Support.")
+      toast.error('Error claiming order. Please contact Altum Labs Support.')
       throw new Error('Network/server error claiming lab order')
     }
   }
@@ -56,7 +56,7 @@ export default async function claimAndShowLabOrders(data: {
       throw new Error('unable to claim lab orders')
     }
   } catch (error) {
-    toast.error("Error claiming order. Please contact Altum Labs Support.")
+    toast.error('Error claiming order. Please contact Altum Labs Support.')
     throw new Error('Failed to insert and show lab orders')
   }
   return data // Assuming the response contains the updated data or success message
