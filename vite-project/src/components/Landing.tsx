@@ -15,25 +15,16 @@ function Hero() {
     }
   }, [])
 
-  const divStyle: React.CSSProperties = {
-    opacity: 1,
-    boxShadow: '0px 4px 4px 0px rgba(0, 0, 0, 0.25)',
-    backgroundSize: 'cover',
-    position: 'relative',
-  }
-
   return (
-    <div style={divStyle}>
       <video
         ref={videoRef}
-        className="position-absolute w-100 h-100 z-index-top"
+        className="position-absolute w-100 h-100 z-index-top top-0 left-0"
         style={{ objectFit: 'cover' }}
         muted
         loop
       >
         <source src={backgroundVideo} type="video/mp4" />
       </video>
-    </div>
   )
 }
 
