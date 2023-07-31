@@ -47,8 +47,8 @@ export default function ImageCarousel() {
           disableOnInteraction: false,
         }}
       >
-        {images.map(({ src }) => (
-          <SwiperSlide style={slideStyle}>
+        {images.map(({ src }, index) => (
+          <SwiperSlide style={slideStyle} key={index}>
             <img src={src} style={imageStyle} />
           </SwiperSlide>
         ))}
