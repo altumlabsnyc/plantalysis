@@ -2,7 +2,7 @@ import './../assets/css/styles.css'
 import backgroundImage from './assets/img/hero.png'
 import backgroundVideo from './../assets/vid/BGVideo.mp4'
 import logo from './../assets/img/plantalysis.png'
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import ImageCarousel from './ImageCarousel'
 
 function Hero() {
@@ -35,6 +35,34 @@ function Hero() {
 }
 
 const Plantalysis: React.FC = () => {
+  interface demoFormState {
+    fname: string;
+    lname: string;
+    company: string;
+    jobTitle: string;
+    email: string;
+    phone: string;
+    state: string;
+  };
+
+  const [demoForm, setDemoForm] = useState<demoFormState>({
+    fname: '',
+    lname: '',
+    company: '',
+    jobTitle: '',
+    email: '',
+    phone: '',
+    state: '',
+  });
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    console.log(demoForm)
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    setDemoForm({ ...demoForm, [e.target.name]: e.target.value });
+  };
   return (
     <html lang="en">
       <head>
@@ -292,6 +320,7 @@ const Plantalysis: React.FC = () => {
                           <form
                             id="personalized-demo-form"
                             className="marketo-universal-form needs-validation  text-black p-0 w-100 text-center"
+                            onSubmit={handleSubmit}
                           >
                             <div className="form-content">
                               <h3 className="feature-module mt-0 mb-3">
@@ -306,6 +335,9 @@ const Plantalysis: React.FC = () => {
                                     autoComplete="given-name"
                                     required
                                     placeholder=" "
+                                    name="fname"
+                                    value={demoForm.fname}
+                                    onChange={handleChange}
                                   />
                                   <label htmlFor="personalized-demo-first">
                                     &nbsp; First Name *
@@ -319,6 +351,9 @@ const Plantalysis: React.FC = () => {
                                     autoComplete="family-name"
                                     required
                                     placeholder=" "
+                                    name="lname"
+                                    value={demoForm.lname}
+                                    onChange={handleChange}
                                   />
                                   <label htmlFor="personalized-demo-last">
                                     &nbsp; Last Name *
@@ -332,6 +367,9 @@ const Plantalysis: React.FC = () => {
                                     autoComplete="organization"
                                     required
                                     placeholder=" "
+                                    name="company"
+                                    value={demoForm.company}
+                                    onChange={handleChange}
                                   />
                                   <label htmlFor="personalized-demo-company">
                                     &nbsp; Company *
@@ -345,6 +383,9 @@ const Plantalysis: React.FC = () => {
                                     autoComplete="organization-title"
                                     required
                                     placeholder=" "
+                                    name="jobTitle"
+                                    value={demoForm.jobTitle}
+                                    onChange={handleChange}
                                   />
                                   <label htmlFor="personalized-demo-title">
                                     &nbsp; Job Title *
@@ -358,6 +399,9 @@ const Plantalysis: React.FC = () => {
                                     autoComplete="email"
                                     required
                                     placeholder=" "
+                                    name="email"
+                                    value={demoForm.email}
+                                    onChange={handleChange}
                                   />
                                   <label htmlFor="personalized-demo-email">
                                     &nbsp; Business Email *
@@ -371,6 +415,9 @@ const Plantalysis: React.FC = () => {
                                     autoComplete="tel"
                                     required
                                     placeholder=" "
+                                    name="phone"
+                                    value={demoForm.phone}
+                                    onChange={handleChange}
                                   />
                                   <label htmlFor="personalized-demo-phone">
                                     &nbsp; Phone Number *
@@ -401,8 +448,11 @@ const Plantalysis: React.FC = () => {
                                       id="personalized-demo-state"
                                       className="form-control"
                                       required
+                                      name="state"
+                                      value={demoForm.state}
+                                      onChange={handleChange}
                                     >
-                                      <option value="" disabled selected>
+                                      <option value="" disabled>
                                         Select State
                                       </option>
                                       <option value="AL">Alabama</option>
