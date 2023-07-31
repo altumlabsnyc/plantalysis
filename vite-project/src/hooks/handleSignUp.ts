@@ -11,6 +11,8 @@ import {
 
 import { insertUserDetails } from '@/hooks/addUserDetails'
 
+import toast from 'react-hot-toast'
+
 export type AllRolesData = {
   labData?: LabUser
   universityData?: UniversityUser
@@ -61,6 +63,7 @@ export async function handleSignUp(userData: {
       window.location.href = '/dashboard/' + userData.userDetails.user_type
     }
   } catch (error) {
+    toast.error("Error during sign up. Please contact Altum Labs Support.")
     console.log('error inserting user', error)
   }
 }

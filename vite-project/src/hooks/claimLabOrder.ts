@@ -5,6 +5,8 @@ import { mutate } from 'swr'
 import { LabOrder } from '@/types/supabaseAlias'
 import { LabOrdersRequested } from './useLabOrders'
 
+import toast from 'react-hot-toast'
+
 export const claimLabOrders = async (
   orderIds: Array<string>,
   user: User | null,
@@ -22,6 +24,7 @@ export const claimLabOrders = async (
       return data // Assuming the response contains the updated data or success message
     } catch (error) {
       // Handle errors, such as network issues or server errors
+      toast.error("Error claiming order. Please contact Altum Labs Support.")
       throw new Error('Network/server error claiming lab order')
     }
   }
@@ -53,6 +56,7 @@ export default async function claimAndShowLabOrders(data: {
       throw new Error('unable to claim lab orders')
     }
   } catch (error) {
+    toast.error("Error claiming order. Please contact Altum Labs Support.")
     throw new Error('Failed to insert and show lab orders')
   }
   return data // Assuming the response contains the updated data or success message

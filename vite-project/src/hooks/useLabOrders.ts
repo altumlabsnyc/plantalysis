@@ -30,6 +30,7 @@ export default function useLabOrders(
 
     if (error) {
       console.log(error)
+      toast.error("Error fetching orders. Please contact Altum Labs Support.")
       throw new Error('error retrieving lab_order data')
     }
 
@@ -238,6 +239,7 @@ export function useProducerPlacedOrders(user: User | null) {
 
     if (ordersError) {
       console.log(ordersError)
+      toast.error("Error fetching orders. Please contact Altum Labs Support.")
     }
 
     if (!ordersData) {
