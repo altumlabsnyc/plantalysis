@@ -36,14 +36,14 @@ function Hero() {
 
 const Plantalysis: React.FC = () => {
   interface demoFormState {
-    fname: string;
-    lname: string;
-    company: string;
-    jobTitle: string;
-    email: string;
-    phone: string;
-    state: string;
-  };
+    fname: string
+    lname: string
+    company: string
+    jobTitle: string
+    email: string
+    phone: string
+    state: string
+  }
 
   const [demoForm, setDemoForm] = useState<demoFormState>({
     fname: '',
@@ -53,16 +53,18 @@ const Plantalysis: React.FC = () => {
     email: '',
     phone: '',
     state: '',
-  });
+  })
 
   const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
+    e.preventDefault()
     console.log(demoForm)
-  };
+  }
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    setDemoForm({ ...demoForm, [e.target.name]: e.target.value });
-  };
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
+  ) => {
+    setDemoForm({ ...demoForm, [e.target.name]: e.target.value })
+  }
   return (
     <html lang="en">
       <head>
