@@ -1,5 +1,5 @@
 import Faq from '@/components/Faq'
-import Landing from '@/components/Landing'
+import Landing from '@/components/Landing/Landing'
 import LeftSideBar from './components/LeftSideBar'
 import Library from '@/components/Library'
 import Login from '@/components/Login'

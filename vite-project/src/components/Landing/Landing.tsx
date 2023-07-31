@@ -1,8 +1,9 @@
-import './assets/css/styles.css'
+import './../assets/css/styles.css'
 import backgroundImage from './assets/img/hero.png'
-import backgroundVideo from './assets/vid/BGVideo.mp4'
-import logo from './assets/img/plantalysis.png'
+import backgroundVideo from './../assets/vid/BGVideo.mp4'
+import logo from './../assets/img/plantalysis.png'
 import React, { useEffect, useRef } from 'react'
+import ImageCarousel from './ImageCarousel'
 
 function Hero() {
   const videoRef = useRef<HTMLVideoElement>(null)
@@ -246,6 +247,7 @@ const Plantalysis: React.FC = () => {
                         </p>
                       </div>
                     </div>
+                    <ImageCarousel />
                   </div>
                 </div>
               </section>
