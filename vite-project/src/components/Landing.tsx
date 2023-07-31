@@ -1,19 +1,39 @@
 import './assets/css/styles.css'
 import backgroundImage from './assets/img/hero.png'
-import React from 'react'
+import backgroundVideo from './assets/vid/BGVideo.mp4'
+import logo from './assets/img/plantalysis.png'
+import React, { useEffect, useRef } from 'react'
 
 function Hero() {
-  const divStyle = {
-    opacity: 0.4,
-    background: `linear-gradient(180deg, #71F280 0%, #00B2727D 100%), url(${backgroundImage})`,
+  const videoRef = useRef<HTMLVideoElement>(null)
+
+  useEffect(() => {
+    if (videoRef.current) {
+      videoRef.current.play().catch((error) => {
+        console.error('error playing video:', error)
+      })
+    }
+  }, [])
+
+  const divStyle: React.CSSProperties = {
+    opacity: 1,
     boxShadow: '0px 4px 4px 0px rgba(0, 0, 0, 0.25)',
     backgroundSize: 'cover',
+    position: 'relative',
   }
+
   return (
-    <div
-      className="video-opacity position-absolute w-100 h-100 z-index-top"
-      style={divStyle}
-    ></div>
+    <div style={divStyle}>
+      <video
+        ref={videoRef}
+        className="position-absolute w-100 h-100 z-index-top"
+        style={{ objectFit: 'cover' }}
+        muted
+        loop
+      >
+        <source src={backgroundVideo} type="video/mp4" />
+      </video>
+    </div>
   )
 }
 
@@ -34,15 +54,25 @@ const Plantalysis: React.FC = () => {
         <div id="page" className="hfeed site bg-light">
           <div id="content" className="site-content bg-light en">
             <div>
-              <nav id="nav-container" className="w-100 bg-white">
+              <nav
+                id="nav-container"
+                className="w-100 bg-white flex justify-between items-center px-4 font-dm-sans"
+              >
+                <div id="logo-container" className="flex items-center">
+                  <img
+                    src={logo}
+                    alt="Plantalysis Logo"
+                    className="w-12 h-12 mr-2 mt-2 mb-2"
+                  />
+                  <span className="text-xl font-bold">Plantalysis</span>
+                </div>
                 <div id="secondary-nav" className="xm-container small">
-                  <ul className="secondary-nav-container">
-                    <li className="secondary-nav-item">
-                      <a
-                        className="secondary-nav-item-link input-sans"
-                        href="/login"
-                      >
-                        Login
+                  <ul className="flex list-none m-0 p-0">
+                    <li className="ml-2">
+                      <a className="input-sans" href="/login">
+                        <button className="btn btn-white mt-0 mb-0">
+                          Login
+                        </button>
                       </a>
                     </li>
                   </ul>
@@ -206,17 +236,18 @@ const Plantalysis: React.FC = () => {
                   <div className="xm-container small pt-7 pb-4">
                     <div className="row align-items-center mt-3">
                       <div className="col-12 text-center mb-4">
-                        <h1 className="text-center headline-75 text-black bold text-shadow pt-5 mb-4">
-                          See more
+                        <h1 className="text-center headline-50 text-black bold text-shadow pt-5 mb-4">
+                          SEE MORE
                         </h1>
-                        <p className="headline-17 text-black mb-4">
-                          Hear from our partners, team members, and everyday
-                          consumers who interact with our platform.
+                        <p className="headline-17 text-black mb-5">
+                          Hear from our partners, team members, and
+                          <br />
+                          everyday consumers who interact with our platform.
                           <br />
                           <br />
                           <a
                             className="btn-anchor text-black"
-                            href="https://www.qualtrics.com/xmplus/xm-in-action/?utm_lp=homepage"
+                            href="https://www.altumlabs.co"
                             target=""
                           >
                             EXPLORE
@@ -231,9 +262,12 @@ const Plantalysis: React.FC = () => {
                 <div className="xm-container small pt-4 pb-7">
                   <div className="row align-items-stretch">
                     <div className="col-12 col-md-5">
-                      <h2 className="headline-30 bold mb-4">
-                        Get started with your personalized demo
+                      <h2 className="headline-40 bold mb-4">
+                        Get started with
+                        <br />
+                        your personalized demo
                       </h2>
+                      <br />
                       <p className="pb-0">
                         Complete the form to see the platform in action. We’ll
                         show you how you can use Plantalysis to improve
@@ -251,7 +285,7 @@ const Plantalysis: React.FC = () => {
                         >
                           <form
                             id="personalized-demo-form"
-                            className="marketo-universal-form needs-validation bg-gray-light text-black p-0 w-100"
+                            className="marketo-universal-form needs-validation  text-black p-0 w-100 text-center"
                           >
                             <div className="form-content">
                               <h3 className="feature-module mt-0 mb-3">
@@ -268,7 +302,7 @@ const Plantalysis: React.FC = () => {
                                     placeholder=" "
                                   />
                                   <label htmlFor="personalized-demo-first">
-                                    First Name *
+                                    &nbsp; First Name *
                                   </label>
                                 </div>
                                 <div className="col-md-6 form-group">
@@ -281,7 +315,7 @@ const Plantalysis: React.FC = () => {
                                     placeholder=" "
                                   />
                                   <label htmlFor="personalized-demo-last">
-                                    Last Name *
+                                    &nbsp; Last Name *
                                   </label>
                                 </div>
                                 <div className="col-md-6 form-group">
@@ -294,7 +328,7 @@ const Plantalysis: React.FC = () => {
                                     placeholder=" "
                                   />
                                   <label htmlFor="personalized-demo-company">
-                                    Company *
+                                    &nbsp; Company *
                                   </label>
                                 </div>
                                 <div className="col-md-6 form-group">
@@ -307,7 +341,7 @@ const Plantalysis: React.FC = () => {
                                     placeholder=" "
                                   />
                                   <label htmlFor="personalized-demo-title">
-                                    Job Title *
+                                    &nbsp; Job Title *
                                   </label>
                                 </div>
                                 <div className="col-md-6 form-group">
@@ -320,7 +354,7 @@ const Plantalysis: React.FC = () => {
                                     placeholder=" "
                                   />
                                   <label htmlFor="personalized-demo-email">
-                                    Business Email *
+                                    &nbsp; Business Email *
                                   </label>
                                 </div>
                                 <div className="col-md-6 form-group">
@@ -333,28 +367,107 @@ const Plantalysis: React.FC = () => {
                                     placeholder=" "
                                   />
                                   <label htmlFor="personalized-demo-phone">
-                                    Phone Number *
+                                    &nbsp; Phone Number *
                                   </label>
                                 </div>
-                                <div
-                                  className="mt-3"
-                                  style={{
-                                    position: 'relative',
-                                    height: '36px',
-                                  }}
-                                >
-                                  <button
-                                    type="submit"
-                                    className="btn btn-outline-black mt-3"
-                                    aria-label="Submit"
+                                {/* <div className="col-md-12 form-group">
+                                  <input
+                                    id="personalized-demo-phone"
+                                    className="form-control"
+                                    type="tel"
+                                    autoComplete="tel"
+                                    required
+                                    placeholder=" "
+                                  />
+                                  <label htmlFor="personalized-demo-phone">
+                                    &nbsp; State *
+                                  </label>
+                                </div> */}
+                                <div className="col-md-12 form-group mt-2">
+                                  <div className="w-100">
+                                    <label
+                                      htmlFor="personalized-demo-state"
+                                      className="mb-0"
+                                    >
+                                      &nbsp; State *
+                                    </label>
+                                    <select
+                                      id="personalized-demo-state"
+                                      className="form-control"
+                                      required
+                                    >
+                                      <option value="" disabled selected>
+                                        Select State
+                                      </option>
+                                      <option value="AL">Alabama</option>
+                                      <option value="AK">Alaska</option>
+                                      <option value="AZ">Arizona</option>
+                                      <option value="AR">Arkansas</option>
+                                      <option value="CA">California</option>
+                                      <option value="CO">Colorado</option>
+                                      <option value="CT">Connecticut</option>
+                                      <option value="DE">Delaware</option>
+                                      <option value="FL">Florida</option>
+                                      <option value="GA">Georgia</option>
+                                      <option value="HI">Hawaii</option>
+                                      <option value="ID">Idaho</option>
+                                      <option value="IL">Illinois</option>
+                                      <option value="IN">Indiana</option>
+                                      <option value="IA">Iowa</option>
+                                      <option value="KS">Kansas</option>
+                                      <option value="KY">Kentucky</option>
+                                      <option value="LA">Louisiana</option>
+                                      <option value="ME">Maine</option>
+                                      <option value="MD">Maryland</option>
+                                      <option value="MA">Massachusetts</option>
+                                      <option value="MI">Michigan</option>
+                                      <option value="MN">Minnesota</option>
+                                      <option value="MS">Mississippi</option>
+                                      <option value="MO">Missouri</option>
+                                      <option value="MT">Montana</option>
+                                      <option value="NE">Nebraska</option>
+                                      <option value="NV">Nevada</option>
+                                      <option value="NH">New Hampshire</option>
+                                      <option value="NJ">New Jersey</option>
+                                      <option value="NM">New Mexico</option>
+                                      <option value="NY">New York</option>
+                                      <option value="NC">North Carolina</option>
+                                      <option value="ND">North Dakota</option>
+                                      <option value="OH">Ohio</option>
+                                      <option value="OK">Oklahoma</option>
+                                      <option value="OR">Oregon</option>
+                                      <option value="PA">Pennsylvania</option>
+                                      <option value="RI">Rhode Island</option>
+                                      <option value="SC">South Carolina</option>
+                                      <option value="SD">South Dakota</option>
+                                      <option value="TN">Tennessee</option>
+                                      <option value="TX">Texas</option>
+                                      <option value="UT">Utah</option>
+                                      <option value="VT">Vermont</option>
+                                      <option value="VA">Virginia</option>
+                                      <option value="WA">Washington</option>
+                                      <option value="WV">West Virginia</option>
+                                      <option value="WI">Wisconsin</option>
+                                      <option value="WY">Wyoming</option>
+                                    </select>
+                                  </div>
+                                </div>
+                                <div className="col-md-12 text-center">
+                                  <div
+                                    className="mt-3"
                                     style={{
-                                      marginTop: '-89.1875px !important',
-                                      position: 'absolute',
-                                      bottom: 0,
+                                      position: 'relative',
+                                      height: '24px',
                                     }}
                                   >
-                                    Submit
-                                  </button>
+                                    <button
+                                      type="submit"
+                                      className="btn btn-outline-black mt-3"
+                                      aria-label="Submit"
+                                    >
+                                      Submit
+                                    </button>
+                                  </div>
                                 </div>
                               </div>
                             </div>
@@ -372,9 +485,25 @@ const Plantalysis: React.FC = () => {
                   id="main-footer-content"
                   className="row align-items-stretch py-5 py-lg-6 "
                 >
-                  <div id="main-footer-nav" className="d-flex flex-wrap">
-                    {/* Footer content */}
-                  </div>
+                  <footer
+                    id="main-footer-nav"
+                    className="bg-gray-light p-4 text-center"
+                  >
+                    <div className="container d-flex justify-content-between">
+                      <div style={{ fontSize: '1.5rem' }}>
+                        &copy; 2023 Plantalysis
+                      </div>
+                      <div style={{ fontSize: '1.5rem' }}>
+                        <a href="#">Terms of Service</a>
+                      </div>
+                      <div style={{ fontSize: '1.5rem' }}>
+                        <a href="#">Privacy Statement</a>
+                      </div>
+                      <div style={{ fontSize: '1.5rem' }}>
+                        <a href="#">Security Statement</a>
+                      </div>
+                    </div>
+                  </footer>
                 </div>
                 <div className="gradient-bar w-100"></div>
               </div>
