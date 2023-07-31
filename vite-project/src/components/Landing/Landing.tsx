@@ -1,6 +1,6 @@
 import './../assets/css/styles.css'
 import backgroundImage from './assets/img/hero.png'
-import backgroundVideo from './../assets/vid/BGVideo.mp4'
+import backgroundVideo from './../assets/vid/BGVCompressed.mp4'
 import logo from './../assets/img/plantalysis.png'
 import React, { useEffect, useRef } from 'react'
 import ImageCarousel from './ImageCarousel'
@@ -91,15 +91,18 @@ const Plantalysis: React.FC = () => {
                             Analysis. <br /> Done Right.
                           </h1>
                           <div className="text-center">
-                            <p className="text-center input-sans text-uppercase headline-15-alt text-white background-homepage round-5 d-inline-block pt-0 mb-3">
+                            <p className="text-center input-sans text-uppercase headline-15-alt text-black background-homepage round-5 d-inline-block pt-0 mb-3">
                               PLANTALYSIS PRD, LAB, AND REG ARE HERE Powered by
                               AI.
                             </p>
                           </div>
                           <div className="d-flex justify-content-center align-items-center my-5">
-                            <button className="btn btn-white mt-0 mb-0 ">
-                              REQUEST DEMO
-                            </button>
+                            <a
+                              className="btn btn-white btn-outline-black"
+                              href="/login"
+                            >
+                              Request Demo
+                            </a>
                           </div>
                         </div>
                         <Hero />
@@ -496,16 +499,16 @@ const Plantalysis: React.FC = () => {
                     className="bg-gray-light p-4 text-center"
                   >
                     <div className="container d-flex justify-content-between">
-                      <div style={{ fontSize: '1.5rem' }}>
+                      <div style={{ fontSize: '1.2rem' }}>
                         &copy; 2023 Plantalysis
                       </div>
-                      <div style={{ fontSize: '1.5rem' }}>
+                      <div style={{ fontSize: '1.2rem' }}>
                         <a href="#">Terms of Service</a>
                       </div>
-                      <div style={{ fontSize: '1.5rem' }}>
+                      <div style={{ fontSize: '1.2rem' }}>
                         <a href="#">Privacy Statement</a>
                       </div>
-                      <div style={{ fontSize: '1.5rem' }}>
+                      <div style={{ fontSize: '1.2rem' }}>
                         <a href="#">Security Statement</a>
                       </div>
                     </div>

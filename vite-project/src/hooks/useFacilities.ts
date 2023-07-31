@@ -31,7 +31,7 @@ export default function useFacilitiesDetails(user: User | null) {
 
     if (facilityError) {
       console.log(facilityError)
-      toast.error("Error fetching brands. Please contact Altum Labs Support.")
+      toast.error('Error fetching brands. Please contact Altum Labs Support.')
     }
 
     // if (error) throw error
