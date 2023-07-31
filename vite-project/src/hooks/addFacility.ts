@@ -5,6 +5,8 @@ import { mutate } from 'swr'
 import { Facility } from '@/types/supabaseAlias'
 import { v4 as uuidv4 } from 'uuid'
 
+import toast from 'react-hot-toast'
+
 export const insertFacility = async (
   facility: Facility,
   facilityId?: string,
@@ -17,6 +19,7 @@ export const insertFacility = async (
     return data // Assuming the response contains the updated data or success message
   } catch (error) {
     // Handle errors, such as network issues or server errors
+    toast.error("Error adding new facility. Please contact Altum Labs Support.")
     throw new Error('Network/server error adding brand')
   }
 }
@@ -47,6 +50,7 @@ export default async function insertAndShowBrands(data: {
       throw new Error('unable to get brands of this user')
     }
   } catch (error) {
+    toast.error("Error adding new facility. Please contact Altum Labs Support.")
     throw new Error('Failed to insert and show brands')
   }
 }

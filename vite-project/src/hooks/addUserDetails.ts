@@ -2,6 +2,8 @@ import { BaseUser } from '@/types/supabaseAlias'
 import { supabase } from '@/utils/supabase'
 import { AllRolesData } from './handleSignUp'
 
+import toast from 'react-hot-toast'
+
 export const insertUserDetails = async (userData: {
   userDetails: BaseUser
   roleData: AllRolesData
@@ -38,6 +40,8 @@ export const insertUserDetails = async (userData: {
     return data // Assuming the response contains the updated data or success message
   } catch (error) {
     // Handle errors, such as network issues or server errors
+    // toast.error("Error during sign up. Please contact Altum Labs Support.")
+    // toast added to handle sign up
     throw new Error('Network/server error adding brand')
   }
 }

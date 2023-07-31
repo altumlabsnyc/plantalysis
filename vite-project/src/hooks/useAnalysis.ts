@@ -3,6 +3,8 @@ import { supabase } from '@/utils/supabase'
 import { User } from '@supabase/supabase-js'
 import useSWR from 'swr'
 
+import toast from 'react-hot-toast'
+
 export type ForApproval = {
   lab_name: string | null
   brand_name: string | null
@@ -25,6 +27,7 @@ export function useAnalysis(
 
     if (error || !allAnalysisData) {
       console.log(error)
+      toast.error('Error fetching analysis data. Please contact Altum Labs Support.')
       throw new Error('unable to fetch analysis data')
     }
 

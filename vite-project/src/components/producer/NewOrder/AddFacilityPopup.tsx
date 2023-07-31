@@ -55,7 +55,8 @@ export default function AddFacilityPopup({ isOpen, setIsOpen }: Props) {
     try {
       await insertFacility(facility)
     } catch (error) {
-      toast.error('Error adding facility. Please contact Altum support.')
+      // toast.error('Error adding facility. Please contact Altum support.')
+      // added toaster in hook definition
     }
 
     setAddingFacility(false)

@@ -3,6 +3,8 @@ import { supabase } from '@/utils/supabase'
 import { User } from '@supabase/supabase-js'
 import useSWR from 'swr'
 
+import toast from 'react-hot-toast'
+
 //   const user = useUser();
 
 /**
@@ -29,6 +31,7 @@ export default function useFacilitiesDetails(user: User | null) {
 
     if (facilityError) {
       console.log(facilityError)
+      toast.error("Error fetching brands. Please contact Altum Labs Support.")
     }
 
     // if (error) throw error

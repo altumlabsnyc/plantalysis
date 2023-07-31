@@ -1,6 +1,8 @@
 import { supabase } from '@/utils/supabase'
 import { User } from '@supabase/auth-helpers-react'
 
+import toast from 'react-hot-toast'
+
 export const approveLabOrder = async (
   labOrderId: string,
   user: User | null,
@@ -19,6 +21,7 @@ export const approveLabOrder = async (
     }
     return data
   } catch (error) {
+    toast.error("Error approving order. Please contact Altum Labs Support.")
     throw new Error('Network/Server error approving lab order')
   }
 }
