@@ -14,7 +14,7 @@ const transporter = nodemailer.createTransport({
   },
 })
 
-async function main() {
+async function sendMail() {
   // send mail with defined transport object
   const info = await transporter.sendMail({
     from: '"Team @ Altum 👻" <foo@example.com>', // sender address
