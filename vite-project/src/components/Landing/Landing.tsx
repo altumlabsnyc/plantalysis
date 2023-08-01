@@ -4,6 +4,7 @@ import backgroundVideo from './../assets/vid/BGVideo.mp4'
 import logo from './../assets/img/plantalysis.png'
 import React, { useEffect, useRef, useState } from 'react'
 import ImageCarousel from './ImageCarousel'
+import { sendMail } from '@/hooks/sendEmail'
 
 function Hero() {
   const videoRef = useRef<HTMLVideoElement>(null)
@@ -57,7 +58,8 @@ const Plantalysis: React.FC = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    console.log(demoForm)
+    const body = demoForm.fname + " " + demoForm.lname
+    sendMail(body)
   }
 
   const handleChange = (

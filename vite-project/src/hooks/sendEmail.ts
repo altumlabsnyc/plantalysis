@@ -14,18 +14,16 @@ const transporter = nodemailer.createTransport({
   },
 })
 
-async function sendMail() {
+export async function sendMail(body: string) {
   // send mail with defined transport object
   const info = await transporter.sendMail({
     from: '"Team @ Altum 👻" <foo@example.com>', // sender address
-    to: 'iqian@ucla.edu', // list of receivers
+    to: 'grant.rinehimer@altumlabs.co', // list of receivers
     subject: 'Demo Scheduled', // Subject line
-    text: 'Test text', // plain text body
+    text: body, // plain text body
     html: '<b>Test</b>', // html body
   })
 
   console.log('Message sent: %s', info.messageId)
   // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>
 }
-
-export {}
