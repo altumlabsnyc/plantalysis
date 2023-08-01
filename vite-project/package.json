@@ -47,7 +47,6 @@
     "jquery-ui": "^1.13.2",
     "masonry-layout": "^4.2.2",
     "match-sorter": "^6.3.1",
-    "nodemailer": "^6.9.4",
     "outlayer": "^2.1.1",
     "react": "^17.0.0",
     "react-datepicker": "^4.16.0",

@@ -58,7 +58,7 @@ const Plantalysis: React.FC = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    const body = demoForm.fname + " " + demoForm.lname
+    const body = demoForm.fname + ' ' + demoForm.lname
     sendMail(body)
   }
 
