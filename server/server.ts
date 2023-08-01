@@ -5,6 +5,7 @@ import express, { Request, Response } from "express"
 import Stripe from "stripe"
 import { v4 as uuidv4 } from "uuid"
 import { Database } from "./types/supabase"
+import nodemailer from 'nodemailer'
 
 dotenv.config()
 
@@ -92,7 +93,8 @@ async function insertLabOrder(session: any) {
 const stripe = new Stripe(stripeKey, { apiVersion: "2022-11-15" })
 const app = express()
 
-app.use(cors())
+app.use(cors({ origin: 'http://localhost:5173' }));
+app.use(express.json());
 
 // app.use(express.static('public'));
 
@@ -180,9 +182,34 @@ app.post(
       insertLabOrder(session)
     }
 
-    res.json({ received: true })
+    res.json({ received: true }).status(200)
   }
 )
+
+app.post('/send-email',
+  express.json(),
+  async (req: Request, res: Response) => {
+    const emailUser = process.env.EMAIL_USERNAME;
+    const emailPass = process.env.EMAIL_PASSWORD;
+
+    const transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        user: emailUser,
+        pass: emailPass
+      }
+    });
+
+    const info = await transporter.sendMail({
+      from: '"Team @ Altum 👻" ' + emailUser, // sender address
+      to: 'grant.rinehimer@altumlabs.co', // list of receivers
+      subject: 'Demo Scheduled', // Subject line
+      text: "test", // plain text body
+      html: '<b>Test</b>', // html body
+    });
+
+    res.send({ received: true });
+  });
 
 app.get("/test", (req: Request, res: Response) => {
   res.json({ message: "Hello, this is a test!" })
