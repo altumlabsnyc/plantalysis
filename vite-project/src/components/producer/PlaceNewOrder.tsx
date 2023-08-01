@@ -1,4 +1,6 @@
+import { labOrderInputs } from '@/constants/formInputs'
 import useUserDetails from '@/hooks/useUserDetails'
+import { LabOrder } from '@/types/supabaseAlias'
 import {
   Box,
   Button,
@@ -12,8 +14,6 @@ import { useUser } from '@supabase/auth-helpers-react'
 import React, { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import Stripe from 'stripe'
-import { labOrderInputs } from '@/utils/formInputs'
-import { LabOrder } from '@/types/supabaseAlias'
 
 function Copyright(props: any) {
   return (

@@ -21,7 +21,7 @@ export const approveLabOrder = async (
     }
     return data
   } catch (error) {
-    toast.error("Error approving order. Please contact Altum Labs Support.")
+    toast.error('Error approving order. Please contact Altum Labs Support.')
     throw new Error('Network/Server error approving lab order')
   }
 }

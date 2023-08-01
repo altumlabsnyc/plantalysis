@@ -1,7 +1,8 @@
 import Spinner from '@/components/common/Spinner'
 import { insertFacility } from '@/hooks/addFacility'
 import useFacilitiesDetails from '@/hooks/useFacilities'
-import { Facility } from '@/types/supabaseAlias'
+import { Address, Facility } from '@/types/supabaseAlias'
+import { supabase } from '@/utils/supabase'
 import { Dialog, Transition } from '@headlessui/react'
 import { useUser } from '@supabase/auth-helpers-react'
 import { Fragment, useState } from 'react'
@@ -30,6 +31,8 @@ export default function AddFacilityPopup({ isOpen, setIsOpen }: Props) {
   }
 
   async function addFacility() {
+    if (!user) return toast.error('Please log in to add a facility')
+
     if (addingFacility) return
     setAddingFacility(true)
 
@@ -38,10 +41,32 @@ export default function AddFacilityPopup({ isOpen, setIsOpen }: Props) {
       return toast.error('Please fill out all fields')
     }
 
+    const addressDB: Address = {
+      id: uuidv4(),
+      line_1: address,
+      line_2: null,
+      city: city,
+      postal_code: zip,
+      state_code: state,
+      country_code: 'USA',
+    }
+
+    // add address to DB
+    const { data, error: addressError } = await supabase
+      .from('address')
+      .insert([addressDB])
+
+    if (addressError) {
+      setAddingFacility(false)
+      return toast.error(
+        'Error adding address to database. Please contact Altum support.',
+      )
+    }
+
     const facility: Facility = {
       id: uuidv4(),
-      producer_id: user?.id || '',
-      location: address + ', ' + city + ', ' + state + ' ' + zip,
+      producer_id: user.id || '',
+      address_id: addressDB.id,
       name: nickname,
       description: null,
     }
@@ -144,15 +169,16 @@ export default function AddFacilityPopup({ isOpen, setIsOpen }: Props) {
                       State / Province
                     </label>
                     <div className="mt-2">
-                      <input
-                        type="text"
+                      <select
                         name="region"
                         id="region"
-                        autoComplete="address-level1"
                         defaultValue={'NY'}
                         className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                         onChange={(e) => setState(e.target.value)}
-                      />
+                        disabled
+                      >
+                        <option value="NY">New York</option>
+                      </select>
                     </div>
                   </div>
 
