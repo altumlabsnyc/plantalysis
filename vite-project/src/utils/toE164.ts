@@ -9,7 +9,7 @@ export default function toE164(phoneNumber: string): string {
   let digitsOnly = phoneNumber.replace(/\D/g, '')
 
   // Check if the string is a valid phone number
-  let isValid = /^\d{10}$/.test(digitsOnly)
+  const isValid = /^\d{10}$/.test(digitsOnly)
   if (!isValid) {
     throw new Error('Invalid phone number')
   }
@@ -20,7 +20,7 @@ export default function toE164(phoneNumber: string): string {
   }
 
   // Convert to E.164 format
-  let e164 = '+' + digitsOnly
+  const e164 = '+' + digitsOnly
 
   return e164
 }
