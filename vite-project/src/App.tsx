@@ -15,7 +15,7 @@ import { supabase } from '@/utils/supabase'
 import { SessionContextProvider } from '@supabase/auth-helpers-react'
 import { Route, BrowserRouter as Router, Switch } from 'react-router-dom'
 import LabDashboardContent from './components/lab/LabDashboardContent'
-
+// testing commit
 function App() {
   return (
     <SessionContextProvider supabaseClient={supabase}>
