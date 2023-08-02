@@ -66,6 +66,12 @@ export default function NewOrder() {
     if (!selectedFacility) {
       return toast.error('Please select a facility')
     }
+    if (!selectedCategory) {
+      return toast.error('Please select a test category')
+    }
+    if (selectedTests.size === 0) {
+      return toast.error('Please select at least 1 test to perform')
+    }
     if (!selectedStrainName) {
       return toast.error('Please enter a strain name')
     }
