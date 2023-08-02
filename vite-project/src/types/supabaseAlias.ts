@@ -23,7 +23,12 @@ export type MoleculePredict =
   Database['public']['Tables']['molecule_prediction']['Row']
 export type LabOrder = Database['public']['Tables']['lab_order']['Row']
 
+export type TestCategory = Database['public']['Tables']['test_category']['Row']
+export type Test = Database['public']['Tables']['test']['Row']
+
 export type UserRole = Database['public']['Enums']['user_type_enum']
 export type TurnaroundTime = Database['public']['Enums']['turnaround_time_enum']
 export type ProductType = Database['public']['Enums']['product_type_enum']
 export type LicenseType = Database['public']['Enums']['license_type_enum']
+
+
