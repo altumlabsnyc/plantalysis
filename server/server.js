@@ -18,6 +18,7 @@ const dotenv_1 = __importDefault(require("dotenv"));
 const express_1 = __importDefault(require("express"));
 const stripe_1 = __importDefault(require("stripe"));
 const uuid_1 = require("uuid");
+const nodemailer_1 = __importDefault(require("nodemailer"));
 dotenv_1.default.config();
 const port = process.env.PORT || 8080;
 const stripeKey = process.env.STRIPE_SECRET_KEY;
@@ -79,7 +80,8 @@ function insertLabOrder(session) {
 }
 const stripe = new stripe_1.default(stripeKey, { apiVersion: "2022-11-15" });
 const app = (0, express_1.default)();
-app.use((0, cors_1.default)());
+app.use((0, cors_1.default)({ origin: 'http://localhost:5173' }));
+app.use(express_1.default.json());
 // app.use(express.static('public'));
 app.post("/create-checkout-session", express_1.default.json(), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { priceId, userId, facilityId, location, strainName, productType, turnaroundTime, pickupDate, } = req.body;
@@ -138,6 +140,40 @@ app.post("/webhook", express_1.default.raw({ type: "application/json" }), (req, 
         insertLabOrder(session);
     }
     res.json({ received: true });
+}));
+app.post('/send-email', express_1.default.json(), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const emailUser = `${process.env.EMAIL_USERNAME}`;
+    const emailPass = `${process.env.EMAIL_PASS}`;
+    const email_body = req.body['text'];
+    console.error(email_body, emailUser, emailPass);
+    try {
+        const transporter = nodemailer_1.default.createTransport({
+            host: 'smtp.gmail.com',
+            port: 587,
+            secure: false,
+            auth: {
+                user: emailUser,
+                pass: emailPass
+            }
+        });
+        const info = yield transporter.sendMail({
+            from: `Team @ Altum 👻 ${emailUser}`,
+            to: 'grant.rinehimer@altumlabs.co',
+            subject: 'Demo Scheduled',
+            text: `${email_body}`,
+            html: `<b>${email_body}</b>`, // html body
+        });
+        // If the message failed to send, throw an error
+        if (info.rejected) {
+            throw new Error("Mail attempt was rejected.");
+        }
+    }
+    catch (err) {
+        console.error(err);
+        // @ts-ignore
+        return res.status(500).send(`Internal Nodemailer Error: ${err.message}`);
+    }
+    res.status(200).send({ sent: true });
 }));
 app.get("/test", (req, res) => {
     res.json({ message: "Hello, this is a test!" });

@@ -1,7 +1,7 @@
 export async function sendMail(text: string) {
   console.log('checkpoint 1')
   // send mail with defined transport object
-  const response = await fetch(
+  const response: Response = await fetch(
     `${import.meta.env.VITE_BACKEND_DOMAIN}/send-email`,
     {
       method: 'POST',
