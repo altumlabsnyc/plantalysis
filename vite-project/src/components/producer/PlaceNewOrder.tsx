@@ -77,7 +77,6 @@ export default function PlaceNewOrder() {
 
     const labOrder: LabOrder = {
       id: '',
-      location: location,
       pickup_date: pickup_date,
       // @ts-ignore
       strain_info: strain_info,

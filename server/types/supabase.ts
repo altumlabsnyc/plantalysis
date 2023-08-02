@@ -112,9 +112,7 @@ export interface Database {
           id: string
           producer_facility_id: string | null
           producer_user_id: string | null
-          product_type: Database["public"]["Enums"]["product_type_enum"] | null
           serving_size: number | null
-          strain: string | null
           unit_weight: number | null
           weight: number | null
         }
@@ -122,9 +120,7 @@ export interface Database {
           id?: string
           producer_facility_id?: string | null
           producer_user_id?: string | null
-          product_type?: Database["public"]["Enums"]["product_type_enum"] | null
           serving_size?: number | null
-          strain?: string | null
           unit_weight?: number | null
           weight?: number | null
         }
@@ -132,9 +128,7 @@ export interface Database {
           id?: string
           producer_facility_id?: string | null
           producer_user_id?: string | null
-          product_type?: Database["public"]["Enums"]["product_type_enum"] | null
           serving_size?: number | null
-          strain?: string | null
           unit_weight?: number | null
           weight?: number | null
         }
@@ -364,6 +358,34 @@ export interface Database {
             foreignKeyName: "lab_order_lab_user_id_fkey"
             columns: ["lab_user_id"]
             referencedRelation: "lab_user"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
+      lab_order_on_test: {
+        Row: {
+          lab_order_id: string
+          test_id: string
+        }
+        Insert: {
+          lab_order_id: string
+          test_id: string
+        }
+        Update: {
+          lab_order_id?: string
+          test_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "lab_order_on_test_lab_order_id_fkey"
+            columns: ["lab_order_id"]
+            referencedRelation: "lab_order"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "lab_order_on_test_test_id_fkey"
+            columns: ["test_id"]
+            referencedRelation: "test"
             referencedColumns: ["id"]
           }
         ]

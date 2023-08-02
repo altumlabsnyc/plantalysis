@@ -3,7 +3,6 @@ import { supabase } from '@/utils/supabase'
 import { User } from '@supabase/supabase-js'
 import toast from 'react-hot-toast'
 import useSWR from 'swr'
-import { v4 } from 'uuid'
 
 export enum LabOrdersRequested {
   claimedByALab = 'claimed',
@@ -95,7 +94,7 @@ export function useLabOrderRequests(user: User | null) {
         *,
         batch (
           *,
-          facility ( * )
+          producer_facility ( * )
         )
         `,
       )
@@ -105,7 +104,7 @@ export function useLabOrderRequests(user: User | null) {
       ordersData = data.map((order) => ({
         ...order,
         batch: order.batch,
-        facility: order.batch?.facility,
+        facility: order.batch?.producer_facility,
       })) as LabRequest[]
     }
 
@@ -212,7 +211,9 @@ export function useProducerPlacedOrders(user: User | null) {
       batch!inner (
         *,
         producer_user_id,
-        facility ( * )
+        producer_facility ( *,
+          address ( * )
+        )
       )
       `,
       )
@@ -225,7 +226,7 @@ export function useProducerPlacedOrders(user: User | null) {
             id: order.id,
             lab_user_id: order.lab_user_id,
             order_time: order.order_time,
-            location: order.batch?.facility?.location || null,
+            location: order.batch?.producer_facility?.address?.line_1 || '',
             analysis_approved: null,
             analysis_id: null,
           }

@@ -65,7 +65,7 @@ export default function AddFacilityPopup({ isOpen, setIsOpen }: Props) {
 
     const facility: Facility = {
       id: uuidv4(),
-      producer_id: user.id || '',
+      producer_user_id: user.id || '',
       address_id: addressDB.id,
       name: nickname,
       description: null,

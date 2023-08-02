@@ -69,7 +69,6 @@ export default function NewOrder() {
           ),
           userId: user?.id,
           facilityId: selectedFacility.id,
-          location: selectedFacility.location,
           strainName: selectedStrainName,
           productType: selectedProductType,
           turnaroundTime: selectedTurnaroundTime,
@@ -172,10 +171,8 @@ export default function NewOrder() {
               A sampling firm will pickup{' '}
               {selectedStrainName || '{strain info}'}{' '}
               {selectedProductType || '{product type}'} at{' '}
-              {selectedFacility?.name ||
-                selectedFacility?.location ||
-                '{facility name}'}{' '}
-              on {format(selectedPickupDate, 'MM/dd/yyyy')}
+              {selectedFacility?.name} on{' '}
+              {format(selectedPickupDate, 'MM/dd/yyyy')}
               {', '} and you&apos;ll get test results on or before{' '}
               {format(
                 receiveResultsBy(selectedPickupDate, selectedTurnaroundTime),

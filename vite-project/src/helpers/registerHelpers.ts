@@ -77,6 +77,7 @@ export function getLabSignupInfoFromForm(
     id: id,
     owner_name: owner_name,
     license_number: license_number,
+    parent_id: null,
   }
   return {
     ...labData,
