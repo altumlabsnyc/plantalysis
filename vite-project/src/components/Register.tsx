@@ -15,6 +15,8 @@ import {
 import * as React from 'react'
 
 import background from './assets/login/img/frame.jpg'
+import backgroundVideo from './assets/vid/BGV_480p.mp4'
+import logo from './assets/img/blackP.jpg'
 
 import { AllRolesData, handleSignUp } from '@/hooks/handleSignUp'
 import { users, generalInputs } from '@/utils/formInputs'
@@ -28,6 +30,7 @@ import {
   LabUser,
   UserRole,
 } from '@/types/supabaseAlias'
+import { Toaster } from 'react-hot-toast'
 
 function Copyright(props: any) {
   return (
@@ -238,6 +241,7 @@ export default function Register() {
 
   return (
     <Grid container component="main" sx={{ height: '100vh' }}>
+      <Toaster />
       <CssBaseline />
       <Grid
         item
@@ -245,26 +249,69 @@ export default function Register() {
         sm={4}
         md={7}
         sx={{
-          backgroundImage: `url(${background})`,
-          backgroundRepeat: 'no-repeat',
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          position: 'relative', // Add relative position to the Grid item
+          position: 'relative',
         }}
       >
+        <video
+          autoPlay
+          loop
+          muted
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover',
+          }}
+        >
+          <source src={backgroundVideo} type="video/mp4" />
+        </video>
+
         <Typography
           component="h1"
           variant="h3"
           sx={{
             position: 'absolute',
-            top: '20%',
-            left: '20%',
+            top: '35%',
+            left: '50%',
             transform: 'translate(-50%, -50%)',
             color: 'white',
             fontWeight: 'bold',
           }}
         >
-          Join Us
+          PLANTALYSIS
+        </Typography>
+
+        <a href="https://www.plantalysis.com">
+          <img
+            src={logo}
+            alt="Logo"
+            style={{
+              position: 'absolute',
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+              width: '150px',
+              height: '150px',
+              borderRadius: '75%',
+              marginTop: '20px',
+            }}
+          />
+        </a>
+        <Typography
+          component="h1"
+          variant="h3"
+          sx={{
+            position: 'absolute',
+            top: '70%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            color: 'white',
+            fontWeight: 'bold',
+          }}
+        >
+          LOG-IN
         </Typography>
       </Grid>
       <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>

@@ -1,7 +1,7 @@
 import './../assets/css/styles.css'
 import backgroundImage from './assets/img/hero.png'
-import backgroundVideo from './../assets/vid/BGVCompressed.mp4'
-import logo from './../assets/img/plantalysis.png'
+import backgroundVideo from './../assets/vid/BGV_480p.mp4'
+import logo from './../assets/img/newPlantalysis.png'
 import React, { useEffect, useRef } from 'react'
 import ImageCarousel from './ImageCarousel'
 
@@ -66,10 +66,8 @@ const Plantalysis: React.FC = () => {
                 <div id="secondary-nav" className="xm-container small">
                   <ul className="flex list-none m-0 p-0">
                     <li className="ml-2">
-                      <a className="input-sans" href="/login">
-                        <button className="btn btn-white mt-0 mb-0">
-                          Login
-                        </button>
+                      <a className="btn btn-outline-black" href="/login">
+                        Login
                       </a>
                     </li>
                   </ul>
@@ -160,6 +158,7 @@ const Plantalysis: React.FC = () => {
                           <a
                             className="btn-anchor anchor-black mb-0 ml-3"
                             href="/signup"
+                            target="_blank"
                           >
                             Sign Up
                           </a>
@@ -190,6 +189,7 @@ const Plantalysis: React.FC = () => {
                           <a
                             className="btn-anchor anchor-black mb-0 ml-3"
                             href="/signup"
+                            target="_blank"
                           >
                             Sign Up
                           </a>
@@ -220,6 +220,7 @@ const Plantalysis: React.FC = () => {
                           <a
                             className="btn-anchor anchor-black mb-0 ml-3"
                             href="/signup"
+                            target="_blank"
                           >
                             Sign Up
                           </a>
@@ -256,7 +257,8 @@ const Plantalysis: React.FC = () => {
                           <a
                             className="btn-anchor text-black"
                             href="https://www.altumlabs.co"
-                            target=""
+                            target="_blank"
+                            rel="noreferrer"
                           >
                             EXPLORE
                           </a>
