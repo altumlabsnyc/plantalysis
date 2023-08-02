@@ -49,21 +49,19 @@ const Privacy: React.FC = () => {
                       <div className="content default-large-padding rounded-banner h-100 position-relative overflow-hidden">
                         <div className="z-index-content position-relative h-100 w-100">
                           <h1 className="text-center headline-75 text-black bold text-shadow pt-5 mb-4">
-                            Privacy Policy <br/>
+                            Privacy Policy <br />
                           </h1>
                           <center>
-                            <h3>
-                            Coming Soon...
-                            </h3>
+                            <h3>Coming Soon...</h3>
                           </center>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
-                <br/><br/>
-             </section>
-
+                <br />
+                <br />
+              </section>
             </div>
             <footer className="site-footer overflow-hidden" role="contentinfo">
               <div className="xm-container text-left">

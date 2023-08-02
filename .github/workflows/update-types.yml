@@ -67,7 +67,6 @@ jobs:
           title: "Update database types"
           branch: "update-database-types"
           base: "main"
-          auto_merge: true
       - name: Check output
         run: |
           echo "Pull Request Number - ${{ steps.cpr.outputs.pull-request-number }}"

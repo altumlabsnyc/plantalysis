@@ -19,9 +19,9 @@ export default function useFacilitiesDetails(user: User | null) {
     let facilityError: any, facilityData: Array<Facility> | null
 
     const facilityFetchPromise = supabase
-      .from('facility')
+      .from('producer_facility')
       .select('*')
-      .eq('producer_id', user?.id)
+      .eq('producer_user_id', user?.id)
       .then(({ data, error }) => {
         facilityData = data
         facilityError = error
@@ -31,7 +31,9 @@ export default function useFacilitiesDetails(user: User | null) {
 
     if (facilityError) {
       console.log(facilityError)
-      toast.error('Error fetching brands. Please contact Altum Labs Support.')
+      toast.error(
+        'Error fetching facilities. Please contact Altum Labs Support.',
+      )
     }
 
     // if (error) throw error

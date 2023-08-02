@@ -5,6 +5,7 @@ import express, { Request, Response } from "express"
 import Stripe from "stripe"
 import { v4 as uuidv4 } from "uuid"
 import { Database } from "./types/supabase"
+import { Batch } from "./types/supabaseAlias"
 
 dotenv.config()
 
@@ -38,7 +39,6 @@ interface Metadata {
   priceId: string
   facilityId: string
   userId: string
-  location: string
   strainName: string
   productType: Database["public"]["Enums"]["product_type_enum"]
   turnaroundTime: Database["public"]["Enums"]["turnaround_time_enum"]
@@ -50,18 +50,19 @@ async function insertLabOrder(session: any) {
 
   const batchId = uuidv4()
 
+  const batch: Batch = {
+    id: batchId,
+    producer_facility_id: metadata.facilityId,
+    producer_user_id: metadata.userId,
+    serving_size: null,
+    weight: null,
+    unit_weight: null,
+  }
+
   // create batch for lab order
   const { data: batchData, error: batchError } = await supabase
     .from("batch")
-    .insert([
-      {
-        id: batchId,
-        facility_id: metadata.facilityId,
-        producer_user_id: metadata.userId,
-        product_type: metadata.productType,
-        strain: metadata.strainName,
-      },
-    ])
+    .insert([batch])
 
   console.log(batchData)
   console.log(batchError)
@@ -74,7 +75,6 @@ async function insertLabOrder(session: any) {
   const { data, error } = await supabase.from("lab_order").insert([
     {
       batch_id: batchId,
-      location: metadata.location,
       pickup_date: metadata.pickupDate,
       turnaround_time: metadata.turnaroundTime,
     }, // Add the rest of the fields here
@@ -104,7 +104,6 @@ app.post(
       priceId,
       userId,
       facilityId,
-      location,
       strainName,
       productType,
       turnaroundTime,
@@ -124,7 +123,6 @@ app.post(
         metadata: {
           priceId,
           userId,
-          location,
           strainName,
           productType,
           turnaroundTime,
