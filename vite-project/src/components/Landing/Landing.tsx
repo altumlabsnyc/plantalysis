@@ -1,7 +1,6 @@
 import './../assets/css/styles.css'
 import backgroundImage from './assets/img/hero.png'
 import backgroundVideo from './../assets/vid/BGVCompressed.mp4'
-import logo from './../assets/img/plantalysis.png'
 import React, { useEffect, useRef } from 'react'
 import ImageCarousel from './ImageCarousel'
 
@@ -51,30 +50,6 @@ const Plantalysis: React.FC = () => {
         <div id="page" className="hfeed site bg-light">
           <div id="content" className="site-content bg-light en">
             <div>
-              <nav
-                id="nav-container"
-                className="w-100 bg-white flex justify-between items-center px-4 font-dm-sans"
-              >
-                <div id="logo-container" className="flex items-center">
-                  <img
-                    src={logo}
-                    alt="Plantalysis Logo"
-                    className="w-12 h-12 mr-2 mt-2 mb-2"
-                  />
-                  <span className="text-xl font-bold">Plantalysis</span>
-                </div>
-                <div id="secondary-nav" className="xm-container small">
-                  <ul className="flex list-none m-0 p-0">
-                    <li className="ml-2">
-                      <a className="input-sans" href="/login">
-                        <button className="btn btn-white mt-0 mb-0">
-                          Login
-                        </button>
-                      </a>
-                    </li>
-                  </ul>
-                </div>
-              </nav>
               <section className="position-relative pb-3 overflow-hidden">
                 <div className="xm-container">
                   <div className="row align-items-stretch">
@@ -488,35 +463,6 @@ const Plantalysis: React.FC = () => {
                 </div>
               </section>
             </div>
-            <footer className="site-footer overflow-hidden" role="contentinfo">
-              <div className="xm-container text-left">
-                <div
-                  id="main-footer-content"
-                  className="row align-items-stretch py-5 py-lg-6 "
-                >
-                  <footer
-                    id="main-footer-nav"
-                    className="bg-gray-light p-4 text-center"
-                  >
-                    <div className="container d-flex justify-content-between">
-                      <div style={{ fontSize: '1.2rem' }}>
-                        &copy; 2023 Plantalysis
-                      </div>
-                      <div style={{ fontSize: '1.2rem' }}>
-                        <a href="#">Terms of Service</a>
-                      </div>
-                      <div style={{ fontSize: '1.2rem' }}>
-                        <a href="#">Privacy Statement</a>
-                      </div>
-                      <div style={{ fontSize: '1.2rem' }}>
-                        <a href="#">Security Statement</a>
-                      </div>
-                    </div>
-                  </footer>
-                </div>
-                <div className="gradient-bar w-100"></div>
-              </div>
-            </footer>
           </div>
         </div>
       </body>

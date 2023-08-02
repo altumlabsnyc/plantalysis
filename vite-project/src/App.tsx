@@ -10,6 +10,8 @@ import ProducerDashboardRouter from '@/components/producer/ProducerDashboard'
 import RegulatorDashboard from '@/components/regulatorDashboard/RegulatorDashboard'
 import Privacy from '@/components/PP'
 import TOS from '@/components/TOS'
+import Nav from '@/components/Nav'
+import Footer from '@/components/Footer'
 import '@/index.css'
 import { supabase } from '@/utils/supabase'
 import { SessionContextProvider } from '@supabase/auth-helpers-react'
@@ -20,6 +22,7 @@ function App() {
   return (
     <SessionContextProvider supabaseClient={supabase}>
       <Router>
+        <Nav />
         <Switch>
           <Route exact path="/" component={Landing} />
           <Route path="/login" component={Login} />
@@ -66,6 +69,7 @@ function App() {
             </div>
           </Route>
         </Switch>
+        <Footer />
       </Router>
     </SessionContextProvider>
   )
