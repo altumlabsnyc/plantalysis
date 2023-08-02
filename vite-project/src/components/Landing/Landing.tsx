@@ -4,7 +4,7 @@ import backgroundVideo from './../assets/vid/BGVideo.mp4'
 import logo from './../assets/img/plantalysis.png'
 import React, { useEffect, useRef, useState } from 'react'
 import ImageCarousel from './ImageCarousel'
-import { toast, Toaster } from "react-hot-toast"
+import { toast, Toaster } from 'react-hot-toast'
 import delay from '@/utils/delay'
 
 function Hero() {
@@ -37,7 +37,6 @@ function Hero() {
 }
 
 const Plantalysis: React.FC = () => {
-
   // Create demo form state variable
   const [demoForm, setDemoForm] = useState({
     fname: '',
@@ -51,7 +50,8 @@ const Plantalysis: React.FC = () => {
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
-    const text = `A demo request has been submitted by ${demoForm.fname} ` +
+    const text =
+      `A demo request has been submitted by ${demoForm.fname} ` +
       `${demoForm.lname} from ${demoForm.company} with the job title ` +
       `${demoForm.jobTitle}. Their email is ${demoForm.email}, and their phone ` +
       `number is ${demoForm.phone}. They are from ${demoForm.state}.`
@@ -88,14 +88,12 @@ const Plantalysis: React.FC = () => {
         state: '',
       })
     }
-
   }
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
   ) => {
     setDemoForm({ ...demoForm, [e.target.name]: e.target.value })
-
   }
 
   return (
