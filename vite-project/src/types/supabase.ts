@@ -375,6 +375,7 @@ export interface Database {
           lab_name: string | null
           license_number: string | null
           owner_name: string | null
+          parent_id: string | null
         }
         Insert: {
           contact_phone?: string | null
@@ -382,6 +383,7 @@ export interface Database {
           lab_name?: string | null
           license_number?: string | null
           owner_name?: string | null
+          parent_id?: string | null
         }
         Update: {
           contact_phone?: string | null
@@ -389,12 +391,19 @@ export interface Database {
           lab_name?: string | null
           license_number?: string | null
           owner_name?: string | null
+          parent_id?: string | null
         }
         Relationships: [
           {
             foreignKeyName: "lab_user_id_fkey"
             columns: ["id"]
             referencedRelation: "user"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "lab_user_parent_id_fkey"
+            columns: ["parent_id"]
+            referencedRelation: "lab_user"
             referencedColumns: ["id"]
           }
         ]
@@ -853,24 +862,33 @@ export interface Database {
           created_at: string
           id: string
           notes: string
+          regulator_user_id: string
         }
         Insert: {
           analysis_id: string
           created_at?: string
           id?: string
           notes?: string
+          regulator_user_id: string
         }
         Update: {
           analysis_id?: string
           created_at?: string
           id?: string
           notes?: string
+          regulator_user_id?: string
         }
         Relationships: [
           {
             foreignKeyName: "regulator_review_analysis_id_fkey"
             columns: ["analysis_id"]
             referencedRelation: "analysis"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "regulator_review_regulator_user_id_fkey"
+            columns: ["regulator_user_id"]
+            referencedRelation: "regulator_user"
             referencedColumns: ["id"]
           }
         ]
@@ -953,6 +971,114 @@ export interface Database {
             columns: ["country_code"]
             referencedRelation: "country"
             referencedColumns: ["country_code"]
+          }
+        ]
+      }
+      test: {
+        Row: {
+          id: string
+          name: string
+          test_category_name: string
+        }
+        Insert: {
+          id?: string
+          name: string
+          test_category_name: string
+        }
+        Update: {
+          id?: string
+          name?: string
+          test_category_name?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "test_test_category_name_fkey"
+            columns: ["test_category_name"]
+            referencedRelation: "test_category"
+            referencedColumns: ["name"]
+          }
+        ]
+      }
+      test_category: {
+        Row: {
+          name: string
+        }
+        Insert: {
+          name: string
+        }
+        Update: {
+          name?: string
+        }
+        Relationships: []
+      }
+      test_requirement: {
+        Row: {
+          country_code: string
+          description: string
+          id: string
+          name: string
+          state_code: string
+          test_id: string
+          type: Database["public"]["Enums"]["requirement_type"]
+        }
+        Insert: {
+          country_code: string
+          description?: string
+          id?: string
+          name?: string
+          state_code: string
+          test_id: string
+          type: Database["public"]["Enums"]["requirement_type"]
+        }
+        Update: {
+          country_code?: string
+          description?: string
+          id?: string
+          name?: string
+          state_code?: string
+          test_id?: string
+          type?: Database["public"]["Enums"]["requirement_type"]
+        }
+        Relationships: [
+          {
+            foreignKeyName: "test_requirement_test_id_fkey"
+            columns: ["test_id"]
+            referencedRelation: "test"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
+      test_result: {
+        Row: {
+          analysis_id: string
+          id: string
+          result: string
+          test_requirement_id: string
+        }
+        Insert: {
+          analysis_id: string
+          id?: string
+          result: string
+          test_requirement_id: string
+        }
+        Update: {
+          analysis_id?: string
+          id?: string
+          result?: string
+          test_requirement_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "test_result_analysis_id_fkey"
+            columns: ["analysis_id"]
+            referencedRelation: "analysis"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "test_result_test_requirement_id_fkey"
+            columns: ["test_requirement_id"]
+            referencedRelation: "test_requirement"
+            referencedColumns: ["id"]
           }
         ]
       }
@@ -1119,6 +1245,15 @@ export interface Database {
         | "Metals"
         | "Others"
       product_type_enum: "flower" | "concentrate" | "edibles" | "infusion"
+      requirement_type:
+        | "boolean"
+        | "integer"
+        | "float"
+        | "string"
+        | "date"
+        | "timestamp"
+        | "text"
+        | "json"
       turnaround_time_enum: "48" | "96" | "168" | "336"
       user_type_enum:
         | "consumer"
