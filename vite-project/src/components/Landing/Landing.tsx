@@ -4,7 +4,8 @@ import backgroundVideo from './../assets/vid/BGVideo.mp4'
 import logo from './../assets/img/plantalysis.png'
 import React, { useEffect, useRef, useState } from 'react'
 import ImageCarousel from './ImageCarousel'
-import { sendMail } from '@/hooks/sendEmail'
+import { toast, Toaster } from "react-hot-toast"
+import delay from '@/utils/delay'
 
 function Hero() {
   const videoRef = useRef<HTMLVideoElement>(null)
@@ -36,17 +37,9 @@ function Hero() {
 }
 
 const Plantalysis: React.FC = () => {
-  interface demoFormState {
-    fname: string
-    lname: string
-    company: string
-    jobTitle: string
-    email: string
-    phone: string
-    state: string
-  }
 
-  const [demoForm, setDemoForm] = useState<demoFormState>({
+  // Create demo form state variable
+  const [demoForm, setDemoForm] = useState({
     fname: '',
     lname: '',
     company: '',
@@ -56,17 +49,55 @@ const Plantalysis: React.FC = () => {
     state: '',
   })
 
-  const handleSubmit = (e: React.FormEvent) => {
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
-    const body = demoForm.fname + ' ' + demoForm.lname
-    sendMail(body)
+    const text = `A demo request has been submitted by ${demoForm.fname} ` +
+      `${demoForm.lname} from ${demoForm.company} with the job title ` +
+      `${demoForm.jobTitle}. Their email is ${demoForm.email}, and their phone ` +
+      `number is ${demoForm.phone}. They are from ${demoForm.state}.`
+
+    // Tries to post a request to the backend to send the email
+    try {
+      const response: Response = await fetch(
+        `${import.meta.env.VITE_BACKEND_DOMAIN}/send-email`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ text }),
+        },
+      )
+
+      if (response.status === 200) {
+        toast.success('Demo request sent successfully!')
+      } else {
+        throw new Error()
+      }
+    } catch (err) {
+      toast.error('Error sending demo request. Please try again later.')
+    } finally {
+      // Empties form to prevent spamming
+      setDemoForm({
+        fname: '',
+        lname: '',
+        company: '',
+        jobTitle: '',
+        email: '',
+        phone: '',
+        state: '',
+      })
+    }
+
   }
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
   ) => {
     setDemoForm({ ...demoForm, [e.target.name]: e.target.value })
+
   }
+
   return (
     <html lang="en">
       <head>
@@ -571,6 +602,7 @@ const Plantalysis: React.FC = () => {
           </div>
         </div>
       </body>
+      <Toaster />
     </html>
   )
 }

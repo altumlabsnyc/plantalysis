@@ -145,7 +145,9 @@ app.post('/send-email', express_1.default.json(), (req, res) => __awaiter(void 0
     const emailUser = `${process.env.EMAIL_USERNAME}`;
     const emailPass = `${process.env.EMAIL_PASS}`;
     const email_body = req.body['text'];
-    console.error(email_body, emailUser, emailPass);
+    if (email_body === undefined) {
+        return res.status(400).send("Bad request. No text field in request body.");
+    }
     try {
         const transporter = nodemailer_1.default.createTransport({
             host: 'smtp.gmail.com',
@@ -156,24 +158,19 @@ app.post('/send-email', express_1.default.json(), (req, res) => __awaiter(void 0
                 pass: emailPass
             }
         });
-        const info = yield transporter.sendMail({
+        yield transporter.sendMail({
             from: `Team @ Altum 👻 ${emailUser}`,
-            to: 'grant.rinehimer@altumlabs.co',
+            to: `${process.env.DEMO_RECEIVER}`,
             subject: 'Demo Scheduled',
-            text: `${email_body}`,
-            html: `<b>${email_body}</b>`, // html body
+            text: `${email_body}`, // plain text body
         });
-        // If the message failed to send, throw an error
-        if (info.rejected) {
-            throw new Error("Mail attempt was rejected.");
-        }
     }
     catch (err) {
         console.error(err);
         // @ts-ignore
         return res.status(500).send(`Internal Nodemailer Error: ${err.message}`);
     }
-    res.status(200).send({ sent: true });
+    res.status(200).send({ received: true });
 }));
 app.get("/test", (req, res) => {
     res.json({ message: "Hello, this is a test!" });
