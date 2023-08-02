@@ -15,5 +15,6 @@ module.exports = {
   variants: {
     extend: {},
   },
+  safeList: ['bg-red-500', 'bg-yellow-500', 'bg-green-500'],
   plugins: [require('flowbite/plugin'), require('@tailwindcss/typography')],
 }

@@ -4,10 +4,11 @@ import { supabase } from '@/utils/supabase'
 
 export async function approveOrders(analysisIds: Array<string>): Promise<void> {
   for (const analysisId of analysisIds) {
-    await supabase
-      .from('analysis')
-      .update({ regulator_approved: true })
-      .eq('id', analysisId)
+    // do when regulator dashboard is being set up, must insert into regulator_review table and associate with lab order's analysis.
+    // await supabase
+    //   .from('analysis')
+    //   .update({ regulator_approved: true })
+    //   .eq('id', analysisId)
   }
 }
 

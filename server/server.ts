@@ -2,10 +2,11 @@ import { createClient } from "@supabase/supabase-js"
 import cors from "cors"
 import dotenv from "dotenv"
 import express, { Request, Response } from "express"
+import nodemailer from "nodemailer"
 import Stripe from "stripe"
 import { v4 as uuidv4 } from "uuid"
 import { Database } from "./types/supabase"
-import nodemailer from 'nodemailer'
+import { Batch } from "./types/supabaseAlias"
 
 dotenv.config()
 
@@ -39,7 +40,6 @@ interface Metadata {
   priceId: string
   facilityId: string
   userId: string
-  location: string
   strainName: string
   productType: Database["public"]["Enums"]["product_type_enum"]
   turnaroundTime: Database["public"]["Enums"]["turnaround_time_enum"]
@@ -51,18 +51,19 @@ async function insertLabOrder(session: any) {
 
   const batchId = uuidv4()
 
+  const batch: Batch = {
+    id: batchId,
+    producer_facility_id: metadata.facilityId,
+    producer_user_id: metadata.userId,
+    serving_size: null,
+    weight: null,
+    unit_weight: null,
+  }
+
   // create batch for lab order
   const { data: batchData, error: batchError } = await supabase
     .from("batch")
-    .insert([
-      {
-        id: batchId,
-        facility_id: metadata.facilityId,
-        producer_user_id: metadata.userId,
-        product_type: metadata.productType,
-        strain: metadata.strainName,
-      },
-    ])
+    .insert([batch])
 
   console.log(batchData)
   console.log(batchError)
@@ -75,7 +76,6 @@ async function insertLabOrder(session: any) {
   const { data, error } = await supabase.from("lab_order").insert([
     {
       batch_id: batchId,
-      location: metadata.location,
       pickup_date: metadata.pickupDate,
       turnaround_time: metadata.turnaroundTime,
     }, // Add the rest of the fields here
@@ -93,8 +93,8 @@ async function insertLabOrder(session: any) {
 const stripe = new Stripe(stripeKey, { apiVersion: "2022-11-15" })
 const app = express()
 
-app.use(cors({ origin: 'http://localhost:5173' }));
-app.use(express.json());
+app.use(cors({ origin: "http://localhost:5173" }))
+app.use(express.json())
 
 // app.use(express.static('public'));
 
@@ -106,7 +106,6 @@ app.post(
       priceId,
       userId,
       facilityId,
-      location,
       strainName,
       productType,
       turnaroundTime,
@@ -126,7 +125,6 @@ app.post(
         metadata: {
           priceId,
           userId,
-          location,
           strainName,
           productType,
           turnaroundTime,
@@ -182,47 +180,44 @@ app.post(
       insertLabOrder(session)
     }
 
-    res.json({ received: true });
+    res.json({ received: true })
   }
 )
 
-app.post('/send-email',
-  express.json(),
-  async (req: Request, res: Response) => {
-    const emailUser = `${process.env.EMAIL_USERNAME}`
-    const emailPass = `${process.env.EMAIL_PASS}`
-    const email_body = req.body['text']
+app.post("/send-email", express.json(), async (req: Request, res: Response) => {
+  const emailUser = `${process.env.EMAIL_USERNAME}`
+  const emailPass = `${process.env.EMAIL_PASS}`
+  const email_body = req.body["text"]
 
-    if (email_body === undefined) {
-      return res.status(400).send("Bad request. No text field in request body.")
-    }
+  if (email_body === undefined) {
+    return res.status(400).send("Bad request. No text field in request body.")
+  }
 
-    console.error(email_body, emailUser, emailPass)
-    try {
-      const transporter = nodemailer.createTransport({
-        host: 'smtp.gmail.com',
-        port: 587,
-        secure: false, // upgrade later with STARTTLS
-        auth: {
-          user: emailUser,
-          pass: emailPass
-        }
-      });
-      await transporter.sendMail({
-        from: `Team @ Altum 👻 ${emailUser}`, // sender address
-        to: 'grant.rinehimer@altumlabs.co', // list of receivers
-        subject: 'Demo Scheduled', // Subject line
-        text: `${email_body}`, // plain text body
-      });
+  console.error(email_body, emailUser, emailPass)
+  try {
+    const transporter = nodemailer.createTransport({
+      host: "smtp.gmail.com",
+      port: 587,
+      secure: false, // upgrade later with STARTTLS
+      auth: {
+        user: emailUser,
+        pass: emailPass,
+      },
+    })
+    await transporter.sendMail({
+      from: `Team @ Altum 👻 ${emailUser}`, // sender address
+      to: "grant.rinehimer@altumlabs.co", // list of receivers
+      subject: "Demo Scheduled", // Subject line
+      text: `${email_body}`, // plain text body
+    })
+  } catch (err) {
+    console.error(err)
+    // @ts-ignore
+    return res.status(500).send(`Internal Nodemailer Error: ${err.message}`)
+  }
 
-    } catch (err) {
-      console.error(err)
-      // @ts-ignore
-      return res.status(500).send(`Internal Nodemailer Error: ${err.message}`)
-    }
-
-    res.status(200).send({ sent: true });
-  });
+  res.status(200).send({ sent: true })
+})
 
 app.get("/test", (req: Request, res: Response) => {
   res.json({ message: "Hello, this is a test!" })
