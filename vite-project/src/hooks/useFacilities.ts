@@ -19,7 +19,7 @@ export default function useFacilitiesDetails(user: User | null) {
     let facilityError: any, facilityData: Array<Facility> | null
 
     const facilityFetchPromise = supabase
-      .from('facility')
+      .from('producer_facility')
       .select('*')
       .eq('producer_id', user?.id)
       .then(({ data, error }) => {

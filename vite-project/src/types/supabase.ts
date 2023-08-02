@@ -743,21 +743,21 @@ export interface Database {
           description: string | null
           id: string
           name: string
-          producer_id: string | null
+          producer_user_id: string
         }
         Insert: {
           address_id?: string | null
           description?: string | null
           id?: string
           name?: string
-          producer_id?: string | null
+          producer_user_id: string
         }
         Update: {
           address_id?: string | null
           description?: string | null
           id?: string
           name?: string
-          producer_id?: string | null
+          producer_user_id?: string
         }
         Relationships: [
           {
@@ -767,8 +767,8 @@ export interface Database {
             referencedColumns: ["id"]
           },
           {
-            foreignKeyName: "producer_facility_producer_id_fkey"
-            columns: ["producer_id"]
+            foreignKeyName: "producer_facility_producer_user_id_fkey"
+            columns: ["producer_user_id"]
             referencedRelation: "producer_user"
             referencedColumns: ["id"]
           }

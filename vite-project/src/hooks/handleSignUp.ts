@@ -32,11 +32,14 @@ export type AllRolesData = {
   consumerData?: ConsumerUser
 }
 
-export async function handleSignUp(history: any, userData: {
-  userDetails: BaseUser
-  password: string
-  roleData: AllRolesData
-}): Promise<void> {
+export async function handleSignUp(
+  history: any,
+  userData: {
+    userDetails: BaseUser
+    password: string
+    roleData: AllRolesData
+  },
+): Promise<void> {
   if (!userData.userDetails.email) {
     toast.error('Email lost. Please contact Altum Labs support.')
     return
@@ -88,5 +91,5 @@ export async function handleSignUp(history: any, userData: {
 
   toast.success('Sign up successful!')
   await delay(1000)
-  redirectByRole(userData.userDetails.)
+  redirectByRole(history, userData.userDetails.user_type || 'producer')
 }
