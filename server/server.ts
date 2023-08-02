@@ -204,7 +204,7 @@ app.post("/send-email", express.json(), async (req: Request, res: Response) => {
       },
     })
     await transporter.sendMail({
-      from: `Team @ Altum 👻 ${emailUser}`, // sender address
+      from: `Sales Request @ Plantalysis 👻 ${emailUser}`, // sender address
       to: `${process.env.DEMO_RECEIVER}`, // list of receivers
       subject: "Demo Scheduled", // Subject line
       text: `${emailBody}`, // plain text body

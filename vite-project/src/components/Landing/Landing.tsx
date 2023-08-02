@@ -1,11 +1,10 @@
-import './../assets/css/styles.css'
-import backgroundImage from './assets/img/hero.png'
-import backgroundVideo from './../assets/vid/BGVCompressed.mp4'
-import logo from './../assets/img/plantalysis.png'
 import React, { useEffect, useRef, useState } from 'react'
+import { Toaster, toast } from 'react-hot-toast'
+import Spinner from '../common/Spinner'
+import './../assets/css/styles.css'
+import logo from './../assets/img/plantalysis.png'
+import backgroundVideo from './../assets/vid/BGVCompressed.mp4'
 import ImageCarousel from './ImageCarousel'
-import { toast, Toaster } from 'react-hot-toast'
-import delay from '@/utils/delay'
 
 function Hero() {
   const videoRef = useRef<HTMLVideoElement>(null)
@@ -37,6 +36,8 @@ function Hero() {
 }
 
 const Plantalysis: React.FC = () => {
+  const [submitting, setSubmitting] = useState(false)
+
   // Create demo form state variable
   const [demoForm, setDemoForm] = useState({
     fname: '',
@@ -50,6 +51,7 @@ const Plantalysis: React.FC = () => {
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
+    setSubmitting(true)
     const text =
       `A demo request has been submitted by ${demoForm.fname} ` +
       `${demoForm.lname} from ${demoForm.company} with the job title ` +
@@ -76,18 +78,19 @@ const Plantalysis: React.FC = () => {
       }
     } catch (err) {
       toast.error('Error sending demo request. Please try again later.')
-    } finally {
-      // Empties form to prevent spamming
-      setDemoForm({
-        fname: '',
-        lname: '',
-        company: '',
-        jobTitle: '',
-        email: '',
-        phone: '',
-        state: '',
-      })
+      return setSubmitting(false)
     }
+    // Empties form to prevent spamming
+    setDemoForm({
+      fname: '',
+      lname: '',
+      company: '',
+      jobTitle: '',
+      email: '',
+      phone: '',
+      state: '',
+    })
+    setSubmitting(false)
   }
 
   const handleChange = (
@@ -162,7 +165,7 @@ const Plantalysis: React.FC = () => {
                               className="btn btn-white btn-outline-black"
                               href="/login"
                             >
-                              Request Demo
+                              Get Started
                             </a>
                           </div>
                         </div>
@@ -556,10 +559,18 @@ const Plantalysis: React.FC = () => {
                                   >
                                     <button
                                       type="submit"
-                                      className="btn btn-outline-black mt-3"
+                                      className="flex items-center  mx-auto btn btn-outline-black mt-3"
                                       aria-label="Submit"
+                                      disabled={submitting}
                                     >
-                                      Submit
+                                      <span className="px-2 transition-all duration-300">
+                                        Submit
+                                      </span>
+                                      {submitting && (
+                                        <div className="mr-2 mb-0.5 right-1">
+                                          <Spinner size="xs" />
+                                        </div>
+                                      )}
                                     </button>
                                   </div>
                                 </div>
