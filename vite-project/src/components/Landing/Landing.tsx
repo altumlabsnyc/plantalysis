@@ -445,6 +445,8 @@ const Plantalysis: React.FC = () => {
                                     id="personalized-demo-phone"
                                     className="form-control"
                                     type="tel"
+                                    pattern="\d{3}-\d{3}-\d{4}"
+                                    title="Please match the US phone number format (with dashes): xxx-xxx-xxxx"
                                     autoComplete="tel"
                                     required
                                     placeholder=" "
