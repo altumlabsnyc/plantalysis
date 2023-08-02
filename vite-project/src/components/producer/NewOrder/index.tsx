@@ -1,6 +1,12 @@
 import Spinner from '@/components/common/Spinner'
 import useFacilitiesDetails from '@/hooks/useFacilities'
-import { Facility, ProductType, TurnaroundTime } from '@/types/supabaseAlias'
+import {
+  Facility,
+  ProductType,
+  TurnaroundTime,
+  TestCategory,
+  Test,
+} from '@/types/supabaseAlias'
 import dollarToString from '@/utils/dollarToString'
 import orderDetailsToPriceId from '@/utils/orderDetailsToPriceId'
 import receiveResultsBy from '@/utils/receiveResultsBy'
@@ -17,6 +23,9 @@ import SelectPickupDate from './SelectPickupDate'
 import SelectProductType from './SelectProductType'
 import SelectStrainName from './SelectStrainName'
 import SelectTurnaroundTime from './SelectTurnaroundTime'
+import useTestCategoriesDetails from '@/hooks/useTestCategories'
+import SelectTestCategory from './SelectTestCategory'
+import SelectTests from './SelectTests'
 
 export default function NewOrder() {
   const user = useUser()
@@ -26,11 +35,24 @@ export default function NewOrder() {
     isLoading: isFacilitiesLoading,
   } = useFacilitiesDetails(user)
 
+  const {
+    data: categoriesDetails,
+    error: categoryError,
+    isLoading: isCategoryLoading,
+  } = useTestCategoriesDetails()
+
   const [loadingCheckout, setLoadingCheckout] = useState(false)
   const [stripe, setStripe] = useState<Stripe | null>(null)
   const [selectedFacility, setSelectedFacility] = useState<
     Facility | undefined
   >(facilitiesDetails?.[0])
+
+  const [selectedCategory, setSelectedCategory] = useState<
+    TestCategory | undefined
+  >(categoriesDetails?.[0])
+
+  const [selectedTests, setSelectedTests] = useState<Set<Test>>(new Set())
+
   const [selectedStrainName, setSelectedStrainName] = useState('')
   const [selectedProductType, setSelectedProductType] =
     useState<ProductType>('flower')
@@ -129,6 +151,37 @@ export default function NewOrder() {
             />
           )}
         </div>
+        <div className="text-sm mt-2">
+          <p className="font-bold my-0">Test category</p>
+          <p className="text-gray-500 my-1">
+            Select the category of your order
+          </p>
+          {isCategoryLoading ? (
+            <DropdownLoading />
+          ) : (
+            <SelectTestCategory
+              selectedCategory={selectedCategory}
+              setSelectedCategory={setSelectedCategory}
+            />
+          )}
+        </div>
+        {selectedCategory && (
+          <div className="text-sm mt-2">
+            <p className="font-bold my-0">Tests</p>
+            <p className="text-gray-500 my-1">
+              Select the tests you want to perform to your order
+            </p>
+            {isCategoryLoading ? (
+              <DropdownLoading />
+            ) : (
+              <SelectTests
+                selectedTests={selectedTests}
+                setSelectedTests={setSelectedTests}
+                category={selectedCategory}
+              />
+            )}
+          </div>
+        )}
         <div className="text-sm mt-4">
           <p className="font-bold my-0">Strain Information</p>
           <p className="text-gray-500 my-1">
