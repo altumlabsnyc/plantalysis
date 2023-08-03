@@ -1,11 +1,25 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { Toaster, toast } from 'react-hot-toast'
+import Footer from '../Footer'
+import Nav from '../Nav'
 import Spinner from '../common/Spinner'
 import './../assets/css/styles.css'
+import AL from './../assets/img/newLogo.png'
 import logo from './../assets/img/newPlantalysis.png'
 import backgroundVideo from './../assets/vid/BGV_480p.mp4'
 import ImageCarousel from './ImageCarousel'
-import AL from './../assets/img/newLogo.png'
+
+export interface Info {
+  fname: string
+  // add other properties here as needed
+  lname: string
+  company: string
+  jobTitle: string
+  email: string
+  phone: string
+  state: string
+  text: string
+}
 
 function Hero() {
   const videoRef = useRef<HTMLVideoElement>(null)
@@ -68,7 +82,16 @@ const Plantalysis: React.FC = () => {
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ text }),
+          body: JSON.stringify({
+            fname: demoForm.fname,
+            lname: demoForm.lname,
+            company: demoForm.company,
+            jobTitle: demoForm.jobTitle,
+            email: demoForm.email,
+            phone: demoForm.phone,
+            state: demoForm.state,
+            text: text,
+          }),
         },
       )
 
@@ -113,6 +136,7 @@ const Plantalysis: React.FC = () => {
         />
       </head>
       <body className="page-home">
+        <Nav />
         <div id="page" className="hfeed site bg-light">
           <div id="content" className="site-content bg-light en">
             <div>
@@ -605,37 +629,9 @@ const Plantalysis: React.FC = () => {
                 </div>
               </section>
             </div>
-            <footer className="site-footer overflow-hidden" role="contentinfo">
-              <div className="xm-container text-left">
-                <div
-                  id="main-footer-content"
-                  className="row align-items-stretch py-5 py-lg-6 "
-                >
-                  <footer
-                    id="main-footer-nav"
-                    className="bg-gray-light p-4 text-center"
-                  >
-                    <div className="container d-flex justify-content-between">
-                      <div style={{ fontSize: '1.2rem' }}>
-                        &copy; 2023 Plantalysis
-                      </div>
-                      <div style={{ fontSize: '1.2rem' }}>
-                        <a href="#">Terms of Service</a>
-                      </div>
-                      <div style={{ fontSize: '1.2rem' }}>
-                        <a href="#">Privacy Statement</a>
-                      </div>
-                      <div style={{ fontSize: '1.2rem' }}>
-                        <a href="#">Security Statement</a>
-                      </div>
-                    </div>
-                  </footer>
-                </div>
-                <div className="gradient-bar w-100"></div>
-              </div>
-            </footer>
           </div>
         </div>
+        <Footer />
       </body>
       <Toaster />
     </html>
