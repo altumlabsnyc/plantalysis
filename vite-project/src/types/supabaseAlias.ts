@@ -30,5 +30,3 @@ export type UserRole = Database['public']['Enums']['user_type_enum']
 export type TurnaroundTime = Database['public']['Enums']['turnaround_time_enum']
 export type ProductType = Database['public']['Enums']['product_type_enum']
 export type LicenseType = Database['public']['Enums']['license_type_enum']
-
-
