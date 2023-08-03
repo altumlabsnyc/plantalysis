@@ -31,7 +31,7 @@ export default function ApproveOrders() {
   // const analysisData = useAnalysis(user, allLabOrders.data)
   // const { data, error, isLoading } = useAnalysis(user, ANALYSIS_REQUEST_TYPE.ALL)
   const { data, error, isLoading } = useAnalysis()
-
+  console.log(data)
 
   const columns = [
     columnHelper.accessor('lab_name', {
@@ -44,11 +44,13 @@ export default function ApproveOrders() {
     }),
     columnHelper.accessor('finished_at', {
       header: "Date Populated",
-      cell: (info) => (
+      cell: (info) =>  {
+        const dateString = info.getValue()
+        return (
         <div>
-          {info.getValue() && format(new Date(info.getValue()), "yyyy-MM-dd")}
+          {dateString && format(new Date(dateString), "yyyy-MM-dd")}
         </div>
-      )
+      )}
     }),
     columnHelper.accessor('producer_name', {
       header: "Producer",
@@ -106,7 +108,7 @@ export default function ApproveOrders() {
                     Analysis of orders pending regulator approval.
                   </p>
                   <div className="">
-                    <Table<RegulatorAnalysisTableRow>
+                    <Table<ForApproval>
                       data={data}
                       columns={columns}
                     />
