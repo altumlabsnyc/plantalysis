@@ -16,6 +16,7 @@ const supabase_js_1 = require("@supabase/supabase-js");
 const cors_1 = __importDefault(require("cors"));
 const dotenv_1 = __importDefault(require("dotenv"));
 const express_1 = __importDefault(require("express"));
+const nodemailer_1 = __importDefault(require("nodemailer"));
 const stripe_1 = __importDefault(require("stripe"));
 const uuid_1 = require("uuid");
 dotenv_1.default.config();
@@ -43,18 +44,18 @@ function insertLabOrder(session) {
     return __awaiter(this, void 0, void 0, function* () {
         const metadata = session.metadata;
         const batchId = (0, uuid_1.v4)();
+        const batch = {
+            id: batchId,
+            producer_facility_id: metadata.facilityId,
+            producer_user_id: metadata.userId,
+            serving_size: null,
+            weight: null,
+            unit_weight: null,
+        };
         // create batch for lab order
         const { data: batchData, error: batchError } = yield supabase
             .from("batch")
-            .insert([
-            {
-                id: batchId,
-                facility_id: metadata.facilityId,
-                producer_user_id: metadata.userId,
-                product_type: metadata.productType,
-                strain: metadata.strainName,
-            },
-        ]);
+            .insert([batch]);
         console.log(batchData);
         console.log(batchError);
         if (batchError) {
@@ -64,7 +65,6 @@ function insertLabOrder(session) {
         const { data, error } = yield supabase.from("lab_order").insert([
             {
                 batch_id: batchId,
-                location: metadata.location,
                 pickup_date: metadata.pickupDate,
                 turnaround_time: metadata.turnaroundTime,
             }, // Add the rest of the fields here
@@ -79,10 +79,11 @@ function insertLabOrder(session) {
 }
 const stripe = new stripe_1.default(stripeKey, { apiVersion: "2022-11-15" });
 const app = (0, express_1.default)();
-app.use((0, cors_1.default)());
+app.use((0, cors_1.default)({ origin: "http://localhost:5173" }));
+app.use(express_1.default.json());
 // app.use(express.static('public'));
 app.post("/create-checkout-session", express_1.default.json(), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { priceId, userId, facilityId, location, strainName, productType, turnaroundTime, pickupDate, } = req.body;
+    const { priceId, userId, facilityId, strainName, productType, turnaroundTime, pickupDate, } = req.body;
     try {
         const session = yield stripe.checkout.sessions.create({
             mode: "payment",
@@ -96,7 +97,6 @@ app.post("/create-checkout-session", express_1.default.json(), (req, res) => __a
             metadata: {
                 priceId,
                 userId,
-                location,
                 strainName,
                 productType,
                 turnaroundTime,
@@ -138,6 +138,37 @@ app.post("/webhook", express_1.default.raw({ type: "application/json" }), (req, 
         insertLabOrder(session);
     }
     res.json({ received: true });
+}));
+app.post("/send-email", express_1.default.json(), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const emailUser = `${process.env.EMAIL_USERNAME}`;
+    const emailPass = `${process.env.EMAIL_PASS}`;
+    const emailBody = req.body["text"];
+    if (emailBody === undefined) {
+        return res.status(400).send("Bad request. No text field in request body.");
+    }
+    try {
+        const transporter = nodemailer_1.default.createTransport({
+            host: "smtp.gmail.com",
+            port: 587,
+            secure: false,
+            auth: {
+                user: emailUser,
+                pass: emailPass,
+            },
+        });
+        yield transporter.sendMail({
+            from: `Sales Request @ Plantalysis 👻 ${emailUser}`,
+            to: `${process.env.DEMO_RECEIVER}`,
+            subject: "Demo Scheduled",
+            text: `${emailBody}`, // plain text body
+        });
+    }
+    catch (err) {
+        console.error(err);
+        // @ts-ignore
+        return res.status(500).send(`Internal Nodemailer Error: ${err.message}`);
+    }
+    res.status(200).send({ received: true });
 }));
 app.get("/test", (req, res) => {
     res.json({ message: "Hello, this is a test!" });
