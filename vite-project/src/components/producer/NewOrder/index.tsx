@@ -1,11 +1,12 @@
 import Spinner from '@/components/common/Spinner'
 import useFacilitiesDetails from '@/hooks/useFacilities'
+import useTestCategoriesDetails from '@/hooks/useTestCategories'
 import {
   Facility,
   ProductType,
-  TurnaroundTime,
-  TestCategory,
   Test,
+  TestCategory,
+  TurnaroundTime,
 } from '@/types/supabaseAlias'
 import dollarToString from '@/utils/dollarToString'
 import orderDetailsToPriceId from '@/utils/orderDetailsToPriceId'
@@ -22,10 +23,9 @@ import SelectFacility from './SelectFacility'
 import SelectPickupDate from './SelectPickupDate'
 import SelectProductType from './SelectProductType'
 import SelectStrainName from './SelectStrainName'
-import SelectTurnaroundTime from './SelectTurnaroundTime'
-import useTestCategoriesDetails from '@/hooks/useTestCategories'
 import SelectTestCategory from './SelectTestCategory'
 import SelectTests from './SelectTests'
+import SelectTurnaroundTime from './SelectTurnaroundTime'
 
 export default function NewOrder() {
   const user = useUser()

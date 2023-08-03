@@ -59,7 +59,7 @@ export default function SelectFacility({
             >
               <Listbox.Options
                 static
-                className="absolute bg-white mt-1 max-h-60 w-full overflow-auto rounded-md py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm"
+                className="z-50 absolute bg-white mt-1 max-h-60 w-full overflow-auto rounded-md py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm"
               >
                 {facilitiesDetails &&
                   facilitiesDetails.map((facility, facilityIdx) => (

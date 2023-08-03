@@ -37,9 +37,9 @@ export default function SampleDetails({ labOrder }: Props) {
             alignItems: 'baseline',
           }}
         >
-          <div className="text-lg font-bold">{labOrder?.batch?.strain}</div>
+          {/* <div className="text-lg font-bold">{labOrder?.batch?.strain}</div> */}
         </div>
-        <div className="panel-text">{labOrder?.batch?.product_type}</div>
+        {/* <div className="panel-text">{labOrder?.batch?.product_type}</div> */}
       </div>
     </div>
   )
