@@ -2,6 +2,8 @@ import {
   Analysis,
   RegulatorReview,
   TestRequirement,
+  TestResult,
+  Test,
 } from '@/types/supabaseAlias'
 import { supabase } from '@/utils/supabase'
 import useSWR from 'swr'
@@ -29,10 +31,10 @@ export type ForApproval = {
   sku: string | null
   analysis_id: string
   finished_at: string | null
-  tests: Array<TestResultAndReq> | null
+  tests: Array<{test: Test, reqResults: Array<{result: TestResult, requirement: TestRequirement}>}> | null
 }
 
-export function useAnalysis() {
+export function useAnalysis(state: string) {
   // <<<<<<< HEAD
   //   user: User | null,
   //   requestType: ANALYSIS_REQUEST_TYPE | null
@@ -91,12 +93,32 @@ export function useAnalysis() {
     let reviewData: Array<RegulatorReview> | null
     let reviewError: any
 
+    // state = 'CA'
+
     const alexBigQuery = supabase
       .from('lab_order')
       .select(
-        `
-      *,
-      analysis ( * ),
+        ` *,
+      batch!inner (
+        *,
+        producer_user(
+          legal_name
+        ),
+        producer_facility!inner(
+          *,
+          address!inner(
+            state_code
+          )
+        )
+      ),
+      lab_facility (
+        lab_user(
+          lab_name
+        )
+        ),
+      analysis!inner (
+        regulator_review_id
+        ),
       lab_order_on_test ( *, 
         test ( *, 
           test_requirement ( *,
@@ -107,6 +129,14 @@ export function useAnalysis() {
       `,
       )
       .is('analysis.regulator_review_id', null)
+      .eq('batch.producer_facility.address.state_code', state)
+      
+
+    const {data, error: myerror} = await alexBigQuery;
+    console.log(myerror);
+    console.log("here", (await alexBigQuery).data);
+    console.log(state)
+    return;
 
     const analysisPromise = supabase
       .from('analysis')
@@ -237,7 +267,7 @@ export function useAnalysis() {
     return labOrderDataArray
   }
 
-  const { data, error, isLoading } = useSWR(`/api/analysis`, fetcher)
+  const { data, error, isLoading } = useSWR(`/api/analysis/${state}`, fetcher)
 
   return {
     data: data ? data : [],
