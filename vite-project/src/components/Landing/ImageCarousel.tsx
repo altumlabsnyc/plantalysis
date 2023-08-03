@@ -28,7 +28,7 @@ const slideStyle: React.CSSProperties = {
 }
 
 const imageStyle: React.CSSProperties = {
-  border: '2px solid black',
+  borderRadius: '20px',
 }
 
 export default function ImageCarousel() {

@@ -1,11 +1,10 @@
-import './../assets/css/styles.css'
-import backgroundImage from './assets/img/hero.png'
-import backgroundVideo from './../assets/vid/BGVideo.mp4'
-import logo from './../assets/img/plantalysis.png'
 import React, { useEffect, useRef, useState } from 'react'
+import { Toaster, toast } from 'react-hot-toast'
+import Spinner from '../common/Spinner'
+import './../assets/css/styles.css'
+import logo from './../assets/img/plantalysis.png'
+import backgroundVideo from './../assets/vid/BGVCompressed.mp4'
 import ImageCarousel from './ImageCarousel'
-import { toast, Toaster } from 'react-hot-toast'
-import delay from '@/utils/delay'
 
 export interface Info {
   fname: string
@@ -49,6 +48,8 @@ function Hero() {
 }
 
 const Plantalysis: React.FC = () => {
+  const [submitting, setSubmitting] = useState(false)
+
   // Create demo form state variable
   const [demoForm, setDemoForm] = useState({
     fname: '',
@@ -62,6 +63,7 @@ const Plantalysis: React.FC = () => {
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
+    setSubmitting(true)
     const text =
       `A demo request has been submitted by ${demoForm.fname} ` +
       `${demoForm.lname} from ${demoForm.company} with the job title ` +
@@ -97,18 +99,19 @@ const Plantalysis: React.FC = () => {
       }
     } catch (err) {
       toast.error('Error sending demo request. Please try again later.')
-    } finally {
-      // Empties form to prevent spamming
-      setDemoForm({
-        fname: '',
-        lname: '',
-        company: '',
-        jobTitle: '',
-        email: '',
-        phone: '',
-        state: '',
-      })
+      return setSubmitting(false)
     }
+    // Empties form to prevent spamming
+    setDemoForm({
+      fname: '',
+      lname: '',
+      company: '',
+      jobTitle: '',
+      email: '',
+      phone: '',
+      state: '',
+    })
+    setSubmitting(false)
   }
 
   const handleChange = (
@@ -173,15 +176,18 @@ const Plantalysis: React.FC = () => {
                             Analysis. <br /> Done Right.
                           </h1>
                           <div className="text-center">
-                            <p className="text-center input-sans text-uppercase headline-15-alt text-white background-homepage round-5 d-inline-block pt-0 mb-3">
+                            <p className="text-center input-sans text-uppercase headline-15-alt text-black background-homepage round-5 d-inline-block pt-0 mb-3">
                               PLANTALYSIS PRD, LAB, AND REG ARE HERE Powered by
                               AI.
                             </p>
                           </div>
                           <div className="d-flex justify-content-center align-items-center my-5">
-                            <button className="btn btn-white mt-0 mb-0 ">
-                              REQUEST DEMO
-                            </button>
+                            <a
+                              className="btn btn-white btn-outline-black"
+                              href="/login"
+                            >
+                              Get Started
+                            </a>
                           </div>
                         </div>
                         <Hero />
@@ -466,6 +472,8 @@ const Plantalysis: React.FC = () => {
                                     id="personalized-demo-phone"
                                     className="form-control"
                                     type="tel"
+                                    pattern="\d{3}-\d{3}-\d{4}"
+                                    title="Please match the US phone number format (with dashes): xxx-xxx-xxxx"
                                     autoComplete="tel"
                                     required
                                     placeholder=" "
@@ -572,10 +580,18 @@ const Plantalysis: React.FC = () => {
                                   >
                                     <button
                                       type="submit"
-                                      className="btn btn-outline-black mt-3"
+                                      className="flex items-center  mx-auto btn btn-outline-black mt-3"
                                       aria-label="Submit"
+                                      disabled={submitting}
                                     >
-                                      Submit
+                                      <span className="px-2 transition-all duration-300">
+                                        Submit
+                                      </span>
+                                      {submitting && (
+                                        <div className="mr-2 mb-0.5 right-1">
+                                          <Spinner size="xs" />
+                                        </div>
+                                      )}
                                     </button>
                                   </div>
                                 </div>
@@ -600,16 +616,16 @@ const Plantalysis: React.FC = () => {
                     className="bg-gray-light p-4 text-center"
                   >
                     <div className="container d-flex justify-content-between">
-                      <div style={{ fontSize: '1.5rem' }}>
+                      <div style={{ fontSize: '1.2rem' }}>
                         &copy; 2023 Plantalysis
                       </div>
-                      <div style={{ fontSize: '1.5rem' }}>
+                      <div style={{ fontSize: '1.2rem' }}>
                         <a href="#">Terms of Service</a>
                       </div>
-                      <div style={{ fontSize: '1.5rem' }}>
+                      <div style={{ fontSize: '1.2rem' }}>
                         <a href="#">Privacy Statement</a>
                       </div>
-                      <div style={{ fontSize: '1.5rem' }}>
+                      <div style={{ fontSize: '1.2rem' }}>
                         <a href="#">Security Statement</a>
                       </div>
                     </div>

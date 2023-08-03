@@ -5,6 +5,7 @@ export default interface Input {
   id: string
   type: string
   options?: Array<string>
+  props?: { [key: string]: any }
 }
 
 export interface userTypeFields {

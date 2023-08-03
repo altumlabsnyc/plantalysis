@@ -8,12 +8,14 @@ import Register from '@/components/Register'
 import LabDashboardRouter from '@/components/lab/LabDashboard'
 import ProducerDashboardRouter from '@/components/producer/ProducerDashboard'
 import RegulatorDashboard from '@/components/regulatorDashboard/RegulatorDashboard'
+import Privacy from '@/components/PP'
+import TOS from '@/components/TOS'
 import '@/index.css'
 import { supabase } from '@/utils/supabase'
 import { SessionContextProvider } from '@supabase/auth-helpers-react'
 import { Route, BrowserRouter as Router, Switch } from 'react-router-dom'
 import LabDashboardContent from './components/lab/LabDashboardContent'
-
+// testing commit
 function App() {
   return (
     <SessionContextProvider supabaseClient={supabase}>
@@ -23,6 +25,8 @@ function App() {
           <Route path="/login" component={Login} />
           <Route path="/register" component={Register} />
           <Route path="/leftsidebar" component={LeftSideBar} />
+          <Route path="/privacy" component={Privacy} />
+          <Route path="/tos" component={TOS} />
 
           <ProtectedRoute
             component={LabDashboardRouter}

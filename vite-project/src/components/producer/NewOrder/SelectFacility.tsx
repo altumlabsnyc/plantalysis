@@ -81,7 +81,7 @@ export default function SelectFacility({
                               selected ? 'font-medium' : 'font-normal'
                             }`}
                           >
-                            {facility.name}: {facility.location}
+                            {facility.name}
                           </span>
                           {selected ? (
                             <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-amber-600">
