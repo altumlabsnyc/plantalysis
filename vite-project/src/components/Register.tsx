@@ -278,11 +278,44 @@ export default function Register() {
             transform: 'translate(-50%, -50%)',
             color: 'white',
             fontWeight: 'bold',
+            textShadow: '2px 2px 16px rgba(0, 0, 0, 1)',
           }}
         >
           PLANTALYSIS
         </Typography>
 
+        <a href="https://www.plantalysis.com">
+          <img
+            src={logo}
+            alt="Logo"
+            style={{
+              position: 'absolute',
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+              width: '150px',
+              height: '150px',
+              borderRadius: '75%',
+              marginTop: '20px',
+            }}
+          />
+        </a>
+        <a href="https://www.plantalysis.com">
+          <img
+            src={logo}
+            alt="Logo"
+            style={{
+              position: 'absolute',
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+              width: '150px',
+              height: '150px',
+              borderRadius: '75%',
+              marginTop: '20px',
+            }}
+          />
+        </a>
         <a href="https://www.plantalysis.com">
           <img
             src={logo}
@@ -309,9 +342,10 @@ export default function Register() {
             transform: 'translate(-50%, -50%)',
             color: 'white',
             fontWeight: 'bold',
+            textShadow: '2px 2px 16px rgba(0, 0, 0, 1)',
           }}
         >
-          LOG-IN
+          Join Us
         </Typography>
       </Grid>
       <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>

@@ -118,11 +118,45 @@ export default function SignInSide() {
             transform: 'translate(-50%, -50%)',
             color: 'white',
             fontWeight: 'bold',
+            textShadow: '2px 2px 16px rgba(0, 0, 0, 1)',
           }}
         >
           PLANTALYSIS
         </Typography>
 
+        <a href="https://www.plantalysis.com">
+          <img
+            src={logo}
+            alt="Logo"
+            style={{
+              position: 'absolute',
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+              width: '150px',
+              height: '150px',
+              borderRadius: '75%',
+              marginTop: '20px',
+            }}
+          />
+        </a>
+
+        <a href="https://www.plantalysis.com">
+          <img
+            src={logo}
+            alt="Logo"
+            style={{
+              position: 'absolute',
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+              width: '150px',
+              height: '150px',
+              borderRadius: '75%',
+              marginTop: '20px',
+            }}
+          />
+        </a>
         <a href="https://www.plantalysis.com">
           <img
             src={logo}
@@ -149,6 +183,7 @@ export default function SignInSide() {
             transform: 'translate(-50%, -50%)',
             color: 'white',
             fontWeight: 'bold',
+            textShadow: '2px 2px 16px rgba(0, 0, 0, 1)',
           }}
         >
           LOG-IN

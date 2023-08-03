@@ -1,5 +1,5 @@
 import blank from '@/components/assets/img/blank.png'
-import newLogo from '@/components/assets/img/newLogo.png'
+import newLogo from '@/components/assets/img/newPlantalysis.png'
 import { SidebarSection } from '@/types/dashboard'
 import { Transition } from '@headlessui/react'
 import { ChevronRightIcon } from '@heroicons/react/20/solid'
@@ -105,14 +105,33 @@ export default function LeftSideBar({
           <div className="flex grow flex-col gap-y-5 overflow-y-auto border-r border-white-200 px-9 bg-background">
             {' '}
             {/* Add "bg-white" class for white background */}
-            <div className="flex h-15 mt-3 shrink-0 items-center gap-4">
+            <div style={{ display: 'flex', alignItems: 'center' }}>
               <img
-                className="h-full w-full object-cover cursor-pointer"
+                className="h-24 w-24 object-cover cursor-pointer"
                 src={newLogo}
                 alt="Your Company"
                 onClick={() => history.push('/')}
               />
-              <div className="flex flex-col"></div>
+              <span
+                style={{
+                  marginLeft: '-36px',
+                  marginTop: '30px',
+                  fontSize: '24px',
+                  fontWeight: 'bold',
+                }}
+              >
+                lantalysis
+              </span>
+              <span
+                style={{
+                  marginLeft: '-36px',
+                  marginTop: '75px',
+                  fontSize: '10px',
+                  fontWeight: 'bold',
+                }}
+              >
+                by Altum Labs
+              </span>
             </div>
             <div className="flex h-16 shrink-0 items-center gap-4">
               <div className="h-8 w-8 rounded-full overflow-hidden">
@@ -139,18 +158,18 @@ export default function LeftSideBar({
             </div>
             <nav className="flex flex-1 flex-col">
               <h2 className="text-sm text-gray-500 px-2 py-1">Pages</h2>
-              <ul role="list" className="flex flex-1 flex-col gap-y-1">
+              <ul role="list" className="flex flex-1 flex-col gap-y-3">
                 {sectionsEnhanced.map((section, index) => (
                   <li key={section.title}>
                     <button
                       onClick={() => toggleSection(index)}
-                      className="bg-white-50 text-grey-600 group flex items-center gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold w-full items-center" // add items-center class to center the content vertically
+                      className="bg-white-50 text-grey-600 group flex items-center gap-x-1 rounded-md p-1 text-sm leading-6 font-semibold w-full items-center" // add items-center class to center the content vertically
                     >
                       {section.items.length !== 0 && ( // Only show arrow for main sections
                         <ChevronRightIcon
                           // style={{ color: '#a0aec0' }}
                           className={classNames(
-                            'text-grey-600 transform transition-transform w-6 h-6',
+                            'text-grey-600 transform transition-transform w-4 h-4',
                             {
                               'rotate-90': !section.collapsed,
                             },
@@ -161,12 +180,12 @@ export default function LeftSideBar({
                       {section.title}
                     </button>
                     {!section.collapsed && (
-                      <ul role="list" className="-mx-2 space-y-1 ml-6">
+                      <ul role="list" className="-mx-2 space-y-1 ml-4 mt-0">
                         {section.items.map((option) => (
-                          <li className="ml-6" key={option.text}>
+                          <li className="ml-2" key={option.text}>
                             <p
                               onClick={() => option.onClick()}
-                              className="cursor-pointer bg-white-50 text-grey-600 group flex gap-x-3 rounded-md p-1 m-0 text-sm leading-6 font-semibold w-full hover:text-green-700"
+                              className="cursor-pointer bg-white-50 text-grey-600 group flex gap-x-3 rounded-md p-0.5 m-0 text-sm leading-6 font-semibold w-full hover:text-green-700" // Adjusted padding and margin values here
                             >
                               {option.text}
                             </p>
