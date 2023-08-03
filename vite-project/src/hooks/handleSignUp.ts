@@ -1,6 +1,7 @@
 import { supabase } from '@/utils/supabase'
 
 import {
+  Address,
   BaseUser,
   ConsumerUser,
   LabUser,
@@ -11,59 +12,84 @@ import {
 
 import { insertUserDetails } from '@/hooks/addUserDetails'
 
+import delay from '@/utils/delay'
+import redirectByRole from '@/utils/redirectByRole'
 import toast from 'react-hot-toast'
 
 export type AllRolesData = {
-  labData?: LabUser
-  universityData?: UniversityUser
-  regulatorData?: RegulatorUser
-  producerData?: ProducerUser
+  labData?: LabUser & {
+    address: Address
+  }
+  universityData?: UniversityUser & {
+    address: Address
+  }
+  regulatorData?: RegulatorUser & {
+    address: Address
+  }
+  producerData?: ProducerUser & {
+    address: Address
+  }
   consumerData?: ConsumerUser
 }
 
-export async function handleSignUp(userData: {
-  userDetails: BaseUser
-  password: string
-  roleData: AllRolesData
-}): Promise<void> {
-  try {
-    if (!userData.userDetails.email) {
-      throw new Error('Please provide a valid email')
-    }
-    //sign up
-    const { data: data, error: error } = await supabase.auth.signUp({
-      email: userData.userDetails.email,
-      password: userData.password,
-    })
-
-    // sign in
-    console.log('cual es el user?', await supabase.auth.getUser())
-    // ver si se necesita sign in tambien
-    //   const { data, error } = await supabase.auth.signInWithPassword({
-    //     email: userData.email,
-    //     password: password,
-    //   });
-
-    const user = data.user
-
-    if (error) {
-      console.error(error)
-    } else {
-      const id = user?.id
-      if (!id) {
-        throw new Error('Could not get user ID')
-      }
-      userData.userDetails.id = id
-
-      await insertUserDetails({
-        userDetails: userData.userDetails,
-        roleData: userData.roleData,
-      })
-
-      window.location.href = '/dashboard/' + userData.userDetails.user_type
-    }
-  } catch (error) {
-    toast.error('Error during sign up. Please contact Altum Labs Support.')
-    console.log('error inserting user', error)
+export async function handleSignUp(
+  history: any,
+  userData: {
+    userDetails: BaseUser
+    password: string
+    roleData: AllRolesData
+  },
+): Promise<void> {
+  if (!userData.userDetails.email) {
+    toast.error('Email lost. Please contact Altum Labs support.')
+    return
   }
+
+  //sign up
+  const { data: signUpData, error: signUpError } = await supabase.auth.signUp({
+    email: userData.userDetails.email,
+    password: userData.password,
+  })
+
+  // refresh so client is authenticated
+  const { error: refreshError } = await supabase.auth.refreshSession()
+
+  if (refreshError) {
+    toast.error(
+      'Error refreshing user session. Please contact Altum Labs Support.',
+    )
+    return
+  }
+
+  if (signUpError) {
+    toast.error('Error during sign up. Please contact Altum Labs Support.')
+    return
+  }
+
+  const user = signUpData.user
+
+  const id = user?.id
+
+  if (!id) {
+    toast.error('Error during sign up. Please contact Altum Labs Support.')
+    return
+  }
+
+  userData.userDetails.id = id
+
+  try {
+    await insertUserDetails({
+      userDetails: userData.userDetails,
+      roleData: userData.roleData,
+    })
+  } catch (error: any) {
+    toast.error(
+      `Error during sign up: ${error}. Please contact Altum Labs Support.`,
+    )
+    return
+  }
+
+  toast.success('Sign up successful!')
+  await delay(1000)
+  redirectByRole(history, userData.userDetails.user_type || 'producer')
 }

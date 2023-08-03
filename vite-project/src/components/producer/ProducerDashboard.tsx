@@ -10,7 +10,6 @@ import React, { useState } from 'react'
 import { toast } from 'react-hot-toast'
 import { Redirect, Route, useHistory } from 'react-router-dom'
 import '../assets/dashboard/css/styles.css'
-import Facilities from './MyFacilities'
 import NewOrder from './NewOrder'
 import ProducerOrders from './ProducerOrders.js'
 
@@ -161,7 +160,11 @@ export default function ProducerDashboardRouter() {
         <ProducerOrders />
       </Route>
       <Route path="/dashboard/producer/facilities">
-        <Facilities />
+        <p>
+          list of facilities displayed here, along with button to show popup to
+          add new facility
+        </p>
+        {/* <Facilities /> */}
       </Route>
       <Redirect from="/dashboard/producer" to="/dashboard/producer/orders" />
     </ProducerDashboard>

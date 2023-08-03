@@ -1,8 +1,9 @@
+import React, { useEffect, useRef, useState } from 'react'
+import { Toaster, toast } from 'react-hot-toast'
+import Spinner from '../common/Spinner'
 import './../assets/css/styles.css'
-import backgroundImage from './assets/img/hero.png'
-import backgroundVideo from './../assets/vid/BGV_480p.mp4'
 import logo from './../assets/img/newPlantalysis.png'
-import React, { useEffect, useRef } from 'react'
+import backgroundVideo from './../assets/vid/BGV_480p.mp4'
 import ImageCarousel from './ImageCarousel'
 
 function Hero() {
@@ -35,6 +36,69 @@ function Hero() {
 }
 
 const Plantalysis: React.FC = () => {
+  const [submitting, setSubmitting] = useState(false)
+
+  // Create demo form state variable
+  const [demoForm, setDemoForm] = useState({
+    fname: '',
+    lname: '',
+    company: '',
+    jobTitle: '',
+    email: '',
+    phone: '',
+    state: '',
+  })
+
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault()
+    setSubmitting(true)
+    const text =
+      `A demo request has been submitted by ${demoForm.fname} ` +
+      `${demoForm.lname} from ${demoForm.company} with the job title ` +
+      `${demoForm.jobTitle}. Their email is ${demoForm.email}, and their phone ` +
+      `number is ${demoForm.phone}. They are from ${demoForm.state}.`
+
+    // Tries to post a request to the backend to send the email
+    try {
+      const response: Response = await fetch(
+        `${import.meta.env.VITE_BACKEND_DOMAIN}/send-email`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ text }),
+        },
+      )
+
+      if (response.status === 200) {
+        toast.success('Demo request sent successfully!')
+      } else {
+        throw new Error()
+      }
+    } catch (err) {
+      toast.error('Error sending demo request. Please try again later.')
+      return setSubmitting(false)
+    }
+    // Empties form to prevent spamming
+    setDemoForm({
+      fname: '',
+      lname: '',
+      company: '',
+      jobTitle: '',
+      email: '',
+      phone: '',
+      state: '',
+    })
+    setSubmitting(false)
+  }
+
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
+  ) => {
+    setDemoForm({ ...demoForm, [e.target.name]: e.target.value })
+  }
+
   return (
     <html lang="en">
       <head>
@@ -99,7 +163,7 @@ const Plantalysis: React.FC = () => {
                               className="btn btn-white btn-outline-black"
                               href="/login"
                             >
-                              Request Demo
+                              Get Started
                             </a>
                           </div>
                         </div>
@@ -297,6 +361,7 @@ const Plantalysis: React.FC = () => {
                           <form
                             id="personalized-demo-form"
                             className="marketo-universal-form needs-validation  text-black p-0 w-100 text-center"
+                            onSubmit={handleSubmit}
                           >
                             <div className="form-content">
                               <h3 className="feature-module mt-0 mb-3">
@@ -311,6 +376,9 @@ const Plantalysis: React.FC = () => {
                                     autoComplete="given-name"
                                     required
                                     placeholder=" "
+                                    name="fname"
+                                    value={demoForm.fname}
+                                    onChange={handleChange}
                                   />
                                   <label htmlFor="personalized-demo-first">
                                     &nbsp; First Name *
@@ -324,6 +392,9 @@ const Plantalysis: React.FC = () => {
                                     autoComplete="family-name"
                                     required
                                     placeholder=" "
+                                    name="lname"
+                                    value={demoForm.lname}
+                                    onChange={handleChange}
                                   />
                                   <label htmlFor="personalized-demo-last">
                                     &nbsp; Last Name *
@@ -337,6 +408,9 @@ const Plantalysis: React.FC = () => {
                                     autoComplete="organization"
                                     required
                                     placeholder=" "
+                                    name="company"
+                                    value={demoForm.company}
+                                    onChange={handleChange}
                                   />
                                   <label htmlFor="personalized-demo-company">
                                     &nbsp; Company *
@@ -350,6 +424,9 @@ const Plantalysis: React.FC = () => {
                                     autoComplete="organization-title"
                                     required
                                     placeholder=" "
+                                    name="jobTitle"
+                                    value={demoForm.jobTitle}
+                                    onChange={handleChange}
                                   />
                                   <label htmlFor="personalized-demo-title">
                                     &nbsp; Job Title *
@@ -363,6 +440,9 @@ const Plantalysis: React.FC = () => {
                                     autoComplete="email"
                                     required
                                     placeholder=" "
+                                    name="email"
+                                    value={demoForm.email}
+                                    onChange={handleChange}
                                   />
                                   <label htmlFor="personalized-demo-email">
                                     &nbsp; Business Email *
@@ -373,9 +453,14 @@ const Plantalysis: React.FC = () => {
                                     id="personalized-demo-phone"
                                     className="form-control"
                                     type="tel"
+                                    pattern="\d{3}-\d{3}-\d{4}"
+                                    title="Please match the US phone number format (with dashes): xxx-xxx-xxxx"
                                     autoComplete="tel"
                                     required
                                     placeholder=" "
+                                    name="phone"
+                                    value={demoForm.phone}
+                                    onChange={handleChange}
                                   />
                                   <label htmlFor="personalized-demo-phone">
                                     &nbsp; Phone Number *
@@ -406,8 +491,11 @@ const Plantalysis: React.FC = () => {
                                       id="personalized-demo-state"
                                       className="form-control"
                                       required
+                                      name="state"
+                                      value={demoForm.state}
+                                      onChange={handleChange}
                                     >
-                                      <option value="" disabled selected>
+                                      <option value="" disabled>
                                         Select State
                                       </option>
                                       <option value="AL">Alabama</option>
@@ -473,10 +561,18 @@ const Plantalysis: React.FC = () => {
                                   >
                                     <button
                                       type="submit"
-                                      className="btn btn-outline-black mt-3"
+                                      className="flex items-center  mx-auto btn btn-outline-black mt-3"
                                       aria-label="Submit"
+                                      disabled={submitting}
                                     >
-                                      Submit
+                                      <span className="px-2 transition-all duration-300">
+                                        Submit
+                                      </span>
+                                      {submitting && (
+                                        <div className="mr-2 mb-0.5 right-1">
+                                          <Spinner size="xs" />
+                                        </div>
+                                      )}
                                     </button>
                                   </div>
                                 </div>
@@ -522,6 +618,7 @@ const Plantalysis: React.FC = () => {
           </div>
         </div>
       </body>
+      <Toaster />
     </html>
   )
 }

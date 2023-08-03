@@ -17,15 +17,43 @@ export const userSpecificInputs: Map<UserRole, Array<Input>> = new Map([
     'regulator',
     [
       { name: 'Regulator Name', id: 'regulator_name', type: 'text' },
-      { name: 'Mailing Address', id: 'regulator_address', type: 'text' },
-      { name: 'Contact Phone', id: 'regulator_contact_phone', type: 'tel' },
+      { name: 'Contact Phone', id: 'regulator_contact_phone', type: 'text' },
+      {
+        name: 'Mailing Address Address Line 1',
+        id: 'mailing_address_line_1',
+        type: 'text',
+      },
+      {
+        name: 'Mailing Address City',
+        id: 'mailing_address_city',
+        type: 'text',
+      },
+      {
+        name: 'Mailing Address State',
+        id: 'mailing_address_state',
+        type: 'text',
+        props: { defaultValue: 'NY', disabled: true },
+      },
+      {
+        name: 'Mailing Address Zip',
+        id: 'mailing_address_zip',
+        type: 'text',
+      },
     ],
   ],
   [
     'lab',
     [
       { name: 'Lab Name', id: 'lab_name', type: 'text' },
-      { name: 'Lab Address', id: 'lab_address', type: 'text' },
+      { name: 'Lab Address Line 1', id: 'lab_address_line_1', type: 'text' },
+      { name: 'Lab City', id: 'lab_address_city', type: 'text' },
+      {
+        name: 'Lab State',
+        id: 'lab_address_state_display',
+        type: 'text',
+        props: { defaultValue: 'NY', disabled: true },
+      },
+      { name: 'Lab Zip', id: 'lab_address_zip', type: 'text' },
       { name: 'Lab License Number', id: 'lab_license_number', type: 'text' },
       { name: 'Lab Owner Name', id: 'owner_name', type: 'text' },
       { name: 'Contact Phone', id: 'lab_contact_phone', type: 'tel' },
@@ -34,13 +62,21 @@ export const userSpecificInputs: Map<UserRole, Array<Input>> = new Map([
   [
     'producer',
     [
-      { name: 'Legal Name', id: 'legal_name', type: 'text' },
+      { name: 'Legal Company Name', id: 'legal_name', type: 'text' },
       { name: 'DBA or Common Name', id: 'common_name', type: 'text' },
       {
-        name: 'Facility Address',
-        id: 'primary_facility_address',
+        name: 'Facility Address Line 1',
+        id: 'facility_address_line_1',
         type: 'text',
       },
+      { name: 'Facility City', id: 'facility_address_city', type: 'text' },
+      {
+        name: 'Facility State',
+        id: 'facility_address_state',
+        type: 'text',
+        props: { defaultValue: 'NY', disabled: true },
+      },
+      { name: 'Facility Zip', id: 'facility_address_zip', type: 'text' },
       {
         name: 'License Type',
         id: 'license_type',
@@ -49,6 +85,7 @@ export const userSpecificInputs: Map<UserRole, Array<Input>> = new Map([
       },
       { name: 'License Prefix', id: 'license_prefix', type: 'text' },
       { name: 'License Number', id: 'license_number', type: 'text' },
+      { name: 'Contact Phone', id: 'producer_contact_phone', type: 'tel' },
     ],
   ],
   [
@@ -65,7 +102,28 @@ export const userSpecificInputs: Map<UserRole, Array<Input>> = new Map([
         id: 'primary_investigator',
         type: 'text',
       },
-      { name: 'Lab Address', id: 'university_lab_address', type: 'text' },
+      {
+        name: 'University Lab Address Line 1',
+        id: 'university_lab_address_line_1',
+        type: 'text',
+      },
+      {
+        name: 'University Lab City',
+        id: 'university_lab_address_city',
+        type: 'text',
+      },
+      {
+        name: 'University Lab State',
+        id: 'university_lab_address_state',
+        type: 'text',
+        props: { defaultValue: 'NY', disabled: true },
+      },
+      {
+        name: 'University Lab Zip',
+        id: 'university_lab_address_zip',
+        type: 'text',
+      },
+      // { name: 'Lab Address', id: 'university_lab_address', type: 'text' },
     ],
   ],
   ['consumer', []],
@@ -105,7 +163,7 @@ export const users: Array<userTypeFields> = [
   //   code: 'person',
   //   inputs: userSpecificInputs.get('consumer'),
   //   userType: 'consumer',
-  // },
+  // }, hello
 ]
 
 /**

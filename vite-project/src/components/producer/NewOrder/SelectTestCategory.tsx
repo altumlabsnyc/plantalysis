@@ -1,26 +1,23 @@
-import useFacilitiesDetails from '@/hooks/useFacilities'
-import { Facility } from '@/types/supabaseAlias'
+import useCategoriesDetails from '@/hooks/useTestCategories'
+import { TestCategory } from '@/types/supabaseAlias'
 import { Listbox, Transition } from '@headlessui/react'
 import { CheckIcon, ChevronUpDownIcon } from '@heroicons/react/20/solid'
-import { useUser } from '@supabase/auth-helpers-react'
 import { Fragment, useState } from 'react'
 import AddFacilityPopup from './AddFacilityPopup'
 
 interface Props {
-  selectedFacility: Facility | undefined
-  setSelectedFacility: (facility: Facility) => void
+  selectedCategory: TestCategory | undefined
+  setSelectedCategory: (category: TestCategory) => void
 }
 
-export default function SelectFacility({
-  selectedFacility,
-  setSelectedFacility,
+export default function SelectTestCategory({
+  selectedCategory,
+  setSelectedCategory,
 }: Props) {
-  const user = useUser()
-  const { data: facilitiesDetails, mutate } = useFacilitiesDetails(user)
-
+  const { data: categoryDetails, mutate } = useCategoriesDetails()
   const [showAddFacility, setShowAddFacility] = useState(false)
 
-  console.log(facilitiesDetails)
+  console.log(categoryDetails)
 
   return (
     <>
@@ -28,17 +25,17 @@ export default function SelectFacility({
         isOpen={showAddFacility}
         setIsOpen={setShowAddFacility}
       />
-      {facilitiesDetails && facilitiesDetails?.length > 0 ? (
+      {categoryDetails && categoryDetails?.length > 0 ? (
         <Listbox
-          value={selectedFacility}
+          value={selectedCategory}
           onChange={(value) => {
-            if (value) setSelectedFacility(value)
+            if (value) setSelectedCategory(value)
           }}
         >
           <div className="relative mt-2">
             <Listbox.Button className="relative w-full cursor-default rounded-lg bg-gray-50 border border-gray-200 py-2 pl-3 pr-10 text-left shadow-md focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm">
               <span className="block truncate text-center">
-                {selectedFacility?.name || 'Create your first facility'}
+                {selectedCategory?.name || 'Select a testing category'}
               </span>
               <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
                 <ChevronUpDownIcon
@@ -61,10 +58,10 @@ export default function SelectFacility({
                 static
                 className="absolute bg-white mt-1 max-h-60 w-full overflow-auto rounded-md py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm"
               >
-                {facilitiesDetails &&
-                  facilitiesDetails.map((facility, facilityIdx) => (
+                {categoryDetails &&
+                  categoryDetails.map((category, categoryIdx) => (
                     <Listbox.Option
-                      key={facilityIdx}
+                      key={categoryIdx}
                       className={({ active }) =>
                         `relative cursor-default select-none py-2 pl-10 pr-4 ${
                           active
@@ -72,7 +69,7 @@ export default function SelectFacility({
                             : 'text-gray-900'
                         }`
                       }
-                      value={facility}
+                      value={category}
                     >
                       {({ selected }) => (
                         <>
@@ -81,7 +78,7 @@ export default function SelectFacility({
                               selected ? 'font-medium' : 'font-normal'
                             }`}
                           >
-                            {facility.name}
+                            {category.name}
                           </span>
                           {selected ? (
                             <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-amber-600">
@@ -95,15 +92,6 @@ export default function SelectFacility({
                       )}
                     </Listbox.Option>
                   ))}
-                <Listbox.Option
-                  className={`list-none relative cursor-pointer select-none py-2`}
-                  onClick={() => {
-                    setShowAddFacility(true)
-                  }}
-                  value={undefined}
-                >
-                  + Add facility
-                </Listbox.Option>
               </Listbox.Options>
             </Transition>
           </div>
