@@ -23,6 +23,8 @@ export type MoleculePredict =
   Database['public']['Tables']['molecule_prediction']['Row']
 export type LabOrder = Database['public']['Tables']['lab_order']['Row']
 
+export type RegulatorReview = Database['public']['Tables']['regulator_review']
+
 export type TestCategory = Database['public']['Tables']['test_category']['Row']
 export type Test = Database['public']['Tables']['test']['Row']
 

@@ -41,9 +41,9 @@ export default function Table<T>({ data, columns, hideHeader }: TableProps<T>) {
                     {header.isPlaceholder
                       ? null
                       : flexRender(
-                          header.column.columnDef.header,
-                          header.getContext(),
-                        )}
+                        header.column.columnDef.header,
+                        header.getContext(),
+                      )}
                   </th>
                 ))}
               </tr>
@@ -53,8 +53,12 @@ export default function Table<T>({ data, columns, hideHeader }: TableProps<T>) {
         <tbody>
           {table.getRowModel().rows.map((row) => (
             <tr key={row.id}>
-              {row.getVisibleCells().map((cell) => (
-                <td key={cell.id} className="py-[3px] pr-[12px] pl-0">
+              {row.getVisibleCells().map((cell, i) => (
+                <td
+                  key={cell.id}
+                  className="py-[3px] pr-[12px]"
+                  style={{ paddingLeft: (i == 0 ? 0 : 7) + 'px' }}
+                >
                   {flexRender(cell.column.columnDef.cell, cell.getContext())}
                 </td>
               ))}
