@@ -4,12 +4,13 @@ import Clock from '@/components/assets/svg/Clock.svg'
 import Sidebar from '@/components/assets/svg/Sidebar.svg'
 import Star from '@/components/assets/svg/Star.svg'
 import Sun from '@/components/assets/svg/Sun.svg'
+
 import LabDashboardContent from '@/components/lab/LabDashboardContent'
 import useUserDetails from '@/hooks/useUserDetails'
 import { useUser } from '@supabase/auth-helpers-react'
 import React, { useState } from 'react'
 import toast from 'react-hot-toast'
-import { Redirect, Route } from 'react-router-dom'
+import { Redirect, Route, Link, useHistory } from 'react-router-dom'
 import '../assets/dashboard/css/styles.css'
 import Upload from '../regulatorDashboard/Upload.js'
 import ClaimOrders from './ClaimOrders'
@@ -21,6 +22,7 @@ interface LabDashboardProps {
 
 function LabDashboard({ children }: LabDashboardProps) {
   const user = useUser()
+  const history = useHistory()
   const { data: userDetails } = useUserDetails(user)
 
   const [desktopSidebarOpen, setDesktopSidebarOpen] = useState(true)
@@ -133,23 +135,34 @@ function LabDashboard({ children }: LabDashboardProps) {
       items: [
         {
           text: 'About',
-          onClick: () => toast('About Us coming soon!', { icon: '⭐' }),
+          onClick: () => {
+            ;<Link to="/about" />
+            toast('About Us coming soon!', { icon: '⭐' })
+          },
         },
         {
           text: 'Customer Support',
-          onClick: () => toast('Customer Support coming soon!', { icon: '⭐' }),
+          onClick: () => {
+            toast('Customer Support coming soon!', { icon: '⭐' })
+          },
         },
         {
           text: 'Plantalysis Double Blind',
-          onClick: () => toast('Double Blind coming soon!', { icon: '⭐' }),
+          onClick: () => {
+            toast('Double Blind coming soon!', { icon: '⭐' })
+          },
         },
         {
           text: 'Terms of Service',
-          onClick: () => toast('Terms of Service coming soon!', { icon: '⭐' }),
+          onClick: () => {
+            history.push('/tos')
+          },
         },
         {
           text: 'Privacy Policy',
-          onClick: () => toast('Privacy Policy coming soon!', { icon: '⭐' }),
+          onClick: () => {
+            history.push('/pp')
+          },
         },
       ],
     },

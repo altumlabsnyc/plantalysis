@@ -1,9 +1,12 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { Toaster, toast } from 'react-hot-toast'
+import Footer from '../Footer'
+import Nav from '../Nav'
 import Spinner from '../common/Spinner'
 import './../assets/css/styles.css'
-import logo from './../assets/img/plantalysis.png'
-import backgroundVideo from './../assets/vid/BGVCompressed.mp4'
+import AL from './../assets/img/newLogo.png'
+import logo from './../assets/img/newPlantalysis.png'
+import backgroundVideo from './../assets/vid/BGV_480p.mp4'
 import ImageCarousel from './ImageCarousel'
 
 export interface Info {
@@ -133,6 +136,7 @@ const Plantalysis: React.FC = () => {
         />
       </head>
       <body className="page-home">
+        <Nav />
         <div id="page" className="hfeed site bg-light">
           <div id="content" className="site-content bg-light en">
             <div>
@@ -151,10 +155,8 @@ const Plantalysis: React.FC = () => {
                 <div id="secondary-nav" className="xm-container small">
                   <ul className="flex list-none m-0 p-0">
                     <li className="ml-2">
-                      <a className="input-sans" href="/login">
-                        <button className="btn btn-white mt-0 mb-0">
-                          Login
-                        </button>
+                      <a className="btn btn-outline-black" href="/login">
+                        Login
                       </a>
                     </li>
                   </ul>
@@ -244,7 +246,8 @@ const Plantalysis: React.FC = () => {
                           </a>
                           <a
                             className="btn-anchor anchor-black mb-0 ml-3"
-                            href="/signup"
+                            href="/register"
+                            target="_blank"
                           >
                             Sign Up
                           </a>
@@ -274,7 +277,8 @@ const Plantalysis: React.FC = () => {
                           </a>
                           <a
                             className="btn-anchor anchor-black mb-0 ml-3"
-                            href="/signup"
+                            href="/register"
+                            target="_blank"
                           >
                             Sign Up
                           </a>
@@ -304,7 +308,8 @@ const Plantalysis: React.FC = () => {
                           </a>
                           <a
                             className="btn-anchor anchor-black mb-0 ml-3"
-                            href="/signup"
+                            href="/register"
+                            target="_blank"
                           >
                             Sign Up
                           </a>
@@ -326,9 +331,27 @@ const Plantalysis: React.FC = () => {
               </section>
               <section className="position-relative pt-0 pb-7">
                 <div className="video-blade xm-plus-bg position-relative">
-                  <div className="xm-container small pt-7 pb-4">
+                  <div className="xm-container small pt-3 pb-3">
                     <div className="row align-items-center mt-3">
-                      <div className="col-12 text-center mb-4">
+                      {/* Add padding/margin to the top of the h1 element */}
+                      <h1 className="text-center headline-20 text-black bold text-shadow pt-3 mb-2">
+                        Plantalysis&trade; is a product of:
+                      </h1>
+                      <div
+                        style={{ display: 'flex', justifyContent: 'center' }}
+                      >
+                        {/* Add padding/margin to the top of the div containing the image */}
+                        <img
+                          src={AL}
+                          alt="Altum Labs"
+                          style={{
+                            width: '25%',
+                            height: 'auto',
+                            marginTop: '10px',
+                          }}
+                        />
+                      </div>
+                      <div className="col-12 text-center mt-4 mb-4">
                         <h1 className="text-center headline-50 text-black bold text-shadow pt-5 mb-4">
                           SEE MORE
                         </h1>
@@ -341,7 +364,8 @@ const Plantalysis: React.FC = () => {
                           <a
                             className="btn-anchor text-black"
                             href="https://www.altumlabs.co"
-                            target=""
+                            target="_blank"
+                            rel="noreferrer"
                           >
                             EXPLORE
                           </a>
@@ -605,37 +629,9 @@ const Plantalysis: React.FC = () => {
                 </div>
               </section>
             </div>
-            <footer className="site-footer overflow-hidden" role="contentinfo">
-              <div className="xm-container text-left">
-                <div
-                  id="main-footer-content"
-                  className="row align-items-stretch py-5 py-lg-6 "
-                >
-                  <footer
-                    id="main-footer-nav"
-                    className="bg-gray-light p-4 text-center"
-                  >
-                    <div className="container d-flex justify-content-between">
-                      <div style={{ fontSize: '1.2rem' }}>
-                        &copy; 2023 Plantalysis
-                      </div>
-                      <div style={{ fontSize: '1.2rem' }}>
-                        <a href="#">Terms of Service</a>
-                      </div>
-                      <div style={{ fontSize: '1.2rem' }}>
-                        <a href="#">Privacy Statement</a>
-                      </div>
-                      <div style={{ fontSize: '1.2rem' }}>
-                        <a href="#">Security Statement</a>
-                      </div>
-                    </div>
-                  </footer>
-                </div>
-                <div className="gradient-bar w-100"></div>
-              </div>
-            </footer>
           </div>
         </div>
+        <Footer />
       </body>
       <Toaster />
     </html>
