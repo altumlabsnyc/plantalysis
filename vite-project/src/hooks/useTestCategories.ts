@@ -17,14 +17,14 @@ export default function useTestCategoriesDetails() {
 
     const categoriesFetchPromise = supabase
       .from('test_category')
-      .select('*').then(({ data, error }) => {
+      .select('*')
+      .then(({ data, error }) => {
         categoryData = data
         categoryError = error
       })
-     
 
     await categoriesFetchPromise
-    console.log("alo")
+    console.log('alo')
 
     if (categoryError) {
       console.log(categoryError)

@@ -4,7 +4,6 @@ import useSWR from 'swr'
 
 import toast from 'react-hot-toast'
 
-
 /**
  * SWR hook that fetches existing tests for a given category
  * @param category teting category of which tests will be fetched
@@ -16,11 +15,12 @@ export default function useTestDetails(category: TestCategory) {
 
     const testsFetchPromise = supabase
       .from('test')
-      .select('*').eq('test_category_name', category.name).then(({ data, error }) => {
+      .select('*')
+      .eq('test_category_name', category.name)
+      .then(({ data, error }) => {
         testData = data
         testError = error
       })
-     
 
     await testsFetchPromise
 
