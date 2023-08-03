@@ -50,31 +50,22 @@ export interface Database {
         Row: {
           finished_at: string
           id: string
-          lab_order_id: string | null
           regulator_review_id: string | null
           started_at: string | null
         }
         Insert: {
           finished_at?: string
           id?: string
-          lab_order_id?: string | null
           regulator_review_id?: string | null
           started_at?: string | null
         }
         Update: {
           finished_at?: string
           id?: string
-          lab_order_id?: string | null
           regulator_review_id?: string | null
           started_at?: string | null
         }
         Relationships: [
-          {
-            foreignKeyName: "analysis_lab_order_id_fkey"
-            columns: ["lab_order_id"]
-            referencedRelation: "lab_order"
-            referencedColumns: ["id"]
-          },
           {
             foreignKeyName: "analysis_regulator_review_id_fkey"
             columns: ["regulator_review_id"]
@@ -318,11 +309,11 @@ export interface Database {
       }
       lab_order: {
         Row: {
-          address_id: string | null
+          analysis_id: string | null
           batch_id: string | null
           id: string
+          lab_facility_id: string | null
           lab_notes: string | null
-          lab_user_id: string | null
           order_time: string
           pickup_date: string | null
           turnaround_time:
@@ -330,11 +321,11 @@ export interface Database {
             | null
         }
         Insert: {
-          address_id?: string | null
+          analysis_id?: string | null
           batch_id?: string | null
           id?: string
+          lab_facility_id?: string | null
           lab_notes?: string | null
-          lab_user_id?: string | null
           order_time?: string
           pickup_date?: string | null
           turnaround_time?:
@@ -342,11 +333,11 @@ export interface Database {
             | null
         }
         Update: {
-          address_id?: string | null
+          analysis_id?: string | null
           batch_id?: string | null
           id?: string
+          lab_facility_id?: string | null
           lab_notes?: string | null
-          lab_user_id?: string | null
           order_time?: string
           pickup_date?: string | null
           turnaround_time?:
@@ -355,9 +346,9 @@ export interface Database {
         }
         Relationships: [
           {
-            foreignKeyName: "lab_order_address_id_fkey"
-            columns: ["address_id"]
-            referencedRelation: "address"
+            foreignKeyName: "lab_order_analysis_id_fkey"
+            columns: ["analysis_id"]
+            referencedRelation: "analysis"
             referencedColumns: ["id"]
           },
           {
@@ -367,9 +358,9 @@ export interface Database {
             referencedColumns: ["id"]
           },
           {
-            foreignKeyName: "lab_order_lab_user_id_fkey"
-            columns: ["lab_user_id"]
-            referencedRelation: "lab_user"
+            foreignKeyName: "lab_order_lab_facility_id_fkey"
+            columns: ["lab_facility_id"]
+            referencedRelation: "lab_facility"
             referencedColumns: ["id"]
           }
         ]
@@ -602,12 +593,6 @@ export interface Database {
         Relationships: [
           {
             foreignKeyName: "fk_molecule_wiki_state"
-            columns: ["state_code", "country_code"]
-            referencedRelation: "state"
-            referencedColumns: ["state_code", "country_code"]
-          },
-          {
-            foreignKeyName: "fk_state"
             columns: ["state_code", "country_code"]
             referencedRelation: "state"
             referencedColumns: ["state_code", "country_code"]
