@@ -66,7 +66,7 @@ export default function SelectFacility({
                     <Listbox.Option
                       key={facilityIdx}
                       className={({ active }) =>
-                        `relative cursor-default select-none py-2 pl-10 pr-4 ${
+                        `list-none relative cursor-pointer select-none py-2 pl-10 pr-4 ${
                           active
                             ? 'bg-amber-100 text-amber-900'
                             : 'text-gray-900'
@@ -96,7 +96,7 @@ export default function SelectFacility({
                     </Listbox.Option>
                   ))}
                 <Listbox.Option
-                  className={`list-none relative cursor-pointer select-none py-2`}
+                  className={`ml-3 list-none relative cursor-pointer select-none py-2`}
                   onClick={() => {
                     setShowAddFacility(true)
                   }}

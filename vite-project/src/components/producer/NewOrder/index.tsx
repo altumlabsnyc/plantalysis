@@ -3,13 +3,11 @@ import useFacilitiesDetails from '@/hooks/useFacilities'
 import useTestCategoriesDetails from '@/hooks/useTestCategories'
 import {
   Facility,
-  ProductType,
   Test,
   TestCategory,
   TurnaroundTime,
 } from '@/types/supabaseAlias'
 import dollarToString from '@/utils/dollarToString'
-import orderDetailsToPriceId from '@/utils/orderDetailsToPriceId'
 import receiveResultsBy from '@/utils/receiveResultsBy'
 import turnaroundTimeToPrice from '@/utils/turnaroundTimeToPriceString'
 import { LockClosedIcon } from '@heroicons/react/20/solid'
@@ -21,8 +19,6 @@ import { toast } from 'react-hot-toast'
 import DropdownLoading from './DropdownLoading'
 import SelectFacility from './SelectFacility'
 import SelectPickupDate from './SelectPickupDate'
-import SelectProductType from './SelectProductType'
-import SelectStrainName from './SelectStrainName'
 import SelectTestCategory from './SelectTestCategory'
 import SelectTests from './SelectTests'
 import SelectTurnaroundTime from './SelectTurnaroundTime'
@@ -49,13 +45,13 @@ export default function NewOrder() {
 
   const [selectedCategory, setSelectedCategory] = useState<
     TestCategory | undefined
-  >(categoriesDetails?.[0])
+  >()
 
   const [selectedTests, setSelectedTests] = useState<Set<Test>>(new Set())
 
-  const [selectedStrainName, setSelectedStrainName] = useState('')
-  const [selectedProductType, setSelectedProductType] =
-    useState<ProductType>('flower')
+  // const [selectedStrainName, setSelectedStrainName] = useState('')
+  // const [selectedProductType, setSelectedProductType] =
+  //   useState<ProductType>('flower')
   const [selectedTurnaroundTime, setSelectedTurnaroundTime] =
     useState<TurnaroundTime>('168')
   const tomorrow = new Date()
@@ -72,8 +68,11 @@ export default function NewOrder() {
     if (selectedTests.size === 0) {
       return toast.error('Please select at least 1 test to perform')
     }
-    if (!selectedStrainName) {
-      return toast.error('Please enter a strain name')
+    if (!selectedTurnaroundTime) {
+      return toast.error('Please select a turnaround time')
+    }
+    if (!selectedPickupDate) {
+      return toast.error('Please select a pickup date')
     }
     if (!stripe) {
       return toast.error(
@@ -91,14 +90,15 @@ export default function NewOrder() {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          priceId: orderDetailsToPriceId(
-            selectedProductType,
-            selectedTurnaroundTime,
-          ),
+          priceId: 'test',
+          // priceId: orderDetailsToPriceId(
+          //   selectedProductType,
+          //   selectedTurnaroundTime,
+          // ),
           userId: user?.id,
           facilityId: selectedFacility.id,
-          strainName: selectedStrainName,
-          productType: selectedProductType,
+          // strainName: selectedStrainName,
+          // productType: selectedProductType,
           turnaroundTime: selectedTurnaroundTime,
           pickupDate: selectedPickupDate.toISOString(),
         }),
@@ -188,22 +188,22 @@ export default function NewOrder() {
             )}
           </div>
         )}
-        <div className="text-sm mt-4">
+        {/* <div className="text-sm mt-4">
           <p className="font-bold my-0">Strain Information</p>
           <p className="text-gray-500 my-1">
             Other batch information will be automatically collected by the
             sampling firm
           </p>
           <SelectStrainName setSelectedStrainName={setSelectedStrainName} />
-        </div>
-        <div className="text-sm mt-4">
+        </div> */}
+        {/* <div className="text-sm mt-4">
           <p className="font-bold my-0">Product Type</p>
           <p className="text-gray-500 my-1">Infusion testing coming soon</p>
           <SelectProductType
             selectedProductType={selectedProductType}
             setSelectedProductType={setSelectedProductType}
           />
-        </div>
+        </div> */}
         <div className="text-sm mt-4">
           <p className="font-bold my-0">Turnaround Time</p>
           <p className="text-gray-500 my-1">
@@ -228,8 +228,8 @@ export default function NewOrder() {
           <div className="w-full items-center text-sm flex justify-between">
             <p className="font-bold my-3 text-center">
               A sampling firm will pickup{' '}
-              {selectedStrainName || '{strain info}'}{' '}
-              {selectedProductType || '{product type}'} at{' '}
+              {/* {selectedStrainName || '{strain info}'}{' '} */}
+              {/* {selectedProductType || '{product type}'} at{' '} */}
               {selectedFacility?.name} on{' '}
               {format(selectedPickupDate, 'MM/dd/yyyy')}
               {', '} and you&apos;ll get test results on or before{' '}

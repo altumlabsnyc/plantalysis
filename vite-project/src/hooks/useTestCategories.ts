@@ -11,20 +11,19 @@ import toast from 'react-hot-toast'
 
  * @returns {data, error, isLoading} data is an object with all the test categories. error is the error object from SWR.
  */
-export default function useTestCategoriesDetails() {
+export default function useTestCategoriesDetails(onlyEnabled?: boolean) {
   const fetcher = async () => {
     let categoryError: any, categoryData: Array<TestCategory> | null
 
     const categoriesFetchPromise = supabase
       .from('test_category')
-      .select('*').then(({ data, error }) => {
+      .select('*')
+      .then(({ data, error }) => {
         categoryData = data
         categoryError = error
       })
-     
 
     await categoriesFetchPromise
-    console.log("alo")
 
     if (categoryError) {
       console.log(categoryError)
@@ -50,7 +49,9 @@ export default function useTestCategoriesDetails() {
   )
 
   return {
-    data: data as TestCategory[] | null,
+    data:
+      (data && onlyEnabled && data.filter((c) => c.enabled)) ||
+      (data as TestCategory[] | null),
     error,
     isLoading,
     mutate,

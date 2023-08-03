@@ -39,7 +39,7 @@ export interface Database {
         }
         Relationships: [
           {
-            foreignKeyName: "fk_state"
+            foreignKeyName: "fk_address_state"
             columns: ["state_code", "country_code"]
             referencedRelation: "state"
             referencedColumns: ["state_code", "country_code"]
@@ -48,55 +48,22 @@ export interface Database {
       }
       analysis: {
         Row: {
-          aerobic_bacteria: number | null
-          aflatoxins: number | null
-          aspergillus: boolean
-          e_coli: boolean
-          filth: number | null
           finished_at: string
-          foreign_material: number | null
           id: string
           lab_order_id: string | null
-          moisture_content: number | null
-          ochratoxin_a: number | null
-          salmonella: boolean
           started_at: string | null
-          water_activity: number | null
-          yeast_mold: number | null
         }
         Insert: {
-          aerobic_bacteria?: number | null
-          aflatoxins?: number | null
-          aspergillus?: boolean
-          e_coli?: boolean
-          filth?: number | null
           finished_at?: string
-          foreign_material?: number | null
           id?: string
           lab_order_id?: string | null
-          moisture_content?: number | null
-          ochratoxin_a?: number | null
-          salmonella?: boolean
           started_at?: string | null
-          water_activity?: number | null
-          yeast_mold?: number | null
         }
         Update: {
-          aerobic_bacteria?: number | null
-          aflatoxins?: number | null
-          aspergillus?: boolean
-          e_coli?: boolean
-          filth?: number | null
           finished_at?: string
-          foreign_material?: number | null
           id?: string
           lab_order_id?: string | null
-          moisture_content?: number | null
-          ochratoxin_a?: number | null
-          salmonella?: boolean
           started_at?: string | null
-          water_activity?: number | null
-          yeast_mold?: number | null
         }
         Relationships: [
           {
@@ -212,6 +179,42 @@ export interface Database {
         }
         Relationships: []
       }
+      demos_scheduled: {
+        Row: {
+          company: string | null
+          created_at: string | null
+          email: string | null
+          first_name: string | null
+          id: string
+          job_title: string | null
+          last_name: string | null
+          phone: string | null
+          state: string | null
+        }
+        Insert: {
+          company?: string | null
+          created_at?: string | null
+          email?: string | null
+          first_name?: string | null
+          id?: string
+          job_title?: string | null
+          last_name?: string | null
+          phone?: string | null
+          state?: string | null
+        }
+        Update: {
+          company?: string | null
+          created_at?: string | null
+          email?: string | null
+          first_name?: string | null
+          id?: string
+          job_title?: string | null
+          last_name?: string | null
+          phone?: string | null
+          state?: string | null
+        }
+        Relationships: []
+      }
       effect: {
         Row: {
           description: string | null
@@ -253,7 +256,7 @@ export interface Database {
           id: string
         }
         Insert: {
-          id: string
+          id?: string
         }
         Update: {
           id?: string
@@ -589,6 +592,12 @@ export interface Database {
         }
         Relationships: [
           {
+            foreignKeyName: "fk_molecule_wiki_state"
+            columns: ["state_code", "country_code"]
+            referencedRelation: "state"
+            referencedColumns: ["state_code", "country_code"]
+          },
+          {
             foreignKeyName: "fk_state"
             columns: ["state_code", "country_code"]
             referencedRelation: "state"
@@ -881,6 +890,7 @@ export interface Database {
       regulator_review: {
         Row: {
           analysis_id: string
+          approved: boolean
           created_at: string
           id: string
           notes: string
@@ -888,6 +898,7 @@ export interface Database {
         }
         Insert: {
           analysis_id: string
+          approved?: boolean
           created_at?: string
           id?: string
           notes?: string
@@ -895,6 +906,7 @@ export interface Database {
         }
         Update: {
           analysis_id?: string
+          approved?: boolean
           created_at?: string
           id?: string
           notes?: string
@@ -954,7 +966,7 @@ export interface Database {
           id: string
         }
         Insert: {
-          id: string
+          id?: string
         }
         Update: {
           id?: string
@@ -987,27 +999,23 @@ export interface Database {
           state_name?: string
           supported?: boolean
         }
-        Relationships: [
-          {
-            foreignKeyName: "state_country_code_fkey"
-            columns: ["country_code"]
-            referencedRelation: "country"
-            referencedColumns: ["country_code"]
-          }
-        ]
+        Relationships: []
       }
       test: {
         Row: {
+          enabled: boolean
           id: string
           name: string
           test_category_name: string
         }
         Insert: {
+          enabled: boolean
           id?: string
           name: string
           test_category_name: string
         }
         Update: {
+          enabled?: boolean
           id?: string
           name?: string
           test_category_name?: string
@@ -1023,12 +1031,15 @@ export interface Database {
       }
       test_category: {
         Row: {
+          enabled: boolean
           name: string
         }
         Insert: {
+          enabled: boolean
           name: string
         }
         Update: {
+          enabled?: boolean
           name?: string
         }
         Relationships: []
@@ -1039,7 +1050,7 @@ export interface Database {
           description: string
           id: string
           name: string
-          state_code: string
+          state_code: string | null
           test_id: string
           type: Database["public"]["Enums"]["requirement_type"]
         }
@@ -1048,7 +1059,7 @@ export interface Database {
           description?: string
           id?: string
           name?: string
-          state_code: string
+          state_code?: string | null
           test_id: string
           type: Database["public"]["Enums"]["requirement_type"]
         }
@@ -1057,11 +1068,23 @@ export interface Database {
           description?: string
           id?: string
           name?: string
-          state_code?: string
+          state_code?: string | null
           test_id?: string
           type?: Database["public"]["Enums"]["requirement_type"]
         }
         Relationships: [
+          {
+            foreignKeyName: "fk_test_requirement"
+            columns: ["state_code", "country_code"]
+            referencedRelation: "state"
+            referencedColumns: ["state_code", "country_code"]
+          },
+          {
+            foreignKeyName: "test_requirement_country_code_fkey"
+            columns: ["country_code"]
+            referencedRelation: "country"
+            referencedColumns: ["country_code"]
+          },
           {
             foreignKeyName: "test_requirement_test_id_fkey"
             columns: ["test_id"]

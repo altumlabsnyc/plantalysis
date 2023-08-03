@@ -4,23 +4,26 @@ import useSWR from 'swr'
 
 import toast from 'react-hot-toast'
 
-
 /**
  * SWR hook that fetches existing tests for a given category
  * @param category teting category of which tests will be fetched
  * @returns {data, error, isLoading} data is an object with all the tests of the category. error is the error object from SWR.
  */
-export default function useTestDetails(category: TestCategory) {
+export default function useTestDetails(
+  category: TestCategory,
+  onlyEnabled?: boolean,
+) {
   const fetcher = async () => {
     let testError: any, testData: Array<Test> | null
 
     const testsFetchPromise = supabase
       .from('test')
-      .select('*').eq('test_category_name', category.name).then(({ data, error }) => {
+      .select('*')
+      .eq('test_category_name', category.name)
+      .then(({ data, error }) => {
         testData = data
         testError = error
       })
-     
 
     await testsFetchPromise
 
@@ -48,7 +51,9 @@ export default function useTestDetails(category: TestCategory) {
   )
 
   return {
-    data: data as Test[] | null,
+    data:
+      (data && onlyEnabled && data.filter((t) => t.enabled)) ||
+      (data as Test[] | null),
     error,
     isLoading,
     mutate,

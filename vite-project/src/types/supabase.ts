@@ -1036,16 +1036,19 @@ export interface Database {
       }
       test: {
         Row: {
+          enabled: boolean
           id: string
           name: string
           test_category_name: string
         }
         Insert: {
+          enabled: boolean
           id?: string
           name: string
           test_category_name: string
         }
         Update: {
+          enabled?: boolean
           id?: string
           name?: string
           test_category_name?: string

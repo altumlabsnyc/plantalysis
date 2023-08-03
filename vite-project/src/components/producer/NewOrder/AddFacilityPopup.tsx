@@ -16,8 +16,7 @@ interface Props {
 
 export default function AddFacilityPopup({ isOpen, setIsOpen }: Props) {
   const user = useUser()
-  const { data: facilitiesDetails, mutate: mutateFacilitiesDetails } =
-    useFacilitiesDetails(user)
+  const { data: facilitiesDetails, mutate } = useFacilitiesDetails(user)
 
   const [addingFacility, setAddingFacility] = useState(false)
   const [address, setAddress] = useState('')

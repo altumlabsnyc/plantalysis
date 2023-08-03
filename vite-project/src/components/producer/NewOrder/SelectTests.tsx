@@ -1,9 +1,5 @@
 import useTestDetails from '@/hooks/useTests'
-import { TestCategory, Test } from '@/types/supabaseAlias'
-import { Listbox, Transition } from '@headlessui/react'
-import { CheckIcon, ChevronUpDownIcon } from '@heroicons/react/20/solid'
-import { Fragment, useState } from 'react'
-import AddFacilityPopup from './AddFacilityPopup'
+import { Test, TestCategory } from '@/types/supabaseAlias'
 import classNames from 'classnames'
 
 interface Props {
@@ -17,8 +13,10 @@ export default function SelectTests({
   setSelectedTests,
   category,
 }: Props) {
-  const { data: testsDetails, mutate } = useTestDetails(category)
-  console.log(testsDetails)
+  const { data: testsDetails, mutate } = useTestDetails(category, true)
+  // console.log(testsDetails)
+
+  console.log(selectedTests)
 
   return (
     <div className="mt-2">
@@ -37,11 +35,12 @@ export default function SelectTests({
                 'ring-1 ring-inset ring-gray-300 bg-white text-gray-900 hover:bg-gray-50':
                   selectedTests && !selectedTests.has(option),
               },
-              'transition-all duration-300  flex items-center justify-center rounded-md py-2.5 px-2 text-sm font-semibold sm:flex-1',
+              'transition-all cursor-pointer duration-300  flex items-center justify-center rounded-md py-2.5 px-2 text-sm font-semibold sm:flex-1',
             )}
           >
             <input
               type="checkbox"
+              className="hidden"
               checked={selectedTests && selectedTests.has(option)}
               onChange={() => {
                 const updatedTests = new Set(selectedTests)
