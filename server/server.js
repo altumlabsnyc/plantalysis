@@ -12,6 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.addDemoToDB = void 0;
 const supabase_js_1 = require("@supabase/supabase-js");
 const cors_1 = __importDefault(require("cors"));
 const dotenv_1 = __importDefault(require("dotenv"));
@@ -144,8 +145,16 @@ app.post("/webhook", express_1.default.raw({ type: "application/json" }), (req, 
 app.post('/send-email', express_1.default.json(), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const emailUser = `${process.env.EMAIL_USERNAME}`;
     const emailPass = `${process.env.EMAIL_PASS}`;
-    const email_body = req.body['text'];
-    if (email_body === undefined) {
+    const emailBody = req.body;
+    let fname = req.body['fname'];
+    let lname = req.body['lname'];
+    let company = req.body['company'];
+    let jobTitle = req.body['jobTitle'];
+    let email = req.body['email'];
+    let phone = req.body['phone'];
+    let state = req.body['state'];
+    let text = req.body['text'];
+    if (req.body === undefined) {
         return res.status(400).send("Bad request. No text field in request body.");
     }
     try {
@@ -162,8 +171,11 @@ app.post('/send-email', express_1.default.json(), (req, res) => __awaiter(void 0
             from: `Team @ Altum 👻 ${emailUser}`,
             to: `${process.env.DEMO_RECEIVER}`,
             subject: 'Demo Scheduled',
-            text: `${email_body}`, // plain text body
+            text: text, // plain text body
         });
+        console.log('before calling adddemotodb');
+        console.log(emailBody);
+        addDemoToDB(fname, lname, company, jobTitle, email, phone, state);
     }
     catch (err) {
         console.error(err);
@@ -172,6 +184,24 @@ app.post('/send-email', express_1.default.json(), (req, res) => __awaiter(void 0
     }
     res.status(200).send({ received: true });
 }));
+function addDemoToDB(fname, lname, company, jobTitle, email, phone, state) {
+    return __awaiter(this, void 0, void 0, function* () {
+        console.log("inside add demo to db");
+        const { data, error } = yield supabase
+            .from('demos_scheduled')
+            .insert([
+            { first_name: fname,
+                last_name: lname,
+                company: company,
+                job_title: jobTitle,
+                email: email,
+                phone: phone,
+                state: state },
+        ]).select();
+    });
+}
+exports.addDemoToDB = addDemoToDB;
+;
 app.get("/test", (req, res) => {
     res.json({ message: "Hello, this is a test!" });
 });

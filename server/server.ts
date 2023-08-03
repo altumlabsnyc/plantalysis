@@ -7,6 +7,7 @@ import { v4 as uuidv4 } from "uuid"
 import { Database } from "./types/supabase"
 import nodemailer from 'nodemailer'
 
+
 dotenv.config()
 
 const port = process.env.PORT || 8080
@@ -191,9 +192,19 @@ app.post('/send-email',
   async (req: Request, res: Response) => {
     const emailUser = `${process.env.EMAIL_USERNAME}`
     const emailPass = `${process.env.EMAIL_PASS}`
-    const emailBody = req.body['text']
+    const emailBody = req.body;
 
-    if (emailBody === undefined) {
+    let fname: string = req.body['fname'];
+    let lname: string = req.body['lname'];
+    let company: string = req.body['company'];
+    let jobTitle: string = req.body['jobTitle'];
+    let email: string = req.body['email'];
+    let phone: string = req.body['phone'];
+    let state: string = req.body['state'];
+    let text: string = req.body['text'];
+
+
+    if (req.body === undefined) {
       return res.status(400).send("Bad request. No text field in request body.")
     }
 
@@ -211,18 +222,41 @@ app.post('/send-email',
         from: `Team @ Altum 👻 ${emailUser}`, // sender address
         to: `${process.env.DEMO_RECEIVER}`, // list of receivers
         subject: 'Demo Scheduled', // Subject line
-        text: `${emailBody}`, // plain text body
-      });
+        text: text, // plain text body
+      }
+      );
+      console.log('before calling adddemotodb');
+      console.log(emailBody)
+      addDemoToDB(fname, lname, company, jobTitle, email, phone, state);
 
     } catch (err) {
       console.error(err)
       // @ts-ignore
       return res.status(500).send(`Internal Nodemailer Error: ${err.message}`)
     }
-
+    
     res.status(200).send({ received: true });
+    
   });
 
+
+  export async function addDemoToDB(fname:string, lname: string, company:string, jobTitle:string, email:string, phone:string, state:string){
+    
+    console.log("inside add demo to db");
+    const { data, error } = await supabase
+  .from('demos_scheduled')
+  .insert([
+    { first_name: fname, 
+      last_name: lname,
+      company: company, 
+      job_title: jobTitle,
+      email: email, 
+      phone: phone,
+      state: state},
+  ]).select()
+
+  
+    };
 app.get("/test", (req: Request, res: Response) => {
   res.json({ message: "Hello, this is a test!" })
 })

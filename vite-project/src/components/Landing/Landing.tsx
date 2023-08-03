@@ -7,6 +7,18 @@ import ImageCarousel from './ImageCarousel'
 import { toast, Toaster } from 'react-hot-toast'
 import delay from '@/utils/delay'
 
+export interface Info {
+  fname: string;
+  // add other properties here as needed
+  lname: string;
+  company: string;
+  jobTitle: string;
+  email: string;
+  phone: string;
+  state: string;
+  text: string;
+}
+
 function Hero() {
   const videoRef = useRef<HTMLVideoElement>(null)
 
@@ -56,6 +68,9 @@ const Plantalysis: React.FC = () => {
       `${demoForm.jobTitle}. Their email is ${demoForm.email}, and their phone ` +
       `number is ${demoForm.phone}. They are from ${demoForm.state}.`
 
+  
+
+
     // Tries to post a request to the backend to send the email
     try {
       const response: Response = await fetch(
@@ -65,7 +80,19 @@ const Plantalysis: React.FC = () => {
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ text }),
+          body: JSON.stringify({ 
+
+            "fname": demoForm.fname,
+            "lname": demoForm.lname,
+            "company": demoForm.company,
+            "jobTitle": demoForm.jobTitle,
+            "email": demoForm.email,
+            "phone": demoForm.phone,
+            "state": demoForm.state,
+            "text": text
+          
+          }),
+       
         },
       )
 
