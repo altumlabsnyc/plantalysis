@@ -114,11 +114,11 @@ function ProducerDashboard({ children }: ProducerDashboardProps) {
         },
         {
           text: 'Terms of Service',
-          onClick: () => history.push("/tos"),
+          onClick: () => history.push('/tos'),
         },
         {
           text: 'Privacy Policy',
-          onClick: () => history.push("/pp"),
+          onClick: () => history.push('/pp'),
         },
       ],
     },

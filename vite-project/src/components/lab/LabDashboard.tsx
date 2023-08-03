@@ -10,7 +10,7 @@ import useUserDetails from '@/hooks/useUserDetails'
 import { useUser } from '@supabase/auth-helpers-react'
 import React, { useState } from 'react'
 import toast from 'react-hot-toast'
-import { Redirect, Route, Link, useHistory  } from 'react-router-dom'
+import { Redirect, Route, Link, useHistory } from 'react-router-dom'
 import '../assets/dashboard/css/styles.css'
 import Upload from '../regulatorDashboard/Upload.js'
 import ClaimOrders from './ClaimOrders'
@@ -22,7 +22,7 @@ interface LabDashboardProps {
 
 function LabDashboard({ children }: LabDashboardProps) {
   const user = useUser()
-  const history = useHistory();
+  const history = useHistory()
   const { data: userDetails } = useUserDetails(user)
 
   const [desktopSidebarOpen, setDesktopSidebarOpen] = useState(true)
@@ -136,7 +136,7 @@ function LabDashboard({ children }: LabDashboardProps) {
         {
           text: 'About',
           onClick: () => {
-            <Link to="/about" />
+            ;<Link to="/about" />
             toast('About Us coming soon!', { icon: '⭐' })
           },
         },
