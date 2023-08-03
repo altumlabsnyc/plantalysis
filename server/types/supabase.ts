@@ -39,7 +39,7 @@ export interface Database {
         }
         Relationships: [
           {
-            foreignKeyName: "fk_state"
+            foreignKeyName: "fk_address_state"
             columns: ["state_code", "country_code"]
             referencedRelation: "state"
             referencedColumns: ["state_code", "country_code"]
@@ -48,61 +48,28 @@ export interface Database {
       }
       analysis: {
         Row: {
-          aerobic_bacteria: number | null
-          aflatoxins: number | null
-          aspergillus: boolean
-          e_coli: boolean
-          filth: number | null
           finished_at: string
-          foreign_material: number | null
           id: string
-          lab_order_id: string | null
-          moisture_content: number | null
-          ochratoxin_a: number | null
-          salmonella: boolean
+          regulator_review_id: string | null
           started_at: string | null
-          water_activity: number | null
-          yeast_mold: number | null
         }
         Insert: {
-          aerobic_bacteria?: number | null
-          aflatoxins?: number | null
-          aspergillus?: boolean
-          e_coli?: boolean
-          filth?: number | null
           finished_at?: string
-          foreign_material?: number | null
           id?: string
-          lab_order_id?: string | null
-          moisture_content?: number | null
-          ochratoxin_a?: number | null
-          salmonella?: boolean
+          regulator_review_id?: string | null
           started_at?: string | null
-          water_activity?: number | null
-          yeast_mold?: number | null
         }
         Update: {
-          aerobic_bacteria?: number | null
-          aflatoxins?: number | null
-          aspergillus?: boolean
-          e_coli?: boolean
-          filth?: number | null
           finished_at?: string
-          foreign_material?: number | null
           id?: string
-          lab_order_id?: string | null
-          moisture_content?: number | null
-          ochratoxin_a?: number | null
-          salmonella?: boolean
+          regulator_review_id?: string | null
           started_at?: string | null
-          water_activity?: number | null
-          yeast_mold?: number | null
         }
         Relationships: [
           {
-            foreignKeyName: "analysis_lab_order_id_fkey"
-            columns: ["lab_order_id"]
-            referencedRelation: "lab_order"
+            foreignKeyName: "analysis_regulator_review_id_fkey"
+            columns: ["regulator_review_id"]
+            referencedRelation: "regulator_review"
             referencedColumns: ["id"]
           }
         ]
@@ -212,6 +179,42 @@ export interface Database {
         }
         Relationships: []
       }
+      demos_scheduled: {
+        Row: {
+          company: string | null
+          created_at: string | null
+          email: string | null
+          first_name: string | null
+          id: string
+          job_title: string | null
+          last_name: string | null
+          phone: string | null
+          state: string | null
+        }
+        Insert: {
+          company?: string | null
+          created_at?: string | null
+          email?: string | null
+          first_name?: string | null
+          id?: string
+          job_title?: string | null
+          last_name?: string | null
+          phone?: string | null
+          state?: string | null
+        }
+        Update: {
+          company?: string | null
+          created_at?: string | null
+          email?: string | null
+          first_name?: string | null
+          id?: string
+          job_title?: string | null
+          last_name?: string | null
+          phone?: string | null
+          state?: string | null
+        }
+        Relationships: []
+      }
       effect: {
         Row: {
           description: string | null
@@ -253,7 +256,7 @@ export interface Database {
           id: string
         }
         Insert: {
-          id: string
+          id?: string
         }
         Update: {
           id?: string
@@ -307,6 +310,7 @@ export interface Database {
       lab_order: {
         Row: {
           address_id: string | null
+          analysis_id: string | null
           batch_id: string | null
           id: string
           lab_notes: string | null
@@ -314,11 +318,12 @@ export interface Database {
           order_time: string
           pickup_date: string | null
           turnaround_time:
-            | Database["public"]["Enums"]["turnaround_time_enum"]
-            | null
+          | Database["public"]["Enums"]["turnaround_time_enum"]
+          | null
         }
         Insert: {
           address_id?: string | null
+          analysis_id?: string | null
           batch_id?: string | null
           id?: string
           lab_notes?: string | null
@@ -326,11 +331,12 @@ export interface Database {
           order_time?: string
           pickup_date?: string | null
           turnaround_time?:
-            | Database["public"]["Enums"]["turnaround_time_enum"]
-            | null
+          | Database["public"]["Enums"]["turnaround_time_enum"]
+          | null
         }
         Update: {
           address_id?: string | null
+          analysis_id?: string | null
           batch_id?: string | null
           id?: string
           lab_notes?: string | null
@@ -338,14 +344,20 @@ export interface Database {
           order_time?: string
           pickup_date?: string | null
           turnaround_time?:
-            | Database["public"]["Enums"]["turnaround_time_enum"]
-            | null
+          | Database["public"]["Enums"]["turnaround_time_enum"]
+          | null
         }
         Relationships: [
           {
             foreignKeyName: "lab_order_address_id_fkey"
             columns: ["address_id"]
             referencedRelation: "address"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "lab_order_analysis_id_fkey"
+            columns: ["analysis_id"]
+            referencedRelation: "analysis"
             referencedColumns: ["id"]
           },
           {
@@ -434,8 +446,8 @@ export interface Database {
         Row: {
           boiling_point: number | null
           chromatography_type:
-            | Database["public"]["Enums"]["molecule_chromatography_type"]
-            | null
+          | Database["public"]["Enums"]["molecule_chromatography_type"]
+          | null
           common_name: string | null
           id: string
           index: number | null
@@ -454,8 +466,8 @@ export interface Database {
         Insert: {
           boiling_point?: number | null
           chromatography_type?:
-            | Database["public"]["Enums"]["molecule_chromatography_type"]
-            | null
+          | Database["public"]["Enums"]["molecule_chromatography_type"]
+          | null
           common_name?: string | null
           id?: string
           index?: number | null
@@ -474,8 +486,8 @@ export interface Database {
         Update: {
           boiling_point?: number | null
           chromatography_type?:
-            | Database["public"]["Enums"]["molecule_chromatography_type"]
-            | null
+          | Database["public"]["Enums"]["molecule_chromatography_type"]
+          | null
           common_name?: string | null
           id?: string
           index?: number | null
@@ -588,6 +600,12 @@ export interface Database {
           state_code?: string | null
         }
         Relationships: [
+          {
+            foreignKeyName: "fk_molecule_wiki_state"
+            columns: ["state_code", "country_code"]
+            referencedRelation: "state"
+            referencedColumns: ["state_code", "country_code"]
+          },
           {
             foreignKeyName: "fk_state"
             columns: ["state_code", "country_code"]
@@ -880,33 +898,27 @@ export interface Database {
       }
       regulator_review: {
         Row: {
-          analysis_id: string
+          approved: boolean
           created_at: string
           id: string
           notes: string
           regulator_user_id: string
         }
         Insert: {
-          analysis_id: string
+          approved?: boolean
           created_at?: string
           id?: string
           notes?: string
           regulator_user_id: string
         }
         Update: {
-          analysis_id?: string
+          approved?: boolean
           created_at?: string
           id?: string
           notes?: string
           regulator_user_id?: string
         }
         Relationships: [
-          {
-            foreignKeyName: "regulator_review_analysis_id_fkey"
-            columns: ["analysis_id"]
-            referencedRelation: "analysis"
-            referencedColumns: ["id"]
-          },
           {
             foreignKeyName: "regulator_review_regulator_user_id_fkey"
             columns: ["regulator_user_id"]
@@ -954,7 +966,7 @@ export interface Database {
           id: string
         }
         Insert: {
-          id: string
+          id?: string
         }
         Update: {
           id?: string
@@ -987,27 +999,23 @@ export interface Database {
           state_name?: string
           supported?: boolean
         }
-        Relationships: [
-          {
-            foreignKeyName: "state_country_code_fkey"
-            columns: ["country_code"]
-            referencedRelation: "country"
-            referencedColumns: ["country_code"]
-          }
-        ]
+        Relationships: []
       }
       test: {
         Row: {
+          enabled: boolean
           id: string
           name: string
           test_category_name: string
         }
         Insert: {
+          enabled: boolean
           id?: string
           name: string
           test_category_name: string
         }
         Update: {
+          enabled?: boolean
           id?: string
           name?: string
           test_category_name?: string
@@ -1023,12 +1031,15 @@ export interface Database {
       }
       test_category: {
         Row: {
+          enabled: boolean
           name: string
         }
         Insert: {
+          enabled: boolean
           name: string
         }
         Update: {
+          enabled?: boolean
           name?: string
         }
         Relationships: []
@@ -1039,7 +1050,7 @@ export interface Database {
           description: string
           id: string
           name: string
-          state_code: string
+          state_code: string | null
           test_id: string
           type: Database["public"]["Enums"]["requirement_type"]
         }
@@ -1048,7 +1059,7 @@ export interface Database {
           description?: string
           id?: string
           name?: string
-          state_code: string
+          state_code?: string | null
           test_id: string
           type: Database["public"]["Enums"]["requirement_type"]
         }
@@ -1057,11 +1068,23 @@ export interface Database {
           description?: string
           id?: string
           name?: string
-          state_code?: string
+          state_code?: string | null
           test_id?: string
           type?: Database["public"]["Enums"]["requirement_type"]
         }
         Relationships: [
+          {
+            foreignKeyName: "fk_test_requirement"
+            columns: ["state_code", "country_code"]
+            referencedRelation: "state"
+            referencedColumns: ["state_code", "country_code"]
+          },
+          {
+            foreignKeyName: "test_requirement_country_code_fkey"
+            columns: ["country_code"]
+            referencedRelation: "country"
+            referencedColumns: ["country_code"]
+          },
           {
             foreignKeyName: "test_requirement_test_id_fkey"
             columns: ["test_id"]
@@ -1241,50 +1264,50 @@ export interface Database {
     Enums: {
       license_type_enum: "AUCC" | "AUCP" | "AUHC"
       molecule_chromatography_type:
-        | "LC-MS/MS"
-        | "UPLC"
-        | "HPLC"
-        | "LC-MS,1"
-        | "LC-MS,2"
+      | "LC-MS/MS"
+      | "UPLC"
+      | "HPLC"
+      | "LC-MS,1"
+      | "LC-MS,2"
       molecule_spectrum:
-        | "GC-MS"
-        | "LC-MS/MS"
-        | "Cayman MS"
-        | "GC-MS,1"
-        | "GC-MS,2"
-        | "GC-MS,3"
-        | "MS-MS,1"
-        | "MS-MS,2"
-        | "LC-MS,1"
-        | "LC-MS,2"
+      | "GC-MS"
+      | "LC-MS/MS"
+      | "Cayman MS"
+      | "GC-MS,1"
+      | "GC-MS,2"
+      | "GC-MS,3"
+      | "MS-MS,1"
+      | "MS-MS,2"
+      | "LC-MS,1"
+      | "LC-MS,2"
       molecule_type:
-        | "Cannabinoids"
-        | "Terpenes"
-        | "Flavinoids"
-        | "Phenols"
-        | "Pesticides"
-        | "Solvents"
-        | "Metals"
-        | "Others"
+      | "Cannabinoids"
+      | "Terpenes"
+      | "Flavinoids"
+      | "Phenols"
+      | "Pesticides"
+      | "Solvents"
+      | "Metals"
+      | "Others"
       product_type_enum: "flower" | "concentrate" | "edibles" | "infusion"
       requirement_type:
-        | "boolean"
-        | "integer"
-        | "float"
-        | "string"
-        | "date"
-        | "timestamp"
-        | "text"
-        | "json"
+      | "boolean"
+      | "integer"
+      | "float"
+      | "string"
+      | "date"
+      | "timestamp"
+      | "text"
+      | "json"
       turnaround_time_enum: "48" | "96" | "168" | "336"
       user_type_enum:
-        | "consumer"
-        | "regulator"
-        | "lab"
-        | "producer"
-        | "university"
-        | "sampling_firm"
-        | "insurance"
+      | "consumer"
+      | "regulator"
+      | "lab"
+      | "producer"
+      | "university"
+      | "sampling_firm"
+      | "insurance"
     }
     CompositeTypes: {
       [_ in never]: never

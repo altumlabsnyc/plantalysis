@@ -35,11 +35,13 @@ export function useAnalysis(
 
     for (const analysis of allAnalysisData) {
       const analysisId = analysis.id
-      const labOrderId = analysis.lab_order_id
+      // The below line has a typing error.
+      //const labOrderId = analysis.lab_order_id
       let correspondingOrder: LabOrder
       if (allLabOrders) {
         const correspondingOrder = allLabOrders.filter((order) => {
-          return order.id === labOrderId
+          return true
+          //return order.id === labOrderId
         })[0]
 
         const correspondingMolecules = await supabase
@@ -68,7 +70,7 @@ export function useAnalysis(
               brand_name: brandName.name,
               pass: true,
               molecules: correspondingMolecules.data,
-              sku: 'qr.plantalysis.com/' + labOrderId,
+              sku: 'qr.plantalysis.com/' /*+ labOrderId*/,
               analysis_id: analysisId,
             }
             forApproval.push(newApproved)

@@ -7,11 +7,11 @@ import backgroundVideo from './../assets/vid/BGVCompressed.mp4'
 import ImageCarousel from './ImageCarousel'
 
 export interface Info {
-  fname: string
+  first_name: string
   // add other properties here as needed
-  lname: string
+  last_name: string
   company: string
-  jobTitle: string
+  job_title: string
   email: string
   phone: string
   state: string
@@ -52,10 +52,10 @@ const Plantalysis: React.FC = () => {
 
   // Create demo form state variable
   const [demoForm, setDemoForm] = useState({
-    fname: '',
-    lname: '',
+    first_name: '',
+    last_name: '',
     company: '',
-    jobTitle: '',
+    job_title: '',
     email: '',
     phone: '',
     state: '',
@@ -65,9 +65,9 @@ const Plantalysis: React.FC = () => {
     e.preventDefault()
     setSubmitting(true)
     const text =
-      `A demo request has been submitted by ${demoForm.fname} ` +
-      `${demoForm.lname} from ${demoForm.company} with the job title ` +
-      `${demoForm.jobTitle}. Their email is ${demoForm.email}, and their phone ` +
+      `A demo request has been submitted by ${demoForm.first_name} ` +
+      `${demoForm.last_name} from ${demoForm.company} with the job title ` +
+      `${demoForm.job_title}. Their email is ${demoForm.email}, and their phone ` +
       `number is ${demoForm.phone}. They are from ${demoForm.state}.`
 
     // Tries to post a request to the backend to send the email
@@ -80,10 +80,10 @@ const Plantalysis: React.FC = () => {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-            fname: demoForm.fname,
-            lname: demoForm.lname,
+            first_name: demoForm.first_name,
+            last_name: demoForm.last_name,
             company: demoForm.company,
-            jobTitle: demoForm.jobTitle,
+            job_title: demoForm.job_title,
             email: demoForm.email,
             phone: demoForm.phone,
             state: demoForm.state,
@@ -103,10 +103,10 @@ const Plantalysis: React.FC = () => {
     }
     // Empties form to prevent spamming
     setDemoForm({
-      fname: '',
-      lname: '',
+      first_name: '',
+      last_name: '',
       company: '',
-      jobTitle: '',
+      job_title: '',
       email: '',
       phone: '',
       state: '',
@@ -395,8 +395,8 @@ const Plantalysis: React.FC = () => {
                                     autoComplete="given-name"
                                     required
                                     placeholder=" "
-                                    name="fname"
-                                    value={demoForm.fname}
+                                    name="first_name"
+                                    value={demoForm.first_name}
                                     onChange={handleChange}
                                   />
                                   <label htmlFor="personalized-demo-first">
@@ -411,8 +411,8 @@ const Plantalysis: React.FC = () => {
                                     autoComplete="family-name"
                                     required
                                     placeholder=" "
-                                    name="lname"
-                                    value={demoForm.lname}
+                                    name="last_name"
+                                    value={demoForm.last_name}
                                     onChange={handleChange}
                                   />
                                   <label htmlFor="personalized-demo-last">
@@ -443,8 +443,8 @@ const Plantalysis: React.FC = () => {
                                     autoComplete="organization-title"
                                     required
                                     placeholder=" "
-                                    name="jobTitle"
-                                    value={demoForm.jobTitle}
+                                    name="job_title"
+                                    value={demoForm.job_title}
                                     onChange={handleChange}
                                   />
                                   <label htmlFor="personalized-demo-title">
