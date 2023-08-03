@@ -23,22 +23,22 @@ export type RegulatorAnalysisTableRow = Analysis & {
   } | null,
 }
 
-const columnHelper = createColumnHelper<RegulatorAnalysisTableRow>()
+const columnHelper = createColumnHelper<ForApproval>()
 
 export default function ApproveOrders() {
   const user = useUser()
   // const allLabOrders = useLabOrders(user, LabOrdersRequested.allOrders)
   // const analysisData = useAnalysis(user, allLabOrders.data)
-  const { data, error, isLoading } = useAnalysis(user, ANALYSIS_REQUEST_TYPE.ALL)
+  // const { data, error, isLoading } = useAnalysis(user, ANALYSIS_REQUEST_TYPE.ALL)
+  const { data, error, isLoading } = useAnalysis()
 
 
   const columns = [
-    columnHelper.accessor('lab_order', {
+    columnHelper.accessor('lab_name', {
       header: "Lab",
-      id: 'lab_name',
       cell: (info) => (
         <div>
-          {info.getValue()?.lab_user?.lab_name}
+          {info.getValue()}
         </div>
       )
     }),
@@ -46,20 +46,19 @@ export default function ApproveOrders() {
       header: "Date Populated",
       cell: (info) => (
         <div>
-          {format(new Date(info.getValue()), "yyyy-MM-dd")}
+          {info.getValue() && format(new Date(info.getValue()), "yyyy-MM-dd")}
         </div>
       )
     }),
-    columnHelper.accessor('lab_order', {
+    columnHelper.accessor('producer_name', {
       header: "Producer",
-      id: 'producer_name',
       cell: (info) => (
         <div>
-          {info.getValue()?.batch?.producer_user?.common_name}
+          {info.getValue()}
         </div>
       )
     }),
-    columnHelper.accessor('id', {
+    columnHelper.accessor('analysis_id', {
       header: "View Details",
       id: 'view',
       cell: (info) => (
