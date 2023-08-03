@@ -6,6 +6,18 @@ import logo from './../assets/img/plantalysis.png'
 import backgroundVideo from './../assets/vid/BGVCompressed.mp4'
 import ImageCarousel from './ImageCarousel'
 
+export interface Info {
+  fname: string
+  // add other properties here as needed
+  lname: string
+  company: string
+  jobTitle: string
+  email: string
+  phone: string
+  state: string
+  text: string
+}
+
 function Hero() {
   const videoRef = useRef<HTMLVideoElement>(null)
 
@@ -67,7 +79,16 @@ const Plantalysis: React.FC = () => {
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ text }),
+          body: JSON.stringify({
+            fname: demoForm.fname,
+            lname: demoForm.lname,
+            company: demoForm.company,
+            jobTitle: demoForm.jobTitle,
+            email: demoForm.email,
+            phone: demoForm.phone,
+            state: demoForm.state,
+            text: text,
+          }),
         },
       )
 
