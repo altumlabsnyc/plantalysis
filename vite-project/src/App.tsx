@@ -7,7 +7,7 @@ import ProtectedRoute from '@/components/ProtectedRoutes'
 import Register from '@/components/Register'
 import LabDashboardRouter from '@/components/lab/LabDashboard'
 import ProducerDashboardRouter from '@/components/producer/ProducerDashboard'
-import RegulatorDashboard from '@/components/regulatorDashboard/RegulatorDashboard'
+import RegulatorDashboardRouter from '@/components/regulatorDashboard/RegulatorDashboard'
 import Privacy from '@/components/PP'
 import TOS from '@/components/TOS'
 import '@/index.css'
@@ -41,7 +41,7 @@ function App() {
           />
 
           <ProtectedRoute
-            component={RegulatorDashboard}
+            component={RegulatorDashboardRouter}
             path="/dashboard/regulator"
             roles={['regulator']}
           />
