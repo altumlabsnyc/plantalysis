@@ -5,6 +5,7 @@ import './../assets/css/styles.css'
 import logo from './../assets/img/newPlantalysis.png'
 import backgroundVideo from './../assets/vid/BGV_480p.mp4'
 import ImageCarousel from './ImageCarousel'
+import AL from './../assets/img/newLogo.png'
 
 function Hero() {
   const videoRef = useRef<HTMLVideoElement>(null)
@@ -221,7 +222,7 @@ const Plantalysis: React.FC = () => {
                           </a>
                           <a
                             className="btn-anchor anchor-black mb-0 ml-3"
-                            href="/signup"
+                            href="/register"
                             target="_blank"
                           >
                             Sign Up
@@ -252,7 +253,7 @@ const Plantalysis: React.FC = () => {
                           </a>
                           <a
                             className="btn-anchor anchor-black mb-0 ml-3"
-                            href="/signup"
+                            href="/register"
                             target="_blank"
                           >
                             Sign Up
@@ -283,7 +284,7 @@ const Plantalysis: React.FC = () => {
                           </a>
                           <a
                             className="btn-anchor anchor-black mb-0 ml-3"
-                            href="/signup"
+                            href="/register"
                             target="_blank"
                           >
                             Sign Up
@@ -306,9 +307,27 @@ const Plantalysis: React.FC = () => {
               </section>
               <section className="position-relative pt-0 pb-7">
                 <div className="video-blade xm-plus-bg position-relative">
-                  <div className="xm-container small pt-7 pb-4">
+                  <div className="xm-container small pt-3 pb-3">
                     <div className="row align-items-center mt-3">
-                      <div className="col-12 text-center mb-4">
+                      {/* Add padding/margin to the top of the h1 element */}
+                      <h1 className="text-center headline-20 text-black bold text-shadow pt-3 mb-2">
+                        Plantalysis&trade; is a product of:
+                      </h1>
+                      <div
+                        style={{ display: 'flex', justifyContent: 'center' }}
+                      >
+                        {/* Add padding/margin to the top of the div containing the image */}
+                        <img
+                          src={AL}
+                          alt="Altum Labs"
+                          style={{
+                            width: '25%',
+                            height: 'auto',
+                            marginTop: '10px',
+                          }}
+                        />
+                      </div>
+                      <div className="col-12 text-center mt-4 mb-4">
                         <h1 className="text-center headline-50 text-black bold text-shadow pt-5 mb-4">
                           SEE MORE
                         </h1>
