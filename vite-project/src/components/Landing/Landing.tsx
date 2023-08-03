@@ -1,8 +1,9 @@
 import './../assets/css/styles.css'
-import backgroundImage from './assets/img/hero.png'
 import backgroundVideo from './../assets/vid/BGVCompressed.mp4'
 import React, { useEffect, useRef } from 'react'
 import ImageCarousel from './ImageCarousel'
+import Nav from '../Nav'
+import Footer from '../Footer'
 
 function Hero() {
   const videoRef = useRef<HTMLVideoElement>(null)
@@ -47,6 +48,7 @@ const Plantalysis: React.FC = () => {
         />
       </head>
       <body className="page-home">
+        <Nav />
         <div id="page" className="hfeed site bg-light">
           <div id="content" className="site-content bg-light en">
             <div>
@@ -465,8 +467,10 @@ const Plantalysis: React.FC = () => {
             </div>
           </div>
         </div>
+        <Footer />
       </body>
     </html>
+
   )
 }
 

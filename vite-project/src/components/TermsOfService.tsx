@@ -1,8 +1,9 @@
 import './assets/css/styles.css'
-import logo from './assets/img/plantalysis.png'
 import React, { useEffect, useRef } from 'react'
+import Nav from './Nav'
+import Footer from './Footer'
 
-const Privacy: React.FC = () => {
+const TermsOfService: React.FC = () => {
   return (
     <html lang="en">
       <head>
@@ -15,6 +16,7 @@ const Privacy: React.FC = () => {
         />
       </head>
       <body className="page-home">
+        <Nav />
         <div id="page" className="hfeed site bg-light">
           <div id="content" className="site-content bg-light en">
               <section className="position-relative pb-3 overflow-hidden">
@@ -24,7 +26,7 @@ const Privacy: React.FC = () => {
                       <div className="content default-large-padding rounded-banner h-100 position-relative overflow-hidden">
                         <div className="z-index-content position-relative h-100 w-100">
                           <h1 className="text-center headline-75 text-black bold text-shadow pt-5 mb-4">
-                            Privacy Policy <br />
+                            Terms of Service <br />
                           </h1>
                           <center>
                             <h3>Coming Soon...</h3>
@@ -39,9 +41,10 @@ const Privacy: React.FC = () => {
               </section>
           </div>
         </div>
+        <Footer />
       </body>
     </html>
   )
 }
 
-export default Privacy
+export default TermsOfService

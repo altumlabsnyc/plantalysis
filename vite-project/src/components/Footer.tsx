@@ -14,19 +14,17 @@ const Footer = () => {
                   >
                     <div className="container d-flex justify-content-between">
                       <div style={{ fontSize: '1.2rem' }}>
-                        &copy; 2023 Plantalysis
+                        <Link to="/">&copy; 2023 Plantalysis</Link>
                       </div>
                       <div style={{ fontSize: '1.2rem' }}>
-                        {/* <a href="#">Terms of Service</a> */}
                         <Link to="/tos">Terms of Service</Link>                                             
 
                       </div>
                       <div style={{ fontSize: '1.2rem' }}>
-                        {/* <a href="#">Privacy Statement</a> */}
                         <Link to="/privacy">Privacy Statement</Link>
                       </div>
                       <div style={{ fontSize: '1.2rem' }}>
-                        <a href="#">Security Statement</a>
+                        <Link to="/security">Security Statement</Link>
                       </div>
                     </div>
                   </footer>

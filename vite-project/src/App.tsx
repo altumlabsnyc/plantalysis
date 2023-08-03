@@ -8,10 +8,9 @@ import Register from '@/components/Register'
 import LabDashboardRouter from '@/components/lab/LabDashboard'
 import ProducerDashboardRouter from '@/components/producer/ProducerDashboard'
 import RegulatorDashboard from '@/components/regulatorDashboard/RegulatorDashboard'
-import Privacy from '@/components/PP'
-import TOS from '@/components/TOS'
-import Nav from '@/components/Nav'
-import Footer from '@/components/Footer'
+import PrivacyPolicy from '@/components/PrivacyPolicy'
+import TermsOfService from '@/components/TermsOfService'
+import SecurityStatement from '@/components/SecurityStatement'
 import '@/index.css'
 import { supabase } from '@/utils/supabase'
 import { SessionContextProvider } from '@supabase/auth-helpers-react'
@@ -22,14 +21,14 @@ function App() {
   return (
     <SessionContextProvider supabaseClient={supabase}>
       <Router>
-        <Nav />
         <Switch>
           <Route exact path="/" component={Landing} />
           <Route path="/login" component={Login} />
           <Route path="/register" component={Register} />
           <Route path="/leftsidebar" component={LeftSideBar} />
-          <Route path="/privacy" component={Privacy} />
-          <Route path="/tos" component={TOS} />
+          <Route path="/privacy" component={PrivacyPolicy} />
+          <Route path="/tos" component={TermsOfService} />
+          <Route path="/security" component={SecurityStatement} />
 
           <ProtectedRoute
             component={LabDashboardRouter}
@@ -69,7 +68,6 @@ function App() {
             </div>
           </Route>
         </Switch>
-        <Footer />
       </Router>
     </SessionContextProvider>
   )
