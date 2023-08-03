@@ -51,18 +51,21 @@ export interface Database {
           finished_at: string
           id: string
           lab_order_id: string | null
+          regulator_review_id: string | null
           started_at: string | null
         }
         Insert: {
           finished_at?: string
           id?: string
           lab_order_id?: string | null
+          regulator_review_id?: string | null
           started_at?: string | null
         }
         Update: {
           finished_at?: string
           id?: string
           lab_order_id?: string | null
+          regulator_review_id?: string | null
           started_at?: string | null
         }
         Relationships: [
@@ -70,6 +73,12 @@ export interface Database {
             foreignKeyName: "analysis_lab_order_id_fkey"
             columns: ["lab_order_id"]
             referencedRelation: "lab_order"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "analysis_regulator_review_id_fkey"
+            columns: ["regulator_review_id"]
+            referencedRelation: "regulator_review"
             referencedColumns: ["id"]
           }
         ]
@@ -889,7 +898,6 @@ export interface Database {
       }
       regulator_review: {
         Row: {
-          analysis_id: string
           approved: boolean
           created_at: string
           id: string
@@ -897,7 +905,6 @@ export interface Database {
           regulator_user_id: string
         }
         Insert: {
-          analysis_id: string
           approved?: boolean
           created_at?: string
           id?: string
@@ -905,7 +912,6 @@ export interface Database {
           regulator_user_id: string
         }
         Update: {
-          analysis_id?: string
           approved?: boolean
           created_at?: string
           id?: string
@@ -913,12 +919,6 @@ export interface Database {
           regulator_user_id?: string
         }
         Relationships: [
-          {
-            foreignKeyName: "regulator_review_analysis_id_fkey"
-            columns: ["analysis_id"]
-            referencedRelation: "analysis"
-            referencedColumns: ["id"]
-          },
           {
             foreignKeyName: "regulator_review_regulator_user_id_fkey"
             columns: ["regulator_user_id"]
