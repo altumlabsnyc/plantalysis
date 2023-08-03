@@ -11,6 +11,7 @@ import isValidEmail from '@/utils/isValidEmail'
 import toE164 from '@/utils/toE164'
 import {
   Box,
+  Button,
   CssBaseline,
   FormControlLabel,
   Grid,
@@ -25,7 +26,8 @@ import { passwordStrength as checkPasswordStrength } from 'check-password-streng
 import { ChangeEvent, FormEvent, useState } from 'react'
 import { Toaster, toast } from 'react-hot-toast'
 import { useHistory } from 'react-router-dom'
-import background from './assets/login/img/frame.png'
+import backgroundImage from './assets/img/hero.png'
+import logo from './assets/img/plantalysis.png'
 import Spinner from './common/Spinner'
 import PasswordStrengthMeter from './onboarding/PasswordStrengthMeter'
 
@@ -244,23 +246,111 @@ export default function Register() {
         sm={4}
         md={7}
         sx={{
-          backgroundImage: `url(${background})`,
-          backgroundRepeat: 'no-repeat',
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          position: 'relative', // Add relative position to the Grid item
+          position: 'relative',
         }}
       >
+        {/* <video
+          autoPlay
+          loop
+          muted
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover',
+          }}
+        >
+          <source src={backgroundVideo} type="video/mp4" />
+        </video> */}
+        <img
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover',
+          }}
+          src={backgroundImage}
+        />
+
         <Typography
           component="h1"
           variant="h3"
           sx={{
             position: 'absolute',
-            top: '20%',
-            left: '20%',
+            top: '35%',
+            left: '50%',
             transform: 'translate(-50%, -50%)',
             color: 'white',
             fontWeight: 'bold',
+            textShadow: '2px 2px 16px rgba(0, 0, 0, 1)',
+          }}
+        >
+          PLANTALYSIS
+        </Typography>
+
+        <a href="https://www.plantalysis.com">
+          <img
+            src={logo}
+            alt="Logo"
+            style={{
+              position: 'absolute',
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+              width: '150px',
+              height: '150px',
+              borderRadius: '75%',
+              marginTop: '20px',
+            }}
+          />
+        </a>
+        <a href="https://www.plantalysis.com">
+          <img
+            src={logo}
+            alt="Logo"
+            style={{
+              position: 'absolute',
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+              width: '150px',
+              height: '150px',
+              borderRadius: '75%',
+              marginTop: '20px',
+            }}
+          />
+        </a>
+        <a href="https://www.plantalysis.com">
+          <img
+            src={logo}
+            alt="Logo"
+            style={{
+              position: 'absolute',
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+              width: '150px',
+              height: '150px',
+              borderRadius: '75%',
+              marginTop: '20px',
+            }}
+          />
+        </a>
+        <Typography
+          component="h1"
+          variant="h3"
+          sx={{
+            position: 'absolute',
+            top: '70%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            color: 'white',
+            fontWeight: 'bold',
+            textShadow: '2px 2px 16px rgba(0, 0, 0, 1)',
           }}
         >
           Join Us
@@ -546,9 +636,26 @@ export default function Register() {
                   )}
               </div>
             )}
-            <button
+            <Button
               type="submit"
-              className="relative flex items-center mt-4 mx-auto bg-yellow-400 px-6 py-2 rounded-md shadlow-lg transition-all hover:bg-yellow-500 duration-300 text-white"
+              variant="contained"
+              sx={{
+                mt: 3,
+                mb: 2,
+                mx: 'auto', // Add this line
+                display: 'block', // And this line
+                backgroundColor: '#62c191',
+                color: 'white',
+                '&:hover': {
+                  backgroundColor: '#62c191',
+                },
+                boxShadow: '0 3px 5px 2px rgba(0, 0, 0, .3)',
+                textTransform: 'none',
+                fontSize: '1rem',
+                padding: '0.5rem 2rem',
+                borderRadius: '20px',
+                transition: 'all 0.3s cubic-bezier(.25,.8,.25,1)',
+              }}
             >
               {loading && (
                 <div className="absolute right-2 bottom-2.5">
@@ -556,7 +663,7 @@ export default function Register() {
                 </div>
               )}
               Continue
-            </button>
+            </Button>
             <Copyright sx={{ mt: 5 }} />
           </Box>
         </Box>

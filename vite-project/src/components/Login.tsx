@@ -15,8 +15,11 @@ import redirectByRole from '@/utils/redirectByRole'
 import { useUser } from '@supabase/auth-helpers-react'
 import { useState } from 'react'
 import { useHistory } from 'react-router-dom'
-import background from './assets/login/img/frame.png'
+import background from './assets/login/img/frame.jpg'
 import Spinner from './common/Spinner'
+
+import logo from './assets/img/blackP.jpg'
+import backgroundVideo from './assets/vid/BGV_480p.mp4'
 
 function Copyright(props: any) {
   return (
@@ -86,26 +89,104 @@ export default function SignInSide() {
         sm={4}
         md={7}
         sx={{
-          backgroundImage: `url(${background})`,
-          backgroundRepeat: 'no-repeat',
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          position: 'relative', // Add relative position to the Grid item
+          position: 'relative',
         }}
       >
+        <video
+          autoPlay
+          loop
+          muted
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover',
+          }}
+        >
+          <source src={backgroundVideo} type="video/mp4" />
+        </video>
+
         <Typography
           component="h1"
           variant="h3"
           sx={{
             position: 'absolute',
-            top: '20%',
-            left: '20%',
+            top: '35%',
+            left: '50%',
             transform: 'translate(-50%, -50%)',
             color: 'white',
             fontWeight: 'bold',
+            textShadow: '2px 2px 16px rgba(0, 0, 0, 1)',
           }}
         >
-          Log In
+          PLANTALYSIS
+        </Typography>
+
+        <a href="https://www.plantalysis.com">
+          <img
+            src={logo}
+            alt="Logo"
+            style={{
+              position: 'absolute',
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+              width: '150px',
+              height: '150px',
+              borderRadius: '75%',
+              marginTop: '20px',
+            }}
+          />
+        </a>
+
+        <a href="https://www.plantalysis.com">
+          <img
+            src={logo}
+            alt="Logo"
+            style={{
+              position: 'absolute',
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+              width: '150px',
+              height: '150px',
+              borderRadius: '75%',
+              marginTop: '20px',
+            }}
+          />
+        </a>
+        <a href="https://www.plantalysis.com">
+          <img
+            src={logo}
+            alt="Logo"
+            style={{
+              position: 'absolute',
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+              width: '150px',
+              height: '150px',
+              borderRadius: '75%',
+              marginTop: '20px',
+            }}
+          />
+        </a>
+        <Typography
+          component="h1"
+          variant="h3"
+          sx={{
+            position: 'absolute',
+            top: '70%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            color: 'white',
+            fontWeight: 'bold',
+            textShadow: '2px 2px 16px rgba(0, 0, 0, 1)',
+          }}
+        >
+          LOG-IN
         </Typography>
       </Grid>
       <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
@@ -124,7 +205,7 @@ export default function SignInSide() {
           <p className="text-sm mt-1">
             {user ? (
               <span>
-                Logged in as {user.email}.{' '}
+                You&apos;re logged in as {user.email}.{' '}
                 <span
                   className="underline text-blue-500 cursor-pointer"
                   onClick={() => {
@@ -132,7 +213,7 @@ export default function SignInSide() {
                     redirectByRole(history, user.app_metadata.plantalysis_role)
                   }}
                 >
-                  Jump to dashboard
+                  Dashboard
                 </span>
               </span>
             ) : (
@@ -175,7 +256,7 @@ export default function SignInSide() {
             />
             <button
               type="submit"
-              className="flex items-center justify-center mt-3 mb-4 bg-yellow-400 hover:bg-yellow-500 transition-all duration-200 w-full p-2 rounded-md text-white font-bold"
+              className="flex items-center justify-center mt-3 mb-4 bg-green-400 hover:bg-green-500 transition-all duration-200 w-full p-2 rounded-md text-white font-bold"
             >
               <div className="relative px-4 flex items-center">
                 {loading && (
@@ -189,12 +270,12 @@ export default function SignInSide() {
             <Grid container>
               <Grid item xs>
                 <Link href="#" variant="body2">
-                  Forgot password?
+                  Forgot Password?
                 </Link>
               </Grid>
               <Grid item>
                 <Link href="/register" variant="body2">
-                  {"Don't have an account? Sign Up"}
+                  {'Sign Up'}
                 </Link>
               </Grid>
             </Grid>
