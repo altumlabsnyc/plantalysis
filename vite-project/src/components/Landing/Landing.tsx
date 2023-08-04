@@ -247,7 +247,6 @@ const Plantalysis: React.FC = () => {
                           <a
                             className="btn-anchor anchor-black mb-0 ml-3"
                             href="/register"
-                            target="_blank"
                           >
                             Sign Up
                           </a>
