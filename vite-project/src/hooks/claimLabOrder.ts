@@ -1,11 +1,9 @@
 import { supabase } from '@/utils/supabase'
-import { User } from '@supabase/supabase-js'
 
 import toast from 'react-hot-toast'
 import { KeyedMutator } from 'swr'
 
 export const claimLabOrder = async (
-  user: User | null,
   claimFacilityId: string,
   lab_order_id: string,
   mutate: KeyedMutator<any>,

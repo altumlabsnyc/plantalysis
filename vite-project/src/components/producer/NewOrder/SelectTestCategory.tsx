@@ -17,8 +17,6 @@ export default function SelectTestCategory({
   const { data: categoryDetails, mutate } = useTestCategoriesDetails(true)
   const [showAddFacility, setShowAddFacility] = useState(false)
 
-  console.log(categoryDetails)
-
   return (
     <>
       <AddFacilityPopup

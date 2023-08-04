@@ -122,7 +122,6 @@ export default function ClaimOrderPopup({
                   onClick={async () => {
                     setLoading(true)
                     await claimLabOrder(
-                      user,
                       activeFacility.id,
                       activeLabOrder.id,
                       mutate,
