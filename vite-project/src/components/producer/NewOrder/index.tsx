@@ -85,7 +85,7 @@ export default function NewOrder() {
     console.log(orderDetailsToPriceId(selectedTurnaroundTime))
 
     const response = await fetch(
-      `${import.meta.env.VITE_BACKEND_DOMAIN}/create-checkout-session`,
+      `https://pay.plantalysis.com/create-checkout-session`,
       {
         method: 'POST',
         headers: {
