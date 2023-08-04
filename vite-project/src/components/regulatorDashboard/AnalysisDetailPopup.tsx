@@ -5,6 +5,9 @@ import { useUser } from '@supabase/auth-helpers-react'
 import { Fragment, useState } from 'react'
 import { toast } from 'react-hot-toast'
 import Table from '../Table/Table'
+import { approveLabOrder } from '@/hooks/approveLabOrder'
+import Spinner from '../common/Spinner'
+import useUserDetails, { RegulatorWithAddress } from '@/hooks/useUserDetails'
 
 type AnalysisDetailTableRow = {
     test_category_name: string
@@ -15,12 +18,18 @@ type AnalysisDetailTableRow = {
 interface Props {
     activeAnalysis: ForApproval | null
     setClose: () => void
+    oldData: ForApproval[]
 }
 
 const columnHelper = createColumnHelper<AnalysisDetailTableRow>()
 
-export default function AnalysisDetailPopup({ activeAnalysis, setClose }: Props) {
+export default function AnalysisDetailPopup({ activeAnalysis, setClose, oldData }: Props) {
     const user = useUser()
+    const { data: userDetails } = useUserDetails(user)
+    const roleDetails = userDetails?.roleDetails as RegulatorWithAddress
+    const state = roleDetails && roleDetails.address.state_code
+
+    const [isLoading, setIsLoading] = useState<boolean>(false)
 
     const data = activeAnalysis?.tests?.map(
         ({ test: { test_category_name }, reqResults }) =>
@@ -31,7 +40,6 @@ export default function AnalysisDetailPopup({ activeAnalysis, setClose }: Props)
                     test_requirement_name,
                     test_result
                 }))).flat() || []
-    console.log(data)
 
     const columns = [
         columnHelper.accessor('test_category_name', {
@@ -52,6 +60,25 @@ export default function AnalysisDetailPopup({ activeAnalysis, setClose }: Props)
 
     function closeModal() {
         setClose()
+    }
+
+    async function onApproveOrder() {
+        if (isLoading) return
+        if (!activeAnalysis || !activeAnalysis.analysis_id) {
+            toast.error('Error approving analysis. Please contact Altum Labs Support.')
+            return
+        }
+
+        setIsLoading(true)
+
+        try {
+            await approveLabOrder(activeAnalysis.analysis_id, user, oldData, state)
+        } catch (error) {
+            setIsLoading(false)
+        }
+
+        setIsLoading(false)
+        closeModal()
     }
 
     return (
@@ -81,12 +108,35 @@ export default function AnalysisDetailPopup({ activeAnalysis, setClose }: Props)
                             leaveTo="opacity-0 scale-95"
                         >
                             <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
-                                <Dialog.Title
-                                    as="h3"
-                                    className="text-lg font-semibold leading-6 text-gray-900"
-                                >
-                                    Analysis Details
-                                </Dialog.Title>
+                                <div className="flex items-center">
+                                    <Dialog.Title
+                                        as="h3"
+                                        className="font-semibold text-gray-900"
+                                        style={{
+                                            fontSize: '1.125rem',
+                                            lineHeight: '1.125rem',
+                                            height: '1.125rem',
+                                            textAlign: 'center'
+                                        }}
+                                    >
+                                        Analysis Details
+                                    </Dialog.Title>
+
+                                    <button
+                                        className="relative flex items-center ml-auto bg-yellow-400 px-6 py-2 rounded-md shadlow-lg transition-all hover:bg-yellow-500 duration-300 text-white"
+                                        onClick={onApproveOrder}
+                                    >
+                                        {
+                                            isLoading
+                                            && (
+                                                <div className="absolute right-2 bottom-2.5">
+                                                    <Spinner size="xs" />
+                                                </div>
+                                            )
+                                        }
+                                        Approve
+                                    </button>
+                                </div>
                                 <Table<AnalysisDetailTableRow>
                                     data={data}
                                     columns={columns}

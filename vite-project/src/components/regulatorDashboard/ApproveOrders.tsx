@@ -28,8 +28,8 @@ export default function ApproveOrders() {
   const { data, error, isLoading } = useAnalysis(
     roleDetails && roleDetails.address.state_code,
   )
-  
-  const [activeAnalysis, setActiveAnalysis] = useState<ForApproval|null>(null)
+
+  const [activeAnalysis, setActiveAnalysis] = useState<ForApproval | null>(null)
 
   const columns = [
     columnHelper.accessor('lab_name', {
@@ -58,7 +58,7 @@ export default function ApproveOrders() {
             color: '#457F6C',
           }}
           className="my-1 text-sm cursor-pointer flex items-center"
-          onClick={() => {setActiveAnalysis(info.cell.row.original)}}
+          onClick={() => { setActiveAnalysis(info.cell.row.original) }}
         >
           <span>View Details</span>
         </div>
@@ -81,8 +81,9 @@ export default function ApproveOrders() {
     <div className="w-full flex flex-wrap justify-around">
       <div className="flex flex-col justify-between gap-4 h-full">
         <AnalysisDetailPopup
-        activeAnalysis={activeAnalysis}
-        setClose={() => setActiveAnalysis(null)}
+          activeAnalysis={activeAnalysis}
+          setClose={() => setActiveAnalysis(null)}
+          oldData={data}
         />
         <Panel>
           <div className="w-128 py-2 max-h-64 overflow-y-scroll">

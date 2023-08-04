@@ -67,6 +67,7 @@ export function useAnalysis(state: string) {
       .is('analysis.regulator_review_id', null)
       .eq('batch.producer_facility.address.state_code', state)
       .then(({data, error})=>{
+        console.log(data)
         if (data){
           analysisData = data.map((order)=>{
 
