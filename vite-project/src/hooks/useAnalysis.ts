@@ -103,12 +103,12 @@ export function useAnalysis(state: string) {
                       state_code: reqPreProcessed.state_code,
                     }
                     if (reqPreProcessed.test_result.length === 0) {
-                      toast.error(
-                        'no result associated with a mandatory requirement. Please contact Altum support',
-                      )
-                      throw new Error(
-                        'every requirement needs to be associated for a result in a given analysis',
-                      )
+                      // toast.error(
+                      //   'no result associated with a mandatory requirement. Please contact Altum support',
+                      // )
+                      // throw new Error(
+                      //   'every requirement needs to be associated for a result in a given analysis',
+                      // )
                     }
                     const result = reqPreProcessed.test_result[0]
                     return { requirement: req, result: result }

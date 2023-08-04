@@ -26,6 +26,7 @@ export default function ApproveOrders() {
   const { data, error, isLoading } = useAnalysis(
     roleDetails && roleDetails.address.state_code,
   )
+  console.log(data)
 
   const [activeAnalysis, setActiveAnalysis] = useState<ForApproval | null>(null)
 
