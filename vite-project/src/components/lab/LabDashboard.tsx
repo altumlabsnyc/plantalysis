@@ -13,7 +13,6 @@ import toast from 'react-hot-toast'
 import { Link, Redirect, Route, useHistory } from 'react-router-dom'
 import '../assets/dashboard/css/styles.css'
 import Upload from '../regulatorDashboard/Upload.js'
-import CurrentOrders from './CurrentOrders'
 
 interface LabDashboardProps {
   children: React.ReactNode
@@ -193,9 +192,6 @@ export default function LabDashboardRouter() {
       </Route>
       <Route path="/dashboard/lab/upload">
         <Upload />
-      </Route>
-      <Route path="/dashboard/lab/current-orders">
-        <CurrentOrders />
       </Route>
       <Route path="/dashboard/lab/claim">
         <LabDashboardContent />
