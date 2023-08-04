@@ -2,18 +2,14 @@ import {
   developerPriceIds,
   productionPriceIds,
 } from '@/constants/stripeConstants'
-import { ProductType, TurnaroundTime } from '@/types/supabaseAlias'
+import { TurnaroundTime } from '@/types/supabaseAlias'
 
 /**
  * Given a product type and a turnaround time, convert to a stripe price id
  *
- * @param productType product type
  * @param turnaroundTime turnaround time
  */
-export default function orderDetailsToPriceId(
-  productType: ProductType,
-  turnaroundTime: TurnaroundTime,
-) {
+export default function orderDetailsToPriceId(turnaroundTime: TurnaroundTime) {
   const ids = import.meta.env.DEV ? developerPriceIds : productionPriceIds
 
   switch (turnaroundTime) {

@@ -1,89 +1,30 @@
-import { Batch, Facility, LabOrder } from '@/types/supabaseAlias'
+import {
+  Address,
+  Batch,
+  Facility,
+  LabOrder,
+  Test,
+  TestRequirement,
+} from '@/types/supabaseAlias'
 import { supabase } from '@/utils/supabase'
 import { User } from '@supabase/supabase-js'
 import toast from 'react-hot-toast'
 import useSWR from 'swr'
 
-export enum LabOrdersRequested {
-  claimedByALab = 'claimed',
-  unClaimedByLab = 'unclaimed',
-  ofAProducer = 'ofProducer',
-  allOrders = 'all',
-}
-
-/**
- * SWR hook that fetches all lab orders from Supabase. Returns all lab order details.
- *
- * @param user supabase user object
- * @returns {data, error, isLoading} data is null if user is null, otherwise it is
- * an object with userDetails and roleDetails. error is the error object from SWR.
- */
-export default function useLabOrders(
-  user: User | null,
-  requested: LabOrdersRequested,
-) {
-  const fetcher = async () => {
-    const { data: data, error: error } = await supabase
-      .from('lab_order')
-      .select('*')
-
-    if (error) {
-      console.log(error)
-      toast.error('Error fetching orders. Please contact Altum Labs Support.')
-      throw new Error('error retrieving lab_order data')
-    }
-
-    if (!data) {
-      throw new Error('no data returned by fetch to lab_orders')
-    }
-
-    return data
-  }
-
-  const { data, error, isLoading } = useSWR(
-    user ? `/api/lab_order/${requested}/${user.id}` : null,
-    fetcher,
-  )
-  let fetchingFunction = (
-    allOrders: LabOrder[] | undefined,
-    user: User | null,
-  ): LabOrder[] => {
-    return allOrders ? allOrders : []
-  }
-
-  switch (requested) {
-    case LabOrdersRequested.allOrders:
-      fetchingFunction = getAllOrders
-      break
-    case LabOrdersRequested.claimedByALab:
-      fetchingFunction = getUserClaimedOrders
-      break
-    case LabOrdersRequested.unClaimedByLab:
-      fetchingFunction = getUnClaimedOrders
-      break
-    case LabOrdersRequested.ofAProducer:
-      fetchingFunction = getProducerOrders
-      break
-    default:
-      throw new Error('Please provide a valid type of fetch for lab orders')
-  }
-
-  const filteredData = fetchingFunction(data, user)
-
-  return {
-    data: filteredData as LabOrder[] | null,
-    error,
-    isLoading,
-  }
-}
-
 export type LabRequest = LabOrder & {
   batch: Batch
-  facility: Facility | null
+  producer_facility:
+    | (Facility & {
+        address: Address
+      })
+    | null
+  tests: (Test & {
+    test_requirements: TestRequirement[]
+  })[]
 }
 
 //HELPERS FOR LAB_ORDERS FETCHING
-export function useLabOrderRequests(user: User | null) {
+export function useLabOrderRequests(user: User | null, state?: string) {
   const fetcher = async () => {
     let ordersData = null
 
@@ -92,19 +33,30 @@ export function useLabOrderRequests(user: User | null) {
       .select(
         `
         *,
-        batch (
+        batch!inner (
           *,
-          producer_facility ( * )
+          producer_facility!inner ( *,
+            address!inner ( * )
+          )
+        ),
+        lab_order_on_test ( *,
+          test ( *,
+            test_requirements:test_requirement ( * ) 
+          )
         )
         `,
       )
-      .is('lab_user_id', null)
+      .is('lab_facility_id', null)
+      .eq('batch.producer_facility.address.state_code', state || 'NY')
+
+    console.log(data)
 
     if (data != null) {
       ordersData = data.map((order) => ({
         ...order,
         batch: order.batch,
-        facility: order.batch?.producer_facility,
+        producer_facility: order.batch?.producer_facility,
+        tests: order.lab_order_on_test.map((test) => test.test),
       })) as LabRequest[]
     }
 
@@ -122,8 +74,11 @@ export function useLabOrderRequests(user: User | null) {
   }
 
   const { data, error, isLoading, mutate } = useSWR(
-    user ? '/api/lab_orders/' : null,
+    user ? `/api/lab_orders/${state}` : null,
     fetcher,
+    {
+      refreshInterval: 1000,
+    },
   )
 
   return {
@@ -134,59 +89,48 @@ export function useLabOrderRequests(user: User | null) {
   }
 }
 
-/**
- * Fetches claimed orders by a specific lab user
- * @param allOrders : all lab_orders in file
- * @param user expects user.user_type to be "lab"
- *
- * @returns the list of the lab orders that belong to that specific user
- */
+export function useLabClaimedOrders(user: User | null) {
+  const fetcher = async () => {
+    let orders: LabOrder[]
+    let orderError: any
+    const labOrderPromise = supabase
+      .from('lab_order')
+      .select(
+        `
+    *,
+    lab_facility!inner(
+      lab_user_id
+    )`,
+      )
+      .eq('lab_facility.lab_user_id', user?.id)
+      .then(({ data, error }) => {
+        if (data) {
+          orders = data
+          orderError = error
+        } else {
+          toast.error(
+            'Unable to fetch lab orders of this lab. Please contact Altum Labs support',
+          )
+          throw new Error('Cannot fetch lab orders of this user')
+        }
+      })
 
-export function getUserClaimedOrders(
-  allOrders: LabOrder[] | undefined,
-  user: User | null,
-): Array<LabOrder> {
-  if (allOrders) {
-    const claimedOrders = allOrders.filter((order) => {
-      return order.lab_user_id === user?.id
-    })
-    return claimedOrders
+    await labOrderPromise
+
+    if (orderError) {
+      console.log(orderError)
+      toast.error('error fetching user orders')
+      throw new Error('error fetching user orders')
+    }
+
+    //@ts-ignore
+    if (!orders) {
+      return null
+    }
+
+    // Return the combined data
+    return orders
   }
-  return []
-}
-
-/**
- * Fetches unclaimed orders
- * @param allOrders : all lab_orders in file
- *
- * @returns the list of the lab orders that dont have an assigned lab user
- */
-export function getUnClaimedOrders(
-  allOrders: LabOrder[] | undefined,
-  user: User | null,
-): Array<LabOrder> {
-  if (allOrders) {
-    const unclaimedOrders = allOrders.filter((order) => {
-      return order.lab_user_id === null
-    })
-    return unclaimedOrders
-  }
-  return []
-}
-
-export function getAllOrders(
-  allOrders: LabOrder[] | undefined,
-  user: User | null,
-): Array<LabOrder> {
-  return allOrders ? allOrders : []
-}
-
-export function getProducerOrders(
-  allOrders: LabOrder[] | undefined,
-  user: User | null,
-): Array<LabOrder> {
-  // todo: UPDATE THIS FUNCTION
-  return allOrders ? allOrders : []
 }
 
 export interface ProducerLabOrderDetails {
@@ -224,7 +168,7 @@ export function useProducerPlacedOrders(user: User | null) {
         ordersData = data?.map((order) => {
           const orderData: ProducerLabOrderDetails = {
             id: order.id,
-            lab_user_id: order.lab_user_id,
+            lab_user_id: order.lab_facility_id,
             order_time: order.order_time,
             location: order.batch?.producer_facility?.address?.line_1 || '',
             analysis_approved: null,

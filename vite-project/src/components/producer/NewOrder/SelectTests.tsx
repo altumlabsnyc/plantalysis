@@ -1,29 +1,55 @@
-import useTestDetails from '@/hooks/useTests'
-import { TestCategory, Test } from '@/types/supabaseAlias'
-import { Listbox, Transition } from '@headlessui/react'
-import { CheckIcon, ChevronUpDownIcon } from '@heroicons/react/20/solid'
-import { Fragment, useState } from 'react'
-import AddFacilityPopup from './AddFacilityPopup'
+import useTestDetails, { TestWithLocalRequirements } from '@/hooks/useTests'
+import { TestCategory, TestRequirement } from '@/types/supabaseAlias'
 import classNames from 'classnames'
+import { useEffect, useState } from 'react'
 
 interface Props {
-  selectedTests: Set<Test> | undefined
-  setSelectedTests: (tests: Set<Test>) => void
+  selectedTests: Set<TestWithLocalRequirements> | undefined
+  setSelectedTests: (tests: Set<TestWithLocalRequirements>) => void
   category: TestCategory
+  state: string | undefined
 }
 
 export default function SelectTests({
   selectedTests,
   setSelectedTests,
   category,
+  state,
 }: Props) {
-  const { data: testsDetails, mutate } = useTestDetails(category)
-  console.log(testsDetails)
+  // console.log(state)
+  const { data: testsDetails, mutate } = useTestDetails(category, true, state)
+  // console.log(testsDetails)
+
+  const [testRequirements, setTestRequirements] = useState<TestRequirement[]>(
+    [],
+  )
+
+  useEffect(() => {
+    if (selectedTests) {
+      const requirements = Array.from(selectedTests).reduce(
+        (acc: TestRequirement[], test) => {
+          if (test.test_requirements) {
+            return [...acc, ...test.test_requirements]
+          }
+          return acc
+        },
+        [],
+      )
+      setTestRequirements(requirements)
+    }
+  }, [selectedTests])
+
+  // console.log(testRequirements)
 
   return (
     <div className="mt-2">
       <label className="sr-only">Choose the tests you want to perform</label>
       <div className="flex justify-center gap-4">
+        {testsDetails?.length === 0 && (
+          <p className="text-red-400">
+            No tests under available {category.name} for your region yet!
+          </p>
+        )}
         {testsDetails?.map((option) => (
           <label
             key={option.name}
@@ -37,11 +63,12 @@ export default function SelectTests({
                 'ring-1 ring-inset ring-gray-300 bg-white text-gray-900 hover:bg-gray-50':
                   selectedTests && !selectedTests.has(option),
               },
-              'transition-all duration-300  flex items-center justify-center rounded-md py-2.5 px-2 text-sm font-semibold sm:flex-1',
+              'transition-all cursor-pointer duration-300  flex items-center justify-center rounded-md py-2.5 px-2 text-sm font-semibold sm:flex-1',
             )}
           >
             <input
               type="checkbox"
+              className="hidden"
               checked={selectedTests && selectedTests.has(option)}
               onChange={() => {
                 const updatedTests = new Set(selectedTests)
@@ -57,6 +84,18 @@ export default function SelectTests({
           </label>
         ))}
       </div>
+      {testRequirements.length > 0 && (
+        <>
+          The following levels will be tested:
+          <ul className="text-sm max-h-36 overflow-scroll my-0">
+            {testRequirements.map((requirement) => (
+              <li className="text-sm my-0" key={requirement.id}>
+                {requirement.name}
+              </li>
+            ))}
+          </ul>
+        </>
+      )}
     </div>
   )
 }

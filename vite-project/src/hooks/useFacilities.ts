@@ -1,4 +1,4 @@
-import { Facility } from '@/types/supabaseAlias'
+import { Address, Facility } from '@/types/supabaseAlias'
 import { supabase } from '@/utils/supabase'
 import { User } from '@supabase/supabase-js'
 import useSWR from 'swr'
@@ -6,6 +6,10 @@ import useSWR from 'swr'
 import toast from 'react-hot-toast'
 
 //   const user = useUser();
+
+export type FacilityWithAddress = Facility & {
+  address: Address
+}
 
 /**
  * SWR hook that fetches facilities of a specific user from Supabase. Returns all facility details.
@@ -15,13 +19,20 @@ import toast from 'react-hot-toast'
  * an object with userDetails and roleDetails. error is the error object from SWR.
  */
 export default function useFacilitiesDetails(user: User | null) {
+  const userType = user?.app_metadata.plantalysis_role
+  console.log(userType)
   const fetcher = async () => {
     let facilityError: any, facilityData: Array<Facility> | null
 
     const facilityFetchPromise = supabase
-      .from('producer_facility')
-      .select('*')
-      .eq('producer_user_id', user?.id)
+      .from(`${userType}_facility`)
+      .select(
+        `
+        *,
+        address ( * )
+      `,
+      )
+      .eq(`${userType}_user_id`, user?.id)
       .then(({ data, error }) => {
         facilityData = data
         facilityError = error
@@ -53,7 +64,7 @@ export default function useFacilitiesDetails(user: User | null) {
   )
 
   return {
-    data: data as Facility[] | null,
+    data: data as FacilityWithAddress[] | null,
     error,
     isLoading,
     mutate,

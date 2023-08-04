@@ -1,4 +1,4 @@
-// Nav bar used in landing page and legal pages
+import React from 'react'
 import logo from './assets/img/plantalysis.png'
 import { Link } from 'react-router-dom'
 import './assets/css/styles.css'
@@ -32,7 +32,9 @@ const Nav = () => {
         <ul className="flex list-none m-0 p-0">
           <li className="ml-2">
             <a className="input-sans" href="/login">
-              <button className="btn btn-white mt-0 mb-0">Login</button>
+              <button className="btn btn-white border-black mt-0 mb-0 login-button">
+                Login
+              </button>
             </a>
           </li>
         </ul>

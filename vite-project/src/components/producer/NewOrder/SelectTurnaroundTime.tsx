@@ -43,14 +43,14 @@ export default function SelectProductType({
               setSelectedTurnaroundTime(option.type as TurnaroundTime)
             }
           >
-            <label
+            <span
               className={classNames(
                 { 'cursor-pointer': option.inStock },
                 { 'cursor-not-allowed': !option.inStock },
               )}
             >
               {fancyTurnaroundTime(option.type as TurnaroundTime)}
-            </label>
+            </span>
           </button>
         ))}
       </div>

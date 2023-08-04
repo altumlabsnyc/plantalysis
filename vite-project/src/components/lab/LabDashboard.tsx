@@ -10,11 +10,9 @@ import useUserDetails from '@/hooks/useUserDetails'
 import { useUser } from '@supabase/auth-helpers-react'
 import React, { useState } from 'react'
 import toast from 'react-hot-toast'
-import { Redirect, Route, Link, useHistory } from 'react-router-dom'
+import { Link, Redirect, Route, useHistory } from 'react-router-dom'
 import '../assets/dashboard/css/styles.css'
 import Upload from '../regulatorDashboard/Upload.js'
-import ClaimOrders from './ClaimOrders'
-import CurrentOrders from './CurrentOrders'
 
 interface LabDashboardProps {
   children: React.ReactNode
@@ -65,39 +63,33 @@ function LabDashboard({ children }: LabDashboardProps) {
   const headerLinks = [
     {
       label: 'Overview',
-      onClick: () =>
-        toast('Overview coming soon!', {
-          icon: '⭐',
-        }),
+      onClick: () => history.push('/dashboard/lab/overview'),
     },
+    // {
+    //   label: 'Upload',
+    //   onClick: () =>
+    //     toast('Upload coming soon!', {
+    //       icon: '⭐',
+    //     }),
+    // },
     {
-      label: 'Upload',
-      onClick: () =>
-        toast('Upload coming soon!', {
-          icon: '⭐',
-        }),
+      label: 'Claim Orders',
+      onClick: () => history.push('/dashboard/lab/claim'),
     },
-    {
-      label: 'QR Code',
-      onClick: () =>
-        toast('QR Code coming soon!', {
-          icon: '⭐',
-        }),
-    },
-    {
-      label: 'Calendar',
-      onClick: () =>
-        toast('Calendar coming soon!', {
-          icon: '⭐',
-        }),
-    },
-    {
-      label: 'Track Shipments',
-      onClick: () =>
-        toast('Track coming soon!', {
-          icon: '⭐',
-        }),
-    },
+    // {
+    //   label: 'Calendar',
+    //   onClick: () =>
+    //     toast('Calendar coming soon!', {
+    //       icon: '⭐',
+    //     }),
+    // },
+    // {
+    //   label: 'Track Shipments',
+    //   onClick: () =>
+    //     toast('Track coming soon!', {
+    //       icon: '⭐',
+    //     }),
+    // },
     {
       label: 'Settings',
       onClick: () =>
@@ -196,16 +188,13 @@ export default function LabDashboardRouter() {
   return (
     <LabDashboard>
       <Route path="/dashboard/lab/overview">
-        <LabDashboardContent />
+        <p>show orders here</p>
       </Route>
       <Route path="/dashboard/lab/upload">
         <Upload />
       </Route>
-      <Route path="/dashboard/lab/current-orders">
-        <CurrentOrders />
-      </Route>
-      <Route path="/dashboard/lab/claim-new-orders">
-        <ClaimOrders />
+      <Route path="/dashboard/lab/claim">
+        <LabDashboardContent />
       </Route>
       <Redirect from="/dashboard/lab" to="/dashboard/lab/overview" />
     </LabDashboard>

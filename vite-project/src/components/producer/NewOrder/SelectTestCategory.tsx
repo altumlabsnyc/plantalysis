@@ -1,4 +1,4 @@
-import useCategoriesDetails from '@/hooks/useTestCategories'
+import useTestCategoriesDetails from '@/hooks/useTestCategories'
 import { TestCategory } from '@/types/supabaseAlias'
 import { Listbox, Transition } from '@headlessui/react'
 import { CheckIcon, ChevronUpDownIcon } from '@heroicons/react/20/solid'
@@ -6,18 +6,16 @@ import { Fragment, useState } from 'react'
 import AddFacilityPopup from './AddFacilityPopup'
 
 interface Props {
-  selectedCategory: TestCategory | undefined
-  setSelectedCategory: (category: TestCategory) => void
+  selectedCategory: TestCategory | null
+  setSelectedCategory: (category: TestCategory | null) => void
 }
 
 export default function SelectTestCategory({
   selectedCategory,
   setSelectedCategory,
 }: Props) {
-  const { data: categoryDetails, mutate } = useCategoriesDetails()
+  const { data: categoryDetails, mutate } = useTestCategoriesDetails(true)
   const [showAddFacility, setShowAddFacility] = useState(false)
-
-  console.log(categoryDetails)
 
   return (
     <>
@@ -56,14 +54,14 @@ export default function SelectTestCategory({
             >
               <Listbox.Options
                 static
-                className="absolute bg-white mt-1 max-h-60 w-full overflow-auto rounded-md py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm"
+                className="list-none z-50 absolute bg-white mt-1 max-h-60 w-full overflow-auto rounded-md py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm"
               >
                 {categoryDetails &&
                   categoryDetails.map((category, categoryIdx) => (
                     <Listbox.Option
                       key={categoryIdx}
                       className={({ active }) =>
-                        `relative cursor-default select-none py-2 pl-10 pr-4 ${
+                        `relative cursor-pointer select-none py-2 pl-10 pr-4 ${
                           active
                             ? 'bg-amber-100 text-amber-900'
                             : 'text-gray-900'

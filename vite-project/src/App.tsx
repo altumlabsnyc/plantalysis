@@ -7,7 +7,7 @@ import ProtectedRoute from '@/components/ProtectedRoutes'
 import Register from '@/components/Register'
 import LabDashboardRouter from '@/components/lab/LabDashboard'
 import ProducerDashboardRouter from '@/components/producer/ProducerDashboard'
-import RegulatorDashboard from '@/components/regulatorDashboard/RegulatorDashboard'
+import RegulatorDashboardRouter from '@/components/regulatorDashboard/RegulatorDashboard'
 import PrivacyPolicy from '@/components/PrivacyPolicy'
 import TermsOfService from '@/components/TermsOfService'
 import SecurityStatement from '@/components/SecurityStatement'
@@ -16,6 +16,7 @@ import { supabase } from '@/utils/supabase'
 import { SessionContextProvider } from '@supabase/auth-helpers-react'
 import { Route, BrowserRouter as Router, Switch } from 'react-router-dom'
 import LabDashboardContent from './components/lab/LabDashboardContent'
+import Custom404 from './components/ErrorPage'
 // testing commit
 function App() {
   return (
@@ -29,6 +30,7 @@ function App() {
           <Route path="/privacy" component={PrivacyPolicy} />
           <Route path="/tos" component={TermsOfService} />
           <Route path="/security" component={SecurityStatement} />
+          <Route path="/error" component={Custom404} />
 
           <ProtectedRoute
             component={LabDashboardRouter}
@@ -43,7 +45,7 @@ function App() {
           />
 
           <ProtectedRoute
-            component={RegulatorDashboard}
+            component={RegulatorDashboardRouter}
             path="/dashboard/regulator"
             roles={['regulator']}
           />

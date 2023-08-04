@@ -25,6 +25,11 @@ export type LabOrder = Database['public']['Tables']['lab_order']['Row']
 
 export type TestCategory = Database['public']['Tables']['test_category']['Row']
 export type Test = Database['public']['Tables']['test']['Row']
+export type TestRequirement =
+  Database['public']['Tables']['test_requirement']['Row']
+export type TestResult = Database['public']['Tables']['test_result']['Row']
+export type RegulatorReview =
+  Database['public']['Tables']['regulator_review']['Row']
 
 export type UserRole = Database['public']['Enums']['user_type_enum']
 export type TurnaroundTime = Database['public']['Enums']['turnaround_time_enum']
