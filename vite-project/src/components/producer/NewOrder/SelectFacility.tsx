@@ -1,5 +1,6 @@
-import useFacilitiesDetails from '@/hooks/useFacilities'
-import { Facility } from '@/types/supabaseAlias'
+import useFacilitiesDetails, {
+  FacilityWithAddress,
+} from '@/hooks/useFacilities'
 import { Listbox, Transition } from '@headlessui/react'
 import { CheckIcon, ChevronUpDownIcon } from '@heroicons/react/20/solid'
 import { useUser } from '@supabase/auth-helpers-react'
@@ -7,8 +8,8 @@ import { Fragment, useState } from 'react'
 import AddFacilityPopup from './AddFacilityPopup'
 
 interface Props {
-  selectedFacility: Facility | undefined
-  setSelectedFacility: (facility: Facility) => void
+  selectedFacility: FacilityWithAddress | undefined
+  setSelectedFacility: (facility: FacilityWithAddress) => void
 }
 
 export default function SelectFacility({
@@ -59,14 +60,14 @@ export default function SelectFacility({
             >
               <Listbox.Options
                 static
-                className="absolute bg-white mt-1 max-h-60 w-full overflow-auto rounded-md py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm"
+                className="z-50 absolute bg-white mt-1 max-h-60 w-full overflow-auto rounded-md py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm"
               >
                 {facilitiesDetails &&
                   facilitiesDetails.map((facility, facilityIdx) => (
                     <Listbox.Option
                       key={facilityIdx}
                       className={({ active }) =>
-                        `relative cursor-default select-none py-2 pl-10 pr-4 ${
+                        `list-none relative cursor-pointer select-none py-2 pl-10 pr-4 ${
                           active
                             ? 'bg-amber-100 text-amber-900'
                             : 'text-gray-900'
@@ -96,7 +97,7 @@ export default function SelectFacility({
                     </Listbox.Option>
                   ))}
                 <Listbox.Option
-                  className={`list-none relative cursor-pointer select-none py-2`}
+                  className={`ml-3 list-none relative cursor-pointer select-none py-2`}
                   onClick={() => {
                     setShowAddFacility(true)
                   }}

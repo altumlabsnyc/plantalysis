@@ -18,3 +18,6 @@ env_variables:
   SUCCESS_URL: "/dashboard/producer/orders"
   CANCEL_URL: "/dashboard/producer/new-order"
   FRONTEND_DOMAIN: "https://plantalysis.com"
+  EMAIL_USERNAME: "team@altumlabs.co"
+  EMAIL_PASS: "erpbhhdhhyujxodq"
+  DEMO_RECEIVER: "sales@altumlabs.co"
