@@ -8,7 +8,7 @@ import { Fragment, useState } from 'react'
 import AddFacilityPopup from './AddFacilityPopup'
 
 interface Props {
-  selectedFacility: FacilityWithAddress | undefined | null
+  selectedFacility: FacilityWithAddress | null
   setSelectedFacility: (facility: FacilityWithAddress | null) => void
 }
 

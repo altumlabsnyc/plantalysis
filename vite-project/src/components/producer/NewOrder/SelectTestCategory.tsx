@@ -6,8 +6,8 @@ import { Fragment, useState } from 'react'
 import AddFacilityPopup from './AddFacilityPopup'
 
 interface Props {
-  selectedCategory: TestCategory | undefined
-  setSelectedCategory: (category: TestCategory) => void
+  selectedCategory: TestCategory | null
+  setSelectedCategory: (category: TestCategory | null) => void
 }
 
 export default function SelectTestCategory({

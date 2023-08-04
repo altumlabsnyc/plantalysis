@@ -38,13 +38,12 @@ export default function NewOrder() {
 
   const [loadingCheckout, setLoadingCheckout] = useState(false)
   const [stripe, setStripe] = useState<Stripe | null>(null)
-  const [selectedFacility, setSelectedFacility] = useState<
-    FacilityWithAddress | undefined
-  >(facilitiesDetails?.[0])
+  const [selectedFacility, setSelectedFacility] =
+    useState<FacilityWithAddress | null>(facilitiesDetails?.[0] || null)
 
-  const [selectedCategory, setSelectedCategory] = useState<
-    TestCategory | undefined
-  >()
+  const [selectedCategory, setSelectedCategory] = useState<TestCategory | null>(
+    null,
+  )
 
   const [selectedTests, setSelectedTests] = useState<
     Set<TestWithLocalRequirements>
