@@ -2,6 +2,9 @@ import { createColumnHelper } from '@tanstack/react-table'
 import Panel from './Panel'
 import Table from './Table/Table'
 
+import useFacilitiesDetails, {
+  FacilityWithAddress,
+} from '@/hooks/useFacilities'
 import { LabRequest, useLabOrderRequests } from '@/hooks/useLabOrders'
 import { LabOrder } from '@/types/supabaseAlias'
 import { useUser } from '@supabase/auth-helpers-react'
@@ -9,7 +12,7 @@ import classNames from 'classnames'
 import { useEffect } from 'react'
 import './assets/css/panel.css'
 import Spinner from './common/Spinner'
-import useFacilitiesDetails from '@/hooks/useFacilities'
+import SelectFacility from './producer/NewOrder/SelectFacility'
 // import useUnapprovedOrderRequests from "@/hooks/useUnapprovedOrderRequests";
 
 /*
@@ -34,15 +37,18 @@ export type LabRequestTableRow = LabOrder & {
 export interface OrderRequestPanel {
   activeLabOrder: LabRequest | null
   setActiveLabOrder: (activeLabOrder: LabRequest | null) => void
+  activeFacility: FacilityWithAddress | null
+  setActiveFacility: (activeFacility: FacilityWithAddress | null) => void
 }
 
 export default function OrderRequestPanel({
   activeLabOrder,
   setActiveLabOrder,
+  activeFacility,
+  setActiveFacility,
 }: OrderRequestPanel) {
   const user = useUser()
-  const facilities = useFacilitiesDetails(user)
-  console.log('facilities', facilities)
+  const { data: labFacilities } = useFacilitiesDetails(user)
   const {
     data: allOrders,
     error,
@@ -138,13 +144,21 @@ export default function OrderRequestPanel({
                   Open requests for testing that any lab can claim. After
                   claiming, a sampling firm will contact you with next steps.
                 </p>
-                <div className="">
-                  <Table<LabRequest>
-                    data={data}
-                    columns={columns}
-                    hideHeader={true}
-                  />
-                </div>
+                <SelectFacility
+                  selectedFacility={activeFacility}
+                  setSelectedFacility={setActiveFacility}
+                />
+                {activeFacility ? (
+                  <div className="">
+                    <Table<LabRequest>
+                      data={data}
+                      columns={columns}
+                      hideHeader={true}
+                    />
+                  </div>
+                ) : (
+                  <p>Please select a facility to see open lab orders</p>
+                )}
               </>
             )}
           </>

@@ -3,6 +3,7 @@ import Panel from '../../Panel'
 import './../../assets/css/panel.css'
 
 import Spinner from '@/components/common/Spinner'
+import { FacilityWithAddress } from '@/hooks/useFacilities'
 import { LabRequest, useLabOrderRequests } from '@/hooks/useLabOrders'
 import formatDate from '@/utils/dateFormatter'
 import receiveResultsBy from '@/utils/receiveResultsBy'
@@ -17,10 +18,12 @@ import TestDetails from './TestDetails'
 
 interface RequestDetailPanel {
   activeLabOrder: LabRequest | null
+  activeFacility: FacilityWithAddress | null
 }
 
 export default function RequestDetailPanel({
   activeLabOrder,
+  activeFacility,
 }: RequestDetailPanel) {
   console.log(activeLabOrder)
   const user = useUser()
@@ -48,6 +51,7 @@ export default function RequestDetailPanel({
           activeLabOrder={activeLabOrder}
           isOpen={showClaimPopup}
           setIsOpen={setShowClaimPopup}
+          activeFacility={activeFacility}
         />
       )}
       <div

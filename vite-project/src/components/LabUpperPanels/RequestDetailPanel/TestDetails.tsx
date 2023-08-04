@@ -1,6 +1,7 @@
 import { LabRequest } from '@/hooks/useLabOrders'
 import { FingerPrintIcon } from '@heroicons/react/20/solid'
 import './../../assets/css/panel.css'
+import OrderRequirements from './OrderRequirements'
 
 const BORDER_COLOR = '#D0D5DD'
 
@@ -27,19 +28,9 @@ export default function TestDetails({ labOrder }: Props) {
           {labOrder.tests[0].test_category_name} Testing
         </div>
       </div>
-
-      <ul className="ml-20 list-disc">
-        {labOrder.tests.map((test) => (
-          <li>
-            <span className="font-semibold">{test.name}</span>
-            <ul className="ml-4 list-disc mt-0">
-              {test.test_requirements.map((req) => (
-                <li>{req.name}</li>
-              ))}
-            </ul>
-          </li>
-        ))}
-      </ul>
+      <div className="ml-20">
+        <OrderRequirements labOrder={labOrder} />
+      </div>
     </div>
   )
 }

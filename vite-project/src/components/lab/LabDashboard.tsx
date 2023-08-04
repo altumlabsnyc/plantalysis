@@ -10,7 +10,7 @@ import useUserDetails from '@/hooks/useUserDetails'
 import { useUser } from '@supabase/auth-helpers-react'
 import React, { useState } from 'react'
 import toast from 'react-hot-toast'
-import { Redirect, Route, Link, useHistory } from 'react-router-dom'
+import { Link, Redirect, Route, useHistory } from 'react-router-dom'
 import '../assets/dashboard/css/styles.css'
 import Upload from '../regulatorDashboard/Upload.js'
 import ClaimOrders from './ClaimOrders'
@@ -65,39 +65,36 @@ function LabDashboard({ children }: LabDashboardProps) {
   const headerLinks = [
     {
       label: 'Overview',
-      onClick: () =>
-        toast('Overview coming soon!', {
-          icon: '⭐',
-        }),
+      onClick: () => history.push('/dashboard/lab/overview'),
     },
-    {
-      label: 'Upload',
-      onClick: () =>
-        toast('Upload coming soon!', {
-          icon: '⭐',
-        }),
-    },
-    {
-      label: 'QR Code',
-      onClick: () =>
-        toast('QR Code coming soon!', {
-          icon: '⭐',
-        }),
-    },
-    {
-      label: 'Calendar',
-      onClick: () =>
-        toast('Calendar coming soon!', {
-          icon: '⭐',
-        }),
-    },
-    {
-      label: 'Track Shipments',
-      onClick: () =>
-        toast('Track coming soon!', {
-          icon: '⭐',
-        }),
-    },
+    // {
+    //   label: 'Upload',
+    //   onClick: () =>
+    //     toast('Upload coming soon!', {
+    //       icon: '⭐',
+    //     }),
+    // },
+    // {
+    //   label: 'QR Code',
+    //   onClick: () =>
+    //     toast('QR Code coming soon!', {
+    //       icon: '⭐',
+    //     }),
+    // },
+    // {
+    //   label: 'Calendar',
+    //   onClick: () =>
+    //     toast('Calendar coming soon!', {
+    //       icon: '⭐',
+    //     }),
+    // },
+    // {
+    //   label: 'Track Shipments',
+    //   onClick: () =>
+    //     toast('Track coming soon!', {
+    //       icon: '⭐',
+    //     }),
+    // },
     {
       label: 'Settings',
       onClick: () =>
