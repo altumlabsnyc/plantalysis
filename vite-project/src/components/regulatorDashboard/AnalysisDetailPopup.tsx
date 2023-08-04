@@ -1,13 +1,13 @@
-import { createColumnHelper } from '@tanstack/react-table'
+import { approveLabOrder } from '@/hooks/approveLabOrder'
 import { ForApproval } from '@/hooks/useAnalysis'
+import useUserDetails, { RegulatorWithAddress } from '@/hooks/useUserDetails'
 import { Dialog, Transition } from '@headlessui/react'
 import { useUser } from '@supabase/auth-helpers-react'
+import { createColumnHelper } from '@tanstack/react-table'
 import { Fragment, useState } from 'react'
 import { toast } from 'react-hot-toast'
 import Table from '../Table/Table'
-import { approveLabOrder } from '@/hooks/approveLabOrder'
 import Spinner from '../common/Spinner'
-import useUserDetails, { RegulatorWithAddress } from '@/hooks/useUserDetails'
 
 type AnalysisDetailTableRow = {
   test_category_name: string
@@ -95,7 +95,7 @@ export default function AnalysisDetailPopup({
 
   return (
     <Transition appear show={isOpen} as={Fragment}>
-      <Dialog as="div" className="relative z-10" onClose={closeModal}>
+      <Dialog as="div" className="relative z-50" onClose={closeModal}>
         <Transition.Child
           as={Fragment}
           enter="ease-out duration-300"
