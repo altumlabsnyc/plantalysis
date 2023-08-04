@@ -3,7 +3,7 @@ import Panel from '../../Panel'
 import './../../assets/css/panel.css'
 
 import Spinner from '@/components/common/Spinner'
-import { approveLabOrder } from '@/hooks/approveLabOrder'
+import { FacilityWithAddress } from '@/hooks/useFacilities'
 import { LabRequest, useLabOrderRequests } from '@/hooks/useLabOrders'
 import formatDate from '@/utils/dateFormatter'
 import receiveResultsBy from '@/utils/receiveResultsBy'
@@ -11,27 +11,49 @@ import { TruckIcon } from '@heroicons/react/20/solid'
 import { useUser } from '@supabase/auth-helpers-react'
 import { format } from 'date-fns'
 import { useState } from 'react'
-import { toast } from 'react-hot-toast'
+import ClaimOrderPopup from './ClaimOrderPopup'
 import OrderStatusBar from './OrderStatusBar'
-import SampleDetails from './SampleDetails'
 import SeparationBar from './SeparationBar'
+import TestDetails from './TestDetails'
 
 interface RequestDetailPanel {
   activeLabOrder: LabRequest | null
+  activeFacility: FacilityWithAddress | null
 }
 
 export default function RequestDetailPanel({
   activeLabOrder,
+  activeFacility,
 }: RequestDetailPanel) {
   console.log(activeLabOrder)
   const user = useUser()
-  const { data: labRequests, mutate } = useLabOrderRequests(user)
+  const { data: labRequests, isLoading, mutate } = useLabOrderRequests(user)
 
+  const [showClaimPopup, setShowClaimPopup] = useState(false)
   const [claiming, setClaiming] = useState(false)
 
   const isApproved = activeLabOrder?.lab_facility_id != null
+
+  if (labRequests && labRequests.length == 0) {
+    return (
+      <Panel>
+        <div className="h-full w-full flex flex-col items-center justify-center">
+          <p className="text-lg font-bold">No orders to claim</p>
+        </div>
+      </Panel>
+    )
+  }
+
   return (
     <Panel>
+      {activeLabOrder && (
+        <ClaimOrderPopup
+          activeLabOrder={activeLabOrder}
+          isOpen={showClaimPopup}
+          setIsOpen={setShowClaimPopup}
+          activeFacility={activeFacility}
+        />
+      )}
       <div
         style={
           {
@@ -65,24 +87,26 @@ export default function RequestDetailPanel({
               </p>
               <button
                 onClick={async () => {
-                  setClaiming(true)
-                  try {
-                    await mutate((data) => {
-                      if (!data) return
-                      return data.filter((e) => e.id != activeLabOrder.id)
-                    }, false)
-                    await approveLabOrder(
-                      activeLabOrder.id,
-                      user,
-                      labRequests,
-                      'NY',
-                    ).then((data) => console.log(data))
-                    toast.success('Order claimed successfully!')
-                  } catch (error) {
-                    toast.error('Error claiming order')
-                  }
+                  setShowClaimPopup(true)
+                  return
+                  // setClaiming(true)
+                  // try {
+                  //   await mutate((data) => {
+                  //     if (!data) return
+                  //     return data.filter((e) => e.id != activeLabOrder.id)
+                  //   }, false)
+                  //   await approveLabOrder(
+                  //     activeLabOrder.id,
+                  //     user,
+                  //     labRequests,
+                  //     'NY',
+                  //   ).then((data) => console.log(data))
+                  //   toast.success('Order claimed successfully!')
+                  // } catch (error) {
+                  //   toast.error('Error claiming order')
+                  // }
 
-                  setClaiming(false)
+                  // setClaiming(false)
                 }}
                 disabled={claiming}
                 className="w-24 flex justify-center items-center border border-gray-300 px-4 text-lg py-1 bg-green-500 transition-all duration-300 hover:bg-green-600 text-white rounded-md"
@@ -121,7 +145,7 @@ export default function RequestDetailPanel({
             <SeparationBar horizontal />
             <OrderStatusBar order={activeLabOrder} />
             <div className="mt-2">
-              <SampleDetails labOrder={activeLabOrder} />
+              <TestDetails labOrder={activeLabOrder} />
             </div>
             {/* <DeliveryNotes notes={'none'} /> */}
             <div

@@ -4,7 +4,7 @@ import { v4 as uuidv4 } from 'uuid'
 
 import toast from 'react-hot-toast'
 
-import {mutate} from 'swr'
+import { mutate } from 'swr'
 import useUserDetails, { RegulatorWithAddress } from './useUserDetails'
 import { ForApproval } from './useAnalysis'
 
@@ -20,13 +20,11 @@ export const approveLabOrder = async (
     }
     const regulatorReviewId = uuidv4()
     await (async () => {
-      const { error } = await supabase
-        .from('regulator_review')
-        .insert({
-          id: regulatorReviewId,
-          regulator_user_id: user.id,
-          approved: true
-        })
+      const { error } = await supabase.from('regulator_review').insert({
+        id: regulatorReviewId,
+        regulator_user_id: user.id,
+        approved: true,
+      })
       if (error) {
         throw new Error('failed to create new regulator_review')
       }
@@ -42,10 +40,10 @@ export const approveLabOrder = async (
     }
 
     // update local cache
-    if(state) {
+    if (state) {
       mutate(
         `/api/analysis/${state}`,
-        oldData.filter(({analysis_id}) => analysis_id != analysisId),
+        oldData.filter(({ analysis_id }) => analysis_id != analysisId),
         false,
       )
     }
