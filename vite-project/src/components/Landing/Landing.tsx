@@ -246,7 +246,7 @@ const Plantalysis: React.FC = () => {
                           </a>
                           <a
                             className="btn-anchor anchor-black mb-0 ml-3"
-                            href="/register"
+                            href={'/register' + '?role=producer'}
                           >
                             Sign Up
                           </a>
@@ -276,8 +276,7 @@ const Plantalysis: React.FC = () => {
                           </a>
                           <a
                             className="btn-anchor anchor-black mb-0 ml-3"
-                            href="/register"
-                            target="_blank"
+                            href={'/register' + '?role=lab'}
                           >
                             Sign Up
                           </a>
@@ -307,8 +306,7 @@ const Plantalysis: React.FC = () => {
                           </a>
                           <a
                             className="btn-anchor anchor-black mb-0 ml-3"
-                            href="/register"
-                            target="_blank"
+                            href={'/register' + '?role=regulator'}
                           >
                             Sign Up
                           </a>

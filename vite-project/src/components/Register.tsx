@@ -23,7 +23,7 @@ import {
   Typography,
 } from '@mui/material'
 import { passwordStrength as checkPasswordStrength } from 'check-password-strength'
-import { ChangeEvent, FormEvent, useState } from 'react'
+import { ChangeEvent, FormEvent, useEffect, useState } from 'react'
 import { Toaster, toast } from 'react-hot-toast'
 import { useHistory } from 'react-router-dom'
 import backgroundImage from './assets/img/hero.png'
@@ -235,6 +235,21 @@ export default function Register() {
       setPasswordStrength(checkPasswordStrength(e.target.value).value)
     }
   }
+
+  useEffect(() => {
+    const params = new URLSearchParams(location.search)
+    const role = params.get('role')
+
+    if (
+      (role && role === 'producer') ||
+      role === 'university' ||
+      role === 'lab' ||
+      role === 'regulator'
+    ) {
+      setSelectedUser(role)
+      setCurrentTab(1)
+    }
+  }, [])
 
   return (
     <Grid container component="main" sx={{ height: '100vh' }}>
