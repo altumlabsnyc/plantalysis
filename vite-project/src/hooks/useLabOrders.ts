@@ -11,8 +11,6 @@ import { User } from '@supabase/supabase-js'
 import toast from 'react-hot-toast'
 import useSWR from 'swr'
 
-
-
 export type LabRequest = LabOrder & {
   batch: Batch
   producer_facility:
@@ -91,33 +89,38 @@ export function useLabOrderRequests(user: User | null, state?: string) {
   }
 }
 
-
-export function useLabClaimedOrders(user: User|null){
+export function useLabClaimedOrders(user: User | null) {
   const fetcher = async () => {
-    let orders: LabOrder[];
-    let orderError: any;
-    const labOrderPromise = supabase.from('lab_order').select(`
+    let orders: LabOrder[]
+    let orderError: any
+    const labOrderPromise = supabase
+      .from('lab_order')
+      .select(
+        `
     *,
     lab_facility!inner(
       lab_user_id
-    )`).eq('lab_facility.lab_user_id', user?.id).then(({data, error})=>{
-      if (data){
-        orders = data;
-        orderError = error;
-      }
-      else{
-        toast.error('Unable to fetch lab orders of this lab. Please contact Altum Labs support')
-        throw new Error('Cannot fetch lab orders of this user');
-      }
-    })
+    )`,
+      )
+      .eq('lab_facility.lab_user_id', user?.id)
+      .then(({ data, error }) => {
+        if (data) {
+          orders = data
+          orderError = error
+        } else {
+          toast.error(
+            'Unable to fetch lab orders of this lab. Please contact Altum Labs support',
+          )
+          throw new Error('Cannot fetch lab orders of this user')
+        }
+      })
 
-    await labOrderPromise;
+    await labOrderPromise
 
-    if (orderError){
-      console.log(orderError);
+    if (orderError) {
+      console.log(orderError)
       toast.error('error fetching user orders')
       throw new Error('error fetching user orders')
-
     }
 
     //@ts-ignore
@@ -127,15 +130,8 @@ export function useLabClaimedOrders(user: User|null){
 
     // Return the combined data
     return orders
-    
   }
 }
-
-
-
-
-
-
 
 export interface ProducerLabOrderDetails {
   id: string
