@@ -12,9 +12,15 @@ export default function ProducerOrders() {
   const user = useUser()
   const { data: allOrders, error, isLoading } = useProducerPlacedOrders(user)
   if (allOrders) {
+    const sortedOrders = [...allOrders].sort((a, b) => {
+      // sorts in descending order
+      const dateA = new Date(a.order_time).getTime()
+      const dateB = new Date(b.order_time).getTime()
+      return  dateB - dateA
+    })
     return (
       <div className="mx-4 py-2 p-4">
-        {allOrders?.map((order: ProducerLabOrderDetails) => (
+        {sortedOrders?.map((order: ProducerLabOrderDetails) => (
           <Order key={order.id} orderData={order} />
         ))}
       </div>
