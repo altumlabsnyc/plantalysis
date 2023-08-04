@@ -151,7 +151,12 @@ export default function OrderRequestPanel({
                 {activeFacility ? (
                   <div className="">
                     <Table<LabRequest>
-                      data={data}
+                      data={data.filter((order) => {
+                        return (
+                          order.producer_facility?.address.state_code ===
+                          activeFacility.address.state_code
+                        )
+                      })}
                       columns={columns}
                       hideHeader={true}
                     />
