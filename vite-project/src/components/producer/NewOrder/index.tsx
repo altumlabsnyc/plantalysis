@@ -1,13 +1,11 @@
 import Spinner from '@/components/common/Spinner'
-import useFacilitiesDetails from '@/hooks/useFacilities'
+import useFacilitiesDetails, {
+  FacilityWithAddress,
+} from '@/hooks/useFacilities'
 import useTestCategoriesDetails from '@/hooks/useTestCategories'
-import {
-  Facility,
-  Test,
-  TestCategory,
-  TurnaroundTime,
-} from '@/types/supabaseAlias'
+import { Test, TestCategory, TurnaroundTime } from '@/types/supabaseAlias'
 import dollarToString from '@/utils/dollarToString'
+import orderDetailsToPriceId from '@/utils/orderDetailsToPriceId'
 import receiveResultsBy from '@/utils/receiveResultsBy'
 import turnaroundTimeToPrice from '@/utils/turnaroundTimeToPriceString'
 import { LockClosedIcon } from '@heroicons/react/20/solid'
@@ -40,7 +38,7 @@ export default function NewOrder() {
   const [loadingCheckout, setLoadingCheckout] = useState(false)
   const [stripe, setStripe] = useState<Stripe | null>(null)
   const [selectedFacility, setSelectedFacility] = useState<
-    Facility | undefined
+    FacilityWithAddress | undefined
   >(facilitiesDetails?.[0])
 
   const [selectedCategory, setSelectedCategory] = useState<
@@ -90,17 +88,14 @@ export default function NewOrder() {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          priceId: 'test',
-          // priceId: orderDetailsToPriceId(
-          //   selectedProductType,
-          //   selectedTurnaroundTime,
-          // ),
+          priceId: orderDetailsToPriceId(selectedTurnaroundTime),
           userId: user?.id,
           facilityId: selectedFacility.id,
           // strainName: selectedStrainName,
           // productType: selectedProductType,
           turnaroundTime: selectedTurnaroundTime,
           pickupDate: selectedPickupDate.toISOString(),
+          tests: Array.from(selectedTests),
         }),
       },
     )
@@ -184,6 +179,7 @@ export default function NewOrder() {
                 selectedTests={selectedTests}
                 setSelectedTests={setSelectedTests}
                 category={selectedCategory}
+                state={selectedFacility?.address.state_code}
               />
             )}
           </div>

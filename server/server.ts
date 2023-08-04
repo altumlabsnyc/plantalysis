@@ -6,8 +6,7 @@ import nodemailer from "nodemailer"
 import Stripe from "stripe"
 import { v4 as uuidv4 } from "uuid"
 import { Database } from "./types/supabase"
-import { Batch } from "./types/supabaseAlias"
-
+import { Batch, Test } from "./types/supabaseAlias"
 
 dotenv.config()
 
@@ -41,14 +40,16 @@ interface Metadata {
   priceId: string
   facilityId: string
   userId: string
-  strainName: string
-  productType: Database["public"]["Enums"]["product_type_enum"]
   turnaroundTime: Database["public"]["Enums"]["turnaround_time_enum"]
   pickupDate: string // ISO string
+  tests: Test[]
 }
 
 async function insertLabOrder(session: any) {
   const metadata: Metadata = session.metadata
+
+  // @ts-ignore
+  metadata.tests = JSON.parse(metadata.tests)
 
   const batchId = uuidv4()
 
@@ -74,8 +75,10 @@ async function insertLabOrder(session: any) {
   }
 
   // Create the order in the database
+  const labOrderId = uuidv4()
   const { data, error } = await supabase.from("lab_order").insert([
     {
+      id: labOrderId,
       batch_id: batchId,
       pickup_date: metadata.pickupDate,
       turnaround_time: metadata.turnaroundTime,
@@ -84,6 +87,18 @@ async function insertLabOrder(session: any) {
 
   console.log(data)
   console.log(error)
+
+  // for each test, insert into lab_order_on_test table
+  const { data: labOrderOnTestData, error: labOrderOnTestError } =
+    await supabase.from("lab_order_on_test").insert(
+      metadata.tests.map((test) => ({
+        lab_order_id: labOrderId,
+        test_id: test.id,
+      }))
+    )
+
+  console.log(labOrderOnTestData)
+  console.log(labOrderOnTestError)
 
   // Check for error
   if (error) {
@@ -95,7 +110,6 @@ const stripe = new Stripe(stripeKey, { apiVersion: "2022-11-15" })
 const app = express()
 
 app.use(cors({ origin: "http://localhost:5173" }))
-app.use(express.json())
 
 // app.use(express.static('public'));
 
@@ -103,15 +117,16 @@ app.post(
   "/create-checkout-session",
   express.json(),
   async (req: Request, res: Response) => {
-    const {
+    let {
       priceId,
       userId,
       facilityId,
-      strainName,
-      productType,
       turnaroundTime,
       pickupDate,
+      tests,
     }: Metadata = req.body
+
+    console.log(tests)
 
     try {
       const session = await stripe.checkout.sessions.create({
@@ -126,10 +141,10 @@ app.post(
         metadata: {
           priceId,
           userId,
-          strainName,
-          productType,
+          facilityId,
           turnaroundTime,
           pickupDate,
+          tests: JSON.stringify(tests),
         },
         success_url: `${frontendDomain}${successURL}`,
         cancel_url: `${frontendDomain}${cancelURL}`,
@@ -185,77 +200,78 @@ app.post(
   }
 )
 
-app.post('/send-email',
-  express.json(),
-  async (req: Request, res: Response) => {
-    const emailUser = `${process.env.EMAIL_USERNAME}`
-    const emailPass = `${process.env.EMAIL_PASS}`
-    const emailBody = req.body;
+app.post("/send-email", express.json(), async (req: Request, res: Response) => {
+  const emailUser = `${process.env.EMAIL_USERNAME}`
+  const emailPass = `${process.env.EMAIL_PASS}`
+  const emailBody = req.body
 
-    let fname: string = req.body['fname'];
-    let lname: string = req.body['lname'];
-    let company: string = req.body['company'];
-    let jobTitle: string = req.body['jobTitle'];
-    let email: string = req.body['email'];
-    let phone: string = req.body['phone'];
-    let state: string = req.body['state'];
-    let text: string = req.body['text'];
+  let fname: string = req.body["fname"]
+  let lname: string = req.body["lname"]
+  let company: string = req.body["company"]
+  let jobTitle: string = req.body["jobTitle"]
+  let email: string = req.body["email"]
+  let phone: string = req.body["phone"]
+  let state: string = req.body["state"]
+  let text: string = req.body["text"]
 
+  if (req.body === undefined) {
+    return res.status(400).send("Bad request. No text field in request body.")
+  }
 
-    if (req.body === undefined) {
-      return res.status(400).send("Bad request. No text field in request body.")
-    }
+  try {
+    const transporter = nodemailer.createTransport({
+      host: "smtp.gmail.com",
+      port: 587,
+      secure: false, // upgrade later with STARTTLS
+      auth: {
+        user: emailUser,
+        pass: emailPass,
+      },
+    })
+    await transporter.sendMail({
+      from: `Team @ Altum 👻 ${emailUser}`, // sender address
+      to: `${process.env.DEMO_RECEIVER}`, // list of receivers
+      subject: "Demo Scheduled", // Subject line
+      text: text, // plain text body
+    })
+    console.log("before calling adddemotodb")
+    console.log(emailBody)
+    addDemoToDB(fname, lname, company, jobTitle, email, phone, state)
+  } catch (err) {
+    console.error(err)
+    // @ts-ignore
+    return res.status(500).send(`Internal Nodemailer Error: ${err.message}`)
+  }
 
-    try {
-      const transporter = nodemailer.createTransport({
-        host: 'smtp.gmail.com',
-        port: 587,
-        secure: false, // upgrade later with STARTTLS
-        auth: {
-          user: emailUser,
-          pass: emailPass
-        }
-      });
-      await transporter.sendMail({
-        from: `Team @ Altum 👻 ${emailUser}`, // sender address
-        to: `${process.env.DEMO_RECEIVER}`, // list of receivers
-        subject: 'Demo Scheduled', // Subject line
-        text: text, // plain text body
-      }
-      );
-      console.log('before calling adddemotodb');
-      console.log(emailBody)
-      addDemoToDB(fname, lname, company, jobTitle, email, phone, state);
+  res.status(200).send({ received: true })
+})
 
-    } catch (err) {
-      console.error(err)
-      // @ts-ignore
-      return res.status(500).send(`Internal Nodemailer Error: ${err.message}`)
-    }
-    
-    res.status(200).send({ received: true });
-    
-  });
-
-
-  export async function addDemoToDB(fname:string, lname: string, company:string, jobTitle:string, email:string, phone:string, state:string){
-    
-    console.log("inside add demo to db");
-    const { data, error } = await supabase
-  .from('demos_scheduled')
-  .insert([
-    { first_name: fname, 
-      last_name: lname,
-      company: company, 
-      job_title: jobTitle,
-      email: email, 
-      phone: phone,
-      state: state},
-  ]).select()
-
-  
-    };
-app.get("/test", (req: Request, res: Response) => {
+export async function addDemoToDB(
+  fname: string,
+  lname: string,
+  company: string,
+  jobTitle: string,
+  email: string,
+  phone: string,
+  state: string
+) {
+  console.log("inside add demo to db")
+  const { data, error } = await supabase
+    .from("demos_scheduled")
+    .insert([
+      {
+        first_name: fname,
+        last_name: lname,
+        company: company,
+        job_title: jobTitle,
+        email: email,
+        phone: phone,
+        state: state,
+      },
+    ])
+    .select()
+}
+app.get("/test", express.json(), (req: Request, res: Response) => {
   res.json({ message: "Hello, this is a test!" })
 })
 

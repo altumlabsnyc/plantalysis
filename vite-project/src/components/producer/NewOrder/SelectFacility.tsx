@@ -1,5 +1,6 @@
-import useFacilitiesDetails from '@/hooks/useFacilities'
-import { Facility } from '@/types/supabaseAlias'
+import useFacilitiesDetails, {
+  FacilityWithAddress,
+} from '@/hooks/useFacilities'
 import { Listbox, Transition } from '@headlessui/react'
 import { CheckIcon, ChevronUpDownIcon } from '@heroicons/react/20/solid'
 import { useUser } from '@supabase/auth-helpers-react'
@@ -7,8 +8,8 @@ import { Fragment, useState } from 'react'
 import AddFacilityPopup from './AddFacilityPopup'
 
 interface Props {
-  selectedFacility: Facility | undefined
-  setSelectedFacility: (facility: Facility) => void
+  selectedFacility: FacilityWithAddress | undefined
+  setSelectedFacility: (facility: FacilityWithAddress) => void
 }
 
 export default function SelectFacility({

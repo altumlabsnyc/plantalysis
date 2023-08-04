@@ -44,6 +44,8 @@ if (!supabaseKey) {
 function insertLabOrder(session) {
     return __awaiter(this, void 0, void 0, function* () {
         const metadata = session.metadata;
+        // @ts-ignore
+        metadata.tests = JSON.parse(metadata.tests);
         const batchId = (0, uuid_1.v4)();
         const batch = {
             id: batchId,
@@ -63,8 +65,10 @@ function insertLabOrder(session) {
             console.error(batchError);
         }
         // Create the order in the database
+        const labOrderId = (0, uuid_1.v4)();
         const { data, error } = yield supabase.from("lab_order").insert([
             {
+                id: labOrderId,
                 batch_id: batchId,
                 pickup_date: metadata.pickupDate,
                 turnaround_time: metadata.turnaroundTime,
@@ -72,6 +76,13 @@ function insertLabOrder(session) {
         ]);
         console.log(data);
         console.log(error);
+        // for each test, insert into lab_order_on_test table
+        const { data: labOrderOnTestData, error: labOrderOnTestError } = yield supabase.from("lab_order_on_test").insert(metadata.tests.map((test) => ({
+            lab_order_id: labOrderId,
+            test_id: test.id,
+        })));
+        console.log(labOrderOnTestData);
+        console.log(labOrderOnTestError);
         // Check for error
         if (error) {
             console.error(error);
@@ -81,10 +92,10 @@ function insertLabOrder(session) {
 const stripe = new stripe_1.default(stripeKey, { apiVersion: "2022-11-15" });
 const app = (0, express_1.default)();
 app.use((0, cors_1.default)({ origin: "http://localhost:5173" }));
-app.use(express_1.default.json());
 // app.use(express.static('public'));
 app.post("/create-checkout-session", express_1.default.json(), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { priceId, userId, facilityId, strainName, productType, turnaroundTime, pickupDate, } = req.body;
+    let { priceId, userId, facilityId, turnaroundTime, pickupDate, tests, } = req.body;
+    console.log(tests);
     try {
         const session = yield stripe.checkout.sessions.create({
             mode: "payment",
@@ -98,10 +109,10 @@ app.post("/create-checkout-session", express_1.default.json(), (req, res) => __a
             metadata: {
                 priceId,
                 userId,
-                strainName,
-                productType,
+                facilityId,
                 turnaroundTime,
                 pickupDate,
+                tests: JSON.stringify(tests),
             },
             success_url: `${frontendDomain}${successURL}`,
             cancel_url: `${frontendDomain}${cancelURL}`,
@@ -144,14 +155,14 @@ app.post("/send-email", express_1.default.json(), (req, res) => __awaiter(void 0
     const emailUser = `${process.env.EMAIL_USERNAME}`;
     const emailPass = `${process.env.EMAIL_PASS}`;
     const emailBody = req.body;
-    let fname = req.body['fname'];
-    let lname = req.body['lname'];
-    let company = req.body['company'];
-    let jobTitle = req.body['jobTitle'];
-    let email = req.body['email'];
-    let phone = req.body['phone'];
-    let state = req.body['state'];
-    let text = req.body['text'];
+    let fname = req.body["fname"];
+    let lname = req.body["lname"];
+    let company = req.body["company"];
+    let jobTitle = req.body["jobTitle"];
+    let email = req.body["email"];
+    let phone = req.body["phone"];
+    let state = req.body["state"];
+    let text = req.body["text"];
     if (req.body === undefined) {
         return res.status(400).send("Bad request. No text field in request body.");
     }
@@ -166,12 +177,12 @@ app.post("/send-email", express_1.default.json(), (req, res) => __awaiter(void 0
             },
         });
         yield transporter.sendMail({
-            from: `Sales Request @ Plantalysis 👻 ${emailUser}`,
+            from: `Team @ Altum 👻 ${emailUser}`,
             to: `${process.env.DEMO_RECEIVER}`,
-            subject: 'Demo Scheduled',
+            subject: "Demo Scheduled",
             text: text, // plain text body
         });
-        console.log('before calling adddemotodb');
+        console.log("before calling adddemotodb");
         console.log(emailBody);
         addDemoToDB(fname, lname, company, jobTitle, email, phone, state);
     }
@@ -186,21 +197,23 @@ function addDemoToDB(fname, lname, company, jobTitle, email, phone, state) {
     return __awaiter(this, void 0, void 0, function* () {
         console.log("inside add demo to db");
         const { data, error } = yield supabase
-            .from('demos_scheduled')
+            .from("demos_scheduled")
             .insert([
-            { first_name: fname,
+            {
+                first_name: fname,
                 last_name: lname,
                 company: company,
                 job_title: jobTitle,
                 email: email,
                 phone: phone,
-                state: state },
-        ]).select();
+                state: state,
+            },
+        ])
+            .select();
     });
 }
 exports.addDemoToDB = addDemoToDB;
-;
-app.get("/test", (req, res) => {
+app.get("/test", express_1.default.json(), (req, res) => {
     res.json({ message: "Hello, this is a test!" });
 });
 app.listen(port, () => console.log(`Running on port ${port}`));

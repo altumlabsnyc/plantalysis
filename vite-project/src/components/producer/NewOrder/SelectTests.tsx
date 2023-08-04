@@ -1,27 +1,56 @@
 import useTestDetails from '@/hooks/useTests'
-import { Test, TestCategory } from '@/types/supabaseAlias'
+import { Test, TestCategory, TestRequirement } from '@/types/supabaseAlias'
 import classNames from 'classnames'
+import { useEffect, useState } from 'react'
 
 interface Props {
   selectedTests: Set<Test> | undefined
   setSelectedTests: (tests: Set<Test>) => void
   category: TestCategory
+  state: string | undefined
 }
 
 export default function SelectTests({
   selectedTests,
   setSelectedTests,
   category,
+  state,
 }: Props) {
-  const { data: testsDetails, mutate } = useTestDetails(category, true)
+  // console.log(state)
+  const { data: testsDetails, mutate } = useTestDetails(category, true, state)
   // console.log(testsDetails)
 
-  console.log(selectedTests)
+  const [refresh, setRefresh] = useState(false)
+  const [testRequirements, setTestRequirements] = useState<TestRequirement[]>(
+    [],
+  )
+
+  useEffect(() => {
+    if (testsDetails) {
+      const requirements = testsDetails.reduce(
+        (acc: TestRequirement[], test) => {
+          if (test.test_requirements) {
+            return [...acc, ...test.test_requirements]
+          }
+          return acc
+        },
+        [],
+      )
+      setTestRequirements(requirements)
+    }
+  }, [refresh])
+
+  // console.log(testRequirements)
 
   return (
     <div className="mt-2">
       <label className="sr-only">Choose the tests you want to perform</label>
       <div className="flex justify-center gap-4">
+        {testsDetails?.length === 0 && (
+          <p className="text-red-400">
+            No tests under available {category.name} for your region yet!
+          </p>
+        )}
         {testsDetails?.map((option) => (
           <label
             key={option.name}
@@ -43,6 +72,7 @@ export default function SelectTests({
               className="hidden"
               checked={selectedTests && selectedTests.has(option)}
               onChange={() => {
+                setRefresh(!refresh)
                 const updatedTests = new Set(selectedTests)
                 if (selectedTests?.has(option)) {
                   updatedTests.delete(option)
@@ -56,6 +86,18 @@ export default function SelectTests({
           </label>
         ))}
       </div>
+      {testRequirements.length > 0 && (
+        <>
+          The following levels will be tested:
+          <ul className="text-sm max-h-36 overflow-scroll my-0">
+            {testRequirements.map((requirement) => (
+              <li className="text-sm my-0" key={requirement.id}>
+                {requirement.name}
+              </li>
+            ))}
+          </ul>
+        </>
+      )}
     </div>
   )
 }
