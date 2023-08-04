@@ -1,3 +1,4 @@
+// Nav.js
 import React from 'react'
 import logo from './assets/img/plantalysis.png'
 import { Link } from 'react-router-dom'
@@ -24,7 +25,7 @@ const Nav = () => {
             className="text-xl font-bold"
             style={{ textDecoration: 'none' }}
           >
-            Plantalysis
+            PLANTALYSIS
           </span>
         </div>
       </Link>
@@ -32,7 +33,13 @@ const Nav = () => {
         <ul className="flex list-none m-0 p-0">
           <li className="ml-2">
             <a className="input-sans" href="/login">
-              <button className="btn btn-white border-black mt-0 mb-0 login-button">
+              <button
+                className="btn rounded-full"
+                style={{
+                  background:
+                    'linear-gradient(90deg, #17fff7 0%, #74ffca 52.08%, #b1ffaf 100%)',
+                }}
+              >
                 Login
               </button>
             </a>
