@@ -473,27 +473,8 @@ const Plantalysis: React.FC = () => {
                                     &nbsp; Phone Number *
                                   </label>
                                 </div>
-                                {/* <div className="col-md-12 form-group">
-                                  <input
-                                    id="personalized-demo-phone"
-                                    className="form-control"
-                                    type="tel"
-                                    autoComplete="tel"
-                                    required
-                                    placeholder=" "
-                                  />
-                                  <label htmlFor="personalized-demo-phone">
-                                    &nbsp; State *
-                                  </label>
-                                </div> */}
                                 <div className="col-md-12 form-group mt-2">
                                   <div className="w-100">
-                                    <label
-                                      htmlFor="personalized-demo-state"
-                                      className="mb-0"
-                                    >
-                                      &nbsp; State *
-                                    </label>
                                     <select
                                       id="personalized-demo-state"
                                       className="form-control"
@@ -503,7 +484,7 @@ const Plantalysis: React.FC = () => {
                                       onChange={handleChange}
                                     >
                                       <option value="" disabled>
-                                        Select State
+                                        Select State *
                                       </option>
                                       <option value="AL">Alabama</option>
                                       <option value="AK">Alaska</option>
