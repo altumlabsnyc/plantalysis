@@ -313,8 +313,8 @@ export interface Database {
           analysis_id: string | null
           batch_id: string | null
           id: string
+          lab_facility_id: string | null
           lab_notes: string | null
-          lab_user_id: string | null
           order_time: string
           pickup_date: string | null
           turnaround_time:
@@ -326,8 +326,8 @@ export interface Database {
           analysis_id?: string | null
           batch_id?: string | null
           id?: string
+          lab_facility_id?: string | null
           lab_notes?: string | null
-          lab_user_id?: string | null
           order_time?: string
           pickup_date?: string | null
           turnaround_time?:
@@ -339,8 +339,8 @@ export interface Database {
           analysis_id?: string | null
           batch_id?: string | null
           id?: string
+          lab_facility_id?: string | null
           lab_notes?: string | null
-          lab_user_id?: string | null
           order_time?: string
           pickup_date?: string | null
           turnaround_time?:
