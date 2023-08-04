@@ -17,6 +17,7 @@ export enum ANALYSIS_REQUEST_TYPE {
 }
 
 export type ForApproval = {
+  lab_order_id: string | null
   lab_name: string | null | undefined
   producer_name: string | null | undefined
   sku: string | null
@@ -104,6 +105,7 @@ export function useAnalysis(state: string) {
             })
 
             const toApprove: ForApproval = {
+              lab_order_id: order.id,
               analysis_id: order.analysis_id,
               sku: order.id,
               lab_name: order.lab_facility?.lab_user?.lab_name,

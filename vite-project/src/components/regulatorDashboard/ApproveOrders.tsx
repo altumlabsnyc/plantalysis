@@ -13,20 +13,8 @@ import Spinner from '../common/Spinner'
 import { Analysis, RegulatorReview } from '@/types/supabaseAlias'
 import Table from '../Table/Table'
 import useUserDetails, { RegulatorWithAddress } from '@/hooks/useUserDetails'
-
-export type RegulatorAnalysisTableRow = Analysis & {
-  regulator_review: RegulatorReview[] | null
-  lab_order: {
-    lab_user: {
-      lab_name: string
-    } | null
-    batch: {
-      producer_user: {
-        common_name: string
-      } | null
-    } | null
-  } | null
-}
+import AnalysisDetailPopup from './AnalysisDetailPopup'
+import { useState } from 'react'
 
 const columnHelper = createColumnHelper<ForApproval>()
 
@@ -40,12 +28,13 @@ export default function ApproveOrders() {
   const { data, error, isLoading } = useAnalysis(
     roleDetails && roleDetails.address.state_code,
   )
-  console.log(data)
+  
+  const [activeAnalysis, setActiveAnalysis] = useState<ForApproval|null>(null)
 
   const columns = [
     columnHelper.accessor('lab_name', {
       header: 'Lab',
-      cell: (info) => <div>{info.getValue()}</div>,
+      cell: (info) => <div>{info.getValue() || 'Unknown'}</div>,
     }),
     columnHelper.accessor('finished_at', {
       header: 'Date Populated',
@@ -58,7 +47,7 @@ export default function ApproveOrders() {
     }),
     columnHelper.accessor('producer_name', {
       header: 'Producer',
-      cell: (info) => <div>{info.getValue()}</div>,
+      cell: (info) => <div>{info.getValue() || 'Unknown'}</div>,
     }),
     columnHelper.accessor('analysis_id', {
       header: 'View Details',
@@ -69,7 +58,7 @@ export default function ApproveOrders() {
             color: '#457F6C',
           }}
           className="my-1 text-sm cursor-pointer flex items-center"
-          onClick={() => {}}
+          onClick={() => {setActiveAnalysis(info.cell.row.original)}}
         >
           <span>View Details</span>
         </div>
@@ -91,6 +80,10 @@ export default function ApproveOrders() {
   return (
     <div className="w-full flex flex-wrap justify-around">
       <div className="flex flex-col justify-between gap-4 h-full">
+        <AnalysisDetailPopup
+        activeAnalysis={activeAnalysis}
+        setClose={() => setActiveAnalysis(null)}
+        />
         <Panel>
           <div className="w-128 py-2 max-h-64 overflow-y-scroll">
             {isLoading ? (
