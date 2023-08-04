@@ -10,6 +10,7 @@ export const insertUserDetails = async (userData: {
   const { error } = await supabase.from('user').insert([userData.userDetails])
 
   if (error) {
+    console.log(error)
     throw new Error(
       'Failed to add new base user. Please contact Altum Labs support.',
     )
