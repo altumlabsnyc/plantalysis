@@ -26,10 +26,10 @@ import { passwordStrength as checkPasswordStrength } from 'check-password-streng
 import { ChangeEvent, FormEvent, useEffect, useState } from 'react'
 import { Toaster, toast } from 'react-hot-toast'
 import { useHistory } from 'react-router-dom'
-import backgroundImage from './assets/img/hero.png'
-import logo from './assets/img/plantalysis.png'
-import Spinner from './common/Spinner'
-import PasswordStrengthMeter from './onboarding/PasswordStrengthMeter'
+import backgroundImage from '@/components/assets/img/hero.png'
+import logo from '@/components/assets/img/plantalysis.png'
+import Spinner from '@/components/common/Spinner'
+import PasswordStrengthMeter from '@/utils/PasswordStrengthMeter'
 
 function Copyright(props: any) {
   return (

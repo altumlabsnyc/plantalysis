@@ -1,8 +1,8 @@
 // Nav.js
 import React from 'react'
-import logo from './assets/img/plantalysis.png'
+import logo from '@/components/assets/img/plantalysis.png'
 import { Link } from 'react-router-dom'
-import './assets/css/styles.css'
+import '@/components/assets/css/styles.css'
 
 const Nav = () => {
   return (

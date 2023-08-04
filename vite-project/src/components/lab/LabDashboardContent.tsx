@@ -1,4 +1,4 @@
-import LabUpperPanels from '../LabUpperPanels'
+import LabUpperPanels from '../common/LabUpperPanels'
 
 export default function LabDashboardContent() {
   return (

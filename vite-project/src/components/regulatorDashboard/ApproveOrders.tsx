@@ -7,7 +7,7 @@ import {
   ForApproval,
   useAnalysis,
 } from '@/hooks/useAnalysis.js'
-import Panel from '../Panel'
+import Panel from '../common/Panel'
 import Spinner from '../common/Spinner'
 import { Analysis, RegulatorReview } from '@/types/supabaseAlias'
 import Table from '../Table/Table'

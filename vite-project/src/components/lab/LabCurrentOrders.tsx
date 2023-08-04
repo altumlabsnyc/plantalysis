@@ -1,5 +1,5 @@
 import { createColumnHelper } from '@tanstack/react-table'
-import Panel from './../Panel'
+import Panel from '../common/Panel'
 import Table from './../Table/Table'
 
 import useFacilitiesDetails, {

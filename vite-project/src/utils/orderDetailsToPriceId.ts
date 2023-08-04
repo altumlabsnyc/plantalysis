@@ -1,7 +1,7 @@
 import {
   developerPriceIds,
   productionPriceIds,
-} from '@/constants/stripeConstants'
+} from '@/constants/Constants'
 import { TurnaroundTime } from '@/types/supabaseAlias'
 
 /**

@@ -1,4 +1,4 @@
-import Panel from '../../Panel'
+import Panel from '../../common/Panel'
 
 import './../../assets/css/panel.css'
 

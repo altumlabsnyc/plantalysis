@@ -4,7 +4,7 @@ import useFacilitiesDetails, {
 import { LabRequest } from '@/hooks/useLabOrders'
 import { useUser } from '@supabase/auth-helpers-react'
 import { useState } from 'react'
-import RequestDetailPanel from './LabUpperPanels/RequestDetailPanel/RequestDetailPanel'
+import RequestDetailPanel from '../LabUpperPanels/RequestDetailPanel/RequestDetailPanel'
 import OrderRequestPanel from './OrderRequestsPanel'
 
 export default function LabUpperPanels() {
