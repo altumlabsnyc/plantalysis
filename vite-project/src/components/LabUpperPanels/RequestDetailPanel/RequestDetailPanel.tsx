@@ -25,11 +25,11 @@ export default function RequestDetailPanel({
 }: RequestDetailPanel) {
   console.log(activeLabOrder)
   const user = useUser()
-  const { mutate } = useLabOrderRequests(user)
+  const { data: labRequests, mutate } = useLabOrderRequests(user)
 
   const [claiming, setClaiming] = useState(false)
 
-  const isApproved = activeLabOrder?.lab_user_id != null
+  const isApproved = activeLabOrder?.lab_facility_id != null
   return (
     <Panel>
       <div
@@ -71,9 +71,12 @@ export default function RequestDetailPanel({
                       if (!data) return
                       return data.filter((e) => e.id != activeLabOrder.id)
                     }, false)
-                    await approveLabOrder(activeLabOrder.id, user).then(
-                      (data) => console.log(data),
-                    )
+                    await approveLabOrder(
+                      activeLabOrder.id,
+                      user,
+                      labRequests,
+                      'NY',
+                    ).then((data) => console.log(data))
                     toast.success('Order claimed successfully!')
                   } catch (error) {
                     toast.error('Error claiming order')
