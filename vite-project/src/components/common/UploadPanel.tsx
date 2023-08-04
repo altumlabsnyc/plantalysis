@@ -1,4 +1,4 @@
-import Panel from './Panel'
+import Panel from '@/components/common/Panel'
 
 export default function UploadPanel() {
   return (

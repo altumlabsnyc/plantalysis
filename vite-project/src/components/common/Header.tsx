@@ -1,6 +1,6 @@
 import { HeaderIcon, HeaderLink } from '@/types/dashboard'
 import React, { useState } from 'react'
-import './assets/css/header.css'
+import '@/components/assets/css/header.css'
 
 interface Props {
   dashboardTitle: string

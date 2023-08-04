@@ -1,6 +1,6 @@
 import ArrowForwardRoundedIcon from '@mui/icons-material/ArrowForwardRounded'
 import { Link } from 'react-router-dom'
-import errorImg from './assets/img/404.png'
+import errorImg from '@/components/assets/img/404.png'
 
 export default function Custom404() {
   return (

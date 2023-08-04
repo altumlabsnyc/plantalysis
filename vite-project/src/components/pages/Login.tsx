@@ -15,11 +15,10 @@ import redirectByRole from '@/utils/redirectByRole'
 import { useUser } from '@supabase/auth-helpers-react'
 import { useState } from 'react'
 import { useHistory } from 'react-router-dom'
-import background from './assets/login/img/frame.jpg'
-import Spinner from './common/Spinner'
+import Spinner from '@/components/common/Spinner'
 
-import logo from './assets/img/blackP.jpg'
-import backgroundVideo from './assets/vid/BGV_480p.mp4'
+import logo from '@/components/assets/img/blackP.jpg'
+import backgroundVideo from '@/components/assets/vid/BGV_480p.mp4'
 
 function Copyright(props: any) {
   return (

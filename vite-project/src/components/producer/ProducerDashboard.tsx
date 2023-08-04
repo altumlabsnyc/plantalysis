@@ -1,4 +1,4 @@
-import Dashboard from '@/components/Dashboard'
+import Dashboard from '@/components/common/Dashboard'
 import Bell from '@/components/assets/svg/Bell.svg'
 import Clock from '@/components/assets/svg/Clock.svg'
 import Sidebar from '@/components/assets/svg/Sidebar.svg'
