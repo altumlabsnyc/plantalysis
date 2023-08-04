@@ -1,22 +1,22 @@
 import Faq from '@/components/Faq'
 import Landing from '@/components/Landing/Landing'
-import LeftSideBar from './components/LeftSideBar'
 import Library from '@/components/Library'
 import Login from '@/components/Login'
+import PrivacyPolicy from '@/components/PrivacyPolicy'
 import ProtectedRoute from '@/components/ProtectedRoutes'
 import Register from '@/components/Register'
+import SecurityStatement from '@/components/SecurityStatement'
+import TermsOfService from '@/components/TermsOfService'
 import LabDashboardRouter from '@/components/lab/LabDashboard'
 import ProducerDashboardRouter from '@/components/producer/ProducerDashboard'
 import RegulatorDashboardRouter from '@/components/regulatorDashboard/RegulatorDashboard'
-import PrivacyPolicy from '@/components/PrivacyPolicy'
-import TermsOfService from '@/components/TermsOfService'
-import SecurityStatement from '@/components/SecurityStatement'
 import '@/index.css'
 import { supabase } from '@/utils/supabase'
 import { SessionContextProvider } from '@supabase/auth-helpers-react'
 import { Route, BrowserRouter as Router, Switch } from 'react-router-dom'
-import LabDashboardContent from './components/lab/LabDashboardContent'
 import Custom404 from './components/ErrorPage'
+import LeftSideBar from './components/LeftSideBar'
+import LabDashboardContent from './components/lab/LabDashboardContent'
 // testing commit
 function App() {
   return (
@@ -31,6 +31,7 @@ function App() {
           <Route path="/tos" component={TermsOfService} />
           <Route path="/security" component={SecurityStatement} />
           <Route path="/error" component={Custom404} />
+          <Route component={Custom404} />
 
           <ProtectedRoute
             component={LabDashboardRouter}
