@@ -213,7 +213,8 @@ const Plantalysis: React.FC = () => {
                           </a>
                           <a
                             className="btn-anchor anchor-black mb-0 ml-3"
-                            href={'/register' + '?role=producer'}
+                            href="/register"
+                            target="_blank"
                           >
                             Sign Up
                           </a>
@@ -243,7 +244,8 @@ const Plantalysis: React.FC = () => {
                           </a>
                           <a
                             className="btn-anchor anchor-black mb-0 ml-3"
-                            href={'/register' + '?role=lab'}
+                            href="/register"
+                            target="_blank"
                           >
                             Sign Up
                           </a>
@@ -273,7 +275,8 @@ const Plantalysis: React.FC = () => {
                           </a>
                           <a
                             className="btn-anchor anchor-black mb-0 ml-3"
-                            href={'/register' + '?role=regulator'}
+                            href="/register"
+                            target="_blank"
                           >
                             Sign Up
                           </a>
@@ -477,7 +480,7 @@ const Plantalysis: React.FC = () => {
                                   <div className="w-100">
                                     <select
                                       id="personalized-demo-state"
-                                      className="form-control"
+                                      className="form-control rounded-none headline-eyebrow text-xs"
                                       required
                                       name="state"
                                       value={demoForm.state}
@@ -486,6 +489,7 @@ const Plantalysis: React.FC = () => {
                                       <option value="" disabled>
                                         Select State *
                                       </option>
+                                      <option value="" disabled>Select State * </option>
                                       <option value="AL">Alabama</option>
                                       <option value="AK">Alaska</option>
                                       <option value="AZ">Arizona</option>
