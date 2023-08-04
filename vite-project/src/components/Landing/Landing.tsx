@@ -5,7 +5,6 @@ import Nav from '../Nav'
 import Spinner from '../common/Spinner'
 import './../assets/css/styles.css'
 import AL from './../assets/img/newLogo.png'
-import logo from './../assets/img/newPlantalysis.png'
 import backgroundVideo from './../assets/vid/BGV_480p.mp4'
 import ImageCarousel from './ImageCarousel'
 
@@ -125,43 +124,11 @@ const Plantalysis: React.FC = () => {
 
   return (
     <html lang="en">
-      <head>
-        <meta httpEquiv="Content-Type" content="text/html; charset=UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <link rel="stylesheet" href="./styles.css" />
-        <title>PLANTALYSIS by Altum Labs | NYC</title>
-        <meta
-          name="description"
-          content="Learn how you can deliver exceptional frontline experiences, build high-performing teams and create products people love with Qualtrics XM."
-        />
-      </head>
       <body className="page-home">
         <Nav />
         <div id="page" className="hfeed site bg-light">
           <div id="content" className="site-content bg-light en">
             <div>
-              <nav
-                id="nav-container"
-                className="w-100 bg-white flex justify-between items-center px-4 font-dm-sans"
-              >
-                <div id="logo-container" className="flex items-center">
-                  <img
-                    src={logo}
-                    alt="Plantalysis Logo"
-                    className="w-12 h-12 mr-2 mt-2 mb-2"
-                  />
-                  <span className="text-xl font-bold">Plantalysis</span>
-                </div>
-                <div id="secondary-nav" className="xm-container small">
-                  <ul className="flex list-none m-0 p-0">
-                    <li className="ml-2">
-                      <a className="btn btn-outline-black" href="/login">
-                        Login
-                      </a>
-                    </li>
-                  </ul>
-                </div>
-              </nav>
               <section className="position-relative pb-3 overflow-hidden">
                 <div className="xm-container">
                   <div className="row align-items-stretch">
