@@ -9,6 +9,7 @@ import classNames from 'classnames'
 import { useEffect } from 'react'
 import './assets/css/panel.css'
 import Spinner from './common/Spinner'
+import useFacilitiesDetails from '@/hooks/useFacilities'
 // import useUnapprovedOrderRequests from "@/hooks/useUnapprovedOrderRequests";
 
 /*
@@ -40,6 +41,8 @@ export default function OrderRequestPanel({
   setActiveLabOrder,
 }: OrderRequestPanel) {
   const user = useUser()
+  const facilities = useFacilitiesDetails(user)
+  console.log('facilities', facilities)
   const {
     data: allOrders,
     error,

@@ -19,18 +19,21 @@ export type FacilityWithAddress = Facility & {
  * an object with userDetails and roleDetails. error is the error object from SWR.
  */
 export default function useFacilitiesDetails(user: User | null) {
+  const userType = user?.app_metadata.plantalysis_role;
+  console.log(userType)
   const fetcher = async () => {
     let facilityError: any, facilityData: Array<Facility> | null
 
+
     const facilityFetchPromise = supabase
-      .from('producer_facility')
+      .from(`${userType}_facility`)
       .select(
         `
         *,
         address ( * )
       `,
       )
-      .eq('producer_user_id', user?.id)
+      .eq(`${userType}_user_id`, user?.id)
       .then(({ data, error }) => {
         facilityData = data
         facilityError = error
