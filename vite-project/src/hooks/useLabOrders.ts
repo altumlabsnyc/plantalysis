@@ -14,10 +14,10 @@ import useSWR from 'swr'
 export type LabRequest = LabOrder & {
   batch: Batch
   producer_facility:
-    | (Facility & {
-        address: Address
-      })
-    | null
+  | (Facility & {
+    address: Address
+  })
+  | null
   tests: (Test & {
     test_requirements: TestRequirement[]
   })[]
@@ -89,47 +89,69 @@ export function useLabOrderRequests(user: User | null, state?: string) {
   }
 }
 
+export type ClaimedOrderTableRow = {
+  id: string,
+  analysis_id: string | null
+  facility_name: string | null
+}
+
+
 export function useLabClaimedOrders(user: User | null) {
   const fetcher = async () => {
-    let orders: LabOrder[]
-    let orderError: any
-    const labOrderPromise = supabase
-      .from('lab_order')
-      .select(
-        `
+    let orderError: any;
+    const { data, error } = await supabase.from('lab_order').select(`
     *,
     lab_facility!inner(
+      name,
       lab_user_id
-    )`,
-      )
-      .eq('lab_facility.lab_user_id', user?.id)
-      .then(({ data, error }) => {
-        if (data) {
-          orders = data
-          orderError = error
-        } else {
-          toast.error(
-            'Unable to fetch lab orders of this lab. Please contact Altum Labs support',
-          )
-          throw new Error('Cannot fetch lab orders of this user')
-        }
-      })
+    )`).eq('lab_facility.lab_user_id', user?.id)
 
-    await labOrderPromise
+    
+    if (data) {
+      orderError = error;
+    }
+    else {
+      toast.error('Unable to fetch lab orders of this lab. Please contact Altum Labs support')
+      throw new Error('Cannot fetch lab orders of this user');
+    }
 
     if (orderError) {
-      console.log(orderError)
+      console.log(orderError);
       toast.error('error fetching user orders')
       throw new Error('error fetching user orders')
     }
 
     //@ts-ignore
-    if (!orders) {
+    if (!data) {
       return null
     }
 
+    const claimedOrders: ClaimedOrderTableRow[] = data.map(({
+      analysis_id,
+      id,
+      lab_facility
+    }) => ({
+      analysis_id,
+      id,
+      facility_name: lab_facility?.name || null
+    }))
     // Return the combined data
-    return orders
+    return claimedOrders
+
+  }
+
+  const { data, error, isLoading } = useSWR(
+    user ? `/api/lab_orders/${user.id}` : null,
+    fetcher,
+    {
+      refreshInterval: 1000,
+    },
+  )
+
+  return {
+    data,
+    error,
+    isLoading,
   }
 }
 
