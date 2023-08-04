@@ -45,7 +45,7 @@ function insertLabOrder(session) {
     return __awaiter(this, void 0, void 0, function* () {
         const metadata = session.metadata;
         // @ts-ignore
-        metadata.tests = JSON.parse(metadata.tests);
+        metadata.testIds = JSON.parse(metadata.testIds);
         const batchId = (0, uuid_1.v4)();
         const batch = {
             id: batchId,
@@ -77,9 +77,9 @@ function insertLabOrder(session) {
         console.log(data);
         console.log(error);
         // for each test, insert into lab_order_on_test table
-        const { data: labOrderOnTestData, error: labOrderOnTestError } = yield supabase.from("lab_order_on_test").insert(metadata.tests.map((test) => ({
+        const { data: labOrderOnTestData, error: labOrderOnTestError } = yield supabase.from("lab_order_on_test").insert(metadata.testIds.map((test_id) => ({
             lab_order_id: labOrderId,
-            test_id: test.id,
+            test_id: test_id,
         })));
         console.log(labOrderOnTestData);
         console.log(labOrderOnTestError);
@@ -91,11 +91,11 @@ function insertLabOrder(session) {
 }
 const stripe = new stripe_1.default(stripeKey, { apiVersion: "2022-11-15" });
 const app = (0, express_1.default)();
-app.use((0, cors_1.default)({ origin: "http://localhost:5173" }));
+app.use((0, cors_1.default)({ origin: process.env.FRONTEND_DOMAIN }));
 // app.use(express.static('public'));
 app.post("/create-checkout-session", express_1.default.json(), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    let { priceId, userId, facilityId, turnaroundTime, pickupDate, tests, } = req.body;
-    console.log(tests);
+    let { priceId, userId, facilityId, turnaroundTime, pickupDate, testIds, } = req.body;
+    console.log(testIds);
     try {
         const session = yield stripe.checkout.sessions.create({
             mode: "payment",
@@ -112,7 +112,7 @@ app.post("/create-checkout-session", express_1.default.json(), (req, res) => __a
                 facilityId,
                 turnaroundTime,
                 pickupDate,
-                tests: JSON.stringify(tests),
+                testIds: JSON.stringify(testIds),
             },
             success_url: `${frontendDomain}${successURL}`,
             cancel_url: `${frontendDomain}${cancelURL}`,

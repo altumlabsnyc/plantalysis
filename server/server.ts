@@ -6,7 +6,7 @@ import nodemailer from "nodemailer"
 import Stripe from "stripe"
 import { v4 as uuidv4 } from "uuid"
 import { Database } from "./types/supabase"
-import { Batch, Test } from "./types/supabaseAlias"
+import { Batch } from "./types/supabaseAlias"
 
 dotenv.config()
 
@@ -42,14 +42,14 @@ interface Metadata {
   userId: string
   turnaroundTime: Database["public"]["Enums"]["turnaround_time_enum"]
   pickupDate: string // ISO string
-  tests: Test[]
+  testIds: string[]
 }
 
 async function insertLabOrder(session: any) {
   const metadata: Metadata = session.metadata
 
   // @ts-ignore
-  metadata.tests = JSON.parse(metadata.tests)
+  metadata.testIds = JSON.parse(metadata.testIds)
 
   const batchId = uuidv4()
 
@@ -91,9 +91,9 @@ async function insertLabOrder(session: any) {
   // for each test, insert into lab_order_on_test table
   const { data: labOrderOnTestData, error: labOrderOnTestError } =
     await supabase.from("lab_order_on_test").insert(
-      metadata.tests.map((test) => ({
+      metadata.testIds.map((test_id) => ({
         lab_order_id: labOrderId,
-        test_id: test.id,
+        test_id: test_id,
       }))
     )
 
@@ -109,7 +109,7 @@ async function insertLabOrder(session: any) {
 const stripe = new Stripe(stripeKey, { apiVersion: "2022-11-15" })
 const app = express()
 
-app.use(cors({ origin: "http://localhost:5173" }))
+app.use(cors({ origin: process.env.FRONTEND_DOMAIN }))
 
 // app.use(express.static('public'));
 
@@ -123,10 +123,10 @@ app.post(
       facilityId,
       turnaroundTime,
       pickupDate,
-      tests,
+      testIds,
     }: Metadata = req.body
 
-    console.log(tests)
+    console.log(testIds)
 
     try {
       const session = await stripe.checkout.sessions.create({
@@ -144,7 +144,7 @@ app.post(
           facilityId,
           turnaroundTime,
           pickupDate,
-          tests: JSON.stringify(tests),
+          testIds: JSON.stringify(testIds),
         },
         success_url: `${frontendDomain}${successURL}`,
         cancel_url: `${frontendDomain}${cancelURL}`,
