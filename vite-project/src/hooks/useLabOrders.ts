@@ -14,10 +14,10 @@ import useSWR from 'swr'
 export type LabRequest = LabOrder & {
   batch: Batch
   producer_facility:
-  | (Facility & {
-    address: Address
-  })
-  | null
+    | (Facility & {
+        address: Address
+      })
+    | null
   tests: (Test & {
     test_requirements: TestRequirement[]
   })[]
@@ -90,33 +90,37 @@ export function useLabOrderRequests(user: User | null, state?: string) {
 }
 
 export type ClaimedOrderTableRow = {
-  id: string,
+  id: string
   analysis_id: string | null
   facility_name: string | null
 }
 
-
 export function useLabClaimedOrders(user: User | null) {
   const fetcher = async () => {
-    let orderError: any;
-    const { data, error } = await supabase.from('lab_order').select(`
+    let orderError: any
+    const { data, error } = await supabase
+      .from('lab_order')
+      .select(
+        `
     *,
     lab_facility!inner(
       name,
       lab_user_id
-    )`).eq('lab_facility.lab_user_id', user?.id)
+    )`,
+      )
+      .eq('lab_facility.lab_user_id', user?.id)
 
-    
     if (data) {
-      orderError = error;
-    }
-    else {
-      toast.error('Unable to fetch lab orders of this lab. Please contact Altum Labs support')
-      throw new Error('Cannot fetch lab orders of this user');
+      orderError = error
+    } else {
+      toast.error(
+        'Unable to fetch lab orders of this lab. Please contact Altum Labs support',
+      )
+      throw new Error('Cannot fetch lab orders of this user')
     }
 
     if (orderError) {
-      console.log(orderError);
+      console.log(orderError)
       toast.error('error fetching user orders')
       throw new Error('error fetching user orders')
     }
@@ -126,18 +130,15 @@ export function useLabClaimedOrders(user: User | null) {
       return null
     }
 
-    const claimedOrders: ClaimedOrderTableRow[] = data.map(({
-      analysis_id,
-      id,
-      lab_facility
-    }) => ({
-      analysis_id,
-      id,
-      facility_name: lab_facility?.name || null
-    }))
+    const claimedOrders: ClaimedOrderTableRow[] = data.map(
+      ({ analysis_id, id, lab_facility }) => ({
+        analysis_id,
+        id,
+        facility_name: lab_facility?.name || null,
+      }),
+    )
     // Return the combined data
     return claimedOrders
-
   }
 
   const { data, error, isLoading } = useSWR(

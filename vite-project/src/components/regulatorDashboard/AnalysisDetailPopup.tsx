@@ -39,16 +39,14 @@ export default function AnalysisDetailPopup({
     activeAnalysis?.tests
       ?.map(({ test: { test_category_name }, reqResults }) =>
         reqResults.map(
-          ({
-            requirement: { name: test_requirement_name },
-            result,
-          }) => {
+          ({ requirement: { name: test_requirement_name }, result }) => {
             const test_result = result ? result.result : ''
-            return ({
-            test_category_name,
-            test_requirement_name,
-            test_result,
-          })},
+            return {
+              test_category_name,
+              test_requirement_name,
+              test_result,
+            }
+          },
         ),
       )
       .flat() || []
