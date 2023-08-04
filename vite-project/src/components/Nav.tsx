@@ -1,8 +1,8 @@
 // Nav.js
-import React from 'react';
-import logo from './assets/img/plantalysis.png';
-import { Link } from 'react-router-dom';
-import './assets/css/styles.css';
+import React from 'react'
+import logo from './assets/img/plantalysis.png'
+import { Link } from 'react-router-dom'
+import './assets/css/styles.css'
 
 const Nav = () => {
   return (
@@ -16,8 +16,15 @@ const Nav = () => {
           className="flex items-center"
           style={{ textDecoration: 'none' }}
         >
-          <img src={logo} alt="Plantalysis Logo" className="w-12 h-12 mr-2 mt-2 mb-2" />
-          <span className="text-xl font-bold" style={{ textDecoration: 'none' }}>
+          <img
+            src={logo}
+            alt="Plantalysis Logo"
+            className="w-12 h-12 mr-2 mt-2 mb-2"
+          />
+          <span
+            className="text-xl font-bold"
+            style={{ textDecoration: 'none' }}
+          >
             Plantalysis
           </span>
         </div>
@@ -26,15 +33,13 @@ const Nav = () => {
         <ul className="flex list-none m-0 p-0">
           <li className="ml-2">
             <a className="input-sans" href="/login">
-              <button className="btn border-black">
-                Login
-              </button>
+              <button className="btn border-black">Login</button>
             </a>
           </li>
         </ul>
       </div>
     </nav>
-  );
-};
+  )
+}
 
-export default Nav;
+export default Nav
