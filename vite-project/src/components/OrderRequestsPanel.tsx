@@ -4,8 +4,8 @@ import Table from './Table/Table'
 
 import { LabRequest, useLabOrderRequests } from '@/hooks/useLabOrders'
 import { LabOrder } from '@/types/supabaseAlias'
-import { ChevronRightIcon } from '@heroicons/react/20/solid'
 import { useUser } from '@supabase/auth-helpers-react'
+import classNames from 'classnames'
 import { useEffect } from 'react'
 import './assets/css/panel.css'
 import Spinner from './common/Spinner'
@@ -61,20 +61,14 @@ export default function OrderRequestPanel({
     columnHelper.accessor('id', {
       cell: (info) => (
         <div
-          style={{
-            color: '#457F6C',
-          }}
-          className="my-1 text-sm cursor-pointer flex items-center"
+          className={classNames(
+            { 'text-green-500': activeLabOrder?.id === info.row.original.id },
+            'my-1 text-sm cursor-pointer flex items-center',
+          )}
           onClick={() => setActiveLabOrder(info.row.original)}
         >
-          {activeLabOrder === info.row.original ? (
-            <span className="">Viewing</span>
-          ) : (
-            <>
-              <span>View Request</span>
-              <ChevronRightIcon className="h-4 w-4 ml-1" />
-            </>
-          )}{' '}
+          {info.row.original.tests.map((test) => test.name).join(' | ')}
+          {activeLabOrder?.id === info.row.original.id && ' (Viewing)'}
         </div>
       ),
     }),

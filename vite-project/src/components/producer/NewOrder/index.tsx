@@ -3,7 +3,8 @@ import useFacilitiesDetails, {
   FacilityWithAddress,
 } from '@/hooks/useFacilities'
 import useTestCategoriesDetails from '@/hooks/useTestCategories'
-import { Test, TestCategory, TurnaroundTime } from '@/types/supabaseAlias'
+import { TestWithLocalRequirements } from '@/hooks/useTests'
+import { TestCategory, TurnaroundTime } from '@/types/supabaseAlias'
 import dollarToString from '@/utils/dollarToString'
 import orderDetailsToPriceId from '@/utils/orderDetailsToPriceId'
 import receiveResultsBy from '@/utils/receiveResultsBy'
@@ -45,7 +46,9 @@ export default function NewOrder() {
     TestCategory | undefined
   >()
 
-  const [selectedTests, setSelectedTests] = useState<Set<Test>>(new Set())
+  const [selectedTests, setSelectedTests] = useState<
+    Set<TestWithLocalRequirements>
+  >(new Set())
 
   // const [selectedStrainName, setSelectedStrainName] = useState('')
   // const [selectedProductType, setSelectedProductType] =
@@ -80,6 +83,8 @@ export default function NewOrder() {
 
     setLoadingCheckout(true)
 
+    console.log(orderDetailsToPriceId(selectedTurnaroundTime))
+
     const response = await fetch(
       `${import.meta.env.VITE_BACKEND_DOMAIN}/create-checkout-session`,
       {
@@ -95,7 +100,7 @@ export default function NewOrder() {
           // productType: selectedProductType,
           turnaroundTime: selectedTurnaroundTime,
           pickupDate: selectedPickupDate.toISOString(),
-          tests: Array.from(selectedTests),
+          testIds: Array.from(selectedTests).map((test) => test.id),
         }),
       },
     )

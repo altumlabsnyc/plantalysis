@@ -1,4 +1,11 @@
-import { Batch, Facility, LabOrder } from '@/types/supabaseAlias'
+import {
+  Address,
+  Batch,
+  Facility,
+  LabOrder,
+  Test,
+  TestRequirement,
+} from '@/types/supabaseAlias'
 import { supabase } from '@/utils/supabase'
 import { User } from '@supabase/supabase-js'
 import toast from 'react-hot-toast'
@@ -79,7 +86,14 @@ export default function useLabOrders(
 
 export type LabRequest = LabOrder & {
   batch: Batch
-  facility: Facility | null
+  producer_facility:
+    | (Facility & {
+        address: Address
+      })
+    | null
+  tests: (Test & {
+    test_requirements: TestRequirement[]
+  })[]
 }
 
 //HELPERS FOR LAB_ORDERS FETCHING
@@ -94,17 +108,27 @@ export function useLabOrderRequests(user: User | null) {
         *,
         batch (
           *,
-          producer_facility ( * )
+          producer_facility ( *,
+            address ( * )
+          )
+        ),
+        lab_order_on_test ( *,
+          test ( *,
+            test_requirements:test_requirement ( * ) 
+          )
         )
         `,
       )
-      .is('lab_user_id', null)
+      .is('lab_facility_id', null)
+
+    console.log(data)
 
     if (data != null) {
       ordersData = data.map((order) => ({
         ...order,
         batch: order.batch,
-        facility: order.batch?.producer_facility,
+        producer_facility: order.batch?.producer_facility,
+        tests: order.lab_order_on_test.map((test) => test.test),
       })) as LabRequest[]
     }
 
@@ -124,6 +148,9 @@ export function useLabOrderRequests(user: User | null) {
   const { data, error, isLoading, mutate } = useSWR(
     user ? '/api/lab_orders/' : null,
     fetcher,
+    {
+      refreshInterval: 1000,
+    },
   )
 
   return {
