@@ -6,7 +6,6 @@ import Paper from '@mui/material/Paper'
 import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
 import toast, { Toaster } from 'react-hot-toast'
-// import background from "./assets/login/img/frame.png";
 
 import { handleSignIn } from '@/hooks/handleSignIn'
 import delay from '@/utils/delay'
@@ -15,7 +14,7 @@ import redirectByRole from '@/utils/redirectByRole'
 import { useUser } from '@supabase/auth-helpers-react'
 import { useState } from 'react'
 import { useHistory } from 'react-router-dom'
-import background from './assets/login/img/frame.jpg'
+import background from './assets/login/img/frame.png'
 import Spinner from './common/Spinner'
 
 import logo from './assets/img/blackP.jpg'
@@ -92,21 +91,26 @@ export default function SignInSide() {
           position: 'relative',
         }}
       >
-        <video
-          autoPlay
-          loop
-          muted
+        <div
           style={{
             position: 'absolute',
             top: 0,
             left: 0,
             width: '100%',
             height: '100%',
-            objectFit: 'cover',
+            overflow: 'hidden',
           }}
         >
-          <source src={backgroundVideo} type="video/mp4" />
-        </video>
+          <img
+            src={background}
+            alt="Background Image"
+            style={{
+              width: '100%',
+              height: '100%',
+              objectFit: 'cover',
+            }}
+          />
+        </div>
 
         <Typography
           component="h1"

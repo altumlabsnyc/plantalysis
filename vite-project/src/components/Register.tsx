@@ -26,8 +26,8 @@ import { passwordStrength as checkPasswordStrength } from 'check-password-streng
 import { ChangeEvent, FormEvent, useState } from 'react'
 import { Toaster, toast } from 'react-hot-toast'
 import { useHistory } from 'react-router-dom'
-import backgroundImage from './assets/img/hero.png'
-import logo from './assets/img/plantalysis.png'
+import background from './assets/login/img/frame.png'
+import logo from './assets/img/blackP.jpg'
 import Spinner from './common/Spinner'
 import PasswordStrengthMeter from './onboarding/PasswordStrengthMeter'
 
@@ -249,32 +249,26 @@ export default function Register() {
           position: 'relative',
         }}
       >
-        {/* <video
-          autoPlay
-          loop
-          muted
+        <div
           style={{
             position: 'absolute',
             top: 0,
             left: 0,
             width: '100%',
             height: '100%',
-            objectFit: 'cover',
+            overflow: 'hidden',
           }}
         >
-          <source src={backgroundVideo} type="video/mp4" />
-        </video> */}
-        <img
-          style={{
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            width: '100%',
-            height: '100%',
-            objectFit: 'cover',
-          }}
-          src={backgroundImage}
-        />
+          <img
+            src={background}
+            alt="Background Image"
+            style={{
+              width: '100%',
+              height: '100%',
+              objectFit: 'cover',
+            }}
+          />
+        </div>
 
         <Typography
           component="h1"
@@ -308,6 +302,7 @@ export default function Register() {
             }}
           />
         </a>
+
         <a href="https://www.plantalysis.com">
           <img
             src={logo}
@@ -353,7 +348,7 @@ export default function Register() {
             textShadow: '2px 2px 16px rgba(0, 0, 0, 1)',
           }}
         >
-          Join Us
+          SIGN-UP
         </Typography>
       </Grid>
       <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
