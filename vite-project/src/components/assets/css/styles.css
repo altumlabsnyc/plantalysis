@@ -681,7 +681,6 @@ pre code {
   color: #495057;
   background-color: #fff;
   background-clip: padding-box;
-  border: 1px solid #000;
   border-radius: 0.25rem;
   transition:
     border-color 0.15s ease-in-out,
@@ -10809,6 +10808,40 @@ textarea.form-control {
 .was-validated .form-check-input ~ .invalid-feedback .feedback-tooltip::after {
   content: none;
 }
+/* styles.css */
+
+/* Import Benton Sans font from CDN */
+@import url('https://fonts.googleapis.com/css2?family=Benton+Sans:wght@300;400;500&display=swap');
+
+/* Default font size for desktop */
+.font-size-desktop {
+  font-size: 24px;
+}
+
+/* Font size for mobile (smaller) */
+.font-size-mobile {
+  font-size: 18px;
+}
+
+/* Media query for mobile devices with a maximum width of 768px */
+@media screen and (max-width: 768px) {
+  /* Adjust font sizes for mobile */
+  .font-size-desktop {
+    font-size: 18px;
+  }
+  
+  .font-size-mobile {
+    font-size: 14px;
+  }
+}
+
+/* Apply Benton Sans font to specific elements */
+#main-footer-content h1,
+#main-footer-content a {
+  font-family: 'Benton Sans', sans-serif;
+  font-weight: 500;
+}
+
 
 div[id$='-privacy-data-notice'] small {
   font-size: 11px;
@@ -10826,11 +10859,11 @@ div[id$='-privacy-data-notice'] small {
 }
 
 #personalized-demo-form .form-control {
-  background-color: #edf2f4;
+  background-color: #F8F9FA;
 }
 
 #personalized-demo-form .form-control:focus {
-  background-color: #edf2f4;
+  background-color: #F8F9FA;
 }
 
 #footer-marketo-iframe {

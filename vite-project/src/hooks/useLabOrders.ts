@@ -11,8 +11,6 @@ import { User } from '@supabase/supabase-js'
 import toast from 'react-hot-toast'
 import useSWR from 'swr'
 
-
-
 export type LabRequest = LabOrder & {
   batch: Batch
   producer_facility:
@@ -121,7 +119,6 @@ export function useLabClaimedOrders(user: User | null) {
       console.log(orderError);
       toast.error('error fetching user orders')
       throw new Error('error fetching user orders')
-
     }
 
     //@ts-ignore
@@ -157,12 +154,6 @@ export function useLabClaimedOrders(user: User | null) {
     isLoading,
   }
 }
-
-
-
-
-
-
 
 export interface ProducerLabOrderDetails {
   id: string
