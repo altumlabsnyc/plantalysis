@@ -8,6 +8,8 @@ import Panel from '../Panel'
 import Spinner from '../common/Spinner'
 import { Analysis, RegulatorReview } from '@/types/supabaseAlias'
 import Table from '../Table/Table'
+import { useState } from 'react'
+import AnalysisDetailPopup from './AnalysisDetailPopup'
 
 export type RegulatorAnalysisTableRow = Analysis & {
   regulator_review: RegulatorReview[] | null,
@@ -31,7 +33,15 @@ export default function ApproveOrders() {
   // const analysisData = useAnalysis(user, allLabOrders.data)
   // const { data, error, isLoading } = useAnalysis(user, ANALYSIS_REQUEST_TYPE.ALL)
   const { data, error, isLoading } = useAnalysis()
-  console.log(data)
+  // console.log(data)
+
+  const [activeAnalysis, setActiveAnalysis] = useState<ForApproval | null>(null)
+
+  const isPopupOpen = activeAnalysis != null
+
+  const setPopupClose = function () {
+    setActiveAnalysis(null)
+  }
 
   const columns = [
     columnHelper.accessor('lab_name', {
@@ -44,13 +54,14 @@ export default function ApproveOrders() {
     }),
     columnHelper.accessor('finished_at', {
       header: "Date Populated",
-      cell: (info) =>  {
+      cell: (info) => {
         const dateString = info.getValue()
         return (
-        <div>
-          {dateString && format(new Date(dateString), "yyyy-MM-dd")}
-        </div>
-      )}
+          <div>
+            {dateString && format(new Date(dateString), "yyyy-MM-dd")}
+          </div>
+        )
+      }
     }),
     columnHelper.accessor('producer_name', {
       header: "Producer",
@@ -69,7 +80,7 @@ export default function ApproveOrders() {
             color: '#457F6C',
           }}
           className="my-1 text-sm cursor-pointer flex items-center"
-          onClick={() => { }}
+          onClick={() => { setActiveAnalysis(info.row.original) }}
         >
           <span>View Details</span>
         </div>
@@ -90,6 +101,10 @@ export default function ApproveOrders() {
   // }
   return (<div className="w-full flex flex-wrap justify-around">
     <div className="flex flex-col justify-between gap-4 h-full">
+      <AnalysisDetailPopup
+        activeAnalysis={activeAnalysis}
+        setClose={setPopupClose}
+      />
       <Panel>
         <div
           className="w-128 py-2 max-h-64 overflow-y-scroll"
@@ -119,5 +134,5 @@ export default function ApproveOrders() {
         </div>
       </Panel>
     </div>
-  </div>)
+  </div >)
 }
