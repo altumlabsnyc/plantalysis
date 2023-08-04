@@ -7,6 +7,8 @@ import Stripe from "stripe"
 import { v4 as uuidv4 } from "uuid"
 import { Database } from "./types/supabase"
 import { Batch } from "./types/supabaseAlias"
+import { InsertDemo } from "./types/supabaseAlias"
+
 
 dotenv.config()
 
@@ -184,39 +186,49 @@ app.post(
   }
 )
 
-app.post("/send-email", express.json(), async (req: Request, res: Response) => {
-  const emailUser = `${process.env.EMAIL_USERNAME}`
-  const emailPass = `${process.env.EMAIL_PASS}`
-  const emailBody = req.body["text"]
+type DemoBody = InsertDemo & {
+  text?: string;
+};
 
-  if (emailBody === undefined) {
-    return res.status(400).send("Bad request. No text field in request body.")
-  }
+app.post('/send-email',
+  express.json(),
+  async (req: Request, res: Response) => {
+    const emailUser: string = `${process.env.EMAIL_USERNAME}`
+    const emailPass: string = `${process.env.EMAIL_PASS}`
+    const demoBody: DemoBody = req.body;
 
-  try {
-    const transporter = nodemailer.createTransport({
-      host: "smtp.gmail.com",
-      port: 587,
-      secure: false, // upgrade later with STARTTLS
-      auth: {
-        user: emailUser,
-        pass: emailPass,
-      },
-    })
-    await transporter.sendMail({
-      from: `Sales Request @ Plantalysis 👻 ${emailUser}`, // sender address
-      to: `${process.env.DEMO_RECEIVER}`, // list of receivers
-      subject: "Demo Scheduled", // Subject line
-      text: `${emailBody}`, // plain text body
-    })
-  } catch (err) {
-    console.error(err)
-    // @ts-ignore
-    return res.status(500).send(`Internal Nodemailer Error: ${err.message}`)
-  }
+    if (!demoBody.first_name || !demoBody.last_name || !demoBody.company || !demoBody.job_title || !demoBody.email || !demoBody.phone || !demoBody.state || !demoBody.text) {
+      return res.status(400).send("Bad request. Some fields are missing in request body.")
+    }
 
-  res.status(200).send({ received: true })
-})
+    try {
+      const transporter = nodemailer.createTransport({
+        host: 'smtp.gmail.com',
+        port: 587,
+        secure: false, // upgrade later with STARTTLS
+        auth: {
+          user: emailUser,
+          pass: emailPass
+        }
+      });
+      // Must delete extra fields before passing to supabase
+      delete demoBody.text;
+      await Promise.all([transporter.sendMail({
+        from: `Team @ Altum 👻 ${emailUser}`, // sender address
+        to: `${process.env.DEMO_RECEIVER}`, // list of receivers
+        subject: 'Demo Scheduled', // Subject line
+        text: demoBody.text, // plain text body
+      }),
+      supabase.from('demos_scheduled').insert([demoBody]).select()
+      ]);
+
+      return res.status(200).send("Email sent successfully")
+    } catch (err) {
+      console.error(err)
+      // @ts-ignore
+      return res.status(500).send(`Internal Error: ${err.message}`)
+    }
+  });
 
 app.get("/test", (req: Request, res: Response) => {
   res.json({ message: "Hello, this is a test!" })

@@ -146,8 +146,7 @@ export default function Dashboard({
             </Dialog>
           </Transition.Root>
 
-          {/* Static sidebar for desktop */}
-          {/* Sidebar component, put the dynamic sidebar here */}
+          {/* put the dynamic sidebar here */}
           <LeftSideBar
             sidebarOpen={desktopSidebarOpen}
             title={sidebarTitle}
@@ -161,11 +160,11 @@ export default function Dashboard({
               className="-m-2.5 p-2.5 text-gray-700 lg:hidden"
               onClick={() => setSidebarOpen(true)}
             >
-              <span className="sr-only">Open sidebar</span>
+              <span className="sr-only">Open Sidebar</span>
               <ChairAlt className="h-6 w-6" aria-hidden="true" />
             </button>
             <div className="flex-1 text-sm font-semibold leading-6 text-gray-900">
-              dynamic Mobile header (work on later)
+              dynamic mobile header (work on later)
             </div>
             <a href="#">
               <span className="sr-only">Your profile</span>
