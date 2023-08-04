@@ -46,7 +46,7 @@ export default function Dashboard({
           <EmailConfirmationBanner sidebarOpen={desktopSidebarOpen} />
         )}
         <Toaster />
-        <div className="bg-background">
+        <div className="bg-background dark:bg-background_dark">
           {/* Mobile menu & transition CAN IGNORE FOR NOW */}
           <Transition.Root show={sidebarOpen} as={Fragment}>
             <Dialog
@@ -101,7 +101,7 @@ export default function Dashboard({
                       </div>
                     </Transition.Child>
                     {/* Mobile / Small Screen Sidebar components */}
-                    <div className="flex grow flex-col gap-y-5 overflow-y-auto px-6 pb-2 bg-background z-50">
+                    <div className="flex grow flex-col gap-y-5 overflow-y-auto px-6 pb-2 bg-background dark: bg-background_dark z-50">
                       <p>dynamic mobile sidebar</p>
                       <div className="flex h-16 shrink-0 items-center gap-4">
                         <img
@@ -177,7 +177,7 @@ export default function Dashboard({
               'transition-all duration-300 ease-in-out h-screen',
             )}
           >
-            <div className="bg-background w-full">
+            <div className="bg-background dark:bg-background_dark w-full">
               {/* Main area */}
               <Header
                 dashboardTitle={dashboardTitle}

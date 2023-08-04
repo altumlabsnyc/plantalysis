@@ -23,13 +23,22 @@ function ProducerDashboard({ children }: ProducerDashboardProps) {
 
   const [desktopSidebarOpen, setDesktopSidebarOpen] = useState(true)
 
+  const [darkMode, setDarkMode] = useState(true)
+
   const headerIcons = [
     {
       icon: Sun,
-      onClick: () =>
+      onClick: () => {
+        setDarkMode(!darkMode);
+        if (!darkMode) {
+          document.documentElement.classList.add('dark')
+        } else {
+          document.documentElement.classList.remove('dark')
+        };
         toast('Dark mode coming soon!', {
           icon: '🌞',
-        }),
+        });
+      }
     },
     {
       icon: Clock,

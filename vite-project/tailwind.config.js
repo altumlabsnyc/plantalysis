@@ -1,6 +1,6 @@
 module.exports = {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
-  darkMode: 'media',
+  darkMode: 'class',
   theme: {
     extend: {},
     animation: {
@@ -8,6 +8,7 @@ module.exports = {
     },
     colors: {
       background: '#F8F6F2',
+      background_dark: '#1C1C1C',
       text: '#1C1C1C66',
       search: '#EDEBE7',
     },

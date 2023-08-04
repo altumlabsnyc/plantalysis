@@ -26,13 +26,22 @@ function LabDashboard({ children }: LabDashboardProps) {
 
   const [desktopSidebarOpen, setDesktopSidebarOpen] = useState(true)
 
+  const [darkMode, setDarkMode] = useState(false)
+
   const headerIcons = [
     {
       icon: Sun,
-      onClick: () =>
+      onClick: () => {
+        setDarkMode(!darkMode);
+        if (!darkMode) {
+          document.documentElement.classList.add('dark')
+        } else {
+          document.documentElement.classList.remove('dark')
+        };
         toast('Dark mode coming soon!', {
           icon: '🌞',
-        }),
+        });
+      }
     },
     {
       icon: Clock,
@@ -129,7 +138,7 @@ function LabDashboard({ children }: LabDashboardProps) {
         {
           text: 'About',
           onClick: () => {
-            ;<Link to="/about" />
+            ; <Link to="/about" />
             toast('About Us coming soon!', { icon: '⭐' })
           },
         },
