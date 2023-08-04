@@ -31,7 +31,6 @@ function App() {
           <Route path="/tos" component={TermsOfService} />
           <Route path="/security" component={SecurityStatement} />
           <Route path="/error" component={Custom404} />
-          <Route component={Custom404} />
 
           <ProtectedRoute
             component={LabDashboardRouter}
@@ -70,6 +69,8 @@ function App() {
               <LabDashboardContent />
             </div>
           </Route>
+
+          <Route path="*" component={Custom404} />
         </Switch>
       </Router>
     </SessionContextProvider>
