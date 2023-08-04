@@ -13,7 +13,6 @@ import toast from 'react-hot-toast'
 import { Link, Redirect, Route, useHistory } from 'react-router-dom'
 import '../assets/dashboard/css/styles.css'
 import Upload from '../regulatorDashboard/Upload.js'
-import ClaimOrders from './ClaimOrders'
 import CurrentOrders from './CurrentOrders'
 
 interface LabDashboardProps {
@@ -74,13 +73,10 @@ function LabDashboard({ children }: LabDashboardProps) {
     //       icon: '⭐',
     //     }),
     // },
-    // {
-    //   label: 'QR Code',
-    //   onClick: () =>
-    //     toast('QR Code coming soon!', {
-    //       icon: '⭐',
-    //     }),
-    // },
+    {
+      label: 'Claim Orders',
+      onClick: () => history.push('/dashboard/lab/claim'),
+    },
     // {
     //   label: 'Calendar',
     //   onClick: () =>
@@ -193,7 +189,7 @@ export default function LabDashboardRouter() {
   return (
     <LabDashboard>
       <Route path="/dashboard/lab/overview">
-        <LabDashboardContent />
+        <p>show orders here</p>
       </Route>
       <Route path="/dashboard/lab/upload">
         <Upload />
@@ -201,8 +197,8 @@ export default function LabDashboardRouter() {
       <Route path="/dashboard/lab/current-orders">
         <CurrentOrders />
       </Route>
-      <Route path="/dashboard/lab/claim-new-orders">
-        <ClaimOrders />
+      <Route path="/dashboard/lab/claim">
+        <LabDashboardContent />
       </Route>
       <Redirect from="/dashboard/lab" to="/dashboard/lab/overview" />
     </LabDashboard>

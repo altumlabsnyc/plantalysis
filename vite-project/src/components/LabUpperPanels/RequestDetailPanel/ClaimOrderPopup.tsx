@@ -1,12 +1,14 @@
+import Spinner from '@/components/common/Spinner'
+import { claimLabOrder } from '@/hooks/claimLabOrder'
 import useFacilitiesDetails, {
   FacilityWithAddress,
 } from '@/hooks/useFacilities'
-import { LabRequest } from '@/hooks/useLabOrders'
+import { LabRequest, useLabOrderRequests } from '@/hooks/useLabOrders'
 import receiveResultsBy from '@/utils/receiveResultsBy'
 import { Dialog, Transition } from '@headlessui/react'
 import { useUser } from '@supabase/auth-helpers-react'
 import { format } from 'date-fns'
-import { Fragment } from 'react'
+import { Fragment, useState } from 'react'
 import OrderRequirements from './OrderRequirements'
 
 interface Props {
@@ -26,10 +28,19 @@ export default function ClaimOrderPopup({
   const { data: facilitiesDetails, mutate: mutateFacilitiesDetails } =
     useFacilitiesDetails(user)
 
+  const { mutate } = useLabOrderRequests(
+    user,
+    activeFacility?.address.state_code,
+  )
+
+  const [loading, setLoading] = useState(false)
+
   const pickupDate = new Date(activeLabOrder.pickup_date || '')
   const threeDaysFromPickupDate = pickupDate.setDate(pickupDate.getDate() + 3)
 
   function closeModal() {
+    if (loading) return
+
     setIsOpen(false)
   }
 
@@ -68,7 +79,7 @@ export default function ClaimOrderPopup({
                 >
                   Claim Lab Order
                 </Dialog.Title>
-                <div className="mt-2">
+                <div className="mt-2 flex flex-col items-center">
                   To claim the lab order, you agree to the following timeline:{' '}
                   <ul className="list-decimal mx-4">
                     <li>
@@ -105,6 +116,28 @@ export default function ClaimOrderPopup({
                     </li>
                   </ul>
                 </div>
+                <button
+                  disabled={loading}
+                  className="mt-4 flex items-center bg-green-500 px-4 py-2 mb-0.5 rounded-md shadow text-white mx-auto"
+                  onClick={async () => {
+                    setLoading(true)
+                    await claimLabOrder(
+                      user,
+                      activeFacility.id,
+                      activeLabOrder.id,
+                      mutate,
+                    )
+                    setLoading(false)
+                    closeModal()
+                  }}
+                >
+                  Claim order
+                  {loading && (
+                    <div className="ml-2">
+                      <Spinner size="xs" />
+                    </div>
+                  )}
+                </button>
               </Dialog.Panel>
             </Transition.Child>
           </div>

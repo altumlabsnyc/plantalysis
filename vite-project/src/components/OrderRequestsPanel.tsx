@@ -54,9 +54,7 @@ export default function OrderRequestPanel({
     error,
     isLoading,
     mutate,
-  } = useLabOrderRequests(user)
-
-  console.log(allOrders)
+  } = useLabOrderRequests(user, activeFacility?.address.state_code)
 
   const data = allOrders || []
 
@@ -116,16 +114,22 @@ export default function OrderRequestPanel({
   ]
 
   useEffect(() => {
-    if (data.length == 0) return
+    if (!labFacilities || labFacilities?.length === 0) return
 
-    setActiveLabOrder(data[0])
-  }, [allOrders])
+    setActiveFacility(labFacilities[0])
+  }, [labFacilities])
+
+  useEffect(() => {
+    if (allOrders && allOrders.length !== 0) {
+      setActiveLabOrder(allOrders[0])
+    }
+  }, [activeFacility, allOrders])
 
   return (
     <div className="mx-auto">
       <Panel>
         <div
-          className="w-64 py-2 max-h-64 overflow-y-scroll"
+          className="w-64 h-96 py-2 overflow-y-scroll"
           // style={{
           //   width: '323px',
           // }}
@@ -151,18 +155,15 @@ export default function OrderRequestPanel({
                 {activeFacility ? (
                   <div className="">
                     <Table<LabRequest>
-                      data={data.filter((order) => {
-                        return (
-                          order.producer_facility?.address.state_code ===
-                          activeFacility.address.state_code
-                        )
-                      })}
+                      data={data}
                       columns={columns}
                       hideHeader={true}
                     />
                   </div>
                 ) : (
-                  <p>Please select a facility to see open lab orders</p>
+                  <p className="mt-2">
+                    Please select a facility to see open lab orders
+                  </p>
                 )}
               </>
             )}

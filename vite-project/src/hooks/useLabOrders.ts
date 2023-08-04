@@ -28,11 +28,12 @@ export enum LabOrdersRequested {
 export default function useLabOrders(
   user: User | null,
   requested: LabOrdersRequested,
+  state?: string,
 ) {
   const fetcher = async () => {
     const { data: data, error: error } = await supabase
       .from('lab_order')
-      .select('*')
+      .select(`*`)
 
     if (error) {
       console.log(error)
@@ -97,7 +98,7 @@ export type LabRequest = LabOrder & {
 }
 
 //HELPERS FOR LAB_ORDERS FETCHING
-export function useLabOrderRequests(user: User | null) {
+export function useLabOrderRequests(user: User | null, state?: string) {
   const fetcher = async () => {
     let ordersData = null
 
@@ -106,10 +107,10 @@ export function useLabOrderRequests(user: User | null) {
       .select(
         `
         *,
-        batch (
+        batch!inner (
           *,
-          producer_facility ( *,
-            address ( * )
+          producer_facility!inner ( *,
+            address!inner ( * )
           )
         ),
         lab_order_on_test ( *,
@@ -120,6 +121,7 @@ export function useLabOrderRequests(user: User | null) {
         `,
       )
       .is('lab_facility_id', null)
+      .eq('batch.producer_facility.address.state_code', state || 'NY')
 
     console.log(data)
 
@@ -146,7 +148,7 @@ export function useLabOrderRequests(user: User | null) {
   }
 
   const { data, error, isLoading, mutate } = useSWR(
-    user ? '/api/lab_orders/' : null,
+    user ? `/api/lab_orders/${state}` : null,
     fetcher,
     {
       refreshInterval: 1000,
