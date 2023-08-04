@@ -148,7 +148,7 @@ export function getUserClaimedOrders(
 ): Array<LabOrder> {
   if (allOrders) {
     const claimedOrders = allOrders.filter((order) => {
-      return order.lab_user_id === user?.id
+      return order.lab_facility_id === user?.id
     })
     return claimedOrders
   }
@@ -167,7 +167,7 @@ export function getUnClaimedOrders(
 ): Array<LabOrder> {
   if (allOrders) {
     const unclaimedOrders = allOrders.filter((order) => {
-      return order.lab_user_id === null
+      return order.lab_facility_id === null
     })
     return unclaimedOrders
   }
@@ -224,7 +224,7 @@ export function useProducerPlacedOrders(user: User | null) {
         ordersData = data?.map((order) => {
           const orderData: ProducerLabOrderDetails = {
             id: order.id,
-            lab_user_id: order.lab_user_id,
+            lab_user_id: order.lab_facility_id,
             order_time: order.order_time,
             location: order.batch?.producer_facility?.address?.line_1 || '',
             analysis_approved: null,

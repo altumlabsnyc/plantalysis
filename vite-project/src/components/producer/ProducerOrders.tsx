@@ -11,7 +11,6 @@ import Order from './Order'
 export default function ProducerOrders() {
   const user = useUser()
   const { data: allOrders, error, isLoading } = useProducerPlacedOrders(user)
-  console.log(allOrders, error)
   if (allOrders) {
     return (
       <div className="mx-4 py-2 p-4">
