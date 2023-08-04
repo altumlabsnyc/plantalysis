@@ -24,6 +24,7 @@ export default function useTestCategoriesDetails(onlyEnabled?: boolean) {
       })
 
     await categoriesFetchPromise
+    console.log('alo')
 
     if (categoryError) {
       console.log(categoryError)

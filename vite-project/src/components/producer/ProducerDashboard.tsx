@@ -114,17 +114,15 @@ function ProducerDashboard({ children }: ProducerDashboardProps) {
         },
         {
           text: 'Terms of Service',
-          onClick: () => toast('Terms of Service coming soon!', { icon: '⭐' }),
+          onClick: () => history.push('/tos'),
         },
         {
           text: 'Privacy Policy',
-          onClick: () => toast('Privacy Policy coming soon!', { icon: '⭐' }),
+          onClick: () => history.push('/pp'),
         },
       ],
     },
   ]
-
-  console.log(children)
 
   return (
     <Dashboard

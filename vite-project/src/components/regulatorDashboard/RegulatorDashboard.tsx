@@ -8,7 +8,7 @@ import useUserDetails from '@/hooks/useUserDetails'
 import { useUser } from '@supabase/auth-helpers-react'
 import React, { useState } from 'react'
 import toast from 'react-hot-toast'
-import { Route } from 'react-router-dom'
+import { Route, useHistory } from 'react-router-dom'
 import '../assets/dashboard/css/styles.css'
 import ApproveOrders from './ApproveOrders.js'
 
@@ -19,6 +19,7 @@ interface ProducerDashboardProps {
 function ProducerDashboard({ children }: ProducerDashboardProps) {
   const user = useUser()
   const { data: userDetails } = useUserDetails(user)
+  const history = useHistory()
 
   const [desktopSidebarOpen, setDesktopSidebarOpen] = useState(true)
 
@@ -121,11 +122,11 @@ function ProducerDashboard({ children }: ProducerDashboardProps) {
         },
         {
           text: 'Terms of Service',
-          onClick: () => toast('Terms of Service coming soon!', { icon: '⭐' }),
+          onClick: () => history.push('/tos'),
         },
         {
           text: 'Privacy Policy',
-          onClick: () => toast('Privacy Policy coming soon!', { icon: '⭐' }),
+          onClick: () => history.push('/pp'),
         },
       ],
     },

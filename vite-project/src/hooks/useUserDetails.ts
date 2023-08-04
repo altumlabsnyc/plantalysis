@@ -1,4 +1,5 @@
 import {
+  Address,
   BaseUser,
   ConsumerUser,
   LabUser,
@@ -11,11 +12,15 @@ import { User } from '@supabase/supabase-js'
 import toast from 'react-hot-toast'
 import useSWR from 'swr'
 
+
+export type RegulatorWithAddress= RegulatorUser &{
+  address: Address
+}
 // You might need to define the data types, depending on what data is fetched
 export type RoleDataType = (
   | ProducerUser
   | LabUser
-  | RegulatorUser
+  | RegulatorWithAddress
   | SamplingFirmUser
   | ConsumerUser
 ) & { role: string }
@@ -78,7 +83,11 @@ export default function useUserDetails(user: User | null) {
       case 'regulator':
         roleFetchPromise = supabase
           .from('regulator_user')
-          .select('*')
+          .select(`
+          *,
+          address (
+            *
+          )`)
           .eq('id', user?.id)
           .single()
           .then(({ data, error }) => {
