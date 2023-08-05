@@ -6,7 +6,7 @@ import nodemailer from "nodemailer"
 import Stripe from "stripe"
 import { v4 as uuidv4 } from "uuid"
 import { Database } from "./types/supabase"
-import { Batch } from "./types/supabaseAlias"
+import { Batch, InsertDemo } from "./types/supabaseAlias"
 
 dotenv.config()
 
@@ -200,77 +200,53 @@ app.post(
   }
 )
 
-app.post("/send-email", express.json(), async (req: Request, res: Response) => {
-  const emailUser = `${process.env.EMAIL_USERNAME}`
-  const emailPass = `${process.env.EMAIL_PASS}`
-  const emailBody = req.body
+type DemoBody = InsertDemo & {
+  text?: string;
+};
 
-  let fname: string = req.body["fname"]
-  let lname: string = req.body["lname"]
-  let company: string = req.body["company"]
-  let jobTitle: string = req.body["jobTitle"]
-  let email: string = req.body["email"]
-  let phone: string = req.body["phone"]
-  let state: string = req.body["state"]
-  let text: string = req.body["text"]
+app.post('/send-email',
+  express.json(),
+  async (req: Request, res: Response) => {
+    const emailUser: string = `${process.env.EMAIL_USERNAME}`
+    const emailPass: string = `${process.env.EMAIL_PASS}`
+    const demoBody: DemoBody = req.body;
 
-  if (req.body === undefined) {
-    return res.status(400).send("Bad request. No text field in request body.")
-  }
+    if (!demoBody.first_name || !demoBody.last_name || !demoBody.company || !demoBody.job_title || !demoBody.email || !demoBody.phone || !demoBody.state || !demoBody.text) {
+      return res.status(400).send("Bad request. Some fields are missing in request body.")
+    }
 
-  try {
-    const transporter = nodemailer.createTransport({
-      host: "smtp.gmail.com",
-      port: 587,
-      secure: false, // upgrade later with STARTTLS
-      auth: {
-        user: emailUser,
-        pass: emailPass,
-      },
-    })
-    await transporter.sendMail({
-      from: `Team @ Altum 👻 ${emailUser}`, // sender address
-      to: `${process.env.DEMO_RECEIVER}`, // list of receivers
-      subject: "Demo Scheduled", // Subject line
-      text: text, // plain text body
-    })
-    console.log("before calling adddemotodb")
-    console.log(emailBody)
-    addDemoToDB(fname, lname, company, jobTitle, email, phone, state)
-  } catch (err) {
-    console.error(err)
-    // @ts-ignore
-    return res.status(500).send(`Internal Nodemailer Error: ${err.message}`)
-  }
+    try {
+      const transporter = nodemailer.createTransport({
+        host: 'smtp.gmail.com',
+        port: 587,
+        secure: false, // upgrade later with STARTTLS
+        auth: {
+          user: emailUser,
+          pass: emailPass
+        }
+      });
 
-  res.status(200).send({ received: true })
-})
+      // Must delete text from body before inserting into database
+      const emailText = demoBody.text;
+      delete demoBody.text;
 
-export async function addDemoToDB(
-  fname: string,
-  lname: string,
-  company: string,
-  jobTitle: string,
-  email: string,
-  phone: string,
-  state: string
-) {
-  console.log("inside add demo to db")
-  const { data, error } = await supabase
-    .from("demos_scheduled")
-    .insert([
-      {
-        first_name: fname,
-        last_name: lname,
-        company: company,
-        job_title: jobTitle,
-        email: email,
-        phone: phone,
-        state: state,
-      },
-    ])
-    .select()
-}
+      await Promise.all([transporter.sendMail({
+        from: `Team @ Altum 👻 ${emailUser}`, // sender address
+        to: `${process.env.DEMO_RECEIVER}`, // list of receivers
+        subject: 'Demo Scheduled', // Subject line
+        text: emailText, // plain text body
+      }),
+      supabase.from("demos_scheduled").insert([demoBody]).select()
+      ]);
+
+      return res.status(200).send("Email sent successfully")
+    } catch (err) {
+      console.error(err)
+      // @ts-ignore
+      return res.status(500).send(`Internal Error: ${err.message}`)
+    }
+  });
+
 app.get("/test", express.json(), (req: Request, res: Response) => {
   res.json({ message: "Hello, this is a test!" })
 })
