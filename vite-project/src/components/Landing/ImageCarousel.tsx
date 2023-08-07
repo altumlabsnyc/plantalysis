@@ -46,6 +46,7 @@ export default function ImageCarousel() {
           delay: 2000,
           disableOnInteraction: false,
         }}
+        initialSlide={1} // Set the initial slide index to 1 (second image)
       >
         {images.map(({ src }, index) => (
           <SwiperSlide style={slideStyle} key={index}>

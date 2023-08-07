@@ -85,7 +85,6 @@ export const userSpecificInputs: Map<UserRole, Array<Input>> = new Map([
       },
       { name: 'License Prefix', id: 'license_prefix', type: 'text' },
       { name: 'License Number', id: 'license_number', type: 'text' },
-      { name: 'Contact Phone', id: 'producer_contact_phone', type: 'tel' },
     ],
   ],
   [

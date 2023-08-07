@@ -4,7 +4,7 @@ import useSWR from 'swr'
 
 import toast from 'react-hot-toast'
 
-type TestWithLocalRequirements = Test & {
+export type TestWithLocalRequirements = Test & {
   test_requirements: TestRequirement[]
 }
 

@@ -2,13 +2,17 @@ import { createColumnHelper } from '@tanstack/react-table'
 import Panel from './Panel'
 import Table from './Table/Table'
 
+import useFacilitiesDetails, {
+  FacilityWithAddress,
+} from '@/hooks/useFacilities'
 import { LabRequest, useLabOrderRequests } from '@/hooks/useLabOrders'
 import { LabOrder } from '@/types/supabaseAlias'
-import { ChevronRightIcon } from '@heroicons/react/20/solid'
 import { useUser } from '@supabase/auth-helpers-react'
+import classNames from 'classnames'
 import { useEffect } from 'react'
 import './assets/css/panel.css'
 import Spinner from './common/Spinner'
+import SelectFacility from './producer/NewOrder/SelectFacility'
 // import useUnapprovedOrderRequests from "@/hooks/useUnapprovedOrderRequests";
 
 /*
@@ -33,21 +37,24 @@ export type LabRequestTableRow = LabOrder & {
 export interface OrderRequestPanel {
   activeLabOrder: LabRequest | null
   setActiveLabOrder: (activeLabOrder: LabRequest | null) => void
+  activeFacility: FacilityWithAddress | null
+  setActiveFacility: (activeFacility: FacilityWithAddress | null) => void
 }
 
 export default function OrderRequestPanel({
   activeLabOrder,
   setActiveLabOrder,
+  activeFacility,
+  setActiveFacility,
 }: OrderRequestPanel) {
   const user = useUser()
+  const { data: labFacilities } = useFacilitiesDetails(user)
   const {
     data: allOrders,
     error,
     isLoading,
     mutate,
-  } = useLabOrderRequests(user)
-
-  console.log(allOrders)
+  } = useLabOrderRequests(user, activeFacility?.address.state_code)
 
   const data = allOrders || []
 
@@ -61,20 +68,14 @@ export default function OrderRequestPanel({
     columnHelper.accessor('id', {
       cell: (info) => (
         <div
-          style={{
-            color: '#457F6C',
-          }}
-          className="my-1 text-sm cursor-pointer flex items-center"
+          className={classNames(
+            { 'text-green-500': activeLabOrder?.id === info.row.original.id },
+            'my-1 text-sm cursor-pointer flex items-center',
+          )}
           onClick={() => setActiveLabOrder(info.row.original)}
         >
-          {activeLabOrder === info.row.original ? (
-            <span className="">Viewing</span>
-          ) : (
-            <>
-              <span>View Request</span>
-              <ChevronRightIcon className="h-4 w-4 ml-1" />
-            </>
-          )}{' '}
+          {info.row.original.tests.map((test) => test.name).join(' | ')}
+          {activeLabOrder?.id === info.row.original.id && ' (Viewing)'}
         </div>
       ),
     }),
@@ -113,16 +114,22 @@ export default function OrderRequestPanel({
   ]
 
   useEffect(() => {
-    if (data.length == 0) return
+    if (!labFacilities || labFacilities?.length === 0) return
 
-    setActiveLabOrder(data[0])
-  }, [allOrders])
+    setActiveFacility(labFacilities[0])
+  }, [labFacilities])
+
+  useEffect(() => {
+    if (allOrders && allOrders.length !== 0) {
+      setActiveLabOrder(allOrders[0])
+    }
+  }, [activeFacility, allOrders])
 
   return (
     <div className="mx-auto">
       <Panel>
         <div
-          className="w-64 py-2 max-h-64 overflow-y-scroll"
+          className="w-64 h-96 py-2 overflow-y-scroll"
           // style={{
           //   width: '323px',
           // }}
@@ -141,13 +148,23 @@ export default function OrderRequestPanel({
                   Open requests for testing that any lab can claim. After
                   claiming, a sampling firm will contact you with next steps.
                 </p>
-                <div className="">
-                  <Table<LabRequest>
-                    data={data}
-                    columns={columns}
-                    hideHeader={true}
-                  />
-                </div>
+                <SelectFacility
+                  selectedFacility={activeFacility}
+                  setSelectedFacility={setActiveFacility}
+                />
+                {activeFacility ? (
+                  <div className="">
+                    <Table<LabRequest>
+                      data={data}
+                      columns={columns}
+                      hideHeader={true}
+                    />
+                  </div>
+                ) : (
+                  <p className="mt-2">
+                    Please select a facility to see open lab orders
+                  </p>
+                )}
               </>
             )}
           </>

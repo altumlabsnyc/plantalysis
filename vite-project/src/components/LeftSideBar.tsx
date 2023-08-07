@@ -163,7 +163,7 @@ export default function LeftSideBar({
                   <li key={section.title}>
                     <button
                       onClick={() => toggleSection(index)}
-                      className="bg-white-50 text-grey-600 group flex items-center gap-x-1 rounded-md p-1 text-sm leading-6 font-semibold w-full items-center" // add items-center class to center the content vertically
+                      className="bg-white-50 text-grey-600 group flex gap-x-1 rounded-md p-1 text-sm leading-6 font-semibold w-full items-center" // add items-center class to center the content vertically
                     >
                       {section.items.length !== 0 && ( // Only show arrow for main sections
                         <ChevronRightIcon

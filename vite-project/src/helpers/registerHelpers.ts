@@ -112,7 +112,6 @@ export function getProducerSignUpInfoFromForm(
     license_type == 'AUCC' || license_type == 'AUCP' || license_type == 'AUHC'
       ? license_type
       : null
-  let contact_phone = data.get('producer_contact_phone')?.toString() || null
 
   if (
     legal_name == null ||
@@ -122,17 +121,9 @@ export function getProducerSignUpInfoFromForm(
     facility_address_city == null ||
     facility_address_zip == null ||
     actualLicenseType == null ||
-    license_number == null ||
-    contact_phone == null
+    license_number == null
   ) {
     toast.error('Please fill out all fields')
-    return undefined
-  }
-
-  try {
-    contact_phone = toE164(contact_phone)
-  } catch (error) {
-    toast.error('Please enter a valid phone number')
     return undefined
   }
 

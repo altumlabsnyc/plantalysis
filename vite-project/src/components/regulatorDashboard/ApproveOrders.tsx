@@ -7,7 +7,6 @@ import {
   ForApproval,
   useAnalysis,
 } from '@/hooks/useAnalysis.js'
-import useLabOrders, { LabOrdersRequested } from '@/hooks/useLabOrders.js'
 import Panel from '../Panel'
 import Spinner from '../common/Spinner'
 import { Analysis, RegulatorReview } from '@/types/supabaseAlias'
@@ -19,7 +18,6 @@ import { useState } from 'react'
 const columnHelper = createColumnHelper<ForApproval>()
 
 export default function ApproveOrders() {
-  // const allLabOrders = useLabOrders(user, LabOrdersRequested.allOrders)
   // const analysisData = useAnalysis(user, allLabOrders.data)
   // const { data, error, isLoading } = useAnalysis(user, ANALYSIS_REQUEST_TYPE.ALL)
   const user = useUser()
@@ -28,6 +26,7 @@ export default function ApproveOrders() {
   const { data, error, isLoading } = useAnalysis(
     roleDetails && roleDetails.address.state_code,
   )
+  console.log(data)
 
   const [activeAnalysis, setActiveAnalysis] = useState<ForApproval | null>(null)
 
@@ -58,7 +57,9 @@ export default function ApproveOrders() {
             color: '#457F6C',
           }}
           className="my-1 text-sm cursor-pointer flex items-center"
-          onClick={() => { setActiveAnalysis(info.cell.row.original) }}
+          onClick={() => {
+            setActiveAnalysis(info.cell.row.original)
+          }}
         >
           <span>View Details</span>
         </div>

@@ -1,11 +1,11 @@
-import useTestDetails from '@/hooks/useTests'
-import { Test, TestCategory, TestRequirement } from '@/types/supabaseAlias'
+import useTestDetails, { TestWithLocalRequirements } from '@/hooks/useTests'
+import { TestCategory, TestRequirement } from '@/types/supabaseAlias'
 import classNames from 'classnames'
 import { useEffect, useState } from 'react'
 
 interface Props {
-  selectedTests: Set<Test> | undefined
-  setSelectedTests: (tests: Set<Test>) => void
+  selectedTests: Set<TestWithLocalRequirements> | undefined
+  setSelectedTests: (tests: Set<TestWithLocalRequirements>) => void
   category: TestCategory
   state: string | undefined
 }
@@ -20,14 +20,13 @@ export default function SelectTests({
   const { data: testsDetails, mutate } = useTestDetails(category, true, state)
   // console.log(testsDetails)
 
-  const [refresh, setRefresh] = useState(false)
   const [testRequirements, setTestRequirements] = useState<TestRequirement[]>(
     [],
   )
 
   useEffect(() => {
-    if (testsDetails) {
-      const requirements = testsDetails.reduce(
+    if (selectedTests) {
+      const requirements = Array.from(selectedTests).reduce(
         (acc: TestRequirement[], test) => {
           if (test.test_requirements) {
             return [...acc, ...test.test_requirements]
@@ -38,7 +37,7 @@ export default function SelectTests({
       )
       setTestRequirements(requirements)
     }
-  }, [refresh])
+  }, [selectedTests])
 
   // console.log(testRequirements)
 
@@ -72,7 +71,6 @@ export default function SelectTests({
               className="hidden"
               checked={selectedTests && selectedTests.has(option)}
               onChange={() => {
-                setRefresh(!refresh)
                 const updatedTests = new Set(selectedTests)
                 if (selectedTests?.has(option)) {
                   updatedTests.delete(option)

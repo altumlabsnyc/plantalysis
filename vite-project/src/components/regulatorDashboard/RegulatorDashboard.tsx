@@ -8,7 +8,7 @@ import useUserDetails from '@/hooks/useUserDetails'
 import { useUser } from '@supabase/auth-helpers-react'
 import React, { useState } from 'react'
 import toast from 'react-hot-toast'
-import { Route, useHistory } from 'react-router-dom'
+import { Redirect, Route, useHistory } from 'react-router-dom'
 import '../assets/dashboard/css/styles.css'
 import ApproveOrders from './ApproveOrders.js'
 
@@ -163,6 +163,10 @@ export default function ProducerDashboardRouter() {
         <Route path="/dashboard/regulator/approve-orders">
           <ApproveOrders />
         </Route>
+        <Redirect
+          from="/dashboard/regulator"
+          to="/dashboard/regulator/approve-orders"
+        />
       </ProducerDashboard>
     </>
   )
