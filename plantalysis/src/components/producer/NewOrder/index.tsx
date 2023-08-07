@@ -3,7 +3,7 @@ import useFacilitiesDetails, {
   FacilityWithAddress,
 } from '@/hooks/useFacilities'
 import useTestCategoriesDetails from '@/hooks/useTestCategories'
-import { TestWithLocalRequirements } from '@/hooks/useTests'
+import { TestWithLocalRequirements } from '@/types/hookReturnTypes'
 import { TestCategory, TurnaroundTime } from '@/types/supabaseAlias'
 import dollarToString from '@/utils/dollarToString'
 import orderDetailsToPriceId from '@/utils/orderDetailsToPriceId'

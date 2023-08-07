@@ -1,16 +1,14 @@
-import { Test, TestCategory, TestRequirement } from '@/types/supabaseAlias'
+import { Test, TestCategory} from '@/types/supabaseAlias'
+import { TestWithLocalRequirements } from '@/types/hookReturnTypes'
 import { supabase } from '@/utils/supabase'
 import useSWR from 'swr'
 
 import toast from 'react-hot-toast'
 
-export type TestWithLocalRequirements = Test & {
-  test_requirements: TestRequirement[]
-}
 
 /**
- * SWR hook that fetches existing tests for a given category
- * @param category teting category of which tests will be fetched
+ * SWR hook that fetches existing tests for a given category for a given state
+ * @param category testing category of which tests will be fetched
  * @param onlyEnabled if true, only enabled tests will be fetched
  * @param state if provided, only tests that are required in the given state will be fetched
  *

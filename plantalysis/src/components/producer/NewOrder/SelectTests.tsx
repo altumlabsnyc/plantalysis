@@ -1,4 +1,5 @@
-import useTestDetails, { TestWithLocalRequirements } from '@/hooks/useTests'
+import useTestDetails from '@/hooks/useTests'
+import { TestWithLocalRequirements } from '@/types/hookReturnTypes'
 import { TestCategory, TestRequirement } from '@/types/supabaseAlias'
 import classNames from 'classnames'
 import { useEffect, useState } from 'react'
