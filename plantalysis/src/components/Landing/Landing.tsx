@@ -201,11 +201,12 @@ const Plantalysis: React.FC = () => {
                       </div>
                       <div className="pl-20  ">
                         <p className="text-black">
-                          <b>Order compliance testing in under 1 minute. </b>We take
-                          care of the logistics so you can focus on what you do
-                          best. Using AI, we automatically generate useful
-                          documentation, such as double-blind test results,
-                          CoAs, QR codes, and live status updates. <b>For free.</b>
+                          <b>Order compliance testing in under 1 minute. </b>We
+                          take care of the logistics so you can focus on what
+                          you do best. Using AI, we automatically generate
+                          useful documentation, such as double-blind test
+                          results, CoAs, QR codes, and live status updates.{' '}
+                          <b>For free.</b>
                         </p>
                         <div className="pt-4 d-flex justify-content-start align-items-center pb-3">
                           <a className="btn btn-outline-black" href="/login">
@@ -232,7 +233,9 @@ const Plantalysis: React.FC = () => {
                       </div>
                       <div className="pl-20  ">
                         <p className="text-black">
-                          <b>AI-powered automation for your internal processes. </b>
+                          <b>
+                            AI-powered automation for your internal processes.{' '}
+                          </b>
                           Accept testing orders with one click. Drag and drop
                           raw data into your order table and we automatically
                           turn it into CoAs for you. Reduce sample pickup hassle
@@ -263,11 +266,14 @@ const Plantalysis: React.FC = () => {
                       </div>
                       <div className="pl-20  ">
                         <p className="text-black">
-                          <b>Give your state’s consumers molecular-level peace of
-                          mind. </b>Plantalysis easily integrates into Metrc and
-                          Biotrack to give your office the ability to approve
-                          and reject samples at the batch-scale and broadcast
-                          those results to consumers, all from one place.
+                          <b>
+                            Give your state’s consumers molecular-level peace of
+                            mind.{' '}
+                          </b>
+                          Plantalysis easily integrates into Metrc and Biotrack
+                          to give your office the ability to approve and reject
+                          samples at the batch-scale and broadcast those results
+                          to consumers, all from one place.
                         </p>
                         <div className="pt-4 d-flex justify-content-start align-items-center pb-3">
                           <a className="btn btn-outline-black" href="/login">
@@ -308,10 +314,7 @@ const Plantalysis: React.FC = () => {
                         style={{ display: 'flex', justifyContent: 'center' }}
                       >
                         {/* Add padding/margin to the top of the div containing the image */}
-                        <img
-                          src={AL}
-                          alt="Altum Labs"
-                        />
+                        <img src={AL} alt="Altum Labs" />
                       </div>
                       <div className="col-12 text-center mt-4 mb-4">
                         <h1 className="text-center headline-50 text-black bold text-shadow pt-2 text-5xl mb-4">
