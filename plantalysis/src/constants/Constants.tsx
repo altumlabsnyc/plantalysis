@@ -18,4 +18,3 @@ export const productionPriceIds = [
   'price_1NYd4mEf36GHXrtiyEP2L5Sa',
   'price_1NYd4mEf36GHXrti7ykGNsif',
 ]
-

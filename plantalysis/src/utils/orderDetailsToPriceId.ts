@@ -1,7 +1,4 @@
-import {
-  developerPriceIds,
-  productionPriceIds,
-} from '@/constants/Constants'
+import { developerPriceIds, productionPriceIds } from '@/constants/Constants'
 import { TurnaroundTime } from '@/types/supabaseAlias'
 
 /**
