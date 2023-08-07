@@ -1564,6 +1564,33 @@ textarea.form-control.is-invalid {
   margin-left: 91.66666667%;
 }
 
+/* styles.css */
+
+/* Default styles for the logo container and image */
+#logo-container {
+  display: flex;
+  align-items: center;
+}
+
+#logo-img {
+  width: 48px; /* Adjust the width of the logo image as needed */
+  height: 48px; /* Adjust the height of the logo image as needed */
+}
+
+/* Media query for mobile devices (max-width: 768px) */
+@media screen and (max-width: 768px) {
+  #nav-container {
+    flex-direction: column; /* Stack the elements vertically on mobile */
+    text-align: center; /* Center the contents horizontally */
+  }
+  
+  #logo-img {
+    width: 64px; /* Adjust the width of the logo image for mobile */
+    height: 64px; /* Adjust the height of the logo image for mobile */
+  }
+}
+
+
 @media (min-width: 576px) {
   .col-sm {
     flex-basis: 0;

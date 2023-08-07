@@ -199,13 +199,13 @@ const Plantalysis: React.FC = () => {
                           Cultivators and Processors
                         </h3>
                       </div>
-                      <div className="pl-20 pr-20 ">
+                      <div className="pl-20  ">
                         <p className="text-black">
-                          Order compliance testing in under 1 minute. We take
+                          <b>Order compliance testing in under 1 minute. </b>We take
                           care of the logistics so you can focus on what you do
                           best. Using AI, we automatically generate useful
                           documentation, such as double-blind test results,
-                          CoAs, QR codes, and live status updates. For free.
+                          CoAs, QR codes, and live status updates. <b>For free.</b>
                         </p>
                         <div className="pt-4 d-flex justify-content-start align-items-center pb-3">
                           <a className="btn btn-outline-black" href="/login">
@@ -230,9 +230,9 @@ const Plantalysis: React.FC = () => {
                           Certified Laboratories
                         </h3>
                       </div>
-                      <div className="pl-20 pr-20 ">
+                      <div className="pl-20  ">
                         <p className="text-black">
-                          AI-powered automation for your internal processes.
+                          <b>AI-powered automation for your internal processes. </b>
                           Accept testing orders with one click. Drag and drop
                           raw data into your order table and we automatically
                           turn it into CoAs for you. Reduce sample pickup hassle
@@ -261,10 +261,10 @@ const Plantalysis: React.FC = () => {
                           Government
                         </h3>
                       </div>
-                      <div className="pl-20 pr-20 ">
+                      <div className="pl-20  ">
                         <p className="text-black">
-                          Give your state’s consumers molecular-level peace of
-                          mind. Plantalysis easily integrates into Metrc and
+                          <b>Give your state’s consumers molecular-level peace of
+                          mind. </b>Plantalysis easily integrates into Metrc and
                           Biotrack to give your office the ability to approve
                           and reject samples at the batch-scale and broadcast
                           those results to consumers, all from one place.
@@ -311,15 +311,10 @@ const Plantalysis: React.FC = () => {
                         <img
                           src={AL}
                           alt="Altum Labs"
-                          style={{
-                            width: '25%',
-                            height: 'auto',
-                            marginTop: '10px',
-                          }}
                         />
                       </div>
                       <div className="col-12 text-center mt-4 mb-4">
-                        <h1 className="text-center headline-50 text-black bold text-shadow pt-5 mb-4">
+                        <h1 className="text-center headline-50 text-black bold text-shadow pt-2 text-5xl mb-4">
                           SEE MORE
                         </h1>
                         <p className="headline-17 text-black mb-5">
