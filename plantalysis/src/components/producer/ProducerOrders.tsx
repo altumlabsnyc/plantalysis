@@ -16,7 +16,7 @@ export default function ProducerOrders() {
       // sorts in descending order
       const dateA = new Date(a.order_time).getTime()
       const dateB = new Date(b.order_time).getTime()
-      return  dateB - dateA
+      return dateB - dateA
     })
     return (
       <div className="mx-4 py-2 p-4">

@@ -1,9 +1,9 @@
-vite-project/src/components/Constants.tsx
+plantalysis/src/components/Constants.tsx
 .DS_Store
 
 server/node_modules
 # server/.env
 
-# vite-project/.env
+# plantalysis/.env
 
 node_modules

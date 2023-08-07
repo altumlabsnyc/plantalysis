@@ -1,6 +1,6 @@
 import { createColumnHelper } from '@tanstack/react-table'
-import Panel from './../Panel'
-import Table from './../Table/Table'
+import Panel from '../Panel'
+import Table from '../Table/Table'
 
 import useFacilitiesDetails, {
   FacilityWithAddress,
@@ -16,8 +16,8 @@ import { useUser } from '@supabase/auth-helpers-react'
 import classNames from 'classnames'
 import { useEffect } from 'react'
 import './../assets/css/panel.css'
-import Spinner from './../common/Spinner'
-import SelectFacility from './../producer/NewOrder/SelectFacility'
+import Spinner from '../common/Spinner'
+import SelectFacility from '../producer/NewOrder/SelectFacility'
 // import useUnapprovedOrderRequests from "@/hooks/useUnapprovedOrderRequests";
 
 /*
