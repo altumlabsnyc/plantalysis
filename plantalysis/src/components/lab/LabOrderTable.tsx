@@ -1,4 +1,4 @@
-import { LabOrderTableRow } from '../UserTypes'
+import { LabOrderTableRow } from '@/types/UserTypes'
 
 // const columns = [
 //   {

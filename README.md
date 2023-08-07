@@ -25,7 +25,7 @@ The application has separate dashboards for each user role:
 To set up Plantalysis locally, follow these steps:
 
 1. Clone the repository from GitHub.
-2. Install dependencies with `npm i` in the following directories: `root`, `server`, and `vite-project`
+2. Install dependencies with `npm i` in the following directories: `root`, `server`, and `plantalysis`
  
 
 ## Usage
