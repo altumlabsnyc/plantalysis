@@ -5,7 +5,7 @@ import Nav from '../Nav'
 import Spinner from '../common/Spinner'
 import './../assets/css/styles.css'
 import AL from './../assets/img/newLogo.png'
-import backgroundVideo from './../assets/vid/BGV_480p.mp4'
+import backgroundVideo from './../assets/vid/BGV_Comp.mp4'
 import ImageCarousel from './ImageCarousel'
 
 export interface Info {

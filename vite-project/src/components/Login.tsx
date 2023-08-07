@@ -15,11 +15,11 @@ import redirectByRole from '@/utils/redirectByRole'
 import { useUser } from '@supabase/auth-helpers-react'
 import { useState } from 'react'
 import { useHistory } from 'react-router-dom'
-import background from './assets/login/img/frame.jpg'
+import background from './assets/login/img/frame.png'
 import Spinner from './common/Spinner'
 
 import logo from './assets/img/blackP.jpg'
-import backgroundVideo from './assets/vid/BGV_480p.mp4'
+// import backgroundVideo from './assets/vid/BGV_480p.mp4'
 
 function Copyright(props: any) {
   return (
@@ -92,21 +92,26 @@ export default function SignInSide() {
           position: 'relative',
         }}
       >
-        <video
-          autoPlay
-          loop
-          muted
+        <div
           style={{
             position: 'absolute',
             top: 0,
             left: 0,
             width: '100%',
             height: '100%',
-            objectFit: 'cover',
+            overflow: 'hidden', // Optional, to hide any overflowing image parts
           }}
         >
-          <source src={backgroundVideo} type="video/mp4" />
-        </video>
+          <img
+            src={background}
+            alt="Background Image"
+            style={{
+              width: '100%',
+              height: '100%',
+              objectFit: 'cover',
+            }}
+          />
+        </div>
 
         <Typography
           component="h1"
@@ -124,39 +129,6 @@ export default function SignInSide() {
           PLANTALYSIS
         </Typography>
 
-        <a href="https://www.plantalysis.com">
-          <img
-            src={logo}
-            alt="Logo"
-            style={{
-              position: 'absolute',
-              top: '50%',
-              left: '50%',
-              transform: 'translate(-50%, -50%)',
-              width: '150px',
-              height: '150px',
-              borderRadius: '75%',
-              marginTop: '20px',
-            }}
-          />
-        </a>
-
-        <a href="https://www.plantalysis.com">
-          <img
-            src={logo}
-            alt="Logo"
-            style={{
-              position: 'absolute',
-              top: '50%',
-              left: '50%',
-              transform: 'translate(-50%, -50%)',
-              width: '150px',
-              height: '150px',
-              borderRadius: '75%',
-              marginTop: '20px',
-            }}
-          />
-        </a>
         <a href="https://www.plantalysis.com">
           <img
             src={logo}
@@ -256,7 +228,16 @@ export default function SignInSide() {
             />
             <button
               type="submit"
-              className="flex items-center justify-center mt-3 mb-4 bg-green-400 hover:bg-green-500 transition-all duration-200 w-full p-2 rounded-md text-white font-bold"
+              className="flex items-center justify-center mt-3 mb-4"
+              style={{
+                backgroundColor: '#6aa399',
+                transition: 'background-color 0.2s ease-in-out',
+                width: '100%',
+                padding: '0.5rem 1rem',
+                borderRadius: '0.25rem',
+                color: 'white',
+                fontWeight: 'bold',
+              }}
             >
               <div className="relative px-4 flex items-center">
                 {loading && (

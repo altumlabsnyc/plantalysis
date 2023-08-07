@@ -26,8 +26,8 @@ import { passwordStrength as checkPasswordStrength } from 'check-password-streng
 import { ChangeEvent, FormEvent, useEffect, useState } from 'react'
 import { Toaster, toast } from 'react-hot-toast'
 import { useHistory } from 'react-router-dom'
-import backgroundImage from './assets/img/hero.png'
-import logo from './assets/img/plantalysis.png'
+import background from './assets/login/img/frame.png'
+import logo from './assets/img/blackP.jpg'
 import Spinner from './common/Spinner'
 import PasswordStrengthMeter from './onboarding/PasswordStrengthMeter'
 
@@ -264,32 +264,26 @@ export default function Register() {
           position: 'relative',
         }}
       >
-        {/* <video
-          autoPlay
-          loop
-          muted
+        <div
           style={{
             position: 'absolute',
             top: 0,
             left: 0,
             width: '100%',
             height: '100%',
-            objectFit: 'cover',
+            overflow: 'hidden', // Optional, to hide any overflowing image parts
           }}
         >
-          <source src={backgroundVideo} type="video/mp4" />
-        </video> */}
-        <img
-          style={{
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            width: '100%',
-            height: '100%',
-            objectFit: 'cover',
-          }}
-          src={backgroundImage}
-        />
+          <img
+            src={background}
+            alt="Background Image"
+            style={{
+              width: '100%',
+              height: '100%',
+              objectFit: 'cover',
+            }}
+          />
+        </div>
 
         <Typography
           component="h1"
@@ -320,38 +314,7 @@ export default function Register() {
               height: '150px',
               borderRadius: '75%',
               marginTop: '20px',
-            }}
-          />
-        </a>
-        <a href="https://www.plantalysis.com">
-          <img
-            src={logo}
-            alt="Logo"
-            style={{
-              position: 'absolute',
-              top: '50%',
-              left: '50%',
-              transform: 'translate(-50%, -50%)',
-              width: '150px',
-              height: '150px',
-              borderRadius: '75%',
-              marginTop: '20px',
-            }}
-          />
-        </a>
-        <a href="https://www.plantalysis.com">
-          <img
-            src={logo}
-            alt="Logo"
-            style={{
-              position: 'absolute',
-              top: '50%',
-              left: '50%',
-              transform: 'translate(-50%, -50%)',
-              width: '150px',
-              height: '150px',
-              borderRadius: '75%',
-              marginTop: '20px',
+              backgroundColor: 'white',
             }}
           />
         </a>
@@ -368,7 +331,7 @@ export default function Register() {
             textShadow: '2px 2px 16px rgba(0, 0, 0, 1)',
           }}
         >
-          Join Us
+          SIGN-UP
         </Typography>
       </Grid>
       <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
@@ -651,34 +614,28 @@ export default function Register() {
                   )}
               </div>
             )}
-            <Button
+            <button
               type="submit"
-              variant="contained"
-              sx={{
-                mt: 3,
-                mb: 2,
-                mx: 'auto', // Add this line
-                display: 'block', // And this line
-                backgroundColor: '#62c191',
+              className="flex items-center justify-center mt-3 mb-4"
+              style={{
+                backgroundColor: '#6aa399',
+                transition: 'background-color 0.2s ease-in-out',
+                width: '100%',
+                padding: '0.5rem 1rem',
+                borderRadius: '0.25rem',
                 color: 'white',
-                '&:hover': {
-                  backgroundColor: '#62c191',
-                },
-                boxShadow: '0 3px 5px 2px rgba(0, 0, 0, .3)',
-                textTransform: 'none',
-                fontSize: '1rem',
-                padding: '0.5rem 2rem',
-                borderRadius: '20px',
-                transition: 'all 0.3s cubic-bezier(.25,.8,.25,1)',
+                fontWeight: 'bold',
               }}
             >
-              {loading && (
-                <div className="absolute right-2 bottom-2.5">
-                  <Spinner size="xs" />
-                </div>
-              )}
-              Continue
-            </Button>
+              <div className="relative px-4 flex items-center">
+                {loading && (
+                  <div className="absolute left-0 mb-1">
+                    <Spinner size="sm" />
+                  </div>
+                )}
+                <span>Sign Up</span>
+              </div>
+            </button>
             <Copyright sx={{ mt: 5 }} />
           </Box>
         </Box>
