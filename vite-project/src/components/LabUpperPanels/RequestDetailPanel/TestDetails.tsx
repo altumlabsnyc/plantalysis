@@ -25,7 +25,7 @@ export default function TestDetails({ labOrder }: Props) {
           <FingerPrintIcon className="h-6 w-6 text-green-500" />
         </div>
         <div className="text-lg font-bold ml-2">
-          {labOrder.tests[0].test_category_name} Testing
+          {labOrder?.tests?.[0] && labOrder.tests[0].test_category_name} Testing
         </div>
       </div>
       <div className="ml-20">
