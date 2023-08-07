@@ -3,7 +3,7 @@ import { claimLabOrder } from '@/hooks/claimLabOrder'
 import useFacilitiesDetails, {
   FacilityWithAddress,
 } from '@/hooks/useFacilities'
-import { LabRequest, useLabOrderRequests } from '@/hooks/useLabOrders'
+import { LabRequest, useUnclaimedLabOrderRequests } from '@/hooks/useLabOrders'
 import receiveResultsBy from '@/utils/receiveResultsBy'
 import { Dialog, Transition } from '@headlessui/react'
 import { useUser } from '@supabase/auth-helpers-react'
@@ -28,7 +28,7 @@ export default function ClaimOrderPopup({
   const { data: facilitiesDetails, mutate: mutateFacilitiesDetails } =
     useFacilitiesDetails(user)
 
-  const { mutate } = useLabOrderRequests(
+  const { mutate } = useUnclaimedLabOrderRequests(
     user,
     activeFacility?.address.state_code,
   )

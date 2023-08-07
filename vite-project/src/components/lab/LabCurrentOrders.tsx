@@ -9,7 +9,6 @@ import {
   ClaimedOrderTableRow,
   LabRequest,
   useLabClaimedOrders,
-  useLabOrderRequests,
 } from '@/hooks/useLabOrders'
 import { LabOrder } from '@/types/supabaseAlias'
 import { useUser } from '@supabase/auth-helpers-react'

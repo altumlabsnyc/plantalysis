@@ -4,7 +4,7 @@ import './../../assets/css/panel.css'
 
 import Spinner from '@/components/common/Spinner'
 import { FacilityWithAddress } from '@/hooks/useFacilities'
-import { LabRequest, useLabOrderRequests } from '@/hooks/useLabOrders'
+import { LabRequest, useUnclaimedLabOrderRequests } from '@/hooks/useLabOrders'
 import formatDate from '@/utils/dateFormatter'
 import receiveResultsBy from '@/utils/receiveResultsBy'
 import { TruckIcon } from '@heroicons/react/20/solid'
@@ -27,7 +27,11 @@ export default function RequestDetailPanel({
 }: RequestDetailPanel) {
   console.log(activeLabOrder)
   const user = useUser()
-  const { data: labRequests, isLoading, mutate } = useLabOrderRequests(user)
+  const {
+    data: labRequests,
+    isLoading,
+    mutate,
+  } = useUnclaimedLabOrderRequests(user)
 
   const [showClaimPopup, setShowClaimPopup] = useState(false)
   const [claiming, setClaiming] = useState(false)

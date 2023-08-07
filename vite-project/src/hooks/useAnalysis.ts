@@ -16,6 +16,11 @@ export enum ANALYSIS_REQUEST_TYPE {
   UNAPPROVED,
 }
 
+
+/**
+ * type repreenting the data of an analysis and corresponding order
+ * that the regulator needs to be able to approve the order
+ */
 export type ForApproval = {
   lab_order_id: string | null
   lab_name: string | null | undefined
@@ -29,6 +34,16 @@ export type ForApproval = {
   }> | null
 }
 
+
+/**
+ * SWR hook that fetches all of the data to create a ForApproval array based on the orders
+ * that have not yet been approved but are already analyzed.
+ * 
+ * @param state US state of the regulator user making the order.
+ * @returns an array of ForApproval of all the orders that have not yet been
+ * approved but have been analyzed in state.
+ * @throws an error of the user calling the function is not a regulator user
+ */
 export function useAnalysis(state: string) {
   const fetcher = async () => {
     let analysisData: Array<ForApproval> | null = []

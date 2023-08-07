@@ -4,6 +4,10 @@ import useSWR from 'swr'
 
 import toast from 'react-hot-toast'
 
+/**
+ * Type representing a type Test and an additional parameter representing
+ * the test requierments of that specific test
+ */
 export type TestWithLocalRequirements = Test & {
   test_requirements: TestRequirement[]
 }

@@ -5,7 +5,7 @@ import Table from './Table/Table'
 import useFacilitiesDetails, {
   FacilityWithAddress,
 } from '@/hooks/useFacilities'
-import { LabRequest, useLabOrderRequests } from '@/hooks/useLabOrders'
+import { LabRequest, useUnclaimedLabOrderRequests } from '@/hooks/useLabOrders'
 import { LabOrder } from '@/types/supabaseAlias'
 import { useUser } from '@supabase/auth-helpers-react'
 import classNames from 'classnames'
@@ -54,7 +54,7 @@ export default function OrderRequestPanel({
     error,
     isLoading,
     mutate,
-  } = useLabOrderRequests(user, activeFacility?.address.state_code)
+  } = useUnclaimedLabOrderRequests(user, activeFacility?.address.state_code)
 
   const data = allOrders || []
 

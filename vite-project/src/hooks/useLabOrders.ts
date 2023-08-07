@@ -11,6 +11,11 @@ import { User } from '@supabase/supabase-js'
 import toast from 'react-hot-toast'
 import useSWR from 'swr'
 
+
+
+/**
+ * type to represent the data of a lab order that labs need to see when they are claiming an order
+ */
 export type LabRequest = LabOrder & {
   batch: Batch
   producer_facility:
@@ -23,8 +28,16 @@ export type LabRequest = LabOrder & {
   })[]
 }
 
-//HELPERS FOR LAB_ORDERS FETCHING
-export function useLabOrderRequests(user: User | null, state?: string) {
+/**
+ * SWR hook to fetch all the lab orders that have not been claimed by a lab in the state of 
+ * the lab user calling the function
+ * 
+ * @param user the lab user calling the function
+ * @param state the state of the lab user calling the function
+ * @returns an array of LabOrderRequests with all the orders in state that are yet to be claimed by a lab
+ * @throws an error if the user calling the function is not a lab
+ */
+export function useUnclaimedLabOrderRequests(user: User | null, state?: string) {
   const fetcher = async () => {
     let ordersData = null
 
@@ -89,12 +102,23 @@ export function useLabOrderRequests(user: User | null, state?: string) {
   }
 }
 
+/**
+ * Type representing the information a lab needs to see about an order once
+ * they have claimed it
+ */
 export type ClaimedOrderTableRow = {
   id: string
   analysis_id: string | null
   facility_name: string | null
 }
 
+
+/**
+ * SWR hook that fetches the lab orders as ClaimedOrderTableRow of
+ * a given user
+ * @param user the lab user calling the function
+ * @returns an Array of ClaimedOrderTableRow
+ */
 export function useLabClaimedOrders(user: User | null) {
   const fetcher = async () => {
     let orderError: any
@@ -156,6 +180,11 @@ export function useLabClaimedOrders(user: User | null) {
   }
 }
 
+
+/**
+ * Type representing the information about a lab order a producer should
+ * see when they see their placed orders
+ */
 export interface ProducerLabOrderDetails {
   id: string
   order_time: string
@@ -165,6 +194,12 @@ export interface ProducerLabOrderDetails {
   analysis_approved: boolean | null
 }
 
+/**
+ * SWR hook that fetches all the lab orders placed by user who is a producer as a ProducerLabOrderDetails
+ * @param user the producer user which calls the function
+ * @returns an array of ProducerLabOrderDetails with all the placed orders of a producer
+ * @throws an error if the user calling the function is not a producer
+ */
 export function useProducerPlacedOrders(user: User | null) {
   const fetcher = async () => {
     let ordersError: any,
