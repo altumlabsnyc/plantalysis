@@ -4,7 +4,7 @@ import {
   getProducerSignUpInfoFromForm,
   getRegulatorSignupInfoFromForm,
   getUniversitySignUpInfoFromForm,
-} from '@/utils/registerHelpers'
+} from '@/helpers/registerHelpers'
 import { AllRolesData, handleSignUp } from '@/hooks/handleSignUp'
 import { BaseUser, LicenseType, UserRole } from '@/types/supabaseAlias'
 import isValidEmail from '@/utils/isValidEmail'
