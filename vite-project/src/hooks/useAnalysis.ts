@@ -16,7 +16,6 @@ export enum ANALYSIS_REQUEST_TYPE {
   UNAPPROVED,
 }
 
-
 /**
  * type repreenting the data of an analysis and corresponding order
  * that the regulator needs to be able to approve the order
@@ -34,11 +33,10 @@ export type ForApproval = {
   }> | null
 }
 
-
 /**
  * SWR hook that fetches all of the data to create a ForApproval array based on the orders
  * that have not yet been approved but are already analyzed.
- * 
+ *
  * @param state US state of the regulator user making the order.
  * @returns an array of ForApproval of all the orders that have not yet been
  * approved but have been analyzed in state.

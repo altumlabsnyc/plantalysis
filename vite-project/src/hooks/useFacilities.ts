@@ -4,7 +4,6 @@ import { User } from '@supabase/supabase-js'
 import useSWR from 'swr'
 import toast from 'react-hot-toast'
 
-
 /**
  * type that represents a Facility and its components as specified
  * by the supabase table and also its address as represented by the address

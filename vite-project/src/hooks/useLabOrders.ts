@@ -11,8 +11,6 @@ import { User } from '@supabase/supabase-js'
 import toast from 'react-hot-toast'
 import useSWR from 'swr'
 
-
-
 /**
  * type to represent the data of a lab order that labs need to see when they are claiming an order
  */
@@ -29,15 +27,18 @@ export type LabRequest = LabOrder & {
 }
 
 /**
- * SWR hook to fetch all the lab orders that have not been claimed by a lab in the state of 
+ * SWR hook to fetch all the lab orders that have not been claimed by a lab in the state of
  * the lab user calling the function
- * 
+ *
  * @param user the lab user calling the function
  * @param state the state of the lab user calling the function
  * @returns an array of LabOrderRequests with all the orders in state that are yet to be claimed by a lab
  * @throws an error if the user calling the function is not a lab
  */
-export function useUnclaimedLabOrderRequests(user: User | null, state?: string) {
+export function useUnclaimedLabOrderRequests(
+  user: User | null,
+  state?: string,
+) {
   const fetcher = async () => {
     let ordersData = null
 
@@ -112,7 +113,6 @@ export type ClaimedOrderTableRow = {
   facility_name: string | null
 }
 
-
 /**
  * SWR hook that fetches the lab orders as ClaimedOrderTableRow of
  * a given user
@@ -179,7 +179,6 @@ export function useLabClaimedOrders(user: User | null) {
     isLoading,
   }
 }
-
 
 /**
  * Type representing the information about a lab order a producer should
