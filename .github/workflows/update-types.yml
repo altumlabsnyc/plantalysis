@@ -28,7 +28,7 @@ jobs:
       - name: Update types
         id: update-types
         run: |
-          cd vite-project
+          cd plantalysis
           npm run update-types
       - name: check for file changes
         id: git_status
@@ -52,7 +52,7 @@ jobs:
       - name: Commit files
         if: ${{contains(steps.git_status.outputs.status, ' ')}}
         run: |
-          git add vite-project/src/types/supabase.ts
+          git add plantalysis/src/types/supabase.ts
           git commit -m "Update database types" -a
       - name: Push changes
         if: ${{contains(steps.git_status.outputs.status, ' ')}}
