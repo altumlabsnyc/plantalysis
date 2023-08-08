@@ -305,7 +305,7 @@ export default function Register() {
         <Typography
           component="h1"
           variant="h3"
-          className = "hide-on-mobile"
+          className="hide-on-mobile"
           sx={{
             position: 'absolute',
             top: '35%',
@@ -369,7 +369,7 @@ export default function Register() {
         </a>
         <Typography
           component="h1"
-          className = "hide-on-mobile"
+          className="hide-on-mobile"
           variant="h3"
           sx={{
             position: 'absolute',
@@ -487,9 +487,7 @@ export default function Register() {
                           <span className="ml-4">
                             {
                               <Typography component="p" variant="h6">
-                                <span className="font-light">
-                                  {user.name}
-                                </span>
+                                <span className="font-light">{user.name}</span>
                               </Typography>
                             }
                           </span>

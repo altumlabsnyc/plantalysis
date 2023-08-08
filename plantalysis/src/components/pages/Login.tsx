@@ -107,7 +107,7 @@ export default function SignInSide() {
 
         <Typography
           component="h1"
-          className = "hide-on-mobile"
+          className="hide-on-mobile"
           variant="h3"
           sx={{
             position: 'absolute',
@@ -174,7 +174,7 @@ export default function SignInSide() {
         <Typography
           component="h1"
           variant="h3"
-          className = "hide-on-mobile"
+          className="hide-on-mobile"
           sx={{
             position: 'absolute',
             top: '70%',
