@@ -12628,6 +12628,12 @@ a * {
   -webkit-text-fill-color: rgba(0, 0, 0, 0);
 }
 
+.headline-28.text-sampling-gradient {
+  background: linear-gradient(90deg, #2cd3c1 0%, #51da25 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: rgba(0, 0, 0, 0);
+}
+
 .headline-28.text-strategy-gradient {
   background: linear-gradient(90deg, #3bb438 0%, #edd500 86.98%);
   -webkit-background-clip: text;
@@ -15671,6 +15677,10 @@ li ul {
 
 .culture-gradient {
   background: linear-gradient(90deg, #3664e3 0%, #1cb9e1 100%);
+}
+
+.sampling-gradient {
+  background: linear-gradient(90deg, #2cd3c1 0%, #51da25 100%);
 }
 
 .strategy-gradient {
