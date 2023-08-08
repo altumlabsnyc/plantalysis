@@ -540,9 +540,13 @@ const Plantalysis: React.FC = () => {
                                     </select>
                                   </div>
                                 </div>
-                                <br/>
-                                <div className = "text-sm input-sans container">
-                                  <p>By providing this information, you agree that we may process your personal data in accordance with our Privacy Statement.</p>
+                                <br />
+                                <div className="text-sm input-sans container">
+                                  <p>
+                                    By providing this information, you agree
+                                    that we may process your personal data in
+                                    accordance with our Privacy Statement.
+                                  </p>
                                 </div>
                                 <div className="col-md-12 text-center">
                                   <div
