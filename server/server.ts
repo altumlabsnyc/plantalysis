@@ -280,16 +280,16 @@ app.post(
     }
 
     try {
-      // TODO: fill in correct API key
       const resend = new Resend(resendKey);
 
       const data = await resend.emails.send({
         from: "Altum Labs <noreply@smtp.altumlaboratories.com>",
         to: [email],
         subject: "Confirmation Sign Up",
-        html: "https://pay.plantalysis.com",
+        html: "<h1>test</h1>",
       });
       console.log(data);
+      res.status(200).send("Email sent successfully");
     } catch (err) {
       console.error(err);
       // @ts-ignore
