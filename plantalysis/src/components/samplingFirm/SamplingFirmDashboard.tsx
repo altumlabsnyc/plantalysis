@@ -4,6 +4,7 @@ import Sidebar from '@/components/assets/svg/Sidebar.svg'
 import Star from '@/components/assets/svg/Star.svg'
 import Sun from '@/components/assets/svg/Sun.svg'
 import Dashboard from '@/components/common/Dashboard'
+import Domino from '@/components/common/Domino'
 import useUserDetails from '@/hooks/useUserDetails'
 import { useUser } from '@supabase/auth-helpers-react'
 import React, { useState } from 'react'
@@ -162,6 +163,7 @@ export default function SamplingFirmDashboardRouter() {
         <Route path="/dashboard/sampling_firm/claim_orders">
           {/* <ApproveOrders /> */}
           <p>Claim orders</p>
+          <Domino />
         </Route>
         <Redirect
           from="/dashboard/sampling_firm"
