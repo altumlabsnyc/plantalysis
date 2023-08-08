@@ -20,8 +20,12 @@ import Custom404 from './components/pages/ErrorPage'
 import SamplingFirmDashboardRouter from './components/samplingFirm/SamplingFirmDashboard'
 import ForgetPassword from './components/pages/ForgetPassword'
 import ResetPassword from './components/pages/ResetPassword'
-// testing commit
+
+import useTawk from '@/hooks/useTawk';
 function App() {
+  // put this line in your App component when you want to enable it, activating it will activate it globally
+  useTawk();
+
   return (
     <SessionContextProvider supabaseClient={supabase}>
       <Router>
@@ -63,11 +67,6 @@ function App() {
 
           <Route path="/faq" component={Faq} />
           <Route path="/library" component={Library} />
-
-          {/* <Route path="/new-order">
-            <PlaceNewOrder />
-          </Route> */}
-
           <Route path="/playground">
             <div
               style={{

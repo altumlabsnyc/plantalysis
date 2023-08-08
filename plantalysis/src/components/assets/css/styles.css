@@ -10829,6 +10829,7 @@ textarea.form-control {
 /* Font size for mobile (smaller) */
 .font-size-mobile {
   font-size: 18px;
+  font-family: 'input-sans';
 }
 
 /* Media query for mobile devices with a maximum width of 768px */
@@ -10839,14 +10840,13 @@ textarea.form-control {
   }
   
   .font-size-mobile {
-    font-size: 14px;
+    font-size: 10px;
   }
 }
 
 /* Apply Benton Sans font to specific elements */
 #main-footer-content h1,
 #main-footer-content a {
-  font-family: 'Benton Sans', sans-serif;
   font-weight: 500;
 }
 
@@ -12339,7 +12339,6 @@ a * {
 
 .input-sans {
   font-family: 'input-sans';
-  text-transform: uppercase;
 }
 
 .headline-eyebrow {
@@ -13640,16 +13639,12 @@ li ul {
   box-shadow: 0 6px 8px -1px rgba(0, 0, 0, 0.13);
 }
 
-#nav-container::after {
-  z-index: -1;
-  position: absolute;
-  top: 0;
-  content: '';
-  display: block;
-  background-color: #fff;
-  width: 100%;
-  height: 100%;
+@media (max-width: 600px) {
+  .hide-on-mobile {
+    display: none;
+  }
 }
+
 
 #nav-container a:not(.btn),
 #nav-container button:not(.btn) {

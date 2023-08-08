@@ -6,8 +6,6 @@ import Paper from '@mui/material/Paper'
 import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
 import toast, { Toaster } from 'react-hot-toast'
-// import background from "./assets/login/img/frame.png";
-
 import Spinner from '@/components/common/Spinner'
 import { handleSignIn } from '@/hooks/handleSignIn'
 import delay from '@/utils/delay'
@@ -109,6 +107,7 @@ export default function SignInSide() {
 
         <Typography
           component="h1"
+          className="hide-on-mobile"
           variant="h3"
           sx={{
             position: 'absolute',
@@ -175,6 +174,7 @@ export default function SignInSide() {
         <Typography
           component="h1"
           variant="h3"
+          className="hide-on-mobile"
           sx={{
             position: 'absolute',
             top: '70%',

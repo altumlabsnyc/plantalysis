@@ -7,3 +7,27 @@ server/node_modules
 # plantalysis/.env
 
 node_modules
+
+plantalysis/logs
+plantalysis/*.log
+plantalysis/npm-debug.log*
+plantalysis/yarn-debug.log*
+plantalysis/yarn-error.log*
+plantalysis/pnpm-debug.log*
+plantalysis/lerna-debug.log*
+
+plantalysis/node_modules
+plantalysis/dist
+plantalysis/dist-ssr
+plantalysis/*.local
+
+# Editor directories and files
+plantalysis/.vscode/*
+plantalysis/!.vscode/extensions.json
+plantalysis/.idea
+plantalysis/.DS_Store
+plantalysis/*.suo
+plantalysis/*.ntvs*
+plantalysis/*.njsproj
+plantalysis/*.sln
+plantalysis/*.sw?
