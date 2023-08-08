@@ -18,8 +18,13 @@ import LeftSideBar from './components/common/LeftSideBar'
 import LabDashboardContent from './components/lab/LabDashboardContent'
 import Custom404 from './components/pages/ErrorPage'
 import SamplingFirmDashboardRouter from './components/samplingFirm/SamplingFirmDashboard'
-// testing commit
+
+import useTawk from '@/hooks/useTawk';
+
 function App() {
+  // put this line in your App component when you want to enable it, activating it will activate it globally
+  useTawk();
+
   return (
     <SessionContextProvider supabaseClient={supabase}>
       <Router>
@@ -59,11 +64,6 @@ function App() {
 
           <Route path="/faq" component={Faq} />
           <Route path="/library" component={Library} />
-
-          {/* <Route path="/new-order">
-            <PlaceNewOrder />
-          </Route> */}
-
           <Route path="/playground">
             <div
               style={{
