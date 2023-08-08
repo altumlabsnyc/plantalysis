@@ -10829,6 +10829,7 @@ textarea.form-control {
 /* Font size for mobile (smaller) */
 .font-size-mobile {
   font-size: 18px;
+  font-family: 'input-sans';
 }
 
 /* Media query for mobile devices with a maximum width of 768px */
@@ -10839,14 +10840,13 @@ textarea.form-control {
   }
   
   .font-size-mobile {
-    font-size: 14px;
+    font-size: 10px;
   }
 }
 
 /* Apply Benton Sans font to specific elements */
 #main-footer-content h1,
 #main-footer-content a {
-  font-family: 'Benton Sans', sans-serif;
   font-weight: 500;
 }
 
