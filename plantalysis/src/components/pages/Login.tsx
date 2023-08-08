@@ -8,6 +8,7 @@ import Typography from '@mui/material/Typography'
 import toast, { Toaster } from 'react-hot-toast'
 // import background from "./assets/login/img/frame.png";
 
+import Spinner from '@/components/common/Spinner'
 import { handleSignIn } from '@/hooks/handleSignIn'
 import delay from '@/utils/delay'
 import isValidEmail from '@/utils/isValidEmail'
@@ -15,7 +16,6 @@ import redirectByRole from '@/utils/redirectByRole'
 import { useUser } from '@supabase/auth-helpers-react'
 import { useState } from 'react'
 import { useHistory } from 'react-router-dom'
-import Spinner from '@/components/common/Spinner'
 
 import logo from '@/components/assets/img/blackP.jpg'
 import backgroundVideo from '@/components/assets/vid/BGV_480p.mp4'
@@ -208,7 +208,6 @@ export default function SignInSide() {
                 <span
                   className="underline text-blue-500 cursor-pointer"
                   onClick={() => {
-                    console.log(user)
                     redirectByRole(history, user.app_metadata.plantalysis_role)
                   }}
                 >

@@ -174,6 +174,50 @@ export const insertUserDetails = async (userData: {
     if (universityUserFacilityError) {
       throw new Error(universityUserFacilityError.message)
     }
+  } else if (userData.roleData.samplingFirmData) {
+    userData.roleData.samplingFirmData.id = id
+    const address = userData.roleData.samplingFirmData.address
+    const samplingFirmDataWithoutAddress = {
+      ...userData.roleData.samplingFirmData,
+    }
+    // @ts-ignore
+    delete samplingFirmDataWithoutAddress.address
+
+    const { error: samplingFirmUserError } = await supabase
+      .from('sampling_firm_user')
+      .insert([samplingFirmDataWithoutAddress])
+
+    if (samplingFirmUserError) {
+      throw new Error(samplingFirmUserError.message)
+    }
+
+    // force refresh session to update claim data
+    const { error: refreshError } = await supabase.auth.refreshSession()
+
+    if (refreshError) {
+      throw new Error(refreshError.message)
+    }
+
+    const { error: samplingFirmAddressError } = await supabase
+      .from('address')
+      .insert([address])
+
+    if (samplingFirmAddressError) {
+      throw new Error(samplingFirmAddressError.message)
+    }
+
+    const { error: samplingFirmFacilityError } = await supabase
+      .from('sampling_firm_facility')
+      .insert([
+        {
+          sampling_firm_user_id: id,
+          address_id: userData.roleData.samplingFirmData.address.id,
+        },
+      ])
+
+    if (samplingFirmFacilityError) {
+      throw new Error(samplingFirmFacilityError.message)
+    }
   }
 }
 

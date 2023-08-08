@@ -3,6 +3,7 @@ import {
   LabUser,
   ProducerUser,
   RegulatorUser,
+  SamplingFirmUser,
   UniversityUser,
 } from '@/types/supabaseAlias'
 import toE164 from '@/utils/toE164'
@@ -27,17 +28,6 @@ export function getLabSignupInfoFromForm(
   const license_number = data.get('lab_license_number')?.toString() || null
   const owner_name = data.get('owner_name')?.toString() || null
   let contact_phone = data.get('lab_contact_phone')?.toString() || null
-
-  console.log(
-    lab_name,
-    lab_address_line_1,
-    lab_address_state,
-    lab_address_city,
-    lab_address_zip,
-    license_number,
-    owner_name,
-    contact_phone,
-  )
 
   // return errors if any of the required fields are missing
   if (
@@ -177,16 +167,6 @@ export function getUniversitySignUpInfoFromForm(data: FormData):
   const university_lab_address_zip =
     data.get('university_lab_address_zip')?.toString() || null
 
-  console.log(
-    university_name,
-    university_department,
-    primary_investigator,
-    university_lab_address_line_1,
-    university_lab_address_state,
-    university_lab_address_city,
-    university_lab_address_zip,
-  )
-
   if (
     university_name == null ||
     university_department == null ||
@@ -285,5 +265,58 @@ export function getRegulatorSignupInfoFromForm(data: FormData):
   return {
     ...govData,
     address: mailing_address,
+  }
+}
+
+/**
+ * Scrape data from the Material UI form for sampling firm signup.
+ *
+ * @param data data from form
+ * @returns required information to onboard a university user, or undefined if some data is missing
+ */
+export function getSamplingFirmSignupInfoFromForm(data: FormData):
+  | (SamplingFirmUser & {
+      address: Address
+    })
+  | undefined {
+  const id = ''
+  const company_name = data.get('legal_name')?.toString() || null
+  const primary_center_address_line_1 =
+    data.get('primary_center_line_1')?.toString() || null
+  const primary_center_address_state =
+    data.get('primary_center_state')?.toString() || 'NY'
+  const primary_center_address_city =
+    data.get('primary_center_city')?.toString() || null
+  const primary_center_address_zip =
+    data.get('primary_center_zip')?.toString() || null
+
+  if (
+    company_name == null ||
+    primary_center_address_line_1 == null ||
+    primary_center_address_state == null ||
+    primary_center_address_city == null ||
+    primary_center_address_zip == null
+  ) {
+    toast.error('Please fill out all fields')
+    return undefined
+  }
+
+  const sampling_firm_facility_address: Address = {
+    id: uuidv4(),
+    line_1: primary_center_address_line_1,
+    line_2: null,
+    state_code: primary_center_address_state,
+    country_code: 'USA',
+    city: primary_center_address_city,
+    postal_code: primary_center_address_zip,
+  }
+
+  const sampling_firm_data: SamplingFirmUser = {
+    id: id,
+  }
+
+  return {
+    ...sampling_firm_data,
+    address: sampling_firm_facility_address,
   }
 }

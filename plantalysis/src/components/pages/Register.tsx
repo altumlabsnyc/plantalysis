@@ -1,12 +1,17 @@
+import backgroundImage from '@/components/assets/img/hero.png'
+import logo from '@/components/assets/img/plantalysis.png'
+import Spinner from '@/components/common/Spinner'
 import { generalInputs, users } from '@/constants/formInputs'
 import {
   getLabSignupInfoFromForm,
   getProducerSignUpInfoFromForm,
   getRegulatorSignupInfoFromForm,
+  getSamplingFirmSignupInfoFromForm,
   getUniversitySignUpInfoFromForm,
 } from '@/helpers/registerHelpers'
 import { AllRolesData, handleSignUp } from '@/hooks/handleSignUp'
 import { BaseUser, LicenseType, UserRole } from '@/types/supabaseAlias'
+import PasswordStrengthMeter from '@/utils/PasswordStrengthMeter'
 import isValidEmail from '@/utils/isValidEmail'
 import toE164 from '@/utils/toE164'
 import {
@@ -26,10 +31,6 @@ import { passwordStrength as checkPasswordStrength } from 'check-password-streng
 import { ChangeEvent, FormEvent, useEffect, useState } from 'react'
 import { Toaster, toast } from 'react-hot-toast'
 import { useHistory } from 'react-router-dom'
-import backgroundImage from '@/components/assets/img/hero.png'
-import logo from '@/components/assets/img/plantalysis.png'
-import Spinner from '@/components/common/Spinner'
-import PasswordStrengthMeter from '@/utils/PasswordStrengthMeter'
 
 function Copyright(props: any) {
   return (
@@ -202,6 +203,15 @@ export default function Register() {
             })
           }
           break
+        case 'sampling_firm':
+          const samplingFirmData = getSamplingFirmSignupInfoFromForm(data)
+          if (samplingFirmData) {
+            await handleSignUp(history, {
+              userDetails: generalUserData,
+              roleData: { samplingFirmData },
+              password: password,
+            })
+          }
       }
     }
 
@@ -493,10 +503,8 @@ export default function Register() {
                   <span className="font-semibold">
                     Register as a{' '}
                     {(selectedUser &&
-                      selectedUser.charAt(0).toUpperCase() +
-                        selectedUser.slice(1)) ||
+                      users.find((u) => u.userType == selectedUser)?.name) ||
                       'FATAL ERROR: CONTACT ALTUM LABS'}
-                    .
                   </span>
                 </Typography>
                 <p className="text-gray-600">
@@ -546,7 +554,10 @@ export default function Register() {
                 </Typography>
                 <p className="text-gray-600">
                   Enter some final details to finish signing up as a{' '}
-                  {selectedUser || 'FATAL ERROR: CONTACT ALTUM LABS'}.{' '}
+                  {(selectedUser &&
+                    users.find((u) => u.userType == selectedUser)?.name) ||
+                    'FATAL ERROR: CONTACT ALTUM LABS'}
+                  .{' '}
                   {(selectedUser === 'lab' || selectedUser === 'producer') &&
                     'If you have multiple facilities, please enter the information for your main facility.'}
                 </p>

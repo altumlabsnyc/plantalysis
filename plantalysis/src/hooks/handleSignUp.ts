@@ -7,6 +7,7 @@ import {
   LabUser,
   ProducerUser,
   RegulatorUser,
+  SamplingFirmUser,
   UniversityUser,
 } from '@/types/supabaseAlias'
 
@@ -27,6 +28,9 @@ export type AllRolesData = {
     address: Address
   }
   producerData?: ProducerUser & {
+    address: Address
+  }
+  samplingFirmData?: SamplingFirmUser & {
     address: Address
   }
   consumerData?: ConsumerUser

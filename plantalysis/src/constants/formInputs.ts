@@ -88,6 +88,29 @@ export const userSpecificInputs: Map<UserRole, Array<Input>> = new Map([
     ],
   ],
   [
+    'sampling_firm',
+    [
+      { name: 'Legal Company Name', id: 'legal_name', type: 'text' },
+      {
+        name: 'Primary Center Address Line 1',
+        id: 'primary_center_line_1',
+        type: 'text',
+      },
+      {
+        name: 'Primary Center City',
+        id: 'primary_center_city',
+        type: 'text',
+      },
+      {
+        name: 'Primary Center State',
+        id: 'primary_center_state',
+        type: 'text',
+        props: { defaultValue: 'NY', disabled: true },
+      },
+      { name: 'Primary Center Zip', id: 'primary_center_zip', type: 'text' },
+    ],
+  ],
+  [
     'university',
     [
       { name: 'University Name', id: 'university_name', type: 'text' },
@@ -134,10 +157,16 @@ export const userSpecificInputs: Map<UserRole, Array<Input>> = new Map([
  */
 export const users: Array<userTypeFields> = [
   {
-    name: 'University/Research',
-    code: 'edu',
-    inputs: userSpecificInputs.get('university'),
-    userType: 'university',
+    name: 'Producer',
+    code: 'leaf',
+    inputs: userSpecificInputs.get('producer'),
+    userType: 'producer',
+  },
+  {
+    name: 'Sampling Firm',
+    code: 'delivery',
+    inputs: userSpecificInputs.get('sampling_firm'),
+    userType: 'sampling_firm',
   },
   {
     name: 'Lab',
@@ -146,17 +175,18 @@ export const users: Array<userTypeFields> = [
     userType: 'lab',
   },
   {
-    name: 'Producer',
-    code: 'leaf',
-    inputs: userSpecificInputs.get('producer'),
-    userType: 'producer',
-  },
-  {
     name: 'Regulator',
     code: 'gov',
     inputs: userSpecificInputs.get('regulator'),
     userType: 'regulator',
   },
+  {
+    name: 'University/Research',
+    code: 'edu',
+    inputs: userSpecificInputs.get('university'),
+    userType: 'university',
+  },
+
   // {
   //   name: 'Base User',
   //   code: 'person',
