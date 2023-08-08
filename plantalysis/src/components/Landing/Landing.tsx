@@ -4,7 +4,7 @@ import Footer from '../common/Footer'
 import Nav from '../common/Nav'
 import Spinner from '../common/Spinner'
 import './../assets/css/styles.css'
-import AL from './../assets/img/newLogo.png'
+import AL from './../assets/img/newerlogo.png'
 import backgroundVideo from './../assets/vid/BGV_480p.mp4'
 import ImageCarousel from './ImageCarousel'
 
@@ -190,7 +190,7 @@ const Plantalysis: React.FC = () => {
                 </div>
               </section>
               <div className="xm-container small">
-                <div className="row justify-content-center row-cols-xl-3 row-cols-lg-2 row-cols-1">
+                <div className="row justify-content-center row-cols-xl-4 row-cols-lg-2 row-cols-1">
                   <div className="col col-md-8 pl-xl-0 pr-xl-0 overflow-hidden border-card">
                     <div className="content h-100 d-flex flex-column bg-white default-homepage-padding">
                       <div className="bg-white border-card medium mb-0">
@@ -208,6 +208,7 @@ const Plantalysis: React.FC = () => {
                           results, CoAs, QR codes, and live status updates.{' '}
                           <b>For free.</b>
                         </p>
+                        <br></br>
                         <div className="pt-4 d-flex justify-content-start align-items-center pb-3">
                           <a className="btn btn-outline-black" href="/login">
                             Login
@@ -241,6 +242,7 @@ const Plantalysis: React.FC = () => {
                           turn it into CoAs for you. Reduce sample pickup hassle
                           with our route optimization feature.
                         </p>
+                        <br></br>
                         <div className="pt-4 d-flex justify-content-start align-items-center pb-3">
                           <a className="btn btn-outline-black" href="/login">
                             Login
@@ -265,7 +267,7 @@ const Plantalysis: React.FC = () => {
                         </h3>
                       </div>
                       <div className="pl-20  ">
-                        <p className="text-black">
+                        <p className="text-black mb-4">
                           <b>
                             Give your state’s consumers molecular-level peace of
                             mind.{' '}
@@ -275,6 +277,42 @@ const Plantalysis: React.FC = () => {
                           samples at the batch-scale and broadcast those results
                           to consumers, all from one place.
                         </p>
+                        <br></br>
+                        <div className="pt-4 d-flex justify-content-start align-items-center pb-3">
+                          <a className="btn btn-outline-black" href="/login">
+                            Login
+                          </a>
+                          <a
+                            className="btn-anchor anchor-black mb-0 ml-3"
+                            href="/register"
+                            target="_blank"
+                          >
+                            Sign Up
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="col col-md-8 pr-xl-0 overflow-hidden border-card">
+                    <div className="content h-100 d-flex flex-column bg-white default-homepage-padding">
+                      <div className="bg-white border-card medium mb-0">
+                        <p className="headline-13 input-sans mb-0 ">SFM FOR</p>
+                        <h3 className="headline-28 text-sampling-gradient bold">
+                          Sampling Firms
+                        </h3>
+                      </div>
+                      <div className="pl-20  ">
+                        <p className="text-black mb-4">
+                          <b>
+                            Elevate your sampling game with our AI-driven
+                            solution.{' '}
+                          </b>
+                          Seamlessly manage the entire sampling process from
+                          collection to submission. Our platform efficiently
+                          streamlines documentation, generates batch-specific
+                          CoAs, accessible QR codes, and live tracking updates.
+                        </p>
+                        <br></br>
                         <div className="pt-4 d-flex justify-content-start align-items-center pb-3">
                           <a className="btn btn-outline-black" href="/login">
                             Login
@@ -292,6 +330,7 @@ const Plantalysis: React.FC = () => {
                   </div>
                 </div>
               </div>
+
               <section className="position-relative">
                 <div
                   className="xm-container small position-relative logo-bar-component d-none d-md-block pt-7"
