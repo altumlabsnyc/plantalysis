@@ -15,7 +15,7 @@ import { insertUserDetails } from '@/hooks/addUserDetails'
 
 import delay from '@/utils/delay'
 import redirectByRole from '@/utils/redirectByRole'
-import sendVerificationEmail from '@/utils/sendConfirmationEmail'
+import sendVerificationEmail from '@/utils/sendVerificationEmail'
 import toast from 'react-hot-toast'
 
 export type AllRolesData = {
@@ -111,7 +111,7 @@ export async function handleSignUp(
   }
 
   try {
-    await sendVerificationEmail(userData.userDetails.email)
+    await sendVerificationEmail(user.id, userData.userDetails.email)
   } catch (error) {
     toast.error(
       'Error sending verification email. Please contact Altum Labs Support.',

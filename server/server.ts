@@ -271,7 +271,7 @@ app.post(
   "/send-verification-email",
   express.json(),
   async (req: Request, res: Response) => {
-    const { email } = req.body
+    const { email, id } = req.body
 
     if (!email) {
       return res

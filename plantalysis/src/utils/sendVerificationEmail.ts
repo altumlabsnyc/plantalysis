@@ -5,7 +5,7 @@ import toast from 'react-hot-toast'
  *
  * @param email The email to send the verification email to
  */
-export default async function sendVerificationEmail(email: string) {
+export default async function sendVerificationEmail(id: string, email: string) {
   try {
     const backendUrl = import.meta.env.VITE_BACKEND_DOMAIN
 
@@ -14,7 +14,7 @@ export default async function sendVerificationEmail(email: string) {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ email }),
+      body: JSON.stringify({ id, email }),
     })
   } catch (error) {
     toast.error(
