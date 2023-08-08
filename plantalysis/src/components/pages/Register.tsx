@@ -1,4 +1,5 @@
-import backgroundImage from '@/components/assets/img/hero.png'
+// import backgroundImage from '@/components/assets/img/hero.png'
+import backgroundVideo from '@/components/assets/vid/BGV_480p.mp4'
 import logo from '@/components/assets/img/plantalysis.png'
 import Spinner from '@/components/common/Spinner'
 import { generalInputs, users } from '@/constants/formInputs'
@@ -274,7 +275,7 @@ export default function Register() {
           position: 'relative',
         }}
       >
-        {/* <video
+        <video
           autoPlay
           loop
           muted
@@ -288,8 +289,8 @@ export default function Register() {
           }}
         >
           <source src={backgroundVideo} type="video/mp4" />
-        </video> */}
-        <img
+        </video>
+        {/* <img
           style={{
             position: 'absolute',
             top: 0,
@@ -299,11 +300,12 @@ export default function Register() {
             objectFit: 'cover',
           }}
           src={backgroundImage}
-        />
+        /> */}
 
         <Typography
           component="h1"
           variant="h3"
+          className = "hide-on-mobile"
           sx={{
             position: 'absolute',
             top: '35%',
@@ -367,6 +369,7 @@ export default function Register() {
         </a>
         <Typography
           component="h1"
+          className = "hide-on-mobile"
           variant="h3"
           sx={{
             position: 'absolute',
@@ -393,7 +396,7 @@ export default function Register() {
         >
           {currentTab == 0 && (
             <Typography component="h1" variant="h4">
-              <span className="font-semibold">Who are you?</span>
+              <span className="font-light">Who are you?</span>
             </Typography>
           )}
           {/* {currentTab == 1 && (
@@ -447,6 +450,7 @@ export default function Register() {
                         mx: 2,
                         display: 'flex',
                         borderRadius: '10px',
+                        border: '2px solid black',
                         flexDirection: 'row',
                         alignItems: 'center',
                         boxShadow: '0 3px 5px 2px rgba(0, 0, 0, .3)', // Add a shadow
@@ -483,7 +487,7 @@ export default function Register() {
                           <span className="ml-4">
                             {
                               <Typography component="p" variant="h6">
-                                <span className="font-semibold">
+                                <span className="font-light">
                                   {user.name}
                                 </span>
                               </Typography>

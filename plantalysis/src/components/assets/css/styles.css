@@ -18942,6 +18942,13 @@ sup.text-sup {
   }
 }
 
+@media (max-width: 600px) {
+  .hide-on-mobile {
+    display: none;
+  }
+}
+
+
 .border-card.logo-card:first-of-type {
   margin-left: 0px;
 }
