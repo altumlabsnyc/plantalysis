@@ -12,12 +12,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.addDemoToDB = void 0;
 const supabase_js_1 = require("@supabase/supabase-js");
 const cors_1 = __importDefault(require("cors"));
 const dotenv_1 = __importDefault(require("dotenv"));
 const express_1 = __importDefault(require("express"));
 const nodemailer_1 = __importDefault(require("nodemailer"));
+const resend_1 = require("resend");
 const stripe_1 = __importDefault(require("stripe"));
 const uuid_1 = require("uuid");
 dotenv_1.default.config();
@@ -26,11 +26,15 @@ const stripeKey = process.env.STRIPE_SECRET_KEY;
 const frontendDomain = process.env.FRONTEND_DOMAIN;
 const successURL = process.env.SUCCESS_URL;
 const cancelURL = process.env.CANCEL_URL;
+const resendKey = process.env.RESEND_KEY;
 if (!stripeKey) {
     throw new Error("The Stripe secret key is missing in .env file");
 }
 if (!frontendDomain) {
     throw new Error("The frontend domain is missing in .env file");
+}
+if (!resendKey) {
+    throw new Error("The resend key is missing in .env file");
 }
 const supabaseUrl = process.env.SUPABASE_URL;
 const supabaseKey = process.env.SUPABASE_KEY;
@@ -154,17 +158,18 @@ app.post("/webhook", express_1.default.raw({ type: "application/json" }), (req, 
 app.post("/send-email", express_1.default.json(), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const emailUser = `${process.env.EMAIL_USERNAME}`;
     const emailPass = `${process.env.EMAIL_PASS}`;
-    const emailBody = req.body;
-    let fname = req.body["fname"];
-    let lname = req.body["lname"];
-    let company = req.body["company"];
-    let jobTitle = req.body["jobTitle"];
-    let email = req.body["email"];
-    let phone = req.body["phone"];
-    let state = req.body["state"];
-    let text = req.body["text"];
-    if (req.body === undefined) {
-        return res.status(400).send("Bad request. No text field in request body.");
+    const demoBody = req.body;
+    if (!demoBody.first_name ||
+        !demoBody.last_name ||
+        !demoBody.company ||
+        !demoBody.job_title ||
+        !demoBody.email ||
+        !demoBody.phone ||
+        !demoBody.state ||
+        !demoBody.text) {
+        return res
+            .status(400)
+            .send("Bad request. Some fields are missing in request body.");
     }
     try {
         const transporter = nodemailer_1.default.createTransport({
@@ -176,44 +181,72 @@ app.post("/send-email", express_1.default.json(), (req, res) => __awaiter(void 0
                 pass: emailPass,
             },
         });
-        yield transporter.sendMail({
-            from: `Team @ Altum 👻 ${emailUser}`,
-            to: `${process.env.DEMO_RECEIVER}`,
-            subject: "Demo Scheduled",
-            text: text, // plain text body
-        });
-        console.log("before calling adddemotodb");
-        console.log(emailBody);
-        addDemoToDB(fname, lname, company, jobTitle, email, phone, state);
+        // Must delete text from body before inserting into database
+        const emailText = demoBody.text;
+        delete demoBody.text;
+        yield Promise.all([
+            transporter.sendMail({
+                from: `Team @ Altum 👻 ${emailUser}`,
+                to: `${process.env.DEMO_RECEIVER}`,
+                subject: "Demo Scheduled",
+                text: emailText, // plain text body
+            }),
+            supabase.from("demos_scheduled").insert([demoBody]).select(),
+        ]);
+        return res.status(200).send("Email sent successfully");
     }
     catch (err) {
         console.error(err);
         // @ts-ignore
-        return res.status(500).send(`Internal Nodemailer Error: ${err.message}`);
+        return res.status(500).send(`Internal Error: ${err.message}`);
     }
-    res.status(200).send({ received: true });
 }));
-function addDemoToDB(fname, lname, company, jobTitle, email, phone, state) {
-    return __awaiter(this, void 0, void 0, function* () {
-        console.log("inside add demo to db");
-        const { data, error } = yield supabase
-            .from("demos_scheduled")
-            .insert([
-            {
-                first_name: fname,
-                last_name: lname,
-                company: company,
-                job_title: jobTitle,
-                email: email,
-                phone: phone,
-                state: state,
-            },
-        ])
-            .select();
-    });
-}
-exports.addDemoToDB = addDemoToDB;
 app.get("/test", express_1.default.json(), (req, res) => {
     res.json({ message: "Hello, this is a test!" });
 });
+app.post("/send-verification-email", express_1.default.json(), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { email } = req.body;
+    if (!email) {
+        return res
+            .status(400)
+            .send("Bad request. Email is missing in request body.");
+    }
+    try {
+        const resend = new resend_1.Resend(resendKey);
+        const data = yield resend.emails.send({
+            from: "Altum Labs <noreply@smtp.altumlaboratories.com>",
+            to: [email],
+            subject: "Confirmation Sign Up",
+            html: "<h1>test</h1>",
+        });
+        console.log(data);
+        res.status(200).send("Email sent successfully");
+    }
+    catch (err) {
+        console.error(err);
+        // @ts-ignore
+        return res.status(500).send(`Internal Error: ${err.message}`);
+    }
+}));
+app.post("/confirm-email", express_1.default.json(), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { id } = req.body;
+    if (!id) {
+        return res.status(400).send("Bad request. Id is missing in request body.");
+    }
+    console.log(id);
+    try {
+        const { error } = yield supabase.auth.admin.updateUserById(id, {
+            user_metadata: { email_confirmed: true },
+        });
+        if (error) {
+            throw new Error(error.message);
+        }
+        res.status(200).send("Email confirmed successfully");
+    }
+    catch (err) {
+        console.error(err);
+        // @ts-ignore
+        return res.status(500).send(`Internal Error: ${err.message}`);
+    }
+}));
 app.listen(port, () => console.log(`Running on port ${port}`));

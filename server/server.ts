@@ -1,63 +1,63 @@
-import { createClient } from "@supabase/supabase-js";
-import cors from "cors";
-import dotenv from "dotenv";
-import express, { Request, Response } from "express";
-import nodemailer from "nodemailer";
-import Stripe from "stripe";
-import { v4 as uuidv4 } from "uuid";
-import { Database } from "./types/supabase";
-import { Batch, InsertDemo } from "./types/supabaseAlias";
-import { Resend } from "resend";
+import { createClient } from "@supabase/supabase-js"
+import cors from "cors"
+import dotenv from "dotenv"
+import express, { Request, Response } from "express"
+import nodemailer from "nodemailer"
+import { Resend } from "resend"
+import Stripe from "stripe"
+import { v4 as uuidv4 } from "uuid"
+import { Database } from "./types/supabase"
+import { Batch, InsertDemo } from "./types/supabaseAlias"
 
-dotenv.config();
+dotenv.config()
 
-const port = process.env.PORT || 8080;
-const stripeKey: string | undefined = process.env.STRIPE_SECRET_KEY;
-const frontendDomain: string | undefined = process.env.FRONTEND_DOMAIN;
-const successURL: string | undefined = process.env.SUCCESS_URL;
-const cancelURL: string | undefined = process.env.CANCEL_URL;
-const resendKey: string | undefined = process.env.RESEND_KEY;
+const port = process.env.PORT || 8080
+const stripeKey: string | undefined = process.env.STRIPE_SECRET_KEY
+const frontendDomain: string | undefined = process.env.FRONTEND_DOMAIN
+const successURL: string | undefined = process.env.SUCCESS_URL
+const cancelURL: string | undefined = process.env.CANCEL_URL
+const resendKey: string | undefined = process.env.RESEND_KEY
 
 if (!stripeKey) {
-  throw new Error("The Stripe secret key is missing in .env file");
+  throw new Error("The Stripe secret key is missing in .env file")
 }
 
 if (!frontendDomain) {
-  throw new Error("The frontend domain is missing in .env file");
+  throw new Error("The frontend domain is missing in .env file")
 }
 
 if (!resendKey) {
-  throw new Error("The resend key is missing in .env file");
+  throw new Error("The resend key is missing in .env file")
 }
 
-const supabaseUrl = process.env.SUPABASE_URL;
-const supabaseKey = process.env.SUPABASE_KEY;
-const supabase = createClient<Database>(supabaseUrl!, supabaseKey!);
+const supabaseUrl = process.env.SUPABASE_URL
+const supabaseKey = process.env.SUPABASE_KEY
+const supabase = createClient<Database>(supabaseUrl!, supabaseKey!)
 
 if (!supabaseUrl) {
-  throw new Error("The Supabase URL is missing in .env file");
+  throw new Error("The Supabase URL is missing in .env file")
 }
 
 if (!supabaseKey) {
-  throw new Error("The Supabase key is missing in .env file");
+  throw new Error("The Supabase key is missing in .env file")
 }
 
 interface Metadata {
-  priceId: string;
-  facilityId: string;
-  userId: string;
-  turnaroundTime: Database["public"]["Enums"]["turnaround_time_enum"];
-  pickupDate: string; // ISO string
-  testIds: string[];
+  priceId: string
+  facilityId: string
+  userId: string
+  turnaroundTime: Database["public"]["Enums"]["turnaround_time_enum"]
+  pickupDate: string // ISO string
+  testIds: string[]
 }
 
 async function insertLabOrder(session: any) {
-  const metadata: Metadata = session.metadata;
+  const metadata: Metadata = session.metadata
 
   // @ts-ignore
-  metadata.testIds = JSON.parse(metadata.testIds);
+  metadata.testIds = JSON.parse(metadata.testIds)
 
-  const batchId = uuidv4();
+  const batchId = uuidv4()
 
   const batch: Batch = {
     id: batchId,
@@ -66,22 +66,22 @@ async function insertLabOrder(session: any) {
     serving_size: null,
     weight: null,
     unit_weight: null,
-  };
+  }
 
   // create batch for lab order
   const { data: batchData, error: batchError } = await supabase
     .from("batch")
-    .insert([batch]);
+    .insert([batch])
 
-  console.log(batchData);
-  console.log(batchError);
+  console.log(batchData)
+  console.log(batchError)
 
   if (batchError) {
-    console.error(batchError);
+    console.error(batchError)
   }
 
   // Create the order in the database
-  const labOrderId = uuidv4();
+  const labOrderId = uuidv4()
   const { data, error } = await supabase.from("lab_order").insert([
     {
       id: labOrderId,
@@ -89,10 +89,10 @@ async function insertLabOrder(session: any) {
       pickup_date: metadata.pickupDate,
       turnaround_time: metadata.turnaroundTime,
     }, // Add the rest of the fields here
-  ]);
+  ])
 
-  console.log(data);
-  console.log(error);
+  console.log(data)
+  console.log(error)
 
   // for each test, insert into lab_order_on_test table
   const { data: labOrderOnTestData, error: labOrderOnTestError } =
@@ -101,21 +101,21 @@ async function insertLabOrder(session: any) {
         lab_order_id: labOrderId,
         test_id: test_id,
       }))
-    );
+    )
 
-  console.log(labOrderOnTestData);
-  console.log(labOrderOnTestError);
+  console.log(labOrderOnTestData)
+  console.log(labOrderOnTestError)
 
   // Check for error
   if (error) {
-    console.error(error);
+    console.error(error)
   }
 }
 
-const stripe = new Stripe(stripeKey, { apiVersion: "2022-11-15" });
-const app = express();
+const stripe = new Stripe(stripeKey, { apiVersion: "2022-11-15" })
+const app = express()
 
-app.use(cors({ origin: process.env.FRONTEND_DOMAIN }));
+app.use(cors({ origin: process.env.FRONTEND_DOMAIN }))
 
 // app.use(express.static('public'));
 
@@ -130,9 +130,9 @@ app.post(
       turnaroundTime,
       pickupDate,
       testIds,
-    }: Metadata = req.body;
+    }: Metadata = req.body
 
-    console.log(testIds);
+    console.log(testIds)
 
     try {
       const session = await stripe.checkout.sessions.create({
@@ -154,66 +154,66 @@ app.post(
         },
         success_url: `${frontendDomain}${successURL}`,
         cancel_url: `${frontendDomain}${cancelURL}`,
-      });
+      })
 
-      res.json({ sessionId: session.id });
+      res.json({ sessionId: session.id })
     } catch (error) {
-      console.log(error);
+      console.log(error)
       res
         .status(500)
-        .json({ error: "an error occurred, unable to create session" });
+        .json({ error: "an error occurred, unable to create session" })
     }
   }
-);
+)
 
 // Handle webhook events
 app.post(
   "/webhook",
   express.raw({ type: "application/json" }),
   async (req, res) => {
-    const sig = req.headers["stripe-signature"];
+    const sig = req.headers["stripe-signature"]
 
     if (sig === undefined) {
-      console.log("undefined)");
-      return res.status(400).send(`Webhook Error: No signature`);
+      console.log("undefined)")
+      return res.status(400).send(`Webhook Error: No signature`)
     }
 
-    let event;
+    let event
 
     try {
       event = stripe.webhooks.constructEvent(
         req.body,
         sig,
         process.env.STRIPE_WEBHOOK_SECRET!
-      );
+      )
     } catch (err) {
       // @ts-ignore
-      console.log(err);
+      console.log(err)
       // @ts-ignore
-      return res.status(400).send(`Webhook Error: ${err.message}`);
+      return res.status(400).send(`Webhook Error: ${err.message}`)
     }
 
-    console.log(event.type);
+    console.log(event.type)
 
     // Handle the checkout.session.completed event
     if (event.type === "checkout.session.completed") {
-      const session = event.data.object;
+      const session = event.data.object
 
-      insertLabOrder(session);
+      insertLabOrder(session)
     }
 
-    res.json({ received: true });
+    res.json({ received: true })
   }
-);
+)
 
 type DemoBody = InsertDemo & {
-  text?: string;
-};
+  text?: string
+}
 
 app.post("/send-email", express.json(), async (req: Request, res: Response) => {
-  const emailUser: string = `${process.env.EMAIL_USERNAME}`;
-  const emailPass: string = `${process.env.EMAIL_PASS}`;
-  const demoBody: DemoBody = req.body;
+  const emailUser: string = `${process.env.EMAIL_USERNAME}`
+  const emailPass: string = `${process.env.EMAIL_PASS}`
+  const demoBody: DemoBody = req.body
 
   if (
     !demoBody.first_name ||
@@ -227,7 +227,7 @@ app.post("/send-email", express.json(), async (req: Request, res: Response) => {
   ) {
     return res
       .status(400)
-      .send("Bad request. Some fields are missing in request body.");
+      .send("Bad request. Some fields are missing in request body.")
   }
 
   try {
@@ -239,11 +239,11 @@ app.post("/send-email", express.json(), async (req: Request, res: Response) => {
         user: emailUser,
         pass: emailPass,
       },
-    });
+    })
 
     // Must delete text from body before inserting into database
-    const emailText = demoBody.text;
-    delete demoBody.text;
+    const emailText = demoBody.text
+    delete demoBody.text
 
     await Promise.all([
       transporter.sendMail({
@@ -253,74 +253,77 @@ app.post("/send-email", express.json(), async (req: Request, res: Response) => {
         text: emailText, // plain text body
       }),
       supabase.from("demos_scheduled").insert([demoBody]).select(),
-    ]);
+    ])
 
-    return res.status(200).send("Email sent successfully");
+    return res.status(200).send("Email sent successfully")
   } catch (err) {
-    console.error(err);
+    console.error(err)
     // @ts-ignore
-    return res.status(500).send(`Internal Error: ${err.message}`);
+    return res.status(500).send(`Internal Error: ${err.message}`)
   }
-});
+})
 
 app.get("/test", express.json(), (req: Request, res: Response) => {
-  res.json({ message: "Hello, this is a test!" });
-});
+  res.json({ message: "Hello, this is a test!" })
+})
 
 app.post(
   "/send-verification-email",
   express.json(),
   async (req: Request, res: Response) => {
-    const { email } = req.body;
+    const { email } = req.body
 
     if (!email) {
       return res
         .status(400)
-        .send("Bad request. Email is missing in request body.");
+        .send("Bad request. Email is missing in request body.")
     }
 
     try {
-      const resend = new Resend(resendKey);
+      const resend = new Resend(resendKey)
 
       const data = await resend.emails.send({
         from: "Altum Labs <noreply@smtp.altumlaboratories.com>",
         to: [email],
         subject: "Confirmation Sign Up",
         html: "<h1>test</h1>",
-      });
-      console.log(data);
-      res.status(200).send("Email sent successfully");
+      })
+      console.log(data)
+      res.status(200).send("Email sent successfully")
     } catch (err) {
-      console.error(err);
+      console.error(err)
       // @ts-ignore
-      return res.status(500).send(`Internal Error: ${err.message}`);
+      return res.status(500).send(`Internal Error: ${err.message}`)
     }
   }
-);
+)
 
 app.post(
   "/confirm-email",
   express.json(),
   async (req: Request, res: Response) => {
-    const { id } = req.body;
+    const { id } = req.body
 
     if (!id) {
-      return res
-        .status(400)
-        .send("Bad request. Id is missing in request body.");
+      return res.status(400).send("Bad request. Id is missing in request body.")
     }
 
     try {
-      const { data: user, error } = await supabase.auth.admin.updateUserById(
-        id,
-        { email_confirm: true }
-      );
+      const { error } = await supabase.auth.admin.updateUserById(id, {
+        user_metadata: { email_confirmed: true },
+      })
+
+      if (error) {
+        throw new Error(error.message)
+      }
+
+      res.status(200).send("Email confirmed successfully")
     } catch (err) {
-      console.error(err);
+      console.error(err)
       // @ts-ignore
-      return res.status(500).send(`Internal Error: ${err.message}`);
+      return res.status(500).send(`Internal Error: ${err.message}`)
     }
   }
-);
+)
 
-app.listen(port, () => console.log(`Running on port ${port}`));
+app.listen(port, () => console.log(`Running on port ${port}`))

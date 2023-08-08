@@ -37,12 +37,12 @@ export default function Dashboard({
   const user = useUser()
   const [sidebarOpen, setSidebarOpen] = useState(false)
 
-  console.log(role)
+  console.log(user)
 
   return (
     <>
       <div>
-        {user?.email_confirmed_at && (
+        {!user?.user_metadata.email_confirmed && (
           <EmailConfirmationBanner sidebarOpen={desktopSidebarOpen} />
         )}
         <Toaster />
@@ -188,10 +188,10 @@ export default function Dashboard({
             </div>
           </main>
 
-          <aside className="fixed inset-y-0 right-0 bg-red-200 hidden w-72 overflow-y-auto border-l border-gray-200 px-4 py-6 sm:px-6 lg:px-8 xl:block">
-            {/* Secondary column (hidden on smaller screens) */}
+          {/* <aside className="fixed inset-y-0 right-0 bg-red-200 hidden w-72 overflow-y-auto border-l border-gray-200 px-4 py-6 sm:px-6 lg:px-8 xl:block">
+            {/* Secondary column (hidden on smaller screens) 
             <p>dynamic right sidebar here</p>
-          </aside>
+          </aside> */}
         </div>
       </div>
     </>
