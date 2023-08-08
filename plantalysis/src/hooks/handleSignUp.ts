@@ -93,6 +93,22 @@ export async function handleSignUp(
     return
   }
 
+  try {
+    const backendUrl = import.meta.env.VITE_BACKEND_DOMAIN
+    await fetch(`${backendUrl}/send-verification-email`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ email: userData.userDetails.email }),
+    })
+  } catch (error) {
+    toast.error(
+      'Error sending verification email. Please contact Altum Labs Support.',
+    )
+    return
+  }
+
   toast.success('Sign up successful!')
   await delay(1000)
   redirectByRole(history, userData.userDetails.user_type || 'producer')

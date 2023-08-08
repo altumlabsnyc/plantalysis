@@ -18,6 +18,7 @@ import LeftSideBar from './components/common/LeftSideBar'
 import LabDashboardContent from './components/lab/LabDashboardContent'
 import Custom404 from './components/pages/ErrorPage'
 import SamplingFirmDashboardRouter from './components/samplingFirm/SamplingFirmDashboard'
+import SignUpConfirmation from './components/common/ConfirmationSignUp'
 // testing commit
 function App() {
   return (
@@ -32,6 +33,7 @@ function App() {
           <Route path="/tos" component={TermsOfService} />
           <Route path="/security" component={SecurityStatement} />
           <Route path="/error" component={Custom404} />
+          <Route path="/confirm-email" component={SignUpConfirmation} />
 
           <ProtectedRoute
             component={LabDashboardRouter}

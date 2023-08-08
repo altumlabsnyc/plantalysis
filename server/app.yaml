@@ -21,3 +21,4 @@ env_variables:
   EMAIL_USERNAME: "team@altumlabs.co"
   EMAIL_PASS: "erpbhhdhhyujxodq"
   DEMO_RECEIVER: "sales@altumlabs.co"
+  RESEND_KEY: "re_gA37qMv2_D3sYSGtyn2EoDYizsqFGr6Cz"
