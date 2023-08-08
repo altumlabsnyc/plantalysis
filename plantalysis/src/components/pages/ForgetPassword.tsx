@@ -61,8 +61,8 @@ export default function ForgetPassword() {
         // check if email exist
         // send update password email
         const location = window.location
-        // const redirectURL = location.protocol + "//" + location.host + "/reset-password"
-        const redirectURL = "http://localhost:5173/reset-password"
+        const redirectURL = location.protocol + "//" + location.host + "/reset-password"
+        // const redirectURL = "http://localhost:5173/reset-password"
         const { data, error } = await supabase.auth.resetPasswordForEmail(email, {
             redirectTo: redirectURL
         })
