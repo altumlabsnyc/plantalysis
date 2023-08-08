@@ -1,3 +1,8 @@
+/**
+ * This file contains aliases for the supabase types. This creates more readable
+ * code in the rest of the application.
+ */
+
 import { Database } from '@/types/supabase'
 
 export type BaseUser = Database['public']['Tables']['user']['Row']
