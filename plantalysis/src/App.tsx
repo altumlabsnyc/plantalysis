@@ -18,6 +18,8 @@ import LeftSideBar from './components/common/LeftSideBar'
 import LabDashboardContent from './components/lab/LabDashboardContent'
 import Custom404 from './components/pages/ErrorPage'
 import SamplingFirmDashboardRouter from './components/samplingFirm/SamplingFirmDashboard'
+import ForgetPassword from './components/pages/ForgetPassword'
+import ResetPassword from './components/pages/ResetPassword'
 // testing commit
 function App() {
   return (
@@ -27,6 +29,8 @@ function App() {
           <Route exact path="/" component={Landing} />
           <Route path="/login" component={Login} />
           <Route path="/register" component={Register} />
+          <Route path="/forget-password" component={ForgetPassword} />
+          <Route path="/reset-password" component={ResetPassword} />
           <Route path="/leftsidebar" component={LeftSideBar} />
           <Route path="/privacy" component={PrivacyPolicy} />
           <Route path="/tos" component={TermsOfService} />
