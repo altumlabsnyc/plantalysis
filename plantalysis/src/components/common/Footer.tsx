@@ -13,19 +13,25 @@ const Footer = () => {
             <div className="container d-flex justify-content-between">
               <div className="font-size-mobile">
                 {' '}
-                <h1 className = "input-sans">&copy; 2023 Plantalysis</h1>
+                <h1 className="input-sans">&copy; 2023 Plantalysis</h1>
               </div>
               <div className="font-size-mobile">
                 {' '}
-                <Link to="/tos" className = "input-sans">Terms of Service</Link>
+                <Link to="/tos" className="input-sans">
+                  Terms of Service
+                </Link>
               </div>
               <div className="font-size-mobile">
                 {' '}
-                <Link to="/privacy" className = "input-sans">Privacy Statement</Link>
+                <Link to="/privacy" className="input-sans">
+                  Privacy Statement
+                </Link>
               </div>
               <div className="font-size-mobile">
                 {' '}
-                <Link to="/security" className = "input-sans">Security Statement</Link>
+                <Link to="/security" className="input-sans">
+                  Security Statement
+                </Link>
               </div>
             </div>
           </footer>
